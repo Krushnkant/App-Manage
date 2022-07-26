@@ -195,7 +195,8 @@
                         var url1 = '{{ Route("application.edit", "id") }}';
                         url1 = url1.replace('id', row.id);
 
-                        var url2 = '{{ url("category") }}';
+                        var url2 = '{{ url("category-add", "id") }}';
+                        url2 = url2.replace('id', row.id);
 
                         return "<a href='" + url1 + "' title=\"Edit\" class='btn mb-1 btn-primary mr-2'>Edit</a>" +
                             "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='"+row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn btn mb-1 btn-warning'>" +

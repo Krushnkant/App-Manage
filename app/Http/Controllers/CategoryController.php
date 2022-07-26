@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\{Field};
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category.add');
+        // return view('category.add');
     }
 
     /**
@@ -80,5 +81,11 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function AddCategory($id)
+    {
+        $fields = Field::where('estatus', 1)->get();
+        return view('user.category.add', compact('id', 'fields'));
     }
 }
