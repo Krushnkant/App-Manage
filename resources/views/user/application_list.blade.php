@@ -8,7 +8,16 @@
             <div class="card">
                 <div class="card-body">
                     <div class="text-left mb-4">
-                        <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded px-5">Add Application</a>
+                        <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
+                               <span class="mr-2 d-inline-block">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 12H16" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 16V8" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                               </span>
+                            Add Application
+                        </a>
                     </div>
                     <h4 class="card-title">Application List</h4>
                     <!-- <div class="table-responsive">
@@ -50,16 +59,19 @@
                         </table>
                     </div> -->
 
-                    <div class="tab-pane fade show active table-responsive">
+                    <div class="tab-pane fade show active table-responsive table_detail_part">
                         <table id="application_list" class="table zero-configuration customNewtable" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Name</th>
-                                    <th>Icon</th>
+                                    <th>Application</th>
+                                    <th>Total Request</th>
                                     <th>App Id</th>
                                     <th>Package Name</th>
-                                    <th width="100px">Action</th>
+                                    <th>status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,11 +79,14 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Name</th>
-                                    <th>Icon</th>
+                                    <th>Application</th>
+                                    <th>Total Request</th>
                                     <th>App Id</th>
                                     <th>Package Name</th>
-                                    <th width="100px">Action</th>
+                                    <th>Icon</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -167,6 +182,8 @@
                 { "width": "230px", "targets": 3 },
                 { "width": "75px", "targets": 4 },
                 { "width": "120px", "targets": 5 },
+                { "width": "120px", "targets": 6 },
+                { "width": "120px", "targets": 7 },
             ],
             "columns": [
                 {data: 'id', name: 'id', class: "text-center", orderable: false,
@@ -174,35 +191,66 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {data: 'name', name: 'name', class: "text-center multirow"},
-                // {data: 'icon', name: 'icon', class: "text-left multirow", orderable: false},
                 {
                     "mData": "icon",
                     "mRender": function (data, type, row) {
-                        // console.log(row.icon)
                         var img_url = "{{asset('/app_icons/')}}/"+row.icon;
-                        // console.log(img_url)
-                        return "<img class='set_img' src="+img_url+" >";
+                        return "<div><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
                     }
                 },
-                {data: 'app_id', name: 'app_id', class: "text-left multirow", orderable: false},
+                {
+                    "mData": "field",
+                    "mRender": function (data, type, row) {
+                        return "<div><span class='application_text app_id_part'>155675</span></div>";
+                    }
+                },
+                {
+                    "mData": "app_id",
+                    "mRender": function (data, type, row) {
+                        return "<div><span class='application_text app_id_part'>"+row.app_id+"</span></div>";
+                    }
+                },
                 {data: 'package_name', name: 'package_name', orderable: false, searchable: false, class: "text-center"},
-                // {data: 'action', name: 'action', orderable: false, searchable: false, class: "text-center"},
+                {
+                    "mData": "status",
+                    "mRender": function (data, type, row) {
+                        if(row.status == "1"){
+                            return "<div><span class='application_text app_id_part'>Active</span></div>";
+                        }else{
+                            return "<div><span class='application_text app_id_part'>Deactive</span></div>";
+                        }
+                    }
+                },
+                {
+                    "mData": "status",
+                    "mRender": function (data, type, row) {
+                        return "<div><span class='application_text app_id_part date_part'>10 Apr 2022</span></div>";
+                    }
+                },
+                // {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
                 {
                     "mData": "action",
                     "mRender": function (data, type, row) {
 
-                        var url1 = '{{ Route("application.edit", "id") }}';
-                        url1 = url1.replace('id', row.id);
-
                         var url2 = '{{ url("category-add", "id") }}';
                         url2 = url2.replace('id', row.id);
 
-                        return "<a href='" + url1 + "' title=\"Edit\" class='btn mb-1 btn-primary mr-2'>Edit</a>" +
-                            "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='"+row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn btn mb-1 btn-warning'>" +
-                            "Delete</a>"+
-                            "<a href='"+url2+"' title=\"Edit\" class='btn mb-1 btn-success text-white mr-2'>Add Category</a>" +
-                            "<a href='#' title=\"Edit\" class='btn mb-1 btn-primary mr-2'>Add Content</a>";
+                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-3'>Add Content</a>" +
+                            "<a href='#' title=\"Edit\" class='action_btn'>Add Category</a>";
+                    }
+                },
+                {
+                    "mData": "-",
+                    "mRender": function (data, type, row) {
+
+                        var url1 = '{{ Route("application.edit", "id") }}';
+                        url1 = url1.replace('id', row.id);
+                        var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
+                        var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
+
+                        return "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                            "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='"
+                            +row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
                     }
                 }
             ]
