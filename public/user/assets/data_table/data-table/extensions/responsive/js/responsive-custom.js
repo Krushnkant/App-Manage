@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#res-config").DataTable({responsive:!0});var e=$("#new-cons").DataTable();new $.fn.dataTable.Responsive(e),$("#show-hide-res").DataTable({responsive:{details:{display:$.fn.dataTable.Responsive.display.childRowImmediate,type:""}}})});

@@ -115,22 +115,24 @@ class UserController extends Controller
                 // $ip = \Request::getClientIp(true);
                 $ip = "43.240.9.99";
                 $currentUserInfo = Location::get($ip);
-                $country = $currentUserInfo->countryName;
-                $state = $currentUserInfo->regionName;
-                $city = $currentUserInfo->cityName;
+                if($currentUserInfo != null){
+                    $country = $currentUserInfo->countryName;
+                    $state = $currentUserInfo->regionName;
+                    $city = $currentUserInfo->cityName;
 
-                $user_agent = $_SERVER['HTTP_USER_AGENT'];
-                $browser_name = Helpers::getBrowserName($user_agent);
+                    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+                    $browser_name = Helpers::getBrowserName($user_agent);
 
-                $history = [];
-                $history['user_id'] = $user_id;
-                $history['ip_address'] = $ip;
-                $history['country'] = $country;
-                $history['state'] = $state;
-                $history['city'] = $city;
-                $history['browser'] = $browser_name;
-                
-                $login_user_history = UserLogin::Create($history);
+                    $history = [];
+                    $history['user_id'] = $user_id;
+                    $history['ip_address'] = $ip;
+                    $history['country'] = $country;
+                    $history['state'] = $state;
+                    $history['city'] = $city;
+                    $history['browser'] = $browser_name;
+                    
+                    $login_user_history = UserLogin::Create($history);
+                }
                 return redirect()->intended('/dashboard');
             }else{
                 return redirect()->intended('/login');
