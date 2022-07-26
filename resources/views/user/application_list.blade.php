@@ -195,9 +195,13 @@
                         var url1 = '{{ Route("application.edit", "id") }}';
                         url1 = url1.replace('id', row.id);
 
+                        var url2 = '{{ url("category") }}';
+
                         return "<a href='" + url1 + "' title=\"Edit\" class='btn mb-1 btn-primary mr-2'>Edit</a>" +
                             "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='"+row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn btn mb-1 btn-warning'>" +
-                            "Delete</a>";
+                            "Delete</a>"+
+                            "<a href='"+url2+"' title=\"Edit\" class='btn mb-1 btn-success text-white mr-2'>Add Category</a>" +
+                            "<a href='#' title=\"Edit\" class='btn mb-1 btn-primary mr-2'>Add Content</a>";
                     }
                 }
             ]

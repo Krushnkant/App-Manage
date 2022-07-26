@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\UserController;
-use \App\Http\Controllers\ApplicationController;
+use \App\Http\Controllers\{UserController, ApplicationController, CategoryController};
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +35,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('add-application',  [ApplicationController::class, 'AddApplication']);
     Route::get('/application/{id}/delete',[ApplicationController::class, 'destroy']);
     // Route::post('insert-application-data',[ApplicationController::class,'index']);
+
+    // category
+    Route::resource('/category',  CategoryController::class);
 });
