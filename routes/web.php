@@ -38,4 +38,5 @@ Route::group(['middleware'=>'auth'],function (){
 
     // category
     Route::resource('/category',  CategoryController::class);
+    Route::get('/category-add/{id}',  [CategoryController::class, 'AddCategory']);
 });
