@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#basic-col-reorder").DataTable({colReorder:!0}),$("#realtime-reorder").dataTable({colReorder:{realtime:!0}}),$("#saving-reorder").dataTable({colReorder:!0,stateSave:!0}),$("#predefine-reorder").dataTable({colReorder:{order:[4,3,2,1,0,5]}})});

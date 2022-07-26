@@ -31,5 +31,9 @@ Route::group(['middleware'=>'auth'],function (){
     // Route::get('dashboard',[\App\Http\Controllers\DashboardController::class,'index']);
     // Route::resource('application',[ApplicationController::class]);
     Route::resource('/application',  ApplicationController::class);
+    Route::post('application-list',  [ApplicationController::class, 'ApplicationList']);
+    Route::get('dashboard',  [ApplicationController::class, 'Dashboard']);
+    Route::get('add-application',  [ApplicationController::class, 'AddApplication']);
+    Route::get('/application/{id}/delete',[ApplicationController::class, 'destroy']);
     // Route::post('insert-application-data',[ApplicationController::class,'index']);
 });

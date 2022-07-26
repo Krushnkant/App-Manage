@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#fix-header").DataTable({fixedHeader:!0});$("#header-footer-fix").DataTable({fixedHeader:{header:!0,footer:!0}}),$("#col-header").DataTable({fixedHeader:!0,colReorder:!0})});
