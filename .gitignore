@@ -14,3 +14,5 @@ yarn-error.log
 /.idea
 /.vscode
 /public/app_icons
+/public/category_image
+/public/category_thumb
