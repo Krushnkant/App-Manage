@@ -8,13 +8,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Panel</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("user\assets\images/favicon.png")}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('user\assets\images\favicon.png')}}">
     <!-- Pignose Calender -->
     <link href="{{asset('user/assets/plugins/pg-calendar/css/pignose.calendar.min.css')}}" rel="stylesheet">
-    <!-- Chartist -->
-    <link rel="stylesheet" href="{{asset('user/assets/plugins/chartist/css/chartist.min.css')}}">
-    <link rel="stylesheet" href="{{asset('user/assets/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css')}}">
-    <link href="{{asset('user/assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+ 
     <!-- Custom Stylesheet -->
     <link href="{{asset('user/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('user/assets/css/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">
@@ -107,14 +104,13 @@
     <!-- pooja -->
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  -->
 
-    <script src="{{asset("user/assets/plugins/common/common.min.js")}}"></script>
-    <script src="{{asset("user/assets/js/custom.min.js")}}"></script>
+    <script src="{{asset('user/assets/plugins/common/common.min.js')}}"></script>
+    <script src="{{asset('user/assets/js/custom.min.js')}}"></script>
     <script src="{{asset("user/assets/js/settings.js")}}"></script>
     <script src="{{asset("user/assets/js/gleek.js")}}"></script>
     <script src="{{asset("user/assets/js/styleSwitcher.js")}}"></script>
 
-    <!-- Chartjs -->
-    <script src="{{asset("user/assets/plugins/chart.js/Chart.bundle.min.js")}}"></script>
+  
     <!-- Circle progress -->
     <script src="{{asset("user/assets/plugins/circle-progress/circle-progress.min.js")}}"></script>
     <!-- Datamap -->
@@ -131,7 +127,7 @@
     <script src="{{asset("user/assets/plugins/chartist/js/chartist.min.js")}}"></script>
     <script src="{{asset("user/assets/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js")}}"></script>
 
-    <script src="{{asset("user/assets/js/dashboard/dashboard-1.js")}}"></script>
+    <!-- <script src="{{asset("user/assets/js/dashboard/dashboard-1.js")}}"></script> -->
     <!-- <script src="{{asset("user/assets/js/CatImgJs.js")}}"></script> -->
 
     <!-- <script src="{{asset("user/assets/plugins/tables/js/jquery.dataTables.min.js")}}"></script>
