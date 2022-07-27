@@ -17,8 +17,8 @@ class CreateCategoryFields extends Migration
             $table->id();
             $table->integer('app_id')->nullable();
             $table->integer('category_id')->nullable();
-            $table->integer('key')->nullable();
-            $table->integer('value')->nullable();
+            $table->string('key')->nullable();
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }
