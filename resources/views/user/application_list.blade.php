@@ -255,8 +255,8 @@
                         var url2 = '{{ url("category-add", "id") }}';
                         url2 = url2.replace('id', row.id);
 
-                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Add Content</a>" +
-                            "<a href='#' title=\"Edit\" class='action_btn'>Add Category</a>";
+                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Add Category</a>" +
+                            "<a href='#' title=\"Edit\" class='action_btn'>Add Content</a>";
                     }
                 },
                 {

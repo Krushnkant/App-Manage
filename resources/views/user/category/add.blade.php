@@ -18,44 +18,55 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-validation">
-                        {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }}
-                        <!-- <form class="form-valide" action="" method="post"> -->
-                            <input type="hidden" name="app_id" value="{{$id}}" />
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label class="col-lg-4 col-form-label" for="name">Title: <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-12">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Application Name..">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-validation">
+                                <!-- {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }} -->
+                                <form class="form-valide" action="" mathod="POST" id="category_add" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="app_id" value="{{$id}}" />
+                                    <div class="row">
+                                        <div class="form-group col-12">
+                                            <label class="col-form-label" for="name">Title: <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="row pl-3">
+                                                <div class="col-lg-8 p-0 mr-2">
+                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Application Name..">
+                                                </div>
+                                                <div class="col-lg-3 p-0">
+                                                    <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <select class="form-control" id="val-skill" name="val-skill">
-                                        <option value="">Please select</option>
-                                        @foreach($fields as $field)
-                                            <option value="{{$field->type}}">{{$field->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <div class="col-lg-8 ml-auto">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    <!-- <div class="row">
+                                        <div class="form-group col-12">
+                                            <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
+                                        </div>
+                                    </div> -->
+                                    <div class="row" id="cat_form">
+                                        <div class="form-group col-12">
+                                            <select class="form-control" id="val-skill" name="val-skill">
+                                                <option value="">Please select</option>
+                                                @foreach($fields as $field)
+                                                    <option data-id="{{$field->id}}" value="{{$field->type}}">{{$field->title}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div id="category_form" class="form-group col-12"></div>
                                     </div>
-                                </div>
+                                    <div class="row">
+                                        <div class="form-group col-12">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="button" id="submit_category" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- {{ Form::close() }} -->
                             </div>
-                        <!-- </form> -->
-                        {{ Form::close() }}
+                        </div>
+                        <div class="col-md-8"></div>
                     </div>
                 </div>
             </div>
@@ -122,26 +133,18 @@
     //     }
     // }
 
+    $("#cat_form").hide();
     $(".field_btn").click(function(){
         var app_id = $(this).attr('data-id');
+        $("#cat_form").show();
     });
     $('#val-skill').change(function(){
         var html = "";
-        // html += '<div class="row">'\n+
-        //             '<div class="col-md-4">'\n+
-        //                 '<input type="" name="field_key[]" />'\n+
-        //             '</div>'\n+
-        //             '<div class="col-md-4">'\n+
-        //                 '<input type="" name="field_value[]" />'\n+
-        //             '</div>'\n+
-        //             '<div class="col-md-2">'\n+
-        //                 '<button class="plus_btn">+</button>'\n+
-        //             '</div>'\n+
-        //             '<div class="col-md-2">'\n+
-        //                 '<button class="minus_btn">-</button>'\n+
-        //             '</div>'\n+
-        //         '</div>';
         var valuee = $(this).val()
+        var option = $('option:selected', this).attr('data-id');
+        var field_name = option+"field_value[]";
+        var field_key = option+"field_key[]";
+        // console.log(field_name)
         var type = "text";
         if(valuee == "textbox"){
             type = "text";
@@ -153,23 +156,45 @@
             type = "file";
         }
 
-        console.log(type)
-
-        html += '<div class="row">'/n+
-                    '<div class="col-md-4">'/n+
-                        '<input type="'+type+'" name="field_key[]" />'/n+
-                    '</div>'/n+
-                    '<div class="col-md-4">'/n+
-                        '<input type="'+type+'" name="field_value[]" />'/n+
-                    '</div>'/n+
-                    '<div class="col-md-2">'/n+
-                        '<button class="plus_btn">+</button>'/n+
-                    '</div>'/n+
-                    '<div class="col-md-2">'/n+
-                        '<button class="minus_btn">-</button>'/n+
-                    '</div>'/n+
+        html += '<div class="row mb-2">'+
+                    '<div class="col-md-4">'+
+                        '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
+                    '</div>'+
+                    '<div class="col-md-4">'+
+                        '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
+                    '</div>'+
+                    '<div class="col-md-2">'+
+                        '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
+                    '</div>'+
+                    '<div class="col-md-2">'+
+                        '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
+                    '</div>'+
                 '</div>';
-        console.log(html)
+        $("#category_form").append(html);
+    })
+
+    $('body').on('click', '.plus_btn', function(){
+        var tthis = $(this).parent().parent();
+        var ddd = tthis.clone()
+        $("#category_form").append(ddd);
+    })
+    $('body').on('click', '.minus_btn', function(){
+        var tthis = $(this).parent().parent();
+        var ddd = tthis.remove()
+    })
+
+    $('body').on('click', '#submit_category', function () {
+        var formData = new FormData($("#category_add")[0]);
+        $.ajax({
+                type: 'POST',
+                url: "{{ route('category.store') }}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data)
+                }
+        });
     })
 </script>
 @endpush('scripts')

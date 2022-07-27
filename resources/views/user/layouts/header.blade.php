@@ -35,7 +35,7 @@
                         <ul>
                             <li class="notification-unread">
                                 <a href="javascript:void()">
-                                    <img class="float-left mr-3 avatar-img" src="images/avatar/1.jpg" alt="">
+                                    <img class="float-left mr-3 avatar-img" src="{{asset("user\assets\images\avatar/1.jpg")}}" alt="">
                                     <div class="notification-content">
                                         <div class="notification-heading">Saiful Islam</div>
                                         <div class="notification-timestamp">08 Hours ago</div>
@@ -45,7 +45,7 @@
                             </li>
                             <li class="notification-unread">
                                 <a href="javascript:void()">
-                                    <img class="float-left mr-3 avatar-img" src="images/avatar/2.jpg" alt="">
+                                    <img class="float-left mr-3 avatar-img" src="{{asset("user\assets\images\avatar/2.jpg")}}" alt="">
                                     <div class="notification-content">
                                         <div class="notification-heading">Adam Smith</div>
                                         <div class="notification-timestamp">08 Hours ago</div>
@@ -55,7 +55,7 @@
                             </li>
                             <li>
                                 <a href="javascript:void()">
-                                    <img class="float-left mr-3 avatar-img" src="images/avatar/3.jpg" alt="">
+                                    <img class="float-left mr-3 avatar-img" src="{{asset("user\assets\images\avatar/3.jpg")}}" alt="">
                                     <div class="notification-content">
                                         <div class="notification-heading">Barak Obama</div>
                                         <div class="notification-timestamp">08 Hours ago</div>
@@ -65,7 +65,7 @@
                             </li>
                             <li>
                                 <a href="javascript:void()">
-                                    <img class="float-left mr-3 avatar-img" src="images/avatar/4.jpg" alt="">
+                                    <img class="float-left mr-3 avatar-img" src="{{asset("user\assets\images\avatar/4.jpg")}}" alt="">
                                     <div class="notification-content">
                                         <div class="notification-heading">Hilari Clinton</div>
                                         <div class="notification-timestamp">08 Hours ago</div>
@@ -148,7 +148,7 @@
             <li class="icons dropdown">
                 <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                     <span class="activity active"></span>
-                    <img src="images/user/1.png" height="40" width="40" alt="">
+                    <img src="{{asset("user\assets\images/user/1.png")}}" height="40" width="40" alt="">
                 </div>
                 <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                     <div class="dropdown-content-body">

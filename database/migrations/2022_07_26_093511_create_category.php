@@ -16,7 +16,7 @@ class CreateCategory extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->id();
             $table->integer('app_id')->nullable();
-            $table->integer('title')->nullable();
+            $table->string('title')->nullable();
             $table->timestamps();
         });
     }

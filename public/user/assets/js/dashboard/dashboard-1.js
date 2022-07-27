@@ -104,7 +104,7 @@
     "use strict"
 
     let ctx = document.getElementById("chart_widget_2");
-    // ctx.height = 280;
+    ctx.height = 280;
     new Chart(ctx, {
         type: 'line',
         data: {
