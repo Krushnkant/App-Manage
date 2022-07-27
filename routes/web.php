@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\{UserController, ApplicationController, CategoryController};
+use \App\Http\Controllers\{UserController, ApplicationController, CategoryController,ContentController};
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +39,10 @@ Route::group(['middleware'=>'auth'],function (){
     // category
     Route::resource('/category',  CategoryController::class);
     Route::get('/category-add/{id}',  [CategoryController::class, 'AddCategory']);
+
+    // content
+    //Route::resource('/content',  ContentController::class);
+    Route::get('addcontent/{id}',[ContentController::class,'addcontent']);
+
+
 });
