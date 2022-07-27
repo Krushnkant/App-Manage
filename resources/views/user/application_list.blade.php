@@ -5,9 +5,9 @@
 <div class="container-fluid mt-3">
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card application_part">
                 <div class="card-body">
-                    <div class="text-left mb-4">
+                    <div class="text-left mb-4 add_application_btn_part">
                         <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
                                <span class="mr-2 d-inline-block">
                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -19,7 +19,58 @@
                             Add Application
                         </a>
                     </div>
-                    <h4 class="card-title">Application List</h4>
+                    <h4 class="card-title mb-0">Application List</h4>
+                    <ul class="nav application_tab mt-4" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="falsse">All</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#Inactive" role="tab" aria-controls="Inactive" aria-selected="false">Inactive</a>
+                    </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="home-tab">...</div>
+                    <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade show active table-responsive table_detail_part">
+                            <div class="table-responsive">
+                                <table id="application_list" class="table zero-configuration customNewtable application_table" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Application</th>
+                                            <th>App Id</th>
+                                            <th>Package Name</th>
+                                            <th>Total Request</th>
+                                            <th>status</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <!-- <tfoot>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Application</th>
+                                            <th>App Id</th>
+                                            <th>Package Name</th>
+                                            <th>Total Request</th>
+                                            <th>Icon</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot> -->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="Inactive" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                    </div>
                     <!-- <div class="table-responsive">
                         <table class="table table-striped table-bordered zero-configuration">
                             <thead>
@@ -59,38 +110,7 @@
                         </table>
                     </div> -->
 
-                    <div class="tab-pane fade show active table-responsive table_detail_part">
-                        <table id="application_list" class="table zero-configuration customNewtable" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Application</th>
-                                    <th>Total Request</th>
-                                    <th>App Id</th>
-                                    <th>Package Name</th>
-                                    <th>status</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Application</th>
-                                    <th>Total Request</th>
-                                    <th>App Id</th>
-                                    <th>Package Name</th>
-                                    <th>Icon</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -176,14 +196,14 @@
                 "data":{ _token: '{{ csrf_token() }}'},
             },
             'columnDefs': [
-                { "width": "50px", "targets": 0 },
-                { "width": "145px", "targets": 1 },
-                { "width": "165px", "targets": 2 },
-                { "width": "230px", "targets": 3 },
-                { "width": "75px", "targets": 4 },
-                { "width": "120px", "targets": 5 },
-                { "width": "120px", "targets": 6 },
-                { "width": "120px", "targets": 7 },
+                { "width": "", "targets": 0 },
+                { "width": "", "targets": 1 },
+                { "width": "", "targets": 2 },
+                { "width": "", "targets": 3 },
+                { "width": "", "targets": 4 },
+                { "width": "", "targets": 5 },
+                { "width": "", "targets": 6 },
+                { "width": "", "targets": 7 },
             ],
             "columns": [
                 {data: 'id', name: 'id', class: "text-center", orderable: false,
@@ -201,7 +221,7 @@
                 {
                     "mData": "field",
                     "mRender": function (data, type, row) {
-                        return "<div><span class='application_text app_id_part'>155675</span></div>";
+                        return "<div><span class='application_text app_id_part total_request_text application_text'>155675</span></div>";
                     }
                 },
                 {
@@ -215,9 +235,9 @@
                     "mData": "status",
                     "mRender": function (data, type, row) {
                         if(row.status == "1"){
-                            return "<div><span class='application_text app_id_part'>Active</span></div>";
+                            return "<div><span class='application_text app_id_part active_status'>Active</span></div>";
                         }else{
-                            return "<div><span class='application_text app_id_part'>Deactive</span></div>";
+                            return "<div><span class='application_text app_id_part deactive_status active_status'>Deactive</span></div>";
                         }
                     }
                 },
@@ -235,7 +255,7 @@
                         var url2 = '{{ url("category-add", "id") }}';
                         url2 = url2.replace('id', row.id);
 
-                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-3'>Add Content</a>" +
+                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Add Content</a>" +
                             "<a href='#' title=\"Edit\" class='action_btn'>Add Category</a>";
                     }
                 },

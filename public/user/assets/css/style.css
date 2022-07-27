@@ -20921,6 +20921,11 @@ img.set_img {
     font-size: 16px;
     line-height: 24px;
     color: #000000;
+    text-transform: capitalize;
+}
+
+.table_detail_part thead th {
+    width: auto !important;
 }
 
 .table_detail_part .set_img {
@@ -20933,11 +20938,12 @@ img.set_img {
     font-size: 15px;
     line-height: 20px;
     color: #000000;
+    text-transform: capitalize;
 }
 
 .table_detail_part .date_part {
     font-weight: 400;
-    font-size: 17px;
+    font-size: 15px;
     line-height: 20px;
     color: #000000;
 }
@@ -20951,4 +20957,93 @@ img.set_img {
     background: #00519C;
     border-radius: 5px;
     padding: 4px 10px;
+}
+
+.table_detail_part .total_request_text {
+    font-size: 15px;
+}
+
+.table_detail_part .active_status {
+    background: #FFFFFF;
+    border: 0.75px solid #E7E7E7;
+    border-radius: 3px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #000000;
+    position: relative;
+    display: inline-block;
+    padding: 4px 6px 4px 20px;
+}
+
+.table_detail_part .active_status:after {
+    content: "";
+    position: absolute;
+    top: 33%;
+    transform: translateX(-50%);
+    left: 11px;
+    width: 8px;
+    height: 8px;
+    background: #00870D;
+    border-radius: 50%;
+}
+
+.table_detail_part .deactive_status:after {
+    background: #ff2222;
+}
+
+#application_list_wrapper .application_table {
+    background: #FEFDFD;
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 12%);
+    border-radius: 12px;
+    border-collapse: collapse !important;
+}
+
+.application_table tr:nth-child(even) {
+    background: #F5F5F5 !important;
+}
+
+.application_table thead {
+    border-bottom: 1px solid #E6DFDF;
+}
+
+.application_part .card-title {
+    padding-left: 30px;
+}
+
+.add_application_btn_part {
+    padding-left: 30px;
+}
+
+.application_table th,
+.application_table td {
+    border-top: 0;
+    padding: 19px 12px;
+}
+
+.table_detail_part .dataTables_filter input {
+    border: 1px #c7c7c7 solid;
+    border-radius: 10px;
+    height: 38px;
+}
+
+.application_tab .nav-link {
+    background: #D2EFFF;
+    box-shadow: 0px 4px 8px rgb(71 69 69 / 11%);
+    border-radius: 4px 4px 0px 0px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #2F2B2B;
+    margin-right: 15px;
+    display: block;
+}
+
+.application_tab .nav-link.active {
+    background: #005A8C;
+    color: #fff;
+}
+
+.application_tab {
+    padding-left: 30px;
 }
