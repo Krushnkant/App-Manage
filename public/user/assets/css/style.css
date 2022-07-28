@@ -20909,11 +20909,14 @@ img.set_img {
     background: #F3FBFF;
     box-shadow: 0px 4px 8px rgba(71, 69, 69, 0.11);
     border-radius: 6px;
-    font-weight: 600;
-    font-size: 21px;
+    font-size: 18px;
     line-height: 25px;
     color: #151415 !important;
     padding: 12px 17px;
+}
+
+.add_application_btn_part svg {
+    width: 20px;
 }
 
 .table_detail_part thead th {
@@ -20957,6 +20960,7 @@ img.set_img {
     background: #00519C;
     border-radius: 5px;
     padding: 4px 10px;
+    min-width: 103px;
 }
 
 .table_detail_part .total_request_text {
@@ -21031,8 +21035,7 @@ img.set_img {
     background: #D2EFFF;
     box-shadow: 0px 4px 8px rgb(71 69 69 / 11%);
     border-radius: 4px 4px 0px 0px;
-    font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 19px;
     color: #2F2B2B;
     margin-right: 15px;
@@ -21046,4 +21049,82 @@ img.set_img {
 
 .application_tab {
     padding-left: 30px;
+}
+
+.table_detail_part thead th:after,
+.table_detail_part thead th:before {
+    content: none !important;
+}
+
+.application_table thead th:nth-child(2),
+.application_table tbody td:nth-child(2) {
+    text-align: left;
+}
+
+.application_table thead th,
+.application_table tbody td {
+    text-align: center;
+}
+
+.pagination {
+    justify-content: end;
+}
+
+#application_list_filter label,
+#application_list_length label {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width:767px) {
+    .dataTables_filter {
+        float: none;
+        text-align: left !important;
+        margin-bottom: 20px;
+    }
+    #application_list_filter input {
+        max-width: 150px;
+    }
+}
+
+@media (max-width:1600px) {
+    .application_img_text {
+        display: flex;
+    }
+    .application_table thead th {
+        min-width: 84px;
+    }
+    .action_btn {
+        margin-bottom: 5px;
+        display: block;
+    }
+    .add_application_btn_part,
+    .application_part .card-title,
+    .application_tab,
+    #application_list_wrapper {
+        padding-left: 0;
+    }
+    .table_detail_part thead th {
+        font-size: 15px;
+    }
+    .application_table th,
+    .application_table td {
+        padding: 8px 12px;
+    }
+    .table_detail_part .application_text {
+        font-size: 14px;
+    }
+    .pagination {
+        justify-content: start;
+        margin-top: 10px;
+    }
+}
+
+@media (min-width:768px) and (max-width:1600px) {
+    .pagination {
+        justify-content: end;
+    }
+    #application_list_wrapper .row:last-child {
+        align-items: center;
+    }
 }
