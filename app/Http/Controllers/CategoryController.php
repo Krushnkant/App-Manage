@@ -269,10 +269,14 @@ class CategoryController extends Controller
 
     public function CategoryList(Request $request)
     {
-        // dd($request->all());
         $table = $request->all();
         // $data = CategoryFields::with('category','application')->where('app_id', $table['app_id'])->get();
         $data = Category::with('category')->where('app_id', $table['app_id'])->get();
+        foreach($data as $d){
+            $d->start_date = $d->created_at->format('d M Y');
+            // dump($d->created_at);
+        }
+        // dd();
         return datatables::of($data)->make(true);
     }
 }

@@ -244,7 +244,7 @@
                 {
                     "mData": "status",
                     "mRender": function (data, type, row) {
-                        return "<div><span class='application_text app_id_part date_part'>10 Apr 2022</span></div>";
+                        return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
                     }
                 },
                 // {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
