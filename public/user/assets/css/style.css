@@ -21128,13 +21128,14 @@ img.set_img {
         align-items: center;
     }
 }
-.img_class{
+
+.img_class {
     position: absolute;
     top: 0;
     right: -45px;
 }
 
-.img_side{
+.img_side {
     width: 45px;
     height: 45px;
     object-fit: cover;

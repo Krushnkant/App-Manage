@@ -71,6 +71,46 @@
                     </div>
                     <div class="tab-pane fade" id="Inactive" role="tabpanel" aria-labelledby="contact-tab">...</div>
                     </div>
+                    <!-- <div class="table-responsive">
+                        <table class="table table-striped table-bordered zero-configuration">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>App Id</th>
+                                    <th>Package Name</th>
+                                    <th width="100px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>application 1</td>
+                                <td>gfffd66665675f6g5543</td>
+                                <td>first package</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>application 2</td>
+                                <td>gfffd6666567DGDsGDD</td>
+                                <td>second package</td>
+                                <td>-</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                <th>No</th>
+                                    <th>Name</th>
+                                    <th>App Id</th>
+                                    <th>Package Name</th>
+                                    <th width="100px">Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div> -->
+
+                    
                 </div>
             </div>
         </div>
@@ -246,6 +286,7 @@
 
     $('body').on('click', '#RemoveUserSubmit', function (e) {
         $('#RemoveUserSubmit').prop('disabled',true);
+        // e.preventDefault();
         console.log($(this).attr('data-id'))
         var remove_user_id = $(this).attr('data-id');
 
