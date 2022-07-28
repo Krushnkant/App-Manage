@@ -1391,7 +1391,6 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2022-07-22T14:16:24+00:00"
-<<<<<<< Updated upstream
         },
         {
             "name": "laravel/passport",
@@ -1469,8 +1468,6 @@
                 "source": "https://github.com/laravel/passport"
             },
             "time": "2022-04-16T13:38:08+00:00"
-=======
->>>>>>> Stashed changes
         },
         {
             "name": "laravel/sanctum",

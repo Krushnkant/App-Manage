@@ -2,6 +2,8 @@
 
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
 <style>
         .dropzone {
             background: #e3e6ff;
@@ -33,19 +35,14 @@
                                                 <div class="col-lg-8 p-0 mr-2">
                                                     <input type="text" class="form-control" id="name" name="name" placeholder="Application Name..">
                                                 </div>
-                                                <div class="col-lg-3 p-0">
+                                                <!-- <div class="col-lg-3 p-0">
                                                     <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="row">
-                                        <div class="form-group col-12">
-                                            <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
-                                        </div>
-                                    </div> -->
-                                    <div class="row" id="cat_form">
-                                        <div class="form-group col-12">
+                                    <div class="row">
+                                        <div class="form-group col-8">
                                             <select class="form-control" id="val-skill" name="val-skill">
                                                 <option value="">Please select</option>
                                                 @foreach($fields as $field)
@@ -53,8 +50,11 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div id="category_form" class="form-group col-12"></div>
+                                        <div class="col-lg-3 p-0">
+                                            <div class="custome_fields"><button type="button" data-id="{{$id}}" class="plus_btn btn mb-1 btn-info field_btn">Add</button></div>
+                                        </div>
                                     </div>
+                                    <div id="category_form" class="form-group col-12"></div>
                                     <div class="row">
                                         <div class="form-group col-12">
                                             <div class="col-lg-8 ml-auto">
@@ -66,8 +66,49 @@
                                 <!-- {{ Form::close() }} -->
                             </div>
                         </div>
-                        <div class="col-md-8"></div>
+                        <div class="col-md-8">
+                            <div class="table-responsive">
+                                <table id="category_list" class="table zero-configuration customNewtable application_table" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>No</th>
+                                            <th>Title</th>
+                                            <th>status</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <!-- <tfoot>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Title</th>
+                                            <th>status</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot> -->
+                                </table>
+                            </div> 
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModalCenter">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to delete this record ?</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
                 </div>
             </div>
         </div>
@@ -77,74 +118,62 @@
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
 <script type="text/javascript">
-    // var dropzone = new Dropzone('#file-upload', {
-    //     previewTemplate: document.querySelector('#preview-template').innerHTML,
-    //     parallelUploads: 3,
-    //     thumbnailHeight: 150,
-    //     thumbnailWidth: 150,
-    //     maxFilesize: 5,
-    //     filesizeBase: 1500,
-    //     thumbnail: function (file, dataUrl) {
-    //         if (file.previewElement) {
-    //             file.previewElement.classList.remove("dz-file-preview");
-    //             var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
-    //             for (var i = 0; i < images.length; i++) {
-    //                 var thumbnailElement = images[i];
-    //                 thumbnailElement.alt = file.name;
-    //                 thumbnailElement.src = dataUrl;
-    //             }
-    //             setTimeout(function () {
-    //                 file.previewElement.classList.add("dz-image-preview");
-    //             }, 1);
-    //         }
-    //     }
-    // });
-        
-    // var minSteps = 6,
-    //     maxSteps = 60,
-    //     timeBetweenSteps = 100,
-    //     bytesPerStep = 100000;
-    // dropzone.uploadFiles = function (files) {
-    //     var self = this;
-    //     for (var i = 0; i < files.length; i++) {
-    //         var file = files[i];
-    //         totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
-    //         for (var step = 0; step < totalSteps; step++) {
-    //             var duration = timeBetweenSteps * (step + 1);
-    //             setTimeout(function (file, totalSteps, step) {
-    //                 return function () {
-    //                     file.upload = {
-    //                         progress: 100 * (step + 1) / totalSteps,
-    //                         total: file.size,
-    //                         bytesSent: (step + 1) * file.size / totalSteps
-    //                     };
-    //                     self.emit('uploadprogress', file, file.upload.progress, file.upload
-    //                         .bytesSent);
-    //                     if (file.upload.progress == 100) {
-    //                         file.status = Dropzone.SUCCESS;
-    //                         self.emit("success", file, 'success', null);
-    //                         self.emit("complete", file);
-    //                         self.processQueue();
-    //                     }
-    //                 };
-    //             }(file, totalSteps, step), duration);
-    //         }
-    //     }
-    // }
-
     $("#cat_form").hide();
+    var app_id = "{{$id}}";
+    var urll = "{{asset('/category_image/')}}";
     $(".field_btn").click(function(){
         var app_id = $(this).attr('data-id');
         $("#cat_form").show();
     });
-    $('#val-skill').change(function(){
+    // $('#val-skill').change(function(){
+    //     var html = "";
+    //     var valuee = $(this).val()
+    //     var option = $('option:selected', this).attr('data-id');
+    //     var field_name = option+"field_value[]";
+    //     var field_key = option+"field_key[]";
+    //     // console.log(field_name)
+    //     var type = "text";
+    //     if(valuee == "textbox"){
+    //         type = "text";
+    //     }
+    //     if(valuee == "file"){
+    //         type = "file";
+    //     }
+    //     if(valuee == "multi-file"){
+    //         type = "file";
+    //     }
+
+    //     html += '<div class="row mb-2">'+
+    //                 '<div class="col-md-4">'+
+    //                     '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
+    //                 '</div>'+
+    //                 '<div class="col-md-4">'+
+    //                     '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
+    //                 '</div>'+
+    //                 // '<div class="col-md-2">'+
+    //                 //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
+    //                 // '</div>'+
+    //                 '<div class="col-md-2">'+
+    //                     '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
+    //                 '</div>'+
+    //             '</div>';
+    //     $("#category_form").append(html);
+    // })
+
+    $('body').on('click', '.plus_btn', function(){
+        // var tthis = $(this).parent().parent();
+        // var ddd = tthis.clone()
+        // $("#category_form").append(ddd);
         var html = "";
-        var valuee = $(this).val()
-        var option = $('option:selected', this).attr('data-id');
+        var selected = $('#val-skill option:selected');
+        var option = selected.attr('data-id')
+        var valuee = selected.attr('value')
+        // console.log(selected.text())
         var field_name = option+"field_value[]";
         var field_key = option+"field_key[]";
-        // console.log(field_name)
+
         var type = "text";
         if(valuee == "textbox"){
             type = "text";
@@ -163,20 +192,14 @@
                     '<div class="col-md-4">'+
                         '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
                     '</div>'+
-                    '<div class="col-md-2">'+
-                        '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
-                    '</div>'+
+                    // '<div class="col-md-2">'+
+                    //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
+                    // '</div>'+
                     '<div class="col-md-2">'+
                         '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
                     '</div>'+
                 '</div>';
         $("#category_form").append(html);
-    })
-
-    $('body').on('click', '.plus_btn', function(){
-        var tthis = $(this).parent().parent();
-        var ddd = tthis.clone()
-        $("#category_form").append(ddd);
     })
     $('body').on('click', '.minus_btn', function(){
         var tthis = $(this).parent().parent();
@@ -192,9 +215,131 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    console.log(data)
+                    if(data.status == 200){
+                        toastr.success("success")
+                        $("#category_add")[0].reset()
+                    }else{
+                        toastr.error("error")
+                    }
                 }
         });
     })
+    function format(d) {
+        var list;
+        $.each(d.category, function(i, item) {
+            var ddd = '';
+            if (/(jpg|gif|png)$/.test(item.value)){ 
+                var imgg = urll+"/"+item.value
+                ddd += '<img class="img_side" src="'+imgg+'">';
+            }else{
+                ddd += '<spa>'+item.value+'</span>';
+            }
+            list += '<tr><td>'+item.key+'</td><td>'+ddd+'</td></tr>';
+        });
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">' +
+                '<ul class="d-none">'+list+'</ul></table>';
+    }
+
+    $(document).ready(function() {
+        var table = $('#category_list').DataTable({
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+                "url": "{{ url('/category-list') }}",
+                "dataType": "json",
+                "type": "POST",
+                "data":{ _token: '{{ csrf_token() }}', app_id: app_id},
+            },
+            "columnDefs": [
+                { "width": "", "targets": 0 },
+                { "width": "", "targets": 1 },
+                { "width": "", "targets": 2 },
+                { "width": "", "targets": 3 },
+                { "width": "", "targets": 4 },
+            ],
+            "columns": [
+                {
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '',
+                },
+                {data: 'id', name: 'id', class: "text-center", orderable: false,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {data: 'title', name: 'title', class: "text-center", orderable: false,
+                    render: function (data, type, row) {
+                        return row.title;
+                    }
+                },
+                {data: 'status', name: 'status', orderable: false, searchable: false, class: "text-center"},
+                {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
+                {
+                    "mData": "action",
+                    "mRender": function (data, type, row) {
+
+                        var url1 = '{{ Route("category.edit", "id") }}';
+                        url1 = url1.replace('id', row.id);
+                        var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
+                        var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
+
+                        return "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                            "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='"
+                            +row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                    }
+                }
+                
+            ],
+            "order": [[1, 'asc']],
+        });
+        $('#category_list tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+    
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+    })
+
+    $('body').on('click', '.deleteUserBtn', function (e) {
+        var delete_user_id = $(this).attr('data-id');
+        $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id',delete_user_id);
+    });
+
+    
+
+    $('body').on('click', '#RemoveUserSubmit', function (e) {
+        $('#RemoveUserSubmit').prop('disabled',true);
+        console.log($(this).attr('data-id'))
+        var remove_user_id = $(this).attr('data-id');
+
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/category') }}" +'/' + remove_user_id +'/delete',
+            success: function (res) {
+                if(res == 200){
+                    $("#exampleModalCenter").modal('hide');
+                    $('#RemoveUserSubmit').prop('disabled',false);
+                }else{
+                    $("#exampleModalCenter").modal('hide');
+                    $('#RemoveUserSubmit').prop('disabled',false);
+                }
+            },
+            error: function (data) {
+                console.log("error")
+                console.log(data)
+            }
+        });
+    });
 </script>
 @endpush('scripts')
