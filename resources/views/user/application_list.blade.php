@@ -215,7 +215,7 @@
                     "mData": "icon",
                     "mRender": function (data, type, row) {
                         var img_url = "{{asset('/app_icons/')}}/"+row.icon;
-                        return "<div><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
+                        return "<div class='application_img_text'><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
                     }
                 },
                 {
