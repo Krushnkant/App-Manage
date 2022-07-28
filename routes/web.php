@@ -43,7 +43,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/category-update/{id}',  [CategoryController::class, 'update']);
     Route::get('/category/{id}/delete',[CategoryController::class, 'destroy']);
     // content
-    //Route::resource('/content',  ContentController::class);
+    Route::resource('/content',  ContentController::class);
     Route::get('addcontent/{id}',[ContentController::class,'addcontent']);
 
 

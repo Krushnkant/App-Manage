@@ -18,17 +18,18 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Add Content</h4>
+                    <h4 class="card-title">Add Form Structures</h4>
                     <div class="form-validation">
-                        {{ Form::open(array('url' => 'application', 'method' => 'post', 'enctype' => 'multipart/form-data')) }}
-                        <!-- <form class="form-valide" action="" method="post"> -->
+                        <form class="form-valide" action="" mathod="POST" id="form_structures_add" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <input type="hidden" value="{{ $id }}" name="application_id">
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="col-lg-4 col-form-label" for="name">Field Select: <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-12">
+                                        
                                         <select class="form-control" id="field" name="field">
-                                            
                                             @foreach($fields as $field)
                                                 <option value="{{$field->type}}">{{$field->title}}</option>
                                             @endforeach
@@ -43,7 +44,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group col-md-6 add-value">
                                    
                             </div>
@@ -51,12 +51,12 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <div class="col-lg-8 ml-auto">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                       <button type="button" id="submit_form_structures" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
                             </div>
-                        <!-- </form> -->
-                        {{ Form::close() }}
+                        </form>
+                        
                     </div>
                 </div>
             </div>
@@ -66,12 +66,14 @@
 @endsection
 @push('scripts')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {    
     //$("#Add").on("click", function() {
     $('body').on('click', '#Add', function(){    
         var html = "";
-        var valuee = $('#field').val()
+        var valuee = $('#field').val();
+
         var type = "text";
         if(valuee == "textbox"){
             type = "text";
@@ -88,6 +90,18 @@ $(document).ready(function() {
 
 
         if(type == 'sub-form'){
+            html += '<div class="row mt-3">'+
+                    '<div class="col-md-5">'+
+                        '<input type="text" placeholder="Field Name" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
+                    '</div>'+
+                    '<div class="col-md-5">'+
+                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="field_type[]"  />'+
+                    '</div>'+
+                    '<div class="col-md-2">'+
+                        '<button type="button"  class="minus_btn btn mb-1 btn-dark">-</button>'+
+                    '</div>'+
+                '</div>';
+
            html += '<div class="row mt-3 border">'+
                 '<div class="form-group col-md-10">'+
                     '<label class="col-lg-4 col-form-label" for="name">Field Select: <span class="text-danger">*</span></label>'+
@@ -113,15 +127,12 @@ $(document).ready(function() {
         }else{
             html += '<div class="row mt-3">'+
                     '<div class="col-md-5">'+
-                        
-                        '<input type="text" placeholder="Field Name" class="form-control input-flat" name="field_key[]" />'+
+                        '<input type="text" placeholder="Field Name" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-md-5">'+
-                       
-                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="field_value[]" disabled />'+
+                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="field_type[]"  />'+
                     '</div>'+
                     '<div class="col-md-2">'+
-                       
                         '<button type="button"  class="minus_btn btn mb-1 btn-dark">-</button>'+
                     '</div>'+
                 '</div>';
@@ -142,14 +153,13 @@ $(document).ready(function() {
         if(valuee == "multi-file"){
             type = "multi-file";
         }
-      
-
+    
         html += '<div class="row mt-3">'+
                     '<div class="col-md-5">'+
-                        '<input type="text" placeholder="Field Name" class="form-control input-flat" name="field_key[]" />'+
+                        '<input type="text" placeholder="Field Name" class="form-control input-flat" name="sub_field_name[]" />'+
                     '</div>'+
                     '<div class="col-md-5">'+
-                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="field_value[]" disabled />'+
+                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="sub_field_type[]"  />'+
                     '</div>'+
                     '<div class="col-md-2">'+
                         '<button type="button"  class="minus_btn btn mb-1 btn-dark">-</button>'+
@@ -162,7 +172,59 @@ $(document).ready(function() {
     $('body').on('click', '.minus_btn', function(){
         var tthis = $(this).parent().parent();
         var ddd = tthis.remove()
-    })
+    });
+
+    $('body').on('click', '#submit_form_structures', function () {
+        $(this).prop('disabled',true);
+        $(this).find('.submitloader').show();
+        var btn = $(this);
+
+        var formData = new FormData($("#form_structures_add")[0]);
+        var valid_form = validateForm();
+        if(valid_form==true && valid_form==true){
+        $.ajax({
+                type: 'POST',
+                url: "{{ route('content.store') }}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if(res['status']==200){
+                        location.href = "{{ route('admin.products.list') }}";
+                        toastr.success("Product Added",'Success',{timeOut: 5000});
+                    }
+                },
+                error: function (data) {
+                    $(btn).prop('disabled',false);
+                    $(btn).find('.submitloader').hide();
+                    toastr.error("Please try again",'Error',{timeOut: 5000});
+                }
+        });
+        }else{
+            $(btn).prop('disabled',false);
+            $(btn).find('.submitloader').hide();
+        }
+    });
+
+    function validateForm() {
+         //alert();
+        var valid = true;
+        var this_form = $('#form_structures_add');
+        console.log($('#form_structures_add').find('.specReq'));
+        $('#form_structures_add').find('.specReq').each(function() {
+            var thi = $('.specReq');
+            //alert($(thi).attr('name'));
+            var this_err = $(thi).attr('data-name') + "-error";
+            if($(thi).val()=="" || $(thi).val()==null) {
+                $(this_form).find("#"+this_err).html("Please select any value");
+                $(this_form).find("#"+this_err).show();
+                valid = false;
+            }
+        
+        });
+
+        return valid;
+    }
 
  
 
