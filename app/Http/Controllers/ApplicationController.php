@@ -149,7 +149,10 @@ class ApplicationController extends Controller
         // } else {
         //     $ddata = ApplicationData::get();
         // }
-        
+        foreach($data as $d){
+            $d->start_date = $d->created_at->format('d M Y');
+            // dump($d->created_at);
+        }
         return datatables::of($data)->make(true);
     }
 }

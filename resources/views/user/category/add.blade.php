@@ -74,7 +74,7 @@
                                             <th></th>
                                             <th>No</th>
                                             <th>Title</th>
-                                            <th>status</th>
+                                            <!-- <th>status</th> -->
                                             <th>Date</th>
                                             <th>Action</th>
                                         </tr>
@@ -240,6 +240,16 @@
                 '<ul class="d-none">'+list+'</ul></table>';
     }
 
+    var my_date_format = function (input) {
+        console.log("----->",input)
+        var d = new Date(Date.parse(input.replace(/-/g, "/")));
+        var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
+        'Nov', 'Dec'];
+        var date = d.getDay().toString() + " " + month[d.getMonth().toString()] + ", " + 
+        d.getFullYear().toString();
+        return (date);
+    }; 
+
     $(document).ready(function() {
         var table = $('#category_list').DataTable({
             "destroy": true,
@@ -256,7 +266,7 @@
                 { "width": "", "targets": 1 },
                 { "width": "", "targets": 2 },
                 { "width": "", "targets": 3 },
-                { "width": "", "targets": 4 },
+                // { "width": "", "targets": 4 },
             ],
             "columns": [
                 {
@@ -275,8 +285,15 @@
                         return row.title;
                     }
                 },
-                {data: 'status', name: 'status', orderable: false, searchable: false, class: "text-center"},
-                {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
+                // {data: 'status', name: 'status', orderable: false, searchable: false, class: "text-center"},
+                // {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
+                {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,
+                    render: function (data, type, row) {
+                        // var date = my_date_format(row.start_date);
+                        // console.log(date)
+                        return row.start_date;
+                    }
+                },
                 {
                     "mData": "action",
                     "mRender": function (data, type, row) {
