@@ -115,7 +115,6 @@ class ApplicationController extends Controller
      */
     public function destroy($id)
     {
-        // dd("edit");//application.destroy
         $get_data = ApplicationData::find($id);
         if($get_data != null){
             $data = $get_data->delete();
@@ -143,7 +142,6 @@ class ApplicationController extends Controller
     {
         $request1 = $request->all();
         $data = ApplicationData::get();
-        // dd($data);
         // if (isset($request1['start_date'])) {
         //     $startdate = Carbon::parse($request1['start_date'])->format('Y-m-d H:i:s');
         //     $enddate = Carbon::parse($request1['end_date'])->format('Y-m-d H:i:s');

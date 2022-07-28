@@ -39,7 +39,9 @@ Route::group(['middleware'=>'auth'],function (){
     // category
     Route::resource('/category',  CategoryController::class);
     Route::get('/category-add/{id}',  [CategoryController::class, 'AddCategory']);
-
+    Route::post('category-list',  [CategoryController::class, 'CategoryList']);
+    Route::post('/category-update/{id}',  [CategoryController::class, 'update']);
+    Route::get('/category/{id}/delete',[CategoryController::class, 'destroy']);
     // content
     //Route::resource('/content',  ContentController::class);
     Route::get('addcontent/{id}',[ContentController::class,'addcontent']);
