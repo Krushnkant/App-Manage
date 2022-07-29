@@ -20980,6 +20980,10 @@ img.set_img {
     padding: 4px 6px 4px 20px;
 }
 
+.table_detail_part .deactive_status {
+    color: #B5B4B4;
+}
+
 .table_detail_part .active_status:after {
     content: "";
     position: absolute;
@@ -20993,10 +20997,10 @@ img.set_img {
 }
 
 .table_detail_part .deactive_status:after {
-    background: #ff2222;
+    background: #B5B4B4;
 }
 
-#application_list_wrapper .application_table {
+.application_table {
     background: #FEFDFD;
     box-shadow: 0px 4px 8px rgb(0 0 0 / 12%);
     border-radius: 12px;
@@ -21005,6 +21009,10 @@ img.set_img {
 
 .application_table tr:nth-child(even) {
     background: #F5F5F5 !important;
+}
+
+.application_table tr {
+    min-height: 64px;
 }
 
 .application_table thead {
@@ -21019,15 +21027,15 @@ img.set_img {
     padding-left: 30px;
 }
 
-.application_table th,
-.application_table td {
+.table_detail_part .application_table th,
+.table_detail_part .application_table td {
     border-top: 0;
     padding: 19px 12px;
 }
 
 .table_detail_part .dataTables_filter input {
-    border: 1px #c7c7c7 solid;
-    border-radius: 10px;
+    border: 1px #c7c7c7 solid !important;
+    border-radius: 10px !important;
     height: 38px;
 }
 
@@ -21056,35 +21064,132 @@ img.set_img {
     content: none !important;
 }
 
-.application_table thead th:nth-child(2),
-.application_table tbody td:nth-child(2) {
+.table_detail_part .application_table thead th:nth-child(2),
+.table_detail_part .application_table tbody td:nth-child(2) {
     text-align: left;
 }
 
-.application_table thead th,
-.application_table tbody td {
+.table_detail_part .application_table thead th,
+.table_detail_part .application_table tbody td {
     text-align: center;
+}
+
+.table_detail_part .application_table #child_row tbody td {
+    text-align: left;
+    font-size: 14px;
+    line-height: 24px;
+    color: #000000;
+    text-transform: capitalize;
+    min-width: 131px;
+    padding: 12px 12px;
 }
 
 .pagination {
     justify-content: end;
 }
 
-#application_list_filter label,
-#application_list_length label {
+.table_detail_part .dataTables_length label,
+.table_detail_part .dataTables_filter label {
     display: flex;
     align-items: center;
 }
 
-@media (max-width:767px) {
-    .dataTables_filter {
-        float: none;
-        text-align: left !important;
-        margin-bottom: 20px;
-    }
-    #application_list_filter input {
-        max-width: 150px;
-    }
+.application_table.no-footer {
+    border: 0 !important;
+}
+
+.table_detail_part .dataTables_length select {
+    margin: 0 10px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+
+/* #child_row {
+    width: 100%;
+}
+
+#child_row tbody {
+    display: flex;
+    align-items: center;
+    overflow: auto;
+}
+
+#child_row tbody tr {
+    flex: 0 0 auto;
+    width: 20%;
+} */
+
+.form-validation-part {
+    background: #FEFDFD;
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 12%);
+    border-radius: 12px;
+    border-collapse: collapse !important;
+    padding: 15px;
+}
+
+.form-validation-part .col-form-label {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    text-transform: capitalize;
+}
+
+.minus_btn {
+    border: 0;
+    background: transparent;
+    outline: 0 !important;
+    cursor: pointer;
+}
+
+.form-validation-part input {
+    border-radius: 7px;
+    height: 40px;
+    color: #495057;
+    text-transform: capitalize;
+}
+
+.form-validation-part .field_btn {
+    background-color: #000;
+    border: 0;
+}
+
+.form-validation-part .select-box {
+    border-radius: 7px;
+    border: 1px solid #ced4da;
+    color: #495057;
+    appearance: none;
+    height: 40px;
+}
+
+.form-validation-part .arrow_selectbox {
+    position: absolute;
+    right: 25px;
+    width: 11px;
+    pointer-events: none;
+}
+
+.table_detail_part .dataTables_info,
+.table_detail_part .paging_simple_numbers {
+    margin-top: 25px;
+    padding-top: 0;
+}
+
+.application_table td.dt-control:before {
+    content: none !important;
+}
+
+.application_table tr .plus-minus-class {
+    background: url(../icons/plus-add.svg) no-repeat center center;
+    cursor: pointer;
+    background-size: 22px !important;
+    height: 22px;
+    margin-left: 10px;
+}
+
+.application_table tr.shown .plus-minus-class {
+    background: url(../icons/cancel.svg) no-repeat center center;
 }
 
 @media (max-width:1600px) {
@@ -21107,8 +21212,8 @@ img.set_img {
     .table_detail_part thead th {
         font-size: 15px;
     }
-    .application_table th,
-    .application_table td {
+    .application_table .application_table th,
+    .application_table .application_table td {
         padding: 8px 12px;
     }
     .table_detail_part .application_text {
@@ -21120,10 +21225,39 @@ img.set_img {
     }
 }
 
-@media (min-width:768px) and (max-width:1600px) {
+@media (max-width:767px) {
+    .dataTables_filter {
+        float: none;
+        text-align: left !important;
+        margin-bottom: 20px;
+    }
+    #application_list_filter input {
+        max-width: 150px;
+    }
+    .pagination {
+        justify-self: end;
+    }
+    .title_part {
+        padding: 0;
+    }
+}
+
+.content-body {
+    min-height: calc(100vh - 148px) !important;
+}
+
+@media (min-width:576px) and (max-width:1600px) {
+    .table_detail_part .database-search,
+    .table_detail_part .database-pagination {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
     .pagination {
         justify-content: end;
     }
+}
+
+@media (min-width:768px) and (max-width:1600px) {
     #application_list_wrapper .row:last-child {
         align-items: center;
     }

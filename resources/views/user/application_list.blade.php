@@ -269,8 +269,10 @@
                         url1 = url1.replace('id', row.id);
                         var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                         var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
+                        var img_url3 = "{{asset('user/assets/icons/copy.png')}}";
 
-                        return "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                        return  "<a href='" + url1 + "' title=\"copy\" class='application_text mr-4'><img src='" + img_url3 + "' alt=''></a>" +
+                        "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
                             "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='"
                             +row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
                     }
