@@ -34,7 +34,7 @@
                                             </label>
                                             <div class="row m-0">
                                                 <div class="col-lg-12 p-0">
-                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Application Name..">
+                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Category Title.." required>
                                                 </div>
                                                 <!-- <div class="col-lg-3 p-0">
                                                     <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
@@ -237,7 +237,8 @@ html += '<div class="row mb-3 align-items-center">'+
                 contentType: false,
                 success: function(data) {
                     if(data.status == 200){
-                        toastr.success("Category Added",'Success',{timeOut: 5000})
+                        toastr.success("Category Added",'Success',{timeOut: 5000});
+                       
                         $("#category_add")[0].reset()
                     }else{
                         toastr.error("Please try again",'Error',{timeOut: 5000})

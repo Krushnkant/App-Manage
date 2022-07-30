@@ -135,7 +135,9 @@ class ApplicationController extends Controller
 
     public function dashboard()
     {
-        return view('user.dashboard');
+        $ApplicationData = ApplicationData::select(\DB::raw('(SELECT count(*) FROM application_data ) as total_applications'),\DB::raw('(SELECT count(*) FROM application_data where status = "1" ) as total_active_applications'),\DB::raw('(SELECT count(*) FROM application_data where status = "0" ) as total_deactive_applications'))->first();
+     
+        return view("user.dashboard",compact('ApplicationData'));
     }
 
     public function ApplicationList(Request $request)
@@ -152,6 +154,16 @@ class ApplicationController extends Controller
         foreach($data as $d){
             $d->start_date = $d->created_at->format('d M Y');
             // dump($d->created_at);
+        }
+        return datatables::of($data)->make(true);
+    }
+
+    public function ApplicationListDashboard(Request $request)
+    {
+        $request1 = $request->all();
+        $data = ApplicationData::where('status','1')->whereDate('updated_at', Carbon::today())->orderBy('updated_at', 'DESC')->get();
+        foreach($data as $d){
+            $d->start_date = $d->created_at->format('d M Y');
         }
         return datatables::of($data)->make(true);
     }

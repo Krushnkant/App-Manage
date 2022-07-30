@@ -218,12 +218,7 @@
                         return "<div class='application_img_text'><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
                     }
                 },
-                {
-                    "mData": "field",
-                    "mRender": function (data, type, row) {
-                        return "<div><span class='application_text app_id_part total_request_text application_text'>155675</span></div>";
-                    }
-                },
+                
                 {
                     "mData": "app_id",
                     "mRender": function (data, type, row) {
@@ -231,6 +226,12 @@
                     }
                 },
                 {data: 'package_name', name: 'package_name', orderable: false, searchable: false, class: "text-center"},
+                {
+                    "mData": "field",
+                    "mRender": function (data, type, row) {
+                        return "<div><span class='application_text app_id_part total_request_text application_text'>"+row.total_request+"</span></div>";
+                    }
+                },
                 {
                     "mData": "status",
                     "mRender": function (data, type, row) {

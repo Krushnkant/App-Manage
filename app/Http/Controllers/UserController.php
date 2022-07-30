@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{User, UserLogin};
+use App\Models\{User, UserLogin ,ApplicationData};
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Session;
 use App\Http\Helpers;
 
 class UserController extends Controller
@@ -19,7 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.dashboard');
+       
+       return view('user.dashboard');
     }
     public function loginForm()
     {
@@ -155,5 +157,12 @@ class UserController extends Controller
         if($users != null){
             return redirect()->intended('/dashboard');
         }
+    }
+
+    public function logout() {
+        Session::flush();
+        Auth::logout();
+
+        return Redirect('/');
     }
 }
