@@ -12,6 +12,10 @@
         border: 2px dotted #1833FF;
         margin-top: 50px;
     }
+    .pe-none {
+        pointer-events: none;
+        background: #cfcfcf40;
+    }
 </style>
 <div class="container-fluid mt-3">
     <div class="row justify-content-center">
@@ -30,9 +34,11 @@
                                     <div class="col-lg-12">
                                         
                                         <select class="form-control" id="field" name="field">
-                                            @foreach($fields as $field)
-                                                <option value="{{$field->type}}">{{$field->title}}</option>
-                                            @endforeach
+                                            <option value="">--Select--</option>
+                                                @foreach($fields as $field)
+                                                    <option value="{{$field->type}}">{{$field->title}}</option>
+                                                @endforeach
+                                            <option value="sub-form">Sub Form</option>
                                         </select>
                                     </div>
                                 </div>
@@ -72,20 +78,21 @@ $(document).ready(function() {
     //$("#Add").on("click", function() {
     $('body').on('click', '#Add', function(){    
         var html = "";
-        var valuee = $('#field').val();
-
-        var type = "text";
+        // var valuee = $('#field').val();
+        var selected = $('#field option:selected');
+        var valuee = selected.attr('value')
+        var type = "";
+        // console.log(valuee)
         if(valuee == "textbox"){
             type = "text";
-        }
-        if(valuee == "file"){
+        }else if(valuee == "file"){
             type = "file";
-        }
-        if(valuee == "multi-file"){
+        }else if(valuee == "multi-file"){
             type = "multi-file";
-        }
-        if(valuee == "sub-form"){
+        }else if(valuee == "sub-form"){
             type = "sub-form";
+        }else{
+            type = ""
         }
 
 
@@ -95,7 +102,7 @@ $(document).ready(function() {
                         '<input type="text" placeholder="Field Name" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-md-5">'+
-                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="field_type[]"  />'+
+                        '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]"  />'+
                     '</div>'+
                     '<div class="col-md-2">'+
                         '<button type="button"  class="minus_btn btn mb-1 btn-dark">-</button>'+
@@ -107,6 +114,7 @@ $(document).ready(function() {
                     '<label class="col-lg-4 col-form-label" for="name">Field Select: <span class="text-danger">*</span></label>'+
                     '<div class="col-lg-12">'+
                         '<select class="form-control" id="field-subform" name="field-subform">'+
+                            '<option value="">---Select---</option>'+
                             '<option value="textbox">Textbox</option>'+
                             '<option value="file">Image</option>'+
                             '<option value="multi-file">Multi Image</option>'+
@@ -124,13 +132,13 @@ $(document).ready(function() {
                                    
                 '</div>'+   
                 '</div>';
-        }else{
+        }else if(type != ""){
             html += '<div class="row mt-3">'+
                     '<div class="col-md-5">'+
                         '<input type="text" placeholder="Field Name" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-md-5">'+
-                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="field_type[]"  />'+
+                        '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]"  />'+
                     '</div>'+
                     '<div class="col-md-2">'+
                         '<button type="button"  class="minus_btn btn mb-1 btn-dark">-</button>'+
@@ -142,30 +150,45 @@ $(document).ready(function() {
 
     $('body').on('click', '#AddSub', function(){    
         var html = "";
-        var valuee = $('#field-subform').val()
-        var type = "text";
+        // var valuee = $('#field-subform').val()
+        // var type = "text";
+        // if(valuee == "textbox"){
+        //     type = "text";
+        // }
+        // if(valuee == "file"){
+        //     type = "file";
+        // }
+        // if(valuee == "multi-file"){
+        //     type = "multi-file";
+        // }
+        var selected = $('#field-subform option:selected');
+        var valuee = selected.attr('value')
+        var type = "";
+        // console.log(valuee)
         if(valuee == "textbox"){
             type = "text";
-        }
-        if(valuee == "file"){
+        }else if(valuee == "file"){
             type = "file";
-        }
-        if(valuee == "multi-file"){
+        }else if(valuee == "multi-file"){
             type = "multi-file";
+        }else if(valuee == "sub-form"){
+            type = "sub-form";
+        }else{
+            type = ""
         }
-    
-        html += '<div class="row mt-3">'+
+        if(type != ""){
+            html += '<div class="row mt-3">'+
                     '<div class="col-md-5">'+
                         '<input type="text" placeholder="Field Name" class="form-control input-flat" name="sub_field_name[]" />'+
                     '</div>'+
                     '<div class="col-md-5">'+
-                        '<input  type="text" value="'+type+'" class="form-control input-flat" name="sub_field_type[]"  />'+
+                        '<input  type="text" value="'+type+'" class="form-control input-flat pe-none" name="sub_field_type[]"  />'+
                     '</div>'+
                     '<div class="col-md-2">'+
                         '<button type="button"  class="minus_btn btn mb-1 btn-dark">-</button>'+
                     '</div>'+
                 '</div>';
-               
+        }
         $(".add-value-sub").append(html);
     });
 
@@ -190,8 +213,8 @@ $(document).ready(function() {
                 contentType: false,
                 success: function (res) {
                     if(res['status']==200){
-                        location.href = "{{ route('admin.products.list') }}";
                         toastr.success("Product Added",'Success',{timeOut: 5000});
+                        $("#form_structures_add")[0].reset()
                     }
                 },
                 error: function (data) {
