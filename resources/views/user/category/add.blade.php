@@ -20,6 +20,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <h4 class="card-title">Add Category Form</h4>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-validation">
@@ -174,31 +175,33 @@
         var field_name = option+"field_value[]";
         var field_key = option+"field_key[]";
 
-        var type = "text";
+        var type = "";
         if(valuee == "textbox"){
             type = "text";
-        }
-        if(valuee == "file"){
+        }else if(valuee == "file"){
             type = "file";
-        }
-        if(valuee == "multi-file"){
+        }else if(valuee == "multi-file"){
             type = "file";
+        }else{
+            type = ""
         }
 
-        html += '<div class="row mb-2">'+
-                    '<div class="col-md-4">'+
-                        '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
-                    '</div>'+
-                    '<div class="col-md-4">'+
-                        '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
-                    '</div>'+
-                    // '<div class="col-md-2">'+
-                    //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
-                    // '</div>'+
-                    '<div class="col-md-2">'+
-                        '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
-                    '</div>'+
-                '</div>';
+        if(type != ""){
+            html += '<div class="row mb-2">'+
+                        '<div class="col-md-4">'+
+                            '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
+                        '</div>'+
+                        '<div class="col-md-4">'+
+                            '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
+                        '</div>'+
+                        // '<div class="col-md-2">'+
+                        //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
+                        // '</div>'+
+                        '<div class="col-md-2">'+
+                            '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
+                        '</div>'+
+                    '</div>';
+        }
         $("#category_form").append(html);
     })
     $('body').on('click', '.minus_btn', function(){
@@ -216,10 +219,10 @@
                 contentType: false,
                 success: function(data) {
                     if(data.status == 200){
-                        toastr.success("success")
+                        toastr.success("Category Added",'Success',{timeOut: 5000})
                         $("#category_add")[0].reset()
                     }else{
-                        toastr.error("error")
+                        toastr.error("Please try again",'Error',{timeOut: 5000})
                     }
                 }
         });

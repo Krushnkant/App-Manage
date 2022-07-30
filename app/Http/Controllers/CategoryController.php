@@ -149,11 +149,11 @@ class CategoryController extends Controller
         $main_category->save();
 
         $field_key1 = (isset($data['1field_key']) && $data['1field_key']) ? $data['1field_key'] : null;
-       $field_value1 = (isset($data['1field_value']) && $data['1field_value']) ? $data['1field_value'] : null;
-       $field_key2 = (isset($data['2field_key']) && $data['2field_key']) ? $data['2field_key'] : null;
-       $field_value2 = (isset($data['2field_value']) && $data['2field_value']) ? $data['2field_value'] : null;
-       $field_key3 = (isset($data['3field_key']) && $data['3field_key']) ? $data['3field_key'] : null;
-       $field_value3 = (isset($data['3field_value']) && $data['3field_value']) ? $data['3field_value'] : null;
+        $field_value1 = (isset($data['1field_value']) && $data['1field_value']) ? $data['1field_value'] : null;
+        $field_key2 = (isset($data['2field_key']) && $data['2field_key']) ? $data['2field_key'] : null;
+        $field_value2 = (isset($data['2field_value']) && $data['2field_value']) ? $data['2field_value'] : null;
+        $field_key3 = (isset($data['3field_key']) && $data['3field_key']) ? $data['3field_key'] : null;
+        $field_value3 = (isset($data['3field_value']) && $data['3field_value']) ? $data['3field_value'] : null;
 
        if($field_key1 != null){
             foreach($field_key1 as $key => $field1){

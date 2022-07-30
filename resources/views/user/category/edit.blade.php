@@ -19,6 +19,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <h4 class="card-title">Category Edit Form</h4>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-validation">
@@ -59,7 +60,6 @@
                                             @foreach($data->category as $d)
                                                 <?php 
                                                 $field_key = $d->id."_".$d->fields->id."_key[]"; 
-                                                // $field_name = $d->id."_".$d->fields->id."_value[]"; 
                                                 $field_name = ""; 
                                                 ?>
                                                 <div class="row mb-2 position-relative">
