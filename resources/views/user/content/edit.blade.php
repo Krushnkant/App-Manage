@@ -251,6 +251,7 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '#submit_form_structures', function () {
+       
         // $(this).prop('disabled',true);
         // $(this).find('.submitloader').show();
         var btn = $(this);
@@ -266,8 +267,9 @@ $(document).ready(function() {
                 contentType: false,
                 success: function (res) {
                     if(res['status']==200){
+
                         toastr.success("Form Structure Added",'Success',{timeOut: 5000});
-                        window.location.href = "{{ url('/content-form')}}"+app_id;
+                        window.location.href = "{{ url('/content-form/')}}"+'/'+app_id;
                         console.log("{{ url('/content-form')}}"+app_id)
                         $("#form_structures_add")[0].reset()
                     }

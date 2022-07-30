@@ -213,7 +213,8 @@ $(document).ready(function() {
                 contentType: false,
                 success: function (res) {
                     if(res['status']==200){
-                        toastr.success("Product Added",'Success',{timeOut: 5000});
+                        toastr.success("Form Added",'Success',{timeOut: 5000});
+                        window.location.href = "{{ url('content-edit/'.$id)}}";
                         $("#form_structures_add")[0].reset()
                     }
                 },
