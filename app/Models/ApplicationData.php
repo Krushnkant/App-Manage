@@ -11,6 +11,6 @@ class ApplicationData extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = "application_data";
-    protected $fillable = ['name', 'icon', 'app_id', 'package_name','created_by','updated_by','status'];
+    protected $fillable = ['name', 'icon', 'app_id', 'package_name','created_by','updated_by','status','total_request','token'];
     protected $dates = ['deleted_at'];
 }

@@ -53,3 +53,5 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('contentt-update/{app_id}',[AppDataController::class,'update']);
 
 });
+
+
