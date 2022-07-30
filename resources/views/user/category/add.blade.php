@@ -20,6 +20,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <h4 class="card-title">Add Category Form</h4>
                     <div class="row">
                         <div class="col-xl-4">
                             <div class="form-validation">
@@ -192,18 +193,19 @@
         var field_name = option+"field_value[]";
         var field_key = option+"field_key[]";
 
-        var type = "text";
+        var type = "";
         if(valuee == "textbox"){
             type = "text";
-        }
-        if(valuee == "file"){
+        }else if(valuee == "file"){
             type = "file";
-        }
-        if(valuee == "multi-file"){
+        }else if(valuee == "multi-file"){
             type = "file";
+        }else{
+            type = ""
         }
 
-        html += '<div class="row mb-3 align-items-center">'+
+if(type != ""){       
+html += '<div class="row mb-3 align-items-center">'+
                     '<div class="col-sm-5 pr-0 px-0 pl-sm-3 mb-3 mb-sm-0">'+
                         '<input type="text" placeholder="title" class="form-control input-flat" name="'+field_key+'" />'+
                     '</div>'+
@@ -217,6 +219,7 @@
                         '<button type="button" class="minus_btn mb-1"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
                     '</div>'+
                 '</div>';
+            }
         $("#category_form").append(html);
     })
     $('body').on('click', '.minus_btn', function(){
@@ -234,10 +237,10 @@
                 contentType: false,
                 success: function(data) {
                     if(data.status == 200){
-                        toastr.success("success")
+                        toastr.success("Category Added",'Success',{timeOut: 5000})
                         $("#category_add")[0].reset()
                     }else{
-                        toastr.error("error")
+                        toastr.error("Please try again",'Error',{timeOut: 5000})
                     }
                 }
         });

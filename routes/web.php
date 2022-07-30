@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\{UserController, ApplicationController, CategoryController,ContentController};
+use \App\Http\Controllers\{UserController, ApplicationController, CategoryController,ContentController, AppDataController};
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +45,11 @@ Route::group(['middleware'=>'auth'],function (){
     // content
     Route::resource('/content',  ContentController::class);
     Route::get('addcontent/{id}',[ContentController::class,'addcontent']);
+    Route::get('content-form/{id}',[ContentController::class,'ContentForm']); // content app data add
+    Route::post('/content-update/{id}',  [ContentController::class, 'update']);
 
+    Route::resource('/app-data',  AppDataController::class);
+    Route::get('content-edit/{app_id}',[AppDataController::class,'edit']);
+    Route::post('contentt-update/{app_id}',[AppDataController::class,'update']);
 
 });

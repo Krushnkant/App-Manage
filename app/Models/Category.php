@@ -22,8 +22,4 @@ class Category extends Model
     public function category(){
         return $this->hasMany(CategoryFields::class,'category_id','id');
     }
-    // public function cat_fields(){
-    //     return $this->hasMany(CategoryFields::class,'category_id','id');
-    // }
-    
 }
