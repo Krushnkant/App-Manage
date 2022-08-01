@@ -1,7 +1,8 @@
 @extends('user.layouts.layout')
 
 @section('content')
-<link href="{{ url('public/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<!-- <link href="{{ url('public/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
 <div class="container-fluid mt-3">
     <div class="row">
         <div class="col-12">
@@ -39,6 +40,7 @@
                                 <table id="application_list" class="table zero-configuration customNewtable application_table" style="width:100%">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>No</th>
                                             <th>Application</th>
                                             <th>App Id</th>
@@ -71,46 +73,6 @@
                     </div>
                     <div class="tab-pane fade" id="Inactive" role="tabpanel" aria-labelledby="contact-tab">...</div>
                     </div>
-                    <!-- <div class="table-responsive">
-                        <table class="table table-striped table-bordered zero-configuration">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>App Id</th>
-                                    <th>Package Name</th>
-                                    <th width="100px">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>application 1</td>
-                                <td>gfffd66665675f6g5543</td>
-                                <td>first package</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>application 2</td>
-                                <td>gfffd6666567DGDsGDD</td>
-                                <td>second package</td>
-                                <td>-</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                <th>No</th>
-                                    <th>Name</th>
-                                    <th>App Id</th>
-                                    <th>Package Name</th>
-                                    <th width="100px">Action</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div> -->
-
-                    
                 </div>
             </div>
         </div>
@@ -135,57 +97,217 @@
 @endsection
 @push('scripts')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<!-- dataTable -->
-
-
 <script type="text/javascript">
-    // $(function () {
-    //     var table = $('.data-table').DataTable({
-    //         processing: true,
-    //         serverSide: true,
-    //         ajax: "{{url('application')}}",
-    //         columns: [
-    //             {data: 'id', name: 'id'},
-    //             {data: 'name', name: 'name'},
-    //             {data: 'email', name: 'email'},
-    //             {data: 'action', name: 'action', orderable: false, searchable: false},
-    //         ]
-    //     });
-    // });
-    // var url = "{{asset('/')}}"
-    // var is_date_search = false;
-    // $(document).ready(function() {
-    //     // $('#application_list').DataTable({
-    //     var table = $('#application_list').dataTable( {
-    //         // "lengthMenu": [[10, 25, 50,100, -1], [10, 25, 50,100, "All"]],
-    //         "processing": true,
-    //         "serverSide": true,
-    //         order: [[1, 'desc']],
-    //         "ajax": {
-    //             "url": url + 'application-list',
-    //             "method": 'POST',
-    //             datatype: 'json',
-    //             data: {                           
-    //                 is_date_search: is_date_search
-    //             },
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //             },
-    //         },
-    //         columns: [
-    //             {data: 'id', name: 'id'},
-    //             {data: 'name', name: 'name'},
-    //             {data: 'icon', name: 'icon'},
-    //             {data: 'app_id', name: 'app_id'},
-    //             {data: 'package_name', name: 'package_name'},
-    //             {data: 'action', name: 'action'},
-    //         ],
-    //     });
-    //     // table.destroy();
-    //     // new $.fn.dataTable.FixedHeader( table );
-    // })
+    function format(d) {
+        console.log(d)
+        var cat_list = "";
+        var token = d.token;
+        var UUID = d.app_id;
+        var category_id = d.cat_ids;
+        var strcuture_id = d.strcuture_id;
+        var cat_path = "{{url('api/category-list')}}";
+        var content_api_path = "{{url('api/content-list')}}";
+        var sub_content_api_path = "{{url('api/sub-content-list')}}";
+      
+        if(d.is_category == 1){
+            cat_list +="<tr><tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
+                        "<tr><td><span class='kArPKh'>"+cat_path+"</span></td></tr>"+
+                        "<table class='w-100 child-inner-table'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th><strong>PARAMS</strong></th>"+
+                                    "<th><strong>REQUIRED</strong></th>"+
+                                    "<th><strong>DATA TYPE</strong></th>"+
+                                    "<th class='text-left'><strong>DESCRIPTION</strong></th>"+
+                                    "<th class='text-left'><strong>EXAMPLE</strong></th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>"+
+                                "<tr>"+
+                                    "<td><code>token</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>Token must be same as example</td>"+
+                                    "<td class='text-left'>"+token+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>AppId</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>AppId must be same as example</td>"+
+                                    "<td class='text-left'>"+UUID+"</td>"+
+                                "</tr>"+
+                            "</tbody>"+
+                        "</table></tr>"+
+                        
+                        "<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></span></td></tr>"+
+                        "<tr><td><span class='kArPKh'>"+content_api_path+"</span></td></tr>"+
+                        "<table class='w-100 child-inner-table'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th><strong>PARAMS</strong></th>"+
+                                    "<th><strong>REQUIRED</strong></th>"+
+                                    "<th><strong>DATA TYPE</strong></th>"+
+                                    "<th class='text-left'><strong>DESCRIPTION</strong></th>"+
+                                    "<th class='text-left'><strong>EXAMPLE</strong></th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>"+
+                                "<tr>"+
+                                    "<td><code>token</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>Token must be same as example</td>"+
+                                    "<td class='text-left'>"+token+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>AppId</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>AppId must be same as example</td>"+
+                                    "<td class='text-left'>"+UUID+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>category_id</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>category_id must be same as example</td>"+
+                                    "<td class='text-left'>"+category_id+"</td>"+
+                                "</tr>"+
+                            "</tbody>"+
+                        "</table></tr>"+
+                        
+                        "<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></span></td></tr>"+
+                        "<tr><td><span class='kArPKh'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<table class='w-100 child-inner-table'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th><strong>PARAMS</strong></th>"+
+                                    "<th><strong>REQUIRED</strong></th>"+
+                                    "<th><strong>DATA TYPE</strong></th>"+
+                                    "<th class='text-left'><strong>DESCRIPTION</strong></th>"+
+                                    "<th class='text-left'><strong>EXAMPLE</strong></th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>"+
+                                "<tr>"+
+                                    "<td><code>token</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>Token must be same as example</td>"+
+                                    "<td class='text-left'>"+token+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>AppId</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>AppId must be same as example</td>"+
+                                    "<td class='text-left'>"+UUID+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>category_id</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>category_id must be same as example</td>"+
+                                    "<td class='text-left'>"+category_id+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>sub_form_id</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>category_id must be same as example</td>"+
+                                    "<td class='text-left'>"+strcuture_id+"</td>"+
+                                "</tr>"+
+                            "</tbody>"+
+                        "</table></tr>";
+        }else{
+            cat_list +="<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></span></td></tr>"+
+                        "<tr><td><span class='kArPKh'>"+content_api_path+"</span></td></tr>"+
+                        "<table class='w-100 child-inner-table'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th><strong>PARAMS</strong></th>"+
+                                    "<th><strong>REQUIRED</strong></th>"+
+                                    "<th><strong>DATA TYPE</strong></th>"+
+                                    "<th class='text-left'><strong>DESCRIPTION</strong></th>"+
+                                    "<th class='text-left'><strong>EXAMPLE</strong></th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>"+
+                                "<tr>"+
+                                    "<td><code>token</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>Token must be same as example</td>"+
+                                    "<td class='text-left'>"+token+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>AppId</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>AppId must be same as example</td>"+
+                                    "<td class='text-left'>"+UUID+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>category_id</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>category_id must be same as example</td>"+
+                                    "<td class='text-left'>"+category_id+"</td>"+
+                                "</tr>"+
+                            "</tbody>"+
+                        "</table></tr>"+
+                        
+                        "<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></span></td></tr>"+
+                        "<tr><td><span class='kArPKh'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<table class='w-100 child-inner-table'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th><strong>PARAMS</strong></th>"+
+                                    "<th><strong>REQUIRED</strong></th>"+
+                                    "<th><strong>DATA TYPE</strong></th>"+
+                                    "<th class='text-left'><strong>DESCRIPTION</strong></th>"+
+                                    "<th class='text-left'><strong>EXAMPLE</strong></th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>"+
+                                "<tr>"+
+                                    "<td><code>token</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>Token must be same as example</td>"+
+                                    "<td class='text-left'>"+token+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>AppId</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>AppId must be same as example</td>"+
+                                    "<td class='text-left'>"+UUID+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>category_id</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>category_id must be same as example</td>"+
+                                    "<td class='text-left'>"+category_id+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td><code>sub_form_id</code></td>"+
+                                    "<td>YES</td>"+
+                                    "<td><em>string</em></td>"+
+                                    "<td class='text-left'>category_id must be same as example</td>"+
+                                    "<td class='text-left'>"+strcuture_id+"</td>"+
+                                "</tr>"+
+                            "</tbody>"+
+                        "</table></tr>";
+        }
+        
+        return '<table cellpadding="5" cellspacing="0" border="0" class="w-100" style="padding-left:50px;" id="child_row">' +
+                '<ul class="d-none">'+cat_list+'</ul></table>';
+    }
     $(document).ready(function() {
-        $('#application_list').DataTable({
+        var table = $('#application_list').DataTable({
             "destroy": true,
             "processing": true,
             "serverSide": true,
@@ -204,8 +326,15 @@
                 { "width": "", "targets": 5 },
                 { "width": "", "targets": 6 },
                 { "width": "", "targets": 7 },
+                // { "width": "", "targets": 8 },
             ],
             "columns": [
+                {
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: "<div class='plus-minus-class'>&nbsp;</div>",
+                },
                 {data: 'id', name: 'id', class: "text-center", orderable: false,
                     render: function (data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
@@ -278,7 +407,20 @@
                             +row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
                     }
                 }
-            ]
+            ],
+            order: [[1, 'asc']],
+        });
+
+        $('#application_list tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) {
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
         });
     })
 
