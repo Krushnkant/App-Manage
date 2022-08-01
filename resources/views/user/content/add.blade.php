@@ -63,9 +63,12 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="form-group col-md-10 col-xl-6 add-value-main px-0">
+                                    
+                                </div>
                                 <div class="form-group col-md-10 col-xl-6 add-value px-0">
                                    
-                                   </div>
+                                </div>
                             </div>
                             
                             <div class="row">
@@ -133,7 +136,6 @@ $(document).ready(function() {
                             '<option value="">---Select---</option>'+
                             '<option value="textbox">Textbox</option>'+
                             '<option value="file">Image</option>'+
-                            '<option value="multi-file">Multi Image</option>'+
                         '</select>'+
                         '</div>'+
                     '</div>'+
@@ -149,6 +151,7 @@ $(document).ready(function() {
                                    
                 '</div>'+   
                 '</div>';
+            $(".add-value").append(html);
         }else if(type != ""){
             html += '<div class="row mt-3 mx-0">'+
                     '<div class="col-12 col-sm-5 mb-3 mb-sm-0">'+
@@ -161,8 +164,11 @@ $(document).ready(function() {
                         '<button type="button"  class="minus_btn btn btn-dark px-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
                     '</div>'+
                 '</div>';
+
+                // add-value-main
+            $(".add-value-main").append(html);
         }        
-        $(".add-value").append(html);
+        // $(".add-value").append(html);
     });
 
     $('body').on('click', '#AddSub', function(){    

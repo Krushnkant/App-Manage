@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Field,FormStructure,SubformStructure, Category};
+use App\Models\{Field,FormStructure,SubformStructure, Category, ApplicationData, AppData};
+use Yajra\DataTables\DataTables;
+use Illuminate\Support\Str;
 
 class ContentController extends Controller
 {
@@ -36,6 +38,7 @@ class ContentController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $uuid = Str::uuid();
         // dd($data);
         $field_names = (isset($data['field_name']) && $data['field_name']) ? $data['field_name'] : null;
         $sub_field_names = (isset($data['sub_field_name']) && $data['sub_field_name']) ? $data['sub_field_name'] : null;
@@ -43,6 +46,7 @@ class ContentController extends Controller
         if($field_names != ""){
             foreach($field_names as $key => $field_name){
                 $FormStructures = new FormStructure();
+                $FormStructures->UUID = $uuid;
                 $FormStructures->application_id = $request->application_id;
                 $FormStructures->field_name = $field_name;
                 $FormStructures->field_type = $request->field_type[$key];
@@ -239,7 +243,7 @@ class ContentController extends Controller
         //
     }
 
-    public function addcontent($id)
+    public function addstructure($id)
     {
         $fields = Field::where('estatus', 1)->get();
         $already = FormStructure::with('sub_form')->where('application_id', $id)->get();
@@ -257,5 +261,42 @@ class ContentController extends Controller
         $sub_form = SubformStructure::where('application_id', $application_id)->get();
         $categories = Category::where('app_id', $application_id)->where('status', '1')->get();
         return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories'));
+    }
+
+    public function ContentList(Request $request, $id)
+    {
+        $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
+        $get_app_data = AppData::with('category','application')->select("*")
+                        ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
+                        ->where("app_id", $id)
+                        ->where("status", 1)
+                        ->get()
+                        ->groupBy('UUID');
+        foreach($get_app_data as $d){
+            foreach($d as $rr){
+                $rr->start_date = $rr->created_at->format('d M Y');
+            }
+        }
+        return view('user.content.content_list', compact('id','get_app_data'));
+    }
+
+    public function ContentGetList(Request $request, $id)
+    {
+       $data = $request->all();
+       $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
+       $get_app_data = AppData::with('category','application')->select("*")
+                    ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
+                    ->where("app_id", $id)
+                    ->where("status", 1)
+                    ->get()
+                    ->groupBy('UUID');
+        foreach($get_app_data as $d){
+            foreach($d as $rr){
+                $rr->start_date = $rr->created_at->format('d M Y');
+            }
+        }
+        // return view('user.content.content_list', compact('id'));
+        // dd($get_app_data);
+        // return datatables::of($get_app_data)->make(true);
     }
 }

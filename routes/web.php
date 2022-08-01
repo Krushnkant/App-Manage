@@ -43,9 +43,12 @@ Route::group(['middleware'=>'auth'],function (){
 
     // content
     Route::resource('/content',  ContentController::class);
-    Route::get('addcontent/{id}',[ContentController::class,'addcontent']);
+    // Route::get('addcontent/{id}',[ContentController::class,'addcontent']);
+    Route::get('add-structure/{id}',[ContentController::class,'addstructure']);
     Route::get('content-form/{id}',[ContentController::class,'ContentForm']); // content app data add
     Route::post('/content-update/{id}',  [ContentController::class, 'update']);
+    Route::get('content-list/{id}',[ContentController::class,'ContentList']); // content app data add
+    Route::post('content-get-list/{id}',[ContentController::class,'ContentGetList']); // content data table
 
     // application content data
     Route::resource('/app-data',  AppDataController::class);
