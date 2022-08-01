@@ -23,19 +23,19 @@
                     <h4 class="card-title mb-0">Application List</h4>
                     <ul class="nav application_tab mt-4" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="falsse">All</a>
+                        <a class="nav-link application_page_tabs active" data-tab="all_application_tab" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="falsse">All</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">Active</a>
+                        <a class="nav-link application_page_tabs" data-tab="active_application_tab" id="profile-tab" data-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">Active</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#Inactive" role="tab" aria-controls="Inactive" aria-selected="false">Inactive</a>
+                        <a class="nav-link application_page_tabs" data-tab="deactive_application_tab" id="contact-tab" data-toggle="tab" href="#Inactive" role="tab" aria-controls="Inactive" aria-selected="false">Inactive</a>
                     </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="home-tab">...</div>
+                    
                     <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="tab-pane fade show active table-responsive table_detail_part">
+                        <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
                             <div class="table-responsive">
                                 <table id="application_list" class="table zero-configuration customNewtable application_table" style="width:100%">
                                     <thead>
@@ -71,8 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="Inactive" role="tabpanel" aria-labelledby="contact-tab">...</div>
-                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -305,17 +304,49 @@
         return '<table cellpadding="5" cellspacing="0" border="0" class="w-100" style="padding-left:50px;" id="child_row">' +
                 '<ul class="d-none">'+cat_list+'</ul></table>';
     }
+    $(document).ready(function() {
 
-    function DataTable (){
+        application_page_tabs('',true);
+        
+        function get_users_page_tabType(){
+            var tab_type;
+            $('.application_page_tabs').each(function() {
+                var thi = $(this);
+                if($(thi).find('a').hasClass('show')){
+                    tab_type = $(thi).attr('data-tab');
+                }
+            });
+            return tab_type;
+        }
+
+        $(".application_page_tabs").click(function() {
+            var tab_type = $(this).attr('data-tab');
+          
+            application_page_tabs(tab_type,true);
+        });
+
+        function application_page_tabs(tab_type='',is_clearState=false) {
+       
+        if(is_clearState){
+            $('#application_list').DataTable().state.clear();
+        }
         var table = $('#application_list').DataTable({
             "destroy": true,
             "processing": true,
             "serverSide": true,
+            'stateSave': function(){
+                if(is_clearState){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            },
             "ajax":{
                 "url": "{{ url('/application-list') }}",
                 "dataType": "json",
                 "type": "POST",
-                "data":{ _token: '{{ csrf_token() }}'},
+                "data":{ _token: '{{ csrf_token() }}',tab_type: tab_type},
             },
             'columnDefs': [
                 { "width": "", "targets": 0 },
@@ -366,9 +397,9 @@
                     "mData": "status",
                     "mRender": function (data, type, row) {
                         if(row.status == "1"){
-                            return '<label class="switch"><input type="checkbox" id="Attributestatuscheck_1" onchange="chageAttributeStatus1" value="1" checked="checked"><span class="slider round"></span></label>';
+                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_'+row.id+'" onclick="chageapplicationstatus('+row.id+')" value="1" >Active</span></div>';
                         }else{
-                            return "<div><span class='application_text app_id_part deactive_status active_status'>Deactive</span></div>";
+                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_'+row.id+'" onclick="chageapplicationstatus('+row.id+')" value="2">Deactive</span></div>';
                         }
                     }
                 },
@@ -423,6 +454,7 @@
                 tr.addClass('shown');
             }
         });
+<<<<<<< Updated upstream
     }
 
     $( ".application_tab" ).on( "click", "li.nav-item", function() {
@@ -432,6 +464,10 @@
 
     $(document).ready(function() {
         DataTable();
+=======
+
+        }
+>>>>>>> Stashed changes
     })
 
     $('body').on('click', '.deleteUserBtn', function (e) {
@@ -463,5 +499,26 @@
             }
         });
     });
+
+    function chageapplicationstatus(app_id) {
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('/chageapplicationstatus') }}" +'/' + app_id,
+                success: function (res) {
+                    
+                    if(res.status == 200 && res.action=='deactive'){
+                        toastr.success("Application Deactivated",'Success',{timeOut: 5000});
+                        $('#application_list').DataTable().draw();
+                    }
+                    if(res.status == 200 && res.action=='active'){
+                        toastr.success("Application activated",'Success',{timeOut: 5000});
+                        $('#application_list').DataTable().draw();
+                    }
+                },
+                error: function (data) {
+                    toastr.error("Please try again",'Error',{timeOut: 5000});
+                }
+            });
+        }
 </script>
 @endpush('scripts')

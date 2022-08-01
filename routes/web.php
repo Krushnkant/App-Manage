@@ -32,6 +32,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('dashboard',  [ApplicationController::class, 'Dashboard']);
     Route::get('add-application',  [ApplicationController::class, 'AddApplication']);
     Route::get('/application/{id}/delete',[ApplicationController::class, 'destroy']);
+    Route::get('chageapplicationstatus/{id}',[ApplicationController::class,'chageapplicationstatus']);
     // Route::post('insert-application-data',[ApplicationController::class,'index']);
 
     // category
