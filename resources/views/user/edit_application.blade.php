@@ -62,16 +62,9 @@
                                 </div>
                             </div>
                             <div class="row">
+                                
                                 <div class="form-group col-md-6">
-                                    <label class="col-form-label"><a href="#">Terms &amp; Conditions</a>  <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="">
-                                        <label class="css-control css-control-primary css-checkbox" for="val-terms">
-                                            <input type="checkbox" class="css-control-input" id="val-terms" name="val-terms" value="1"> <span class="css-control-indicator"></span> I agree to the terms</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="col-lg-8 ml-auto">
+                                    <div class="col-lg-8">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>

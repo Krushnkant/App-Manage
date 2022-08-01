@@ -236,7 +236,7 @@
                     "mData": "status",
                     "mRender": function (data, type, row) {
                         if(row.status == "1"){
-                            return "<div><span class='application_text app_id_part active_status'>Active</span></div>";
+                            return '<label class="switch"><input type="checkbox" id="Attributestatuscheck_1" onchange="chageAttributeStatus1" value="1" checked="checked"><span class="slider round"></span></label>';
                         }else{
                             return "<div><span class='application_text app_id_part deactive_status active_status'>Deactive</span></div>";
                         }
@@ -290,24 +290,24 @@
     $('body').on('click', '#RemoveUserSubmit', function (e) {
         $('#RemoveUserSubmit').prop('disabled',true);
         // e.preventDefault();
-        console.log($(this).attr('data-id'))
         var remove_user_id = $(this).attr('data-id');
 
         $.ajax({
             type: 'GET',
             url: "{{ url('/application') }}" +'/' + remove_user_id +'/delete',
             success: function (res) {
-                if(res == 200){
+                if(res.status == 200){
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled',false);
+                    $('#application_list').DataTable().draw();
+                    toastr.success("Application Deleted",'Success',{timeOut: 5000});
                 }else{
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled',false);
                 }
             },
             error: function (data) {
-                console.log("error")
-                console.log(data)
+                toastr.error("Please try again",'Error',{timeOut: 5000});
             }
         });
     });

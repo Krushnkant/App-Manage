@@ -231,7 +231,7 @@ $(document).ready(function() {
                 success: function (res) {
                     if(res['status']==200){
                         toastr.success("Form Added",'Success',{timeOut: 5000});
-                        window.location.href = "{{ url('content-edit/'.$id)}}";
+                        window.location.href = "{{ url('content-form/'.$id)}}";
                         $("#form_structures_add")[0].reset()
                     }
                 },
@@ -254,7 +254,7 @@ $(document).ready(function() {
         console.log($('#form_structures_add').find('.specReq'));
         $('#form_structures_add').find('.specReq').each(function() {
             var thi = $('.specReq');
-            //alert($(thi).attr('name'));
+
             var this_err = $(thi).attr('data-name') + "-error";
             if($(thi).val()=="" || $(thi).val()==null) {
                 $(this_form).find("#"+this_err).html("Please select any value");
