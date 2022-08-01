@@ -454,20 +454,8 @@
                 tr.addClass('shown');
             }
         });
-<<<<<<< Updated upstream
-    }
-
-    $( ".application_tab" ).on( "click", "li.nav-item", function() {
-        console.log($(this).children().text());
-        
-    });
-
-    $(document).ready(function() {
-        DataTable();
-=======
 
         }
->>>>>>> Stashed changes
     })
 
     $('body').on('click', '.deleteUserBtn', function (e) {
