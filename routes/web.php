@@ -26,7 +26,6 @@ Route::get('register',[UserController::class,'registerForm']);
 Route::post('/register', [UserController::class, 'register']);
 
 Route::group(['middleware'=>'auth'],function (){
-    // Route::get('dashboard',[\App\Http\Controllers\DashboardController::class,'index']);
     // Route::resource('application',[ApplicationController::class]);
     Route::resource('/application',  ApplicationController::class);
     Route::post('application-list',  [ApplicationController::class, 'ApplicationList']);
@@ -41,17 +40,21 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('category-list',  [CategoryController::class, 'CategoryList']);
     Route::post('/category-update/{id}',  [CategoryController::class, 'update']);
     Route::get('/category/{id}/delete',[CategoryController::class, 'destroy']);
+
     // content
     Route::resource('/content',  ContentController::class);
     Route::get('addcontent/{id}',[ContentController::class,'addcontent']);
     Route::get('content-form/{id}',[ContentController::class,'ContentForm']); // content app data add
     Route::post('/content-update/{id}',  [ContentController::class, 'update']);
 
+    // application content data
     Route::resource('/app-data',  AppDataController::class);
     Route::get('content-edit/{app_id}',[AppDataController::class,'edit']);
     Route::post('contentt-update/{app_id}',[AppDataController::class,'update']);
-
     Route::post('application-list-dashboard',  [ApplicationController::class, 'ApplicationListDashboard']);
+
+    // application data table
+    Route::post('application-has-category',[AppDataController::class,'ApplicationHasCategory']);
 
 });
 

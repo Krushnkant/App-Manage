@@ -377,4 +377,16 @@ class AppDataController extends Controller
     {
         //
     }
+
+    public function ApplicationHasCategory(Request $request)
+    {
+        $data = $request->all();
+        $category = Category::where('app_id', $data['app_id'])->where('status', '1')->first();
+        
+        if($category != null){
+            return response()->json(['is_category' => 1]);
+        }else{
+            return response()->json(['is_category' => 0]); 
+        }
+    }
 }

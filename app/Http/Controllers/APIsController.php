@@ -89,6 +89,11 @@ class APIsController extends Controller
         try {
             $data = $request->all();
             $app = ApplicationData::where('app_id',$data['app_id'])->where('token', $data['token'])->first();
+            
+            if (preg_match('/(\.jpg|\.png|\.bmp)$/i', $app->icon)) {
+                $path = asset('/app_icons');
+                $app->icon = $path."/".$app->icon;
+            }
             if($app != null){
                 $count = 1;
                 $app->total_request += $count;
@@ -119,7 +124,7 @@ class APIsController extends Controller
             $data = $request->all();
             $app = ApplicationData::where('app_id',$data['app_id'])->where('token', $data['token'])->first();
             if($app != null){
-                $category = Category::where('app_id', $app->id)->where('status', '0')->get();
+                $category = Category::where('app_id', $app->id)->where('status', '1')->get();
                 if($category != null && count($category) != 0){
                     return response()->json([
                         'data' => $category,
@@ -170,6 +175,12 @@ class APIsController extends Controller
                     ->where("app_id", $app->id)
                     ->where("status", 1)
                     ->get();
+                }
+                foreach($form_structure as $form){
+                    if (preg_match('/(\.jpg|\.png|\.bmp)$/i', $form->value)) {
+                        $path = asset('/app_data_images');
+                        $form->value = $path."/".$form->value;
+                    }
                 }
                 if($form_structure != null){
                     return response()->json([
@@ -226,6 +237,14 @@ class APIsController extends Controller
                     ->where("status", 1)
                     ->get()
                     ->groupBy("UUID");
+                }
+                foreach($form_structure as $form){
+                    foreach($form as $f){
+                        if (preg_match('/(\.jpg|\.png|\.bmp)$/i', $f->value)) {
+                            $path = asset('/app_data_images');
+                            $f->value = $path."/".$f->value;
+                        }
+                    }
                 }
                 if($form_structure != null){
                     return response()->json([
