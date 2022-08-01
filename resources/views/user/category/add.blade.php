@@ -240,8 +240,8 @@ html += '<div class="row mb-3 align-items-center">'+
                 success: function(data) {
                     if(data.status == 200){
                         toastr.success("Category Added",'Success',{timeOut: 5000});
-                       
-                        $("#category_add")[0].reset()
+                        $('#category_list').DataTable().draw();
+                        $("#category_add")[0].reset();
                     }else{
                         toastr.error("Please try again",'Error',{timeOut: 5000})
                     }
@@ -370,17 +370,17 @@ html += '<div class="row mb-3 align-items-center">'+
             type: 'GET',
             url: "{{ url('/category') }}" +'/' + remove_user_id +'/delete',
             success: function (res) {
-                if(res == 200){
+                if(res.status == 200){
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled',false);
+                    $('#category_list').DataTable().draw();
                 }else{
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled',false);
                 }
             },
             error: function (data) {
-                console.log("error")
-                console.log(data)
+                toastr.error("Please try again",'Error',{timeOut: 5000});
             }
         });
     });

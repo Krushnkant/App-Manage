@@ -17,7 +17,7 @@
     <!-- Custom Stylesheet -->
     <link href="{{asset('user/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('user/assets/css/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">
-
+     
 </head>
 
 <body>

@@ -19,7 +19,7 @@
             <div class="card">
                 
                 <div class="card-body">
-                <h4 class="card-title">Add Application</h4>
+                    <h4 class="card-title">Add Application</h4>
                     <div class="form-validation">
                         {{ Form::open(array('url' => 'application', 'method' => 'post', 'enctype' => 'multipart/form-data')) }}
                         <!-- <form class="form-valide" action="" method="post"> -->
