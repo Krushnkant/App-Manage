@@ -66,9 +66,11 @@
                                 <div class="form-group col-md-10 col-xl-6 add-value-main px-0">
                                     
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-10 col-xl-6 add-value px-0">
                                    
-                                </div>
+                                   </div>
                             </div>
                             
                             <div class="row">
