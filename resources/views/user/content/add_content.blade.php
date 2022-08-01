@@ -202,7 +202,7 @@ $('body').on('click', '#submit_app_data', function () {
             contentType: false,
             success: function(data) {
                 if(data.status == 200){
-                    toastr.success("Category Added",'Success',{timeOut: 5000})
+                    toastr.success("Content Added",'Success',{timeOut: 5000})
                     $("#content_add")[0].reset()
                 }else{
                     toastr.error("Please try again",'Error',{timeOut: 5000})

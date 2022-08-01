@@ -1,7 +1,7 @@
 <div class="nk-nav-scroll">
     <ul class="metismenu" id="menu">
         <li>
-            <a class="has-arrow" href="{{url('dashboard')}}" aria-expanded="false">
+            <a  href="{{url('dashboard')}}" aria-expanded="false">
                 <span class="nav-text">Dashboard</span>
             </a>
         </li>

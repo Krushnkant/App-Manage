@@ -17,7 +17,9 @@
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
+                
                 <div class="card-body">
+                <h4 class="card-title">Add Application</h4>
                     <div class="form-validation">
                         {{ Form::open(array('url' => 'application', 'method' => 'post', 'enctype' => 'multipart/form-data')) }}
                         <!-- <form class="form-valide" action="" method="post"> -->
@@ -26,22 +28,15 @@
                                     <label class="col-lg-4 col-form-label" for="name">Application Name: <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-12">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Application Name..">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Application Name.." required>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="col-lg-4 col-form-label" for="icon">Application Icon: <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-12">
-                                        <input type="file" class="form-control" id="icon" name="icon" placeholder="Application Icon..">
+                                        <input type="file" class="form-control" id="icon" name="icon" placeholder="Application Icon.." required>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label class="col-form-label" for="Thumbnail">Application Icon  <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="file" name="files[]" id="catIconFiles" multiple="multiple">
-                                        <input type="hidden" name="catImg" id="catImg" value="">
-                                        <div id="categorythumb-error" class="invalid-feedback animated fadeInDown" style="display: none;"></div>
-                                    </div> -->
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="col-lg-4 col-form-label" for="app_id">Application ID: <span class="text-danger">*</span>
@@ -54,21 +49,13 @@
                                     <label class="col-lg-4 col-form-label" for="package_name">Package Name: <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-12">
-                                        <input type="text" class="form-control" id="package_name" name="package_name" placeholder="Package Name..">
+                                        <input type="text" class="form-control" id="package_name" name="package_name" placeholder="Package Name.." required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="col-form-label"><a href="#">Terms &amp; Conditions</a>  <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="">
-                                        <label class="css-control css-control-primary css-checkbox" for="val-terms">
-                                            <input type="checkbox" class="css-control-input" id="val-terms" name="val-terms" value="1"> <span class="css-control-indicator"></span> I agree to the terms</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="col-lg-8 ml-auto">
+                                    <div class="col-lg-8 ">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>

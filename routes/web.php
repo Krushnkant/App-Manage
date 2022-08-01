@@ -20,7 +20,6 @@ use \App\Http\Controllers\{UserController, ApplicationController, CategoryContro
 // });
 
 Route::get('/',[UserController::class,'loginForm'])->name('login');
-// Route::get('/dashboard',[UserController::class,'index']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('logout', [UserController::class, 'logout']);
 Route::get('register',[UserController::class,'registerForm']);
@@ -51,6 +50,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::resource('/app-data',  AppDataController::class);
     Route::get('content-edit/{app_id}',[AppDataController::class,'edit']);
     Route::post('contentt-update/{app_id}',[AppDataController::class,'update']);
+
+    Route::post('application-list-dashboard',  [ApplicationController::class, 'ApplicationListDashboard']);
 
 });
 

@@ -224,6 +224,8 @@ class ContentController extends Controller
                 }
             }
         }
+
+        return response()->json(['status' => '200', 'action' => 'done']);
     }
 
     /**
