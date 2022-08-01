@@ -66,7 +66,7 @@
                                             <input type="text" value="{{$data->field_type}}" class="form-control input-flat pe-none" name="{{$key_type}}"  />
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="button" class="minus_btn btn mb-1 btn-dark">-</button>
+                                            <button type="button" class="minus_btn btn mb-1 btn-dark fnngfnfg">-</button>
                                         </div>
                                     </div>
                                 @endforeach
