@@ -111,7 +111,7 @@
       
         if(d.is_category == 1){
             cat_list +="<tr><tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
-                        "<tr><td><span class='kArPKh'>"+cat_path+"</span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+cat_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -140,8 +140,8 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></span></td></tr>"+
-                        "<tr><td><span class='kArPKh'>"+content_api_path+"</span></td></tr>"+
+                        "<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -177,8 +177,8 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></span></td></tr>"+
-                        "<tr><td><span class='kArPKh'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+sub_content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -221,8 +221,8 @@
                             "</tbody>"+
                         "</table></tr>";
         }else{
-            cat_list +="<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></span></td></tr>"+
-                        "<tr><td><span class='kArPKh'>"+content_api_path+"</span></td></tr>"+
+            cat_list +="<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -258,8 +258,8 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></span></td></tr>"+
-                        "<tr><td><span class='kArPKh'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+sub_content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -342,6 +342,7 @@
                 },
                 {
                     "mData": "icon",
+                    className: 'text-left',
                     "mRender": function (data, type, row) {
                         var img_url = "{{asset('/app_icons/')}}/"+row.icon;
                         return "<div class='application_img_text'><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
