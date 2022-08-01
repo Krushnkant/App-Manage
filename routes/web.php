@@ -19,8 +19,8 @@ use \App\Http\Controllers\{UserController, ApplicationController, CategoryContro
 //     return view('welcome');
 // });
 
-Route::get('/',[UserController::class,'loginForm']);
-Route::get('/dashboard',[UserController::class,'index']);
+Route::get('/',[UserController::class,'loginForm'])->name('login');
+// Route::get('/dashboard',[UserController::class,'index']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('logout', [UserController::class, 'logout']);
 Route::get('register',[UserController::class,'registerForm']);

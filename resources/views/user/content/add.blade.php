@@ -199,7 +199,7 @@ $(document).ready(function() {
 
     $('body').on('click', '#submit_form_structures', function () {
         $(this).prop('disabled',true);
-        $(this).find('.submitloader').show();
+        // $(this).find('.submitloader').show();
         var btn = $(this);
 
         var formData = new FormData($("#form_structures_add")[0]);
@@ -219,13 +219,13 @@ $(document).ready(function() {
                 },
                 error: function (data) {
                     $(btn).prop('disabled',false);
-                    $(btn).find('.submitloader').hide();
+                    // $(btn).find('.submitloader').hide();
                     toastr.error("Please try again",'Error',{timeOut: 5000});
                 }
         });
         }else{
             $(btn).prop('disabled',false);
-            $(btn).find('.submitloader').hide();
+            // $(btn).find('.submitloader').hide();
         }
     });
 

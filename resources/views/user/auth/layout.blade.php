@@ -9,6 +9,7 @@
     <title>App Management</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('user/assets/images/favicon.png')}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
     <link href="{{asset('user/assets/css/style.css')}}" rel="stylesheet">
     
@@ -46,11 +47,13 @@
     <!--**********************************
         Scripts
     ***********************************-->
+    @stack('scripts')
     <script src="{{asset('user/assets/plugins/common/common.min.js')}}"></script>
     <script src="{{asset('user/assets/js/custom.min.js')}}"></script>
     <script src="{{asset('user/assets/js/settings.js')}}"></script>
     <script src="{{asset('user/assets/js/gleek.js')}}"></script>
     <script src="{{asset('user/assets/js/styleSwitcher.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
 </body>
 </html>
 
