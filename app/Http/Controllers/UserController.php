@@ -135,9 +135,11 @@ class UserController extends Controller
                     
                     $login_user_history = UserLogin::Create($history);
                 }
-                return redirect()->intended('/dashboard');
+                return response()->json(['status' => '200', 'message' => 'Login Successfully']);
+                // return redirect()->intended('/dashboard');
             }else{
-                return redirect()->intended('/login');
+                return response()->json(['status' => '400', 'message' => 'User Not Exits']);
+                // return redirect()->intended('/login');
             }
         }
     }
