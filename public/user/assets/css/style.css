@@ -20919,6 +20919,10 @@ img.set_img {
     width: 20px;
 }
 
+.add_application_btn_part svg {
+    width: 20px;
+}
+
 .table_detail_part thead th {
     font-weight: 500;
     font-size: 16px;
