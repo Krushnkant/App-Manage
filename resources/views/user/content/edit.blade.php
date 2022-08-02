@@ -48,11 +48,9 @@
                                                     <select class="form-control select-box" id="field" name="field">
                                                         <option value="">--Select--</option>
                                                         @foreach($fields as $field)
-                                                            @if($field->type != "multi-file")
-                                                                <option value="{{$field->type}}">{{$field->title}}</option>
-                                                            @endif
+                                                            <option value="{{$field->type}}">{{$field->title}}</option>
                                                         @endforeach
-                                                        <option value="sub-form">Sub Form</option>
+                                                        <!-- <option value="sub-form">Sub Form</option> -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -106,7 +104,9 @@
                                                             <select class="form-control select-box" id="field-subform" name="field">
                                                                 <option value="">--Select--</option>
                                                                 @foreach($fields as $field)
-                                                                    <option value="{{$field->type}}">{{$field->title}}</option>
+                                                                    @if($field->type != "multi-file")
+                                                                        <option value="{{$field->type}}">{{$field->title}}</option>
+                                                                    @endif
                                                                 @endforeach
                                                         </select>
                                                         </div>
@@ -182,6 +182,7 @@ $(document).ready(function() {
             type = "multi-file";
         }else if(valuee == "sub-form"){
             type = "sub-form";
+            $('#field option').prop('disabled', true);
         }else{
             type = ""
         }
@@ -210,7 +211,6 @@ $(document).ready(function() {
                                 '<option value="">---Select---</option>'+
                                 '<option value="textbox">Textbox</option>'+
                                 '<option value="file">Image</option>'+
-                                '<option value="multi-file">Multi Image</option>'+
                             '</select>'+
                         '</div>'+
                     '</div>'+
@@ -318,10 +318,9 @@ $(document).ready(function() {
     });
 
     function validateForm() {
-         //alert();
         var valid = true;
         var this_form = $('#form_structures_add');
-        console.log($('#form_structures_add').find('.specReq'));
+        // console.log($('#form_structures_add').find('.specReq'));
         $('#form_structures_add').find('.specReq').each(function() {
             var thi = $('.specReq');
             //alert($(thi).attr('name'));
@@ -331,9 +330,7 @@ $(document).ready(function() {
                 $(this_form).find("#"+this_err).show();
                 valid = false;
             }
-        
         });
-
         return valid;
     }
 

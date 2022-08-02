@@ -32,6 +32,9 @@
 .sub_form {
     width: 100%;
 }
+span.error-display {
+    color: #f00;
+}
 </style>
 <div class="container-fluid mt-3 custom-form-design">
     <div class="row justify-content-center">
@@ -40,8 +43,8 @@
                 <div class="card-body">
                     <h4 class="card-title">Add Content</h4>
                         <form class="form-valide" action="" mathod="POST" id="content_edit" enctype="multipart/form-data">
-                            <input type="hidden" name="app_id" value="{{$id}}" />
-                            <input type="hidden" name="UUID-main" value="{{$app_data[0]->UUID}}" />
+                            <input type="hidden" id="app_id" name="app_id" value="{{$id}}" />
+                            <input type="hidden" id="UUID-main" name="UUID-main" value="{{$app_data[0]->UUID}}" />
                               @csrf
                               <div class="row">
                                 <div class="col-md-6">
@@ -70,6 +73,8 @@
                                   <?php 
                                     $input_name = $app->id."field_name";
                                     $single_name = $app->id."one[]"; 
+                                    $input_name_id = $app->id."field_name";
+                                    $single_name_id = $app->id."one"; 
                                   ?>
                                     @if($app->fieldd->field_type == "text")
                                     <div class="col-md-6 mb-2 mb-md-3">
@@ -91,7 +96,10 @@
                                   @endforeach
                                   @foreach($app_data as $app)
                                     @if($app->fieldd->field_type == "multi-file")
-                                      <?php $file_name = $app->app_id."_".$app->category_id."_".$app->fieldd->id."_files[]";  ?>
+                                      <?php 
+                                        $file_name = $app->app_id."_".$app->category_id."_".$app->fieldd->id."_files[]";  
+                                        $file_name_id = $app->app_id."_".$app->category_id."_".$app->fieldd->id."_files";  
+                                      ?>
                                       <div class="col-md-6 mb-3">
                                         <label class="col-form-label">{{$app->fieldd->field_name}}</label>
                                         <input type="file" value="" placeholder="Field Name" class="form-control input-flat specReq files" name="{{$file_name}}" multiple/>
@@ -119,13 +127,13 @@
                                         <input type="hidden" class="UUID" data="already" name="UUID[]" value="{{$app[0]->UUID}}"/>
                                       </div>
 
-                                  @foreach($app as $ap)
-                                    <?php 
-                                        $input_name = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_fieldname[]";
-                                        $single_name = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_single[]"; 
-                                        $input_name_id = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_fieldname";
-                                        $single_name_id = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_single"; 
-                                    ?>
+                                    @foreach($app as $ap)
+                                      <?php 
+                                          $input_name = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_fieldname[]";
+                                          $single_name = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_single[]"; 
+                                          $input_name_id = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_fieldname";
+                                          $single_name_id = $app[0]->UUID."-".$ap->sub_form_structure_id."sub_single"; 
+                                      ?>
                                       <div class="row">
                                         <div class="form-group col-12">
                                               <label class="col-form-label" for="name">{{$ap->fieldd->field_name}}</label>
@@ -214,8 +222,6 @@ $(document).ready(function() {
         });
         fileReader.readAsDataURL(f);
       }
-      // image_string = image_array.join(",")
-      // $(sss).val(image_string)
     });
   } else {
     alert("Your browser doesn't support to File API")
@@ -232,21 +238,25 @@ $('body').on('click', '#submit_app_data', function () {
       return $(this).val(uniq);
     })
     var formData = new FormData($("#content_edit")[0]);
-    $.ajax({
-            type: 'POST',
-            url: "{{ url('/contentt-update')}}/"+app_id,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                if(data.status == 200){
-                    toastr.success("Content Added",'Success',{timeOut: 5000})
-                    $("#content_edit")[0].reset()
-                }else{
-                    toastr.error("Please try again",'Error',{timeOut: 5000})
-                }
-            }
-    });
+    console.log(ValidateForm())
+    var validation = ValidateForm()
+    if(validation != false){
+      $.ajax({
+              type: 'POST',
+              url: "{{ url('/contentt-update')}}/"+app_id,
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(data) {
+                  if(data.status == 200){
+                      toastr.success("Content Added",'Success',{timeOut: 5000})
+                      $("#content_edit")[0].reset()
+                  }else{
+                      toastr.error("Please try again",'Error',{timeOut: 5000})
+                  }
+              }
+      });
+    }
 })
 // var uniqq = (new Date()).getTime()+"_"+1;
 // $(".UUID").val(uniqq);
@@ -258,6 +268,35 @@ $('body').on('click', '.copy_btn', function () {
 $('body').on('click', '.remove_btn', function () {
   var parent_ = $(this).parent().parent().remove();
 })
+
+function ValidateForm() {
+  var isFormValid = true;  
+  $("#content_edit input").each(function () { 
+      var only_id = "#"+$(this).attr("id");
+      if($(this).attr("id") != undefined && $(this).attr('data') != "multi"){
+        var FieldId = "span_" + $(this).attr("id");
+        var trim_val = $(only_id).attr('value');
+        if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
+          if ($.trim(trim_val).length == 0) {
+              $(this).addClass("highlight");
+              if ($("#" + FieldId).length == 0) {  
+                      $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
+              }  
+              if ($("#" + FieldId).css('display') == 'none'){  
+                  $("#" + FieldId).fadeIn(500);  
+              } 
+              isFormValid = false;  
+          }
+        }else{  
+            $(this).removeClass("highlight");  
+            if ($("#" + FieldId).length > 0) {  
+                $("#" + FieldId).fadeOut(1000);  
+            }  
+        }
+      }
+  })
+  return isFormValid;  
+}
 
 </script>
 @endpush('scripts')

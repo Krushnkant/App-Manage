@@ -31,6 +31,9 @@
 .sub_form {
     width: 100%;
 }
+span.error-display {
+    color: #f00;
+}
 </style>
 <div class="container-fluid mt-3">
     <div class="row justify-content-center custom-form-design">
@@ -69,22 +72,24 @@
                                   $input_name = $data->id."field_name";
                                   $file_name = $data->id."files[]"; 
                                   $single_name = $data->id."single[]"; 
+                                  $file_name_id = $data->id."files"; 
+                                  $single_name_id = $data->id."single"; 
                                 ?>
                                     @if($data->field_type == "text")
                                     <div class="form-group col-md-6">
                                         <label class="col-form-label" for="name">{{$data->field_name}}</label>
-                                        <input type="{{$data->field_type}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
+                                        <input type="{{$data->field_type}}" id="{{$input_name}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
                                     </div>
                                     @elseif($data->field_type == "file")
                                     <div class="form-group col-md-6">
                                         <label class="col-form-label" for="name">{{$data->field_name}}</label>
-                                        <input type="{{$data->field_type}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$single_name}}" />
+                                        <input type="{{$data->field_type}}" id="{{$single_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$single_name}}" />
                                     </div>
                                     @elseif($data->field_type == "multi-file")
                                     <div class="form-group col-md-6">
                                         <div class="field" align="left">
                                             <h3>Upload your images</h3>
-                                            <input type="file" class="files" id="files" name="{{$file_name}}" multiple />
+                                            <input type="file" class="files" id="{{$file_name_id}}" id="files" name="{{$file_name}}" multiple />
                                         </div>
                                     </div>
                                     @endif
@@ -125,6 +130,29 @@
                                       @endforeach
                                     </div>
                                   </div>
+                                  @foreach($sub_form as $dat)
+                                    <?php 
+                                      $input_name = $dat->id."subname[]"; 
+                                      $file_name = $dat->id."subfile[]"; 
+                                      $input_name_id = $dat->id."subname"; 
+                                      $file_name_id = $dat->id."subfile"; 
+                                      $uuid = $dat->id."uuid"; 
+                                    ?>
+                                    <!-- <input type="hidden" class="UUIDd" name="{{$uuid}}" value=""/> -->
+                                      @if($dat->field_type == "file")
+                                      <div class="form-group col-12">
+                                          <label class="col-form-label" for="name">{{$dat->field_name}}</label>
+                                          <input type="{{$dat->field_type}}" id="{{$file_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$file_name}}" />
+                                      </div>
+                                      @elseif($dat->field_type == "multi-file")
+                                      
+                                      @else
+                                      <div class="form-group col-12">
+                                          <label class="col-form-label" for="name">{{$dat->field_name}}</label>
+                                          <input type="{{$dat->field_type}}" id="{{$input_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
+                                      </div>
+                                      @endif
+                                  @endforeach
                                 </div>
                               </div>
                             </div>
@@ -210,21 +238,25 @@ $('body').on('click', '#submit_app_data', function () {
     })
 
     var formData = new FormData($("#content_add")[0]);
-    $.ajax({
-            type: 'POST',
-            url: "{{ route('app-data.store') }}",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                if(data.status == 200){
-                    toastr.success("Content Added",'Success',{timeOut: 5000})
-                    $("#content_add")[0].reset()
-                }else{
-                    toastr.error("Please try again",'Error',{timeOut: 5000})
-                }
-            }
-    });
+    console.log(ValidateForm())
+    var validation = ValidateForm()
+    if(validation != false){
+      $.ajax({
+              type: 'POST',
+              url: "{{ route('app-data.store') }}",
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(data) {
+                  if(data.status == 200){
+                      toastr.success("Content Added",'Success',{timeOut: 5000})
+                      $("#content_add")[0].reset()
+                  }else{
+                      toastr.error("Please try again",'Error',{timeOut: 5000})
+                  }
+              }
+      });
+    }
 })
 // var uniqq = (new Date()).getTime()+"_"+1;
 // $(".UUID").val(uniqq);
@@ -235,6 +267,30 @@ $('body').on('click', '.copy_btn', function () {
 $('body').on('click', '.remove_btn', function () {
   var parent_ = $(this).parent().parent().remove();
 })
+
+function ValidateForm() {
+  var isFormValid = true;  
+  $("#content_add input").each(function () { 
+    var FieldId = "span_" + $(this).attr("id");
+      if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
+          $(this).addClass("highlight");
+          console.log($("#" + FieldId)) 
+          if ($("#" + FieldId).length == 0) {  
+                  $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
+          }  
+          if ($("#" + FieldId).css('display') == 'none'){  
+              $("#" + FieldId).fadeIn(500);  
+          } 
+          isFormValid = false;  
+      }else{  
+          $(this).removeClass("highlight");  
+          if ($("#" + FieldId).length > 0) {  
+              $("#" + FieldId).fadeOut(1000);  
+          }  
+      }
+  })
+  return isFormValid;  
+}
 
 </script>
 @endpush('scripts')

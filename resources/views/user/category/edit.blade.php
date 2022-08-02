@@ -4,16 +4,19 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
 <style>
-        .dropzone {
-            background: #e3e6ff;
-            border-radius: 13px;
-            max-width: 550px;
-            margin-left: auto;
-            margin-right: auto;
-            border: 2px dotted #1833FF;
-            margin-top: 50px;
-        }
-    </style>
+    .dropzone {
+        background: #e3e6ff;
+        border-radius: 13px;
+        max-width: 550px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px dotted #1833FF;
+        margin-top: 50px;
+    }
+    span.error-display {
+        color: #f00;
+    }
+</style>
 <div class="container-fluid mt-3 custom-form-design">
     <div class="row justify-content-center">
         <div class="col-lg-12">
@@ -71,7 +74,8 @@
                                             @foreach($data->category as $d)
                                                 <?php 
                                                 $field_key = $d->id."_".$d->fields->id."_key[]"; 
-                                                $field_name = ""; 
+                                                $field_key_id = $d->id."_".$d->fields->id."_key"; 
+                                                $field_name_id = $d->id."_".$d->fields->id."_value"; 
                                                 ?>
                                                 <div class="row mb-3 position-relative align-items-center">
                                                     <div class="col-md-5 mb-3 mb-md-0">
@@ -146,39 +150,7 @@
         var app_id = $(this).attr('data-id');
         $("#cat_form").show();
     });
-    // $('#val-skill').change(function(){
-    //     var html = "";
-    //     var valuee = $(this).val()
-    //     var option = $('option:selected', this).attr('data-id');
-    //     var field_name = option+"field_value[]";
-    //     var field_key = option+"field_key[]";
-    //     var type = "text";
-    //     if(valuee == "textbox"){
-    //         type = "text";
-    //     }
-    //     if(valuee == "file"){
-    //         type = "file";
-    //     }
-    //     if(valuee == "multi-file"){
-    //         type = "file";
-    //     }
 
-    //     html += '<div class="row mb-2">'+
-    //                 '<div class="col-md-4">'+
-    //                     '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
-    //                 '</div>'+
-    //                 '<div class="col-md-4">'+
-    //                     '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
-    //                 '</div>'+
-    //                 '<div class="col-md-2">'+
-    //                     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
-    //                 '</div>'+
-    //                 '<div class="col-md-2">'+
-    //                     '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
-    //                 '</div>'+
-    //             '</div>';
-    //     $("#category_form").append(html);
-    // })
     $('body').on('click', '.plus_btn', function(){
         // var tthis = $(this).parent().parent();
         // var ddd = tthis.clone()
@@ -189,6 +161,8 @@
         var valuee = selected.attr('value')
         var field_name = option+"field_value[]";
         var field_key = option+"field_key[]";
+        var field_name_id = option+"field_value";
+        var field_key_id = option+"field_key";
 
         var type = "";
         if(valuee == "textbox"){
@@ -204,10 +178,10 @@
         if(type != ""){ 
             html += '<div class="row mb-3">'+
                             '<div class="col-md-5 mb-3 mb-md-0">'+
-                                '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
+                                '<input type="text" placeholder="" id="'+field_key_id+'" class="form-control input-flat" name="'+field_key+'" />'+
                             '</div>'+
                             '<div class="col-10 col-sm-10 col-md-5">'+
-                                '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
+                                '<input type="'+type+'" id="'+field_name_id+'" class="form-control input-flat" name="'+field_name+'" />'+
                             '</div>'+
                             // '<div class="col-md-2">'+
                             //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
@@ -220,11 +194,6 @@
         }
     })
 
-    // $('body').on('click', '.plus_btn', function(){
-    //     var tthis = $(this).parent().parent();
-    //     var ddd = tthis.clone()
-    //     $("#category_form").append(ddd);
-    // })
     $('body').on('click', '.minus_btn', function(){
         var tthis = $(this).parent().parent();
         var ddd = tthis.remove()
@@ -232,27 +201,9 @@
 
     $('body').on('click', '#submit_category', function () {
         var formData = new FormData($("#category_add")[0]);
-        // var url1 = '{{ Route("category.update", "id") }}';
-        var total_length = 0;
-        $("form#category_add :input").each(function(){
-            if($(this).val().length == 0){
-                if($(this).next().length != 0){
-                    total_length ++;
-                    $(this).next().text("This Field Is Required")
-                }
-            }else{
-                if($(this).next().length != 0){
-                    total_length ++;
-                }else{
-                    total_length ++;
-                }
-                
-                $(this).next().text("")
-                total_length --;
-            }
-        })
-        console.log(total_length)
-        if(total_length == 0){
+        var validation = ValidateForm()
+       
+        if(validation != false){
             $.ajax({
                     type: 'POST',
                     url: "{{ url('/category-update')}}/"+cat_id,
@@ -263,7 +214,7 @@
                         if(data.status == 200){
                             var app_id = "{{$id}}";
                             toastr.success("Category Update",'Success',{timeOut: 5000});
-                            window.location.href = "{{ url('category-add/'.$id)}}";
+                            window.location.href = "{{ url('category-add/'.$data->app_id)}}";
                             // $("#category_add")[0].reset()
                         }else{
                             toastr.error("Please try again",'Error',{timeOut: 5000})
@@ -272,6 +223,37 @@
             });
         }
     })
+
+    function ValidateForm() {
+        var isFormValid = true;  
+        $("#category_add input").each(function () { 
+            var only_id = "#"+$(this).attr("id");
+            if($(this).attr("id") != undefined){
+                // console.log($(this).attr('value'))
+                var FieldId = "span_" + $(this).attr("id");
+                var trim_val = $(only_id).attr('value');
+                if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
+                    if ($.trim(trim_val).length == 0) {
+                        $(this).addClass("highlight");
+                        if ($("#" + FieldId).length == 0) {  
+                                $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
+                        }  
+                        if ($("#" + FieldId).css('display') == 'none'){  
+                            $("#" + FieldId).fadeIn(500);  
+                        } 
+                        isFormValid = false; 
+                    } 
+                }else{  
+                    $(this).removeClass("highlight");  
+                    if ($("#" + FieldId).length > 0) {  
+                        $("#" + FieldId).fadeOut(1000);  
+                    }  
+                }
+            }
+        })
+        return isFormValid;  
+        // return false;  
+    }
 
 </script>
 @endpush('scripts')
