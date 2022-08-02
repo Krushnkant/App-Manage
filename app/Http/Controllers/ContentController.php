@@ -38,15 +38,15 @@ class ContentController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $uuid = Str::uuid();
-        // dd($data);
+        // $uuid = Str::random(30);
+        // dd($randomString);
         $field_names = (isset($data['field_name']) && $data['field_name']) ? $data['field_name'] : null;
         $sub_field_names = (isset($data['sub_field_name']) && $data['sub_field_name']) ? $data['sub_field_name'] : null;
 
         if($field_names != ""){
             foreach($field_names as $key => $field_name){
                 $FormStructures = new FormStructure();
-                $FormStructures->UUID = $uuid;
+                // $FormStructures->UUID = $uuid;
                 $FormStructures->application_id = $request->application_id;
                 $FormStructures->field_name = $field_name;
                 $FormStructures->field_type = $request->field_type[$key];
@@ -296,7 +296,8 @@ class ContentController extends Controller
             }
         }
         // return view('user.content.content_list', compact('id'));
-        // dd($get_app_data);
+        dd($get_app_data);
         // return datatables::of($get_app_data)->make(true);
     }
+
 }

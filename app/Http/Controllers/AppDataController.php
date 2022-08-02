@@ -38,6 +38,7 @@ class AppDataController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $randomString = Str::random(30);
         // dd($data);
         $application_id = (isset($data['application_id']) && $data['application_id']) ? $data['application_id'] : null;
         $category_id = (isset($data['category']) && $data['category']) ? $data['category'] : null;
@@ -49,6 +50,7 @@ class AppDataController extends Controller
                 $form_strcture = FormStructure::find($int_var);
                 if($form_strcture != null){
                     $app_data = new AppData();
+                    $app_data->UUID = $randomString;
                     $app_data->app_id = $application_id;
                     $app_data->category_id = $category_id;
                     $app_data->form_structure_id = $form_strcture->id;
@@ -65,6 +67,7 @@ class AppDataController extends Controller
                     $fff = $ddd->move(public_path().'/app_data_images/', $imageName);  
                     if($form_strcture != null){
                         $app_data = new AppData();
+                        $app_data->UUID = $randomString;
                         $app_data->app_id = $application_id;
                         $app_data->category_id = $category_id;
                         $app_data->form_structure_id = $form_strcture->id;
@@ -83,6 +86,7 @@ class AppDataController extends Controller
 
                 if($form_strcture != null){
                     $app_data = new AppData();
+                    $app_data->UUID = $randomString;
                     $app_data->app_id = $application_id;
                     $app_data->category_id = $category_id;
                     $app_data->form_structure_id = $form_strcture->id;
@@ -154,10 +158,10 @@ class AppDataController extends Controller
      * @param  \App\Models\AppData  $appData
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $uuid)
     {
         $application = ApplicationData::find($id);
-        $app_data = AppData::with('fieldd')->where('app_id', $id)->get();
+        $app_data = AppData::with('fieldd')->where('UUID', $uuid)->where('app_id', $id)->get();
         $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->get();
         $categories = Category::where('app_id', $id)->where('status', '1')->get();
         return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories'));

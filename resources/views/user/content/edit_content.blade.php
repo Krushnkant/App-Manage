@@ -41,6 +41,7 @@
                     <h4 class="card-title">Add Content</h4>
                         <form class="form-valide" action="" mathod="POST" id="content_edit" enctype="multipart/form-data">
                             <input type="hidden" name="app_id" value="{{$id}}" />
+                            <input type="hidden" name="UUID-main" value="{{$app_data[0]->UUID}}" />
                               @csrf
                               <div class="row">
                                 <div class="col-md-6">
