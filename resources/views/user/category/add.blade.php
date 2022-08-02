@@ -21,11 +21,11 @@
 <div class="container-fluid mt-3 add-form-part">
     <div class="row justify-content-center">
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Add Category Form</h4>
-                    <div class="row">
-                        <div class="col-xl-4">
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add Category Form</h4>
                             <div class="form-validation">
                                 <!-- {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }} -->
                                 <form class="form-valide form-validation-part custom-form-design" action="" mathod="POST" id="category_add" enctype="multipart/form-data">
@@ -91,7 +91,12 @@
                                 <!-- {{ Form::close() }} -->
                             </div>
                         </div>
-                        <div class="col-xl-8 table_detail_part px-0 px-xl-3">
+                    </div>
+                </div>
+                <div class="col-xl-8 table_detail_part px-0 px-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add Category Form</h4>
                             <div class="table-responsive">
                                 <table id="category_list" class="table zero-configuration customNewtable application_table table-child-part" style="width:100%">
                                     <thead>
