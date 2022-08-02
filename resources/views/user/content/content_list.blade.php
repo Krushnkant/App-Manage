@@ -121,6 +121,9 @@
     var urll = "{{asset('/app_data_images/')}}";
     function format(d) {
         var list;
+        var bunch = [];
+        var uniqueArray = [];
+        var newArray = [];
         $.each(d.app_data, function(i, item) {
             var ddd = '';
             if (/(jpg|gif|png)$/.test(item.value)){ 
@@ -129,20 +132,47 @@
             }else{
                 ddd += '<spa>'+item.value+'</span>';
             }
-            list += '<tr><td>'+item.field_name+'</td><td>'+ddd+'</td></tr>';
+            list += '<td>'+item.field_name+'</td><td>'+ddd+'</td>';
         });
         $.each(d.sub_app_data, function(i, item) {
-            var ddd = '';
-            if (/(jpg|gif|png)$/.test(item.value)){ 
-                var imgg = urll+"/"+item.value
-                ddd += '<img class="img_side" src="'+imgg+'">';
-            }else{
-                ddd += '<span>'+item.value+'</span>';
-            }
-            list += '<tr><td>'+item.field_name+'</td><td>'+ddd+'</td></tr>';
+            // var ddd = '';
+            // console.log(item.UUID)
+            bunch.push(item.UUID)
+            // if (/(jpg|gif|png)$/.test(item.value)){ 
+            //     var imgg = urll+"/"+item.value
+            //     ddd += '<img class="img_side" src="'+imgg+'">';
+            // }else{
+            //     ddd += '<span>'+item.value+'</span>';
+            // }
+            // list += '<tr><td>'+item.field_name+'</td><td>'+ddd+'</td></tr>';
         });
-        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">' +
-                '<ul class="d-none">'+list+'</ul></table>';
+        for(i=0; i < bunch.length; i++){
+            if(uniqueArray.indexOf(bunch[i]) === -1) {
+                uniqueArray.push(bunch[i]);
+            }
+        }
+        var html = "<table>";
+        for(i=0; i < uniqueArray.length; i++){
+            var sss = uniqueArray[i];
+            $.each(d.sub_app_data, function(i, item) {
+                if(item.UUID == sss){
+                    var ddd = '';
+                    if (/(jpg|gif|png)$/.test(item.value)){ 
+                        var imgg = urll+"/"+item.value
+                        ddd += '<img class="img_side" src="'+imgg+'">';
+                    }else{
+                        ddd += '<span>'+item.value+'</span>';
+                    }
+                    html += "<tr>"+
+                                "<td>"+item.field_name+"</td><td>"+ddd+"</td>"
+                            "</tr>";
+                    
+                }
+            })
+        }
+        html += "</table>";
+        // console.log(uniqueArray)
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">'+list+''+html+'</table>';
     }
 </script>
 @endpush('scripts')
