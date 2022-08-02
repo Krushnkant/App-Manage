@@ -21,15 +21,15 @@
                 <div class="card-body">
                     <h4 class="card-title">Category Edit Form</h4>
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-12 col-xl-5 category_edit_col">
                             <div class="form-validation">
                                 <!-- {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }} -->
                                 <form class="form-valide" action="" mathod="PUT" id="category_add" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="category_id" value="{{$data->id}}" />
-                                    <p class="error-display" style="display: none;"></p>
+                                    <p class="error-display mb-0" style="display: none;"></p>
                                     <input type="hidden" name="app_id" value="{{$data->app_id}}" />
-                                    <p class="error-display" style="display: none;"></p>
+                                    <p class="error-display mb-0" style="display: none;"></p>
                                     <div class="row">
                                         <div class="form-group col-12">
                                             <label class="col-form-label" for="name">Title: <span class="text-danger">*</span>
@@ -37,13 +37,13 @@
                                             <div class="row pl-3">
                                                 <div class="col-lg-8 p-0 mr-2 mb-3">
                                                     <input type="text" class="form-control" id="name" value="{{$data->title}}" name="name" placeholder="Application Name..">
-                                                    <p class="error-display"></p>
+                                                    <p class="error-display mb-0"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="form-group col-md-10">
+                                        <div class="form-group col-9 col-md-11">
                                             <div class="position-relative">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="arrow_selectbox" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="46" viewBox="0 0 46 46" fill="none">
                                                     <rect width="46" height="46" fill="url(#pattern0)"></rect>
@@ -62,7 +62,7 @@
                                                 </select>
                                                 </div>
                                         </div>
-                                        <div class="col-md-1 p-0 text-right">
+                                        <div class="col-3 pr-3 pl-sm-0 col-md-1 p-0 text-right">
                                             <div class="custome_fields"><button type="button" data-id="" class="plus_btn btn mb-1 btn-info field_btn">Add</button></div>
                                         </div>
                                     </div>
@@ -73,42 +73,42 @@
                                                 $field_key = $d->id."_".$d->fields->id."_key[]"; 
                                                 $field_name = ""; 
                                                 ?>
-                                                <div class="row mb-3 position-relative">
-                                                    <div class="col-md-5">
+                                                <div class="row mb-3 position-relative align-items-center">
+                                                    <div class="col-md-5 mb-3 mb-md-0">
                                                         <input type="text" placeholder="" value="{{$d->key}}" class="form-control input-flat" name="{{$field_key}}" />
-                                                        <p class="error-display"></p>
+                                                        <p class="error-display mb-0"></p>
                                                     </div>
                                                     @if($d->fields->type == "textbox")
                                                     <?php $field_name = $d->id."_".$d->fields->id."_value[]"; ?>
-                                                    <div class="col-md-5">
+                                                    <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
                                                         <input type="text" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
-                                                        <p class="error-display"></p>
+                                                        <p class="error-display mb-0"></p>
                                                     </div>
                                                     @elseif($d->fields->type == "file")
                                                     <?php $field_name = $d->id."_".$d->fields->id."_file[]"; ?>
-                                                    <div class="col-md-5">
+                                                    <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
                                                         <input type="file" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
-                                                        <p class="error-display" style="display: none;"></p>
+                                                        <p class="error-display mb-0" style="display: none;"></p>
                                                     </div>
                                                     @elseif($d->fields->type == "multi-file")
                                                     <?php $field_name = $d->id."_".$d->fields->id."_file[]"; ?>
-                                                    <div class="col-md-5">
+                                                    <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
                                                         <input type="file" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
-                                                        <p class="error-display" style="display: none;"></p>
+                                                        <p class="error-display mb-0" style="display: none;"></p>
                                                     </div>
                                                     @endif
                                                     <!-- <div class="col-md-2">
                                                         <button type="button" class="plus_btn btn mb-1 btn-primary">+</button>
                                                     </div> -->
-                                                    <div class="col-md-1 text-center">
+                                                    <div class="col-2 col-sm-1 col-md-1 mb-3 mb-md-0 text-center">
                                                         <button type="button" class="minus_btn btn mb-1 btn-dark p-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>
                                                     </div>
                                                     @if($d->fields->type == "file")
-                                                    <div class="col-md-1 img_class text-center">
+                                                    <div class="col-md-1 img_class text-start text-lg-center pl-md-0 pl-xl-3">
                                                         <img class="img_side" src="{{asset('category_image/'.$d->value)}}" >
                                                     </div>
                                                     @elseif($d->fields->type == "multi-file")
-                                                    <div class="col-md-1 img_class text-center">
+                                                    <div class="col-md-1 img_class text-start text-lg-center pl-md-0 pl-xl-3">
                                                         <img class="img_side" src="{{asset('category_image/'.$d->value)}}" >
                                                     </div>
                                                     @endif
@@ -202,18 +202,18 @@
         }
 
         if(type != ""){ 
-            html += '<div class="row mb-2">'+
-                            '<div class="col-md-5">'+
+            html += '<div class="row mb-3">'+
+                            '<div class="col-md-5 mb-3 mb-md-0">'+
                                 '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
                             '</div>'+
-                            '<div class="col-md-5">'+
+                            '<div class="col-10 col-sm-10 col-md-5">'+
                                 '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
                             '</div>'+
                             // '<div class="col-md-2">'+
                             //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
                             // '</div>'+
-                            '<div class="col-md-2 text-center">'+
-                                '<button type="button" class="minus_btn btn mb-1 btn-dark"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
+                            '<div class="col-2 col-sm-2 col-md-1 text-center">'+
+                                '<button type="button" class="minus_btn btn p-0 btn-dark"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
                             '</div>'+
                         '</div>';
                 $("#category_form").append(html);
