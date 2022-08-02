@@ -245,11 +245,16 @@ class ContentController extends Controller
 
     public function addstructure($id)
     {
+        $is_sub = 0;
         $fields = Field::where('estatus', 1)->get();
         $already = FormStructure::with('sub_form')->where('application_id', $id)->get();
+        $is_sub = FormStructure::where('application_id', $id)->where('field_type', 'sub-form')->first();
+        if($is_sub != null){
+            $is_sub = 1;
+        }
         $is_form = FormStructure::where('application_id', $id)->first();
         if($is_form != null){
-            return view('user.content.edit', compact('id', 'fields', 'already'));
+            return view('user.content.edit', compact('id', 'fields', 'already', 'is_sub'));
         }else{
             return view('user.content.add', compact('id', 'fields'));
         }
