@@ -110,7 +110,7 @@
         if(d.is_category == 1){
             cat_list +="<tr><tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left'>"+cat_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table mb-4'>"+
+                        "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -140,7 +140,7 @@
                         
                         "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table mb-4'>"+
+                        "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -177,7 +177,7 @@
                         
                         "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table'>"+
+                        "<table class='w-100 child-inner-table mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -221,7 +221,7 @@
         }else{
             cat_list +="<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table'>"+
+                        "<table class='w-100 child-inner-table mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -258,7 +258,7 @@
                         
                         "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table'>"+
+                        "<table class='w-100 child-inner-table mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+

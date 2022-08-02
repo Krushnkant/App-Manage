@@ -20958,7 +20958,7 @@ input[type="file"] {
 
 .table_detail_part .application_text {
     font-weight: 400;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 20px;
     color: #000000;
     text-transform: capitalize;
@@ -20966,7 +20966,7 @@ input[type="file"] {
 
 .table_detail_part .date_part {
     font-weight: 400;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 20px;
     color: #000000;
 }
@@ -20984,7 +20984,7 @@ input[type="file"] {
 }
 
 .table_detail_part .total_request_text {
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .table_detail_part .active_status {
@@ -21248,6 +21248,12 @@ input[type="file"] {
     outline: 0;
     border: 0;
     background: transparent;
+}
+
+#child_row tr {
+    margin-top: 10px;
+    display: block;
+    min-height: auto;
 }
 
 @media (max-width:1600px) {
