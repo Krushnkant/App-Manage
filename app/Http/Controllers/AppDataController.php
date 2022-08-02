@@ -43,6 +43,7 @@ class AppDataController extends Controller
         $application_id = (isset($data['application_id']) && $data['application_id']) ? $data['application_id'] : null;
         $category_id = (isset($data['category']) && $data['category']) ? $data['category'] : null;
         $uuid = $data['UUID'];
+        $main_uuid = "";
         
         foreach($data as $key => $d){
             if (strpos($key, "field_name") !== false) {
@@ -56,6 +57,8 @@ class AppDataController extends Controller
                     $app_data->form_structure_id = $form_strcture->id;
                     $app_data->value = $d;
                     $app_data->save();
+
+                    $main_uuid = $app_data->UUID;
                 }
                 unset($data[$key]);
             }
@@ -100,6 +103,7 @@ class AppDataController extends Controller
         unset($data['application_id']);
         $Uuid = $data['UUID'];
 
+        // dd($main_uuid);
         foreach($data as $key => $d){
             if (strpos($key, "subname") !== false) {
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
@@ -109,6 +113,7 @@ class AppDataController extends Controller
                         $app_data = new SubAppData();
                         $app_data->app_id = $application_id;
                         $app_data->category_id = $category_id;
+                        $app_data->app_uuid = $main_uuid;
                         $app_data->UUID = $Uuid[$k];
                         $app_data->sub_form_structure_id = $sub_form_strcture->id;
                         $app_data->value = $fff;
@@ -129,6 +134,7 @@ class AppDataController extends Controller
                         $app_data = new SubAppData();
                         $app_data->app_id = $application_id;
                         $app_data->category_id = $category_id;
+                        $app_data->app_uuid = $main_uuid;
                         $app_data->UUID = $Uuid[$k];
                         $app_data->sub_form_structure_id = $sub_form_strcture->id;
                         $app_data->value = $result;
