@@ -110,6 +110,7 @@ $(document).ready(function() {
             type = "multi-file";
         }else if(valuee == "sub-form"){
             type = "sub-form";
+            $('#field option').prop('disabled', true);
         }else{
             type = ""
         }
