@@ -27,7 +27,9 @@
                                 <form class="form-valide" action="" mathod="PUT" id="category_add" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="category_id" value="{{$data->id}}" />
+                                    <p class="error-display" style="display: none;"></p>
                                     <input type="hidden" name="app_id" value="{{$data->app_id}}" />
+                                    <p class="error-display" style="display: none;"></p>
                                     <div class="row">
                                         <div class="form-group col-12">
                                             <label class="col-form-label" for="name">Title: <span class="text-danger">*</span>
@@ -35,10 +37,8 @@
                                             <div class="row pl-3">
                                                 <div class="col-lg-8 p-0 mr-2">
                                                     <input type="text" class="form-control" id="name" value="{{$data->title}}" name="name" placeholder="Application Name..">
+                                                    <p class="error-display"></p>
                                                 </div>
-                                                <!-- <div class="col-lg-3 p-0">
-                                                    <div class="custome_fields"><button type="button" data-id="" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
-                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -50,9 +50,12 @@
                                                     <option data-id="{{$field->id}}" value="{{$field->type}}">{{$field->title}}</option>
                                                 @endforeach
                                             </select>
+                                            <p class="error-display" style="display: none;"></p>
                                         </div>
                                         <div class="col-lg-3 p-0">
-                                            <div class="custome_fields"><button type="button" data-id="" class="plus_btn btn mb-1 btn-info field_btn">Add</button></div>
+                                            <div class="custome_fields">
+                                                <button type="button" data-id="" class="plus_btn btn mb-1 btn-info field_btn">Add</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -65,30 +68,30 @@
                                                 <div class="row mb-2 position-relative">
                                                     <div class="col-md-4">
                                                         <input type="text" placeholder="" value="{{$d->key}}" class="form-control input-flat" name="{{$field_key}}" />
+                                                        <p class="error-display"></p>
                                                     </div>
                                                     @if($d->fields->type == "textbox")
                                                     <?php $field_name = $d->id."_".$d->fields->id."_value[]"; ?>
                                                     <div class="col-md-4">
                                                         <input type="text" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
+                                                        <p class="error-display"></p>
                                                     </div>
                                                     @elseif($d->fields->type == "file")
                                                     <?php $field_name = $d->id."_".$d->fields->id."_file[]"; ?>
                                                     <div class="col-md-4">
                                                         <input type="file" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
+                                                        <p class="error-display" style="display: none;"></p>
                                                     </div>
                                                     @elseif($d->fields->type == "multi-file")
                                                     <?php $field_name = $d->id."_".$d->fields->id."_file[]"; ?>
                                                     <div class="col-md-4">
                                                         <input type="file" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
+                                                        <p class="error-display" style="display: none;"></p>
                                                     </div>
                                                     @endif
-                                                    <!-- <div class="col-md-2">
-                                                        <button type="button" class="plus_btn btn mb-1 btn-primary">+</button>
-                                                    </div> -->
                                                     <div class="col-md-2">
                                                         <button type="button" class="minus_btn btn mb-1 btn-dark">-</button>
                                                     </div>
-
                                                     @if($d->fields->type == "file")
                                                     <div class="img_class">
                                                         <img class="img_side" src="{{asset('category_image/'.$d->value)}}" >
@@ -112,26 +115,6 @@
                                 </form>
                                 <!-- {{ Form::close() }} -->
                             </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="table-responsive">
-                                <!-- <table id="category_list" class="table zero-configuration customNewtable application_table" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>App Id</th>
-                                            <th>Title</th>
-                                            <th>Key</th>
-                                            <th>Value</th>
-                                            <th>status</th>
-                                            <th>Date</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table> -->
-                            </div> 
                         </div>
                     </div>
                 </div>
@@ -193,43 +176,43 @@
         var selected = $('#val-skill option:selected');
         var option = selected.attr('data-id')
         var valuee = selected.attr('value')
-        // console.log(selected.text())
         var field_name = option+"field_value[]";
         var field_key = option+"field_key[]";
 
-        var type = "text";
+        var type = "";
         if(valuee == "textbox"){
             type = "text";
-        }
-        if(valuee == "file"){
+        }else if(valuee == "file"){
             type = "file";
-        }
-        if(valuee == "multi-file"){
+        }else if(valuee == "multi-file"){
             type = "file";
+        }else{
+            type = ""
         }
 
-        html += '<div class="row mb-2">'+
-                    '<div class="col-md-4">'+
-                        '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
-                    '</div>'+
-                    '<div class="col-md-4">'+
-                        '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
-                    '</div>'+
-                    // '<div class="col-md-2">'+
-                    //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
-                    // '</div>'+
-                    '<div class="col-md-2">'+
-                        '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
-                    '</div>'+
-                '</div>';
-        $("#category_form").append(html);
+        if(type != ""){
+            html += '<div class="row mb-2">'+
+                        '<div class="col-md-4">'+
+                            '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
+                            '<p class="error-display"></p>'+
+                        '</div>'+
+                        '<div class="col-md-4">'+
+                            '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
+                            '<p class="error-display"></p>'+
+                        '</div>'+
+                        '<div class="col-md-2">'+
+                            '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
+                        '</div>'+
+                    '</div>';
+            $("#category_form").append(html);
+        }
     })
 
-    $('body').on('click', '.plus_btn', function(){
-        var tthis = $(this).parent().parent();
-        var ddd = tthis.clone()
-        $("#category_form").append(ddd);
-    })
+    // $('body').on('click', '.plus_btn', function(){
+    //     var tthis = $(this).parent().parent();
+    //     var ddd = tthis.clone()
+    //     $("#category_form").append(ddd);
+    // })
     $('body').on('click', '.minus_btn', function(){
         var tthis = $(this).parent().parent();
         var ddd = tthis.remove()
@@ -238,87 +221,45 @@
     $('body').on('click', '#submit_category', function () {
         var formData = new FormData($("#category_add")[0]);
         // var url1 = '{{ Route("category.update", "id") }}';
-        
-        $.ajax({
-                type: 'POST',
-                url: "{{ url('/category-update')}}/"+cat_id,
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    if(data.status == 200){
-                        toastr.success("success")
-                        // $("#category_add")[0].reset()
-                    }else{
-                        toastr.error("error")
-                    }
+        var total_length = 0;
+        $("form#category_add :input").each(function(){
+            if($(this).val().length == 0){
+                if($(this).next().length != 0){
+                    total_length ++;
+                    $(this).next().text("This Field Is Required")
                 }
-        });
-    })
-
-    $(document).ready(function() {
-        // $('#category_list').DataTable({
-        //     "destroy": true,
-        //     "processing": true,
-        //     "serverSide": true,
-        //     "ajax":{
-        //         "url": "{{ url('/category-list') }}",
-        //         "dataType": "json",
-        //         "type": "POST",
-        //         "data":{ _token: '{{ csrf_token() }}'},
-        //     },
-        //     'columnDefs': [
-        //         { "width": "", "targets": 0 },
-        //         { "width": "", "targets": 1 },
-        //         { "width": "", "targets": 2 },
-        //         { "width": "", "targets": 3 },
-        //         { "width": "", "targets": 4 },
-        //         { "width": "", "targets": 5 },
-        //         { "width": "", "targets": 6 },
-        //         { "width": "", "targets": 7 },
-        //     ],
-        //     "columns": [
-        //         {data: 'id', name: 'id', class: "text-center", orderable: false,
-        //             render: function (data, type, row, meta) {
-        //                 return meta.row + meta.settings._iDisplayStart + 1;
-        //             }
-        //         },
-        //         {data: 'app_id', name: 'app_id', class: "text-center", orderable: false,
-        //             render: function (data, type, row) {
-        //                 // console.log(row.application.name)
-        //                 return row.application.name;
-        //             }
-        //         },
-        //         // {data: 'app_id', name: 'app_id', orderable: false, searchable: false, class: "text-center"},
-        //         // {data: 'title', name: 'title', orderable: false, searchable: false, class: "text-center"},
-        //         {data: 'title', name: 'title', class: "text-center", orderable: false,
-        //             render: function (data, type, row) {
-        //                 // console.log(row.application.name)
-        //                 return row.category.title;
-        //             }
-        //         },
-        //         {data: 'key', name: 'key', orderable: false, searchable: false, class: "text-center"},
-        //         {data: 'value', name: 'value', orderable: false, searchable: false, class: "text-center"},
-        //         {data: 'status', name: 'status', orderable: false, searchable: false, class: "text-center"},
-        //         {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
-        //         // {data: 'action', name: 'action', orderable: false, searchable: false, class: "text-center"},
-        //         {
-        //             "mData": "action",
-        //             "mRender": function (data, type, row) {
-
-        //                 var url1 = '{{ Route("category.edit", "id") }}';
-        //                 url1 = url1.replace('id', row.id);
-        //                 var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
-        //                 var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
-
-        //                 return "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
-        //                     "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='"
-        //                     +row.id+"' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
-        //             }
-        //         }
+            }else{
+                if($(this).next().length != 0){
+                    total_length ++;
+                }else{
+                    total_length ++;
+                }
                 
-        //     ]
-        // });
+                $(this).next().text("")
+                total_length --;
+            }
+        })
+        console.log(total_length)
+        if(total_length == 0){
+            $.ajax({
+                    type: 'POST',
+                    url: "{{ url('/category-update')}}/"+cat_id,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if(data.status == 200){
+                            var app_id = "{{$id}}";
+                            toastr.success("Category Update",'Success',{timeOut: 5000});
+                            window.location.href = "{{ url('category-add/'.$id)}}";
+                            // $("#category_add")[0].reset()
+                        }else{
+                            toastr.error("Please try again",'Error',{timeOut: 5000})
+                        }
+                    }
+            });
+        }
     })
+
 </script>
 @endpush('scripts')

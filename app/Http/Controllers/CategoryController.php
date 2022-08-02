@@ -119,7 +119,7 @@ class CategoryController extends Controller
             $query->with('fields');
         }])->where('id', $id)->first();
         $fields = Field::where('estatus', 1)->get();
-        return view('user.category.edit', compact('data','fields'));
+        return view('user.category.edit', compact('data','fields','id'));
         // dd($get_category);
     }
 
