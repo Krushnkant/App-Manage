@@ -41,9 +41,7 @@
                                                     <input type="text" class="form-control" id="name" name="name" placeholder="Category Title.." required>
                                                     <p class="error-display"></p>
                                                 </div>
-                                                <!-- <div class="col-lg-3 p-0">
-                                                    <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
-                                                </div> -->
+
                                             </div>
                                         </div>
                                     </div>
@@ -211,9 +209,8 @@
         }else{
             type = ""
         }
-
-if(type != ""){       
-            html += '<div class="row mb-3 align-items-center">'+
+        if(type != ""){       
+                    html += '<div class="row mb-3 align-items-center">'+
                     '<div class="col-12 col-sm-5 pr-0 px-0 pl-sm-3 mb-3 mb-sm-0">'+
                         '<input type="text" placeholder="title" class="form-control input-flat" name="'+field_key+'" />'+
                         '<p class="error-display"></p>'+    

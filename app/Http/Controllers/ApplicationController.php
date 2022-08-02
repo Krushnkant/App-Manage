@@ -8,6 +8,7 @@ use App\Models\ {ApplicationData, Category, FormStructure};
 // use DataTables;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ApplicationController extends Controller
 {
@@ -47,6 +48,7 @@ class ApplicationController extends Controller
             $public_path = asset('app_icons/');
             $result = Helpers::UploadImage($data['icon'], $path);
             $data['icon'] = $result;
+            $data['token'] = Str::random(20);
         }
         $app_data = ApplicationData::Create($data);
         if($app_data != null){
@@ -62,7 +64,7 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-        dd("show");
+    
         // return view('user.edit_application');
     }
 
@@ -143,14 +145,23 @@ class ApplicationController extends Controller
     public function ApplicationList(Request $request)
     {
         $request1 = $request->all();
-        $data = ApplicationData::where('status', '1')->get();
-        // if (isset($request1['start_date'])) {
-        //     $startdate = Carbon::parse($request1['start_date'])->format('Y-m-d H:i:s');
-        //     $enddate = Carbon::parse($request1['end_date'])->format('Y-m-d H:i:s');
-        //     $ddata = ApplicationData::whereBetween('created_at', [$startdate, $enddate])->get();
-        // } else {
-        //     $ddata = ApplicationData::get();
-        // }
+        
+        $tab_type = $request->tab_type;
+        if ($tab_type == "active_application_tab"){
+            $status = 1;
+        }
+        elseif ($tab_type == "deactive_application_tab"){
+            $status = 0;
+        }
+
+        
+
+        $data = ApplicationData::get();
+        if (isset($status)){
+            $s = (string) $status;
+            $data = ApplicationData::where('status',$s)->get();
+        }
+        
         foreach($data as $d){
             $d->start_date = $d->created_at->format('d M Y');
             $is_category = Category::where('app_id', $d->id)->where('status', '1')->first();
@@ -178,5 +189,19 @@ class ApplicationController extends Controller
             $d->start_date = $d->created_at->format('d M Y');
         }
         return datatables::of($data)->make(true);
+    }
+
+    public function chageapplicationstatus($id){
+        $application = ApplicationData::find($id);
+        if ($application->status== '1'){
+            $application->status = '0';
+            $application->save();
+            return response()->json(['status' => '200','action' =>'deactive']);
+        }
+        if ($application->status== '0'){
+            $application->status = '1';
+            $application->save();
+            return response()->json(['status' => '200','action' =>'active']);
+        }
     }
 }
