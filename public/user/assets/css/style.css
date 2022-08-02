@@ -10532,6 +10532,11 @@ sub {
 .footer {
     padding-left: 15.1875rem;
     background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-top: 20px;
+    width: 100%;
 }
 
 .footer .copyright {
@@ -11468,7 +11473,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 .nk-sidebar .metismenu a:active,
 .nk-sidebar .metismenu a.active {
     text-decoration: none;
-    background-color: #F3F1FA;
+    background-color: #dce9f5 !important;
 }
 
 .nk-sidebar .metismenu .has-arrow:after {
@@ -19505,7 +19510,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 [data-nav-headerbg="color_1"] .nav-header {
-    background-color: #7571f9;
+    background-color: var(--primary);
 }
 
 [data-nav-headerbg="color_2"] .nav-header {
@@ -20904,6 +20909,10 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     border-radius: 10px;
 }
 
+.error-display {
+    margin-bottom: 0;
+}
+
 
 /* ----------------------------------------------------------------------------------------- */
 
@@ -20937,9 +20946,10 @@ input[type="file"] {
     text-transform: capitalize;
 }
 
-.table_detail_part thead th {
+
+/* .table_detail_part thead th {
     width: auto !important;
-}
+} */
 
 .table_detail_part .set_img {
     width: 24px;
@@ -21078,7 +21088,7 @@ input[type="file"] {
 
 .table_detail_part .application_table thead th,
 .table_detail_part .application_table tbody td {
-    text-align: center;
+    text-align: left !important;
 }
 
 .table_detail_part .application_table #child_row tbody td {
@@ -21303,7 +21313,7 @@ input[type="file"] {
 }
 
 .content-body {
-    min-height: calc(100vh - 148px) !important;
+    min-height: calc(100vh - 94px) !important;
 }
 
 @media (max-width:1199px) {
@@ -21336,6 +21346,13 @@ input[type="file"] {
     }
 }
 
+@media (min-width:1200px) and (max-width:1400px) {
+    .category_edit_col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
 
 /* .img_class {
     position: absolute;
@@ -21344,6 +21361,7 @@ input[type="file"] {
 } */
 
 .img_side {
+    min-width: 45px;
     width: 45px;
     height: 45px;
     object-fit: cover;
@@ -21374,6 +21392,7 @@ input[type="file"] {
     color: rgb(40, 40, 40);
     background-color: #fff;
     margin: 5px 0px 15px;
+    text-transform: lowercase;
 }
 
 .table_detail_part .application_table #child_row tbody td {

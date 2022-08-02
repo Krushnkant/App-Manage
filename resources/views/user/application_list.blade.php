@@ -110,7 +110,7 @@
         if(d.is_category == 1){
             cat_list +="<tr><tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left'>"+cat_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table'>"+
+                        "<table class='w-100 child-inner-table mb-4'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -138,9 +138,9 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table'>"+
+                        "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
+                        "<table class='w-100 child-inner-table mb-4'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -175,8 +175,8 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -219,8 +219,8 @@
                             "</tbody>"+
                         "</table></tr>";
         }else{
-            cat_list +="<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
+            cat_list +="<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -256,8 +256,8 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -349,15 +349,16 @@
                 "data":{ _token: '{{ csrf_token() }}',tab_type: tab_type},
             },
             'columnDefs': [
-                { "width": "", "targets": 0 },
-                { "width": "", "targets": 1 },
-                { "width": "", "targets": 2 },
-                { "width": "", "targets": 3 },
-                { "width": "", "targets": 4 },
-                { "width": "", "targets": 5 },
-                { "width": "", "targets": 6 },
-                { "width": "", "targets": 7 },
-                // { "width": "", "targets": 8 },
+                { "width": "5%", "targets": 0 },
+                { "width": "5%", "targets": 1 },
+                { "width": "13%", "targets": 2 },
+                { "width": "10%", "targets": 3 },
+                { "width": "10%", "targets": 4 },
+                { "width": "10%", "targets": 5 },
+                { "width": "7%", "targets": 6 },
+                { "width": "10%", "targets": 7 },
+                { "width": "20%", "targets": 8 },
+                { "width": "10%", "targets": 9 },
             ],
             "columns": [
                 {

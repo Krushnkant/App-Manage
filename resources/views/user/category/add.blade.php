@@ -313,11 +313,11 @@
                 "data":{ _token: '{{ csrf_token() }}', app_id: app_id},
             },
             "columnDefs": [
-                { "width": "", "targets": 0 },
-                { "width": "", "targets": 1 },
-                { "width": "", "targets": 2 },
-                { "width": "", "targets": 3 },
-                // { "width": "", "targets": 4 },
+                { "width": "15%", "targets": 0 },
+                { "width": "15%", "targets": 1 },
+                { "width": "25%", "targets": 2 },
+                { "width": "25%", "targets": 3 },
+                { "width": "20%", "targets": 4 },
             ],
             "columns": [
                 {

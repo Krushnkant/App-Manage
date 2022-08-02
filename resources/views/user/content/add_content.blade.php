@@ -94,7 +94,7 @@
                             <div class="sub_form">
                               <div class="row sub_form_row">
                                 <div class="col-md-6 mb-4">
-                                  <div class="form-validation-part py-4">
+                                  <div class="form-validation-part p-3 p-sm-4 p-md-3 p-lg-4">
                                     <div class="cp_btn d-flex justify-content-between">
                                       <button class="btn btn-secondary text-white copy_btn" id="cp_btn" type="button">Copy</button>
                                       <button class="text-white remove_btn" id="cp_btn" type="button">
