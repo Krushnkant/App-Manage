@@ -50,7 +50,9 @@
                                                         @foreach($fields as $field)
                                                             <option value="{{$field->type}}">{{$field->title}}</option>
                                                         @endforeach
-                                                        <!-- <option value="sub-form">Sub Form</option> -->
+                                                        @if($is_sub == 0)
+                                                            <option value="sub-form">Sub Form</option>
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>
