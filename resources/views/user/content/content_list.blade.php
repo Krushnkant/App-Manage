@@ -66,17 +66,19 @@
                 },
                 {data: 'app_id', name: 'app_id', class: "text-center", orderable: false,
                     render: function (data, type, row) {
+                        // console.log(row.application.name)
                         return "<div><span class='application_text app_id_part total_request_text'>"+row.application.name+"</span></div>";
                     }
                 },
                 {data: 'category_id', name: 'category_id', class: "text-center", orderable: false,
                     render: function (data, type, row) {
-                        console.log(row.category?.title)
-                        // return "<div><span class='application_text app_id_part total_request_text'>"+row.category?.title+"</span></div>";
+                        // console.log(row.category?.title)
+                        return "<div><span class='application_text app_id_part total_request_text'>"+row.category?.title+"</span></div>";
                     }
                 },
                 {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,
                     render: function (data, type, row) {
+                        // console.log(row)
                         // var date = my_date_format(row.start_date);
                         // console.log(date)
                         return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
@@ -100,20 +102,47 @@
             ],
             "order": [[1, 'asc']],
         });
-        // $('#content_list tbody').on('click', 'td.dt-control', function () {
-        //     var tr = $(this).closest('tr');
-        //     var row = table.row(tr);
+        $('#content_list tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
     
-        //     if (row.child.isShown()) {
-        //         // This row is already open - close it
-        //         row.child.hide();
-        //         tr.removeClass('shown');
-        //     } else {
-        //         // Open this row
-        //         row.child(format(row.data())).show();
-        //         tr.addClass('shown');
-        //     }
-        // });
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
     })
+
+    var urll = "{{asset('/app_data_images/')}}";
+    function format(d) {
+        var list;
+        $.each(d.app_data, function(i, item) {
+            var ddd = '';
+            if (/(jpg|gif|png)$/.test(item.value)){ 
+                var imgg = urll+"/"+item.value
+                ddd += '<img class="img_side" src="'+imgg+'">';
+            }else{
+                ddd += '<spa>'+item.value+'</span>';
+            }
+            list += '<tr><td>'+item.field_name+'</td><td>'+ddd+'</td></tr>';
+        });
+        $.each(d.sub_app_data, function(i, item) {
+            var ddd = '';
+            if (/(jpg|gif|png)$/.test(item.value)){ 
+                var imgg = urll+"/"+item.value
+                ddd += '<img class="img_side" src="'+imgg+'">';
+            }else{
+                ddd += '<span>'+item.value+'</span>';
+            }
+            list += '<tr><td>'+item.field_name+'</td><td>'+ddd+'</td></tr>';
+        });
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">' +
+                '<ul class="d-none">'+list+'</ul></table>';
+    }
 </script>
 @endpush('scripts')

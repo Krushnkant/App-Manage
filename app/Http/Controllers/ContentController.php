@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Field,FormStructure,SubformStructure, Category, ApplicationData, AppData};
+use App\Models\{Field,FormStructure,SubformStructure, Category, ApplicationData, AppData, SubAppData};
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
 
@@ -271,38 +271,71 @@ class ContentController extends Controller
     public function ContentList(Request $request, $id)
     {
         $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
-        $get_app_data = AppData::with('category','application')->select("*")
+        // $get_app_data = AppData::with('category','application')->select("*")
+        //                 ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
+        //                 ->where("app_id", $id)
+        //                 ->where("status", 1)
+        //                 ->get()
+        //                 ->groupBy('UUID');
+        // foreach($get_app_data as $d){
+        //     foreach($d as $rr){
+        //         $rr->start_date = $rr->created_at->format('d M Y');
+        //     }
+        // }
+        $get_uuid = AppData::with('category','application')->groupBy('UUID')->get();
+        foreach($get_uuid as $gett){
+            // dump($get->UUID);
+            $get_app_data = AppData::with('category','application')->select("*")
                         ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
-                        ->where("app_id", $id)
+                        ->where("UUID", $gett->UUID)
                         ->where("status", 1)
-                        ->get()
-                        ->groupBy('UUID');
-        foreach($get_app_data as $d){
-            foreach($d as $rr){
-                $rr->start_date = $rr->created_at->format('d M Y');
-            }
+                        ->get();
+            $gett->app_data = $get_app_data;
+            $form_structure = SubAppData::select("*")
+                    ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
+                    ->where("app_uuid",  $gett->UUID)
+                    ->where("status", 1)
+                    ->get();
+            $gett->sub_app_data = $form_structure;
         }
-        return view('user.content.content_list', compact('id','get_app_data'));
+        // print_r($get_uuid);
+        return view('user.content.content_list', compact('id'));
     }
 
     public function ContentGetList(Request $request, $id)
     {
        $data = $request->all();
        $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
-       $get_app_data = AppData::with('category','application')->select("*")
-                    ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
-                    ->where("app_id", $id)
-                    ->where("status", 1)
-                    ->get()
-                    ->groupBy('UUID');
-        foreach($get_app_data as $d){
-            foreach($d as $rr){
-                $rr->start_date = $rr->created_at->format('d M Y');
+    //    $get_app_data = AppData::with('category','application')->select("*")
+    //                 ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
+    //                 ->where("app_id", $id)
+    //                 ->where("status", 1)
+    //                 ->get()
+    //                 ->groupBy('UUID');
+    //     foreach($get_app_data as $d){
+    //         foreach($d as $rr){
+    //             $rr->start_date = $rr->created_at->format('d M Y');
+    //         }
+    //     }
+        $get_uuid = AppData::with('category','application')->groupBy('UUID')->get();
+            foreach($get_uuid as $gett){
+                $get_app_data = AppData::with('category','application')->select("*")
+                            ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
+                            ->where("UUID", $gett->UUID)
+                            ->where("status", 1)
+                            ->get();
+                $gett->app_data = $get_app_data;
+                $form_structure = SubAppData::select("*")
+                        ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
+                        ->where("app_uuid",  $gett->UUID)
+                        ->where("status", 1)
+                        ->get();
+                $gett->sub_app_data = $form_structure;
+                $gett->start_date = $gett->created_at->format('d M Y');
             }
-        }
-        // return view('user.content.content_list', compact('id'));
-        dd($get_app_data);
-        // return datatables::of($get_app_data)->make(true);
+        // return view('user.content.content_list', compact('id','get_uuid'));
+        // dd($get_app_data);
+        return datatables::of($get_uuid)->make(true);
     }
 
 }

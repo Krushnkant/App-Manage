@@ -112,47 +112,27 @@ span.error-display {
                                         <?php 
                                           $input_name = $dat->id."subname[]"; 
                                           $file_name = $dat->id."subfile[]"; 
+                                          $input_name_id = $dat->id."subname"; 
+                                          $file_name_id = $dat->id."subfile"; 
                                           $uuid = $dat->id."uuid"; 
                                         ?>
                                           @if($dat->field_type == "file")
                                           <div class="form-group col-12">
                                               <label class="col-form-label" for="name">{{$dat->field_name}}</label>
-                                              <input type="{{$dat->field_type}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$file_name}}" />
+                                              <input type="{{$dat->field_type}}"  id="{{$file_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$file_name}}" />
                                           </div>
                                           @elseif($dat->field_type == "multi-file")
                                           
                                           @else
                                           <div class="form-group col-12">
                                               <label class="col-form-label" for="name">{{$dat->field_name}}</label>
-                                              <input type="{{$dat->field_type}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
+                                              <input type="{{$dat->field_type}}" id="{{$input_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
                                           </div>
                                           @endif
                                       @endforeach
                                     </div>
                                   </div>
-                                  @foreach($sub_form as $dat)
-                                    <?php 
-                                      $input_name = $dat->id."subname[]"; 
-                                      $file_name = $dat->id."subfile[]"; 
-                                      $input_name_id = $dat->id."subname"; 
-                                      $file_name_id = $dat->id."subfile"; 
-                                      $uuid = $dat->id."uuid"; 
-                                    ?>
-                                    <!-- <input type="hidden" class="UUIDd" name="{{$uuid}}" value=""/> -->
-                                      @if($dat->field_type == "file")
-                                      <div class="form-group col-12">
-                                          <label class="col-form-label" for="name">{{$dat->field_name}}</label>
-                                          <input type="{{$dat->field_type}}" id="{{$file_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$file_name}}" />
-                                      </div>
-                                      @elseif($dat->field_type == "multi-file")
-                                      
-                                      @else
-                                      <div class="form-group col-12">
-                                          <label class="col-form-label" for="name">{{$dat->field_name}}</label>
-                                          <input type="{{$dat->field_type}}" id="{{$input_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
-                                      </div>
-                                      @endif
-                                  @endforeach
+                                 
                                 </div>
                               </div>
                             </div>
@@ -238,7 +218,7 @@ $('body').on('click', '#submit_app_data', function () {
     })
 
     var formData = new FormData($("#content_add")[0]);
-    console.log(ValidateForm())
+    // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
       $.ajax({
@@ -270,11 +250,10 @@ $('body').on('click', '.remove_btn', function () {
 
 function ValidateForm() {
   var isFormValid = true;  
-  $("#content_add input").each(function () { 
+  $("#content_add input, select").each(function () { 
     var FieldId = "span_" + $(this).attr("id");
       if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
           $(this).addClass("highlight");
-          console.log($("#" + FieldId)) 
           if ($("#" + FieldId).length == 0) {  
                   $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
           }  
