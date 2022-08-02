@@ -93,7 +93,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {    
+$(document).ready(function() { 
     //$("#Add").on("click", function() {
     $('body').on('click', '#Add', function(){    
         var html = "";
@@ -240,7 +240,7 @@ $(document).ready(function() {
                 success: function (res) {
                     if(res['status']==200){
                         toastr.success("Form Added",'Success',{timeOut: 5000});
-                        window.location.href = "{{ url('content-edit/'.$id)}}";
+                        window.location.href = "{{ url('content-form/'.$id)}}";
                         $("#form_structures_add")[0].reset()
                     }
                 },
