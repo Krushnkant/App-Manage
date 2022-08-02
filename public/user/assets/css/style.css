@@ -98,7 +98,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     --white: #fff;
     --gray: #f7fafc;
     --gray-dark: #333333;
-    --primary: #7571f9;
+    /* --primary: #7571f9; */
+    --primary: #00519C;
     --secondary: #9097c4;
     --success: #6fd96f;
     --info: #4d7cff;
@@ -2518,14 +2519,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #7571f9;
-    border-color: #7571f9;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #514cf7;
-    border-color: #4540f7;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-primary:focus,
@@ -2536,16 +2537,16 @@ fieldset:disabled a.btn {
 .btn-primary.disabled,
 .btn-primary:disabled {
     color: #fff;
-    background-color: #7571f9;
-    border-color: #7571f9;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show>.btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #4540f7;
-    border-color: #3a34f6;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-primary:not(:disabled):not(.disabled):active:focus,
@@ -2556,14 +2557,14 @@ fieldset:disabled a.btn {
 
 .btn-secondary {
     color: #212529;
-    background-color: #9097c4;
-    border-color: #9097c4;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-secondary:hover {
     color: #fff;
-    background-color: #7780b7;
-    border-color: #6f78b2;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-secondary:focus,
@@ -2582,8 +2583,8 @@ fieldset:disabled a.btn {
 .btn-secondary:not(:disabled):not(.disabled).active,
 .show>.btn-secondary.dropdown-toggle {
     color: #fff;
-    background-color: #6f78b2;
-    border-color: #6670ae;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-secondary:not(:disabled):not(.disabled):active:focus,
@@ -4932,8 +4933,8 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
     z-index: 1;
     color: #fff;
-    background-color: #7571f9;
-    border-color: #7571f9;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .page-item.disabled .page-link {
@@ -5012,7 +5013,7 @@ input[type="button"].btn-block {
 .badge-primary[href]:focus {
     color: #fff;
     text-decoration: none;
-    background-color: #4540f7;
+    background-color: var(--primary);
 }
 
 .badge-secondary {
@@ -15464,17 +15465,17 @@ table.dataTable thead .sorting::after {
 .btn-primary:active,
 .btn-primary:focus,
 .btn-primary:hover {
-    background: #4540f7;
+    background: var(--primary);
     color: #fff;
-    border-color: #4540f7;
+    border-color: var(--primary);
 }
 
 .btn-secondary:active,
 .btn-secondary:focus,
 .btn-secondary:hover {
-    background: #6f78b2;
+    background: var(--primary);
     color: #fff;
-    border-color: #6f78b2;
+    border-color: var(--primary);
 }
 
 .btn-success:active,
@@ -20897,9 +20898,10 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 /* pooja add */
 
-img.set_img {
-    height: 100px;
-    width: 100px;
+.input-set-img-part {
+    height: 70px;
+    width: 70px;
+    border-radius: 10px;
 }
 
 
@@ -20921,6 +20923,10 @@ img.set_img {
 
 .add_application_btn_part svg {
     width: 20px;
+}
+
+input[type="file"] {
+    cursor: pointer;
 }
 
 .table_detail_part thead th {
@@ -20982,6 +20988,7 @@ img.set_img {
     position: relative;
     display: inline-block;
     padding: 4px 6px 4px 20px;
+    cursor: pointer;
 }
 
 .table_detail_part .deactive_status {
@@ -21104,6 +21111,11 @@ img.set_img {
     border-radius: 10px;
 }
 
+.form-validation-part .col-form-label,
+.custom-form-design .col-form-label {
+    font-size: 14px;
+}
+
 
 /* #child_row {
     width: 100%;
@@ -21145,16 +21157,19 @@ img.set_img {
 }
 
 .form-validation-part input,
-.custom-form-design input {
+.custom-form-design input,
+.form-validation-part input::placeholder,
+.custom-form-design input::placeholder {
     border-radius: 7px;
     height: 40px;
     color: #495057;
     text-transform: capitalize;
+    font-size: 14px;
 }
 
 .form-validation-part .field_btn,
 .custom-form-design .field_btn {
-    background-color: #000;
+    background-color: #000 !important;
     border: 0;
 }
 
@@ -21217,6 +21232,12 @@ img.set_img {
     background: #FEFDFD;
     box-shadow: 0px 4px 8px rgb(0 0 0 / 12%);
     border-radius: 12px;
+}
+
+.custom-form-design .remove_btn {
+    outline: 0;
+    border: 0;
+    background: transparent;
 }
 
 @media (max-width:1600px) {
@@ -21310,13 +21331,17 @@ img.set_img {
     #application_list_wrapper .row:last-child {
         align-items: center;
     }
+    .edit_application .card-body {
+        padding: 20px 15px;
+    }
 }
 
-.img_class {
+
+/* .img_class {
     position: absolute;
     top: 0;
     right: -45px;
-}
+} */
 
 .img_side {
     width: 45px;

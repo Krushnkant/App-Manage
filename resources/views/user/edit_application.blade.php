@@ -13,7 +13,7 @@
             margin-top: 50px;
         }
     </style>
-<div class="container-fluid mt-3">
+<div class="container-fluid mt-3 custom-form-design edit_application">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
@@ -23,19 +23,19 @@
                         <!-- <form class="form-valide" action="" method="post"> -->
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="col-lg-4 col-form-label" for="name">Application Name: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="name">Application Name: <span class="text-danger">*</span>
                                     </label>
-                                    <div class="col-lg-12">
+                                    <div class="">
                                         <input type="text" class="form-control" value="{{$data->name}}" id="name" name="name" placeholder="Application Name..">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-lg-4 col-form-label" for="icon">Application Icon: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="icon">Application Icon: <span class="text-danger">*</span>
                                     </label>
-                                    <div class="col-lg-12">
+                                    <div class="">
                                         <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Application Icon..">
-                                        <div class="pre_img">
-                                            <img class="set_img" src="{{asset('/app_icons/'.$data->icon)}}" />
+                                        <div class="pre_img mt-3">
+                                            <img class="set_img input-set-img-part" src="{{asset('/app_icons/'.$data->icon)}}" />
                                         </div>
                                     </div>
                                     <!-- <div class="form-group">
@@ -47,23 +47,23 @@
                                     </div> -->
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-lg-4 col-form-label" for="app_id">Application ID: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="app_id">Application ID: <span class="text-danger">*</span>
                                     </label>
-                                    <div class="col-lg-12">
+                                    <div class="">
                                         <input type="text" class="form-control" id="app_id" value="{{$data->app_id}}" name="app_id" placeholder="Application ID..">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-lg-4 col-form-label" for="package_name">Package Name: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="package_name">Package Name: <span class="text-danger">*</span>
                                     </label>
-                                    <div class="col-lg-12">
+                                    <div class="">
                                         <input type="text" class="form-control" id="package_name" value="{{$data->package_name}}" name="package_name" placeholder="Package Name..">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6 mt-4">
                                     <div class="col-lg-8">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
