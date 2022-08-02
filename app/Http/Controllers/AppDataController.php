@@ -180,6 +180,7 @@ class AppDataController extends Controller
         $data1 = [];
         $app_id = (isset($data['app_id']) && $data['app_id']) ? $data['app_id'] : null;
         $category_id = (isset($data['category']) && $data['category']) ? $data['category'] : null;
+        $UUID_main = (isset($data['UUID-main']) && $data['UUID-main']) ? $data['UUID-main'] : null;
         $sub_single = [];
         unset($data['app_id']);
         unset($data['category']);
@@ -189,6 +190,7 @@ class AppDataController extends Controller
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                 $app_data = AppData::find($int_var);
                 if($app_data != null){
+                    $app_data->UUID = $UUID_main;
                     $app_data->category_id = $category_id;
                     $app_data->value = $val;
                     $app_data->save();
@@ -202,6 +204,7 @@ class AppDataController extends Controller
                 $path = public_path("category_image/");
                 $result = Helpers::UploadImage($val[0], $path);
                 if($app_data != null){
+                    $app_data->UUID = $UUID_main;
                     $app_data->category_id = $category_id;
                     $app_data->value = $result;
                     $app_data->save();
@@ -217,6 +220,7 @@ class AppDataController extends Controller
                     $imageName = Str::random().'.'.$ddd->getClientOriginalExtension();
                     $fff = $ddd->move(public_path().'/app_data_images/', $imageName);  
                     $app_data = new AppData();
+                    $app_data->UUID = $UUID_main;
                     $app_data->app_id = $app_idd;
                     $app_data->category_id = $category_id;
                     $app_data->form_structure_id = $structure_idd;

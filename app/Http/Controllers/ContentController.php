@@ -247,7 +247,7 @@ class ContentController extends Controller
     {
         $fields = Field::where('estatus', 1)->get();
         $already = FormStructure::with('sub_form')->where('application_id', $id)->get();
-        $is_form = FormStructure::where('application_id', $id)->get()->toArray();
+        $is_form = FormStructure::where('application_id', $id)->first();
         if($is_form != null){
             return view('user.content.edit', compact('id', 'fields', 'already'));
         }else{
