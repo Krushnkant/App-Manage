@@ -5,16 +5,19 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
 <!-- <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" /> -->
 <style>
-        .dropzone {
-            background: #e3e6ff;
-            border-radius: 13px;
-            max-width: 550px;
-            margin-left: auto;
-            margin-right: auto;
-            border: 2px dotted #1833FF;
-            margin-top: 50px;
-        }
-    </style>
+    .dropzone {
+        background: #e3e6ff;
+        border-radius: 13px;
+        max-width: 550px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px dotted #1833FF;
+        margin-top: 50px;
+    }
+    p.error-display {
+        color: #f00;
+    }
+</style>
 <div class="container-fluid mt-3 add-form-part">
     <div class="row justify-content-center">
         <div class="col-lg-12">
@@ -28,6 +31,7 @@
                                 <form class="form-valide form-validation-part custom-form-design" action="" mathod="POST" id="category_add" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="app_id" value="{{$id}}" />
+                                    <p class="error-display" style="display: none;"></p>
                                     <div class="row m-0">
                                         <div class="form-group col-12 title_part px-sm-3"> 
                                             <label class="col-form-label" for="name">Title: <span class="text-danger">*</span>
@@ -35,6 +39,7 @@
                                             <div class="row m-0">
                                                 <div class="col-lg-12 p-0">
                                                     <input type="text" class="form-control" id="name" name="name" placeholder="Category Title.." required>
+                                                    <p class="error-display"></p>
                                                 </div>
                                                 <!-- <div class="col-lg-3 p-0">
                                                     <div class="custome_fields"><button type="button" data-id="{{$id}}" class="btn mb-1 btn-info field_btn">Add Fields</button></div>
@@ -67,6 +72,7 @@
                                                         <option data-id="{{$field->id}}" value="{{$field->type}}">{{$field->title}}</option>
                                                     @endforeach
                                                 </select>
+                                                <p class="error-display"></p>
                                             </div>
                                         </div>
                                         <div class="col-3 col-sm-2 text-center text-md-start p-0 mb-2 mb-md-0">
@@ -207,12 +213,14 @@
         }
 
 if(type != ""){       
-html += '<div class="row mb-3 align-items-center">'+
+            html += '<div class="row mb-3 align-items-center">'+
                     '<div class="col-12 col-sm-5 pr-0 px-0 pl-sm-3 mb-3 mb-sm-0">'+
                         '<input type="text" placeholder="title" class="form-control input-flat" name="'+field_key+'" />'+
+                        '<p class="error-display"></p>'+    
                     '</div>'+
                     '<div class="col-10 col-sm-5 px-0 px-sm-3">'+
                         '<input type="'+type+'" class="form-control input-flat" placeholder="value" name="'+field_name+'" />'+
+                        '<p class="error-display"></p>'+    
                     '</div>'+
                     // '<div class="col-md-2">'+
                     //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
@@ -230,23 +238,45 @@ html += '<div class="row mb-3 align-items-center">'+
     })
 
     $('body').on('click', '#submit_category', function () {
-        var formData = new FormData($("#category_add")[0]);
-        $.ajax({
-                type: 'POST',
-                url: "{{ route('category.store') }}",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    if(data.status == 200){
-                        toastr.success("Category Added",'Success',{timeOut: 5000});
-                        $('#category_list').DataTable().draw();
-                        $("#category_add")[0].reset();
-                    }else{
-                        toastr.error("Please try again",'Error',{timeOut: 5000})
-                    }
+        // var total_length = $("form#category_add :input").length;
+        // console.log(total_length)
+        var total_length = 0;
+        $("form#category_add :input").each(function(){
+            if($(this).val().length == 0){
+                if($(this).next().length != 0){
+                    total_length ++;
+                    $(this).next().text("This Field Is Required")
                 }
-        });
+            }else{
+                if($(this).next().length != 0){
+                    total_length ++;
+                }else{
+                    total_length ++;
+                }
+                
+                $(this).next().text("")
+                total_length --;
+            }
+        })
+        if(total_length == 0){
+            var formData = new FormData($("#category_add")[0]);
+            $.ajax({
+                    type: 'POST',
+                    url: "{{ route('category.store') }}",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if(data.status == 200){
+                            toastr.success("Category Added",'Success',{timeOut: 5000});
+                            $('#category_list').DataTable().draw();
+                            $("#category_add")[0].reset();
+                        }else{
+                            toastr.error("Please try again",'Error',{timeOut: 5000})
+                        }
+                    }
+            });
+        }
     })
     function format(d) {
         var list;
@@ -265,7 +295,7 @@ html += '<div class="row mb-3 align-items-center">'+
     }
 
     var my_date_format = function (input) {
-        console.log("----->",input)
+        // console.log("----->",input)
         var d = new Date(Date.parse(input.replace(/-/g, "/")));
         var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
         'Nov', 'Dec'];
@@ -299,13 +329,13 @@ html += '<div class="row mb-3 align-items-center">'+
                     data: null,
                     defaultContent: "<div class='plus-minus-class'>&nbsp;</div>",
                 },
-                {data: 'id', name: 'id', class: "text-center", orderable: false,
+                {data: 'id', name: 'id', class: "text-left", orderable: false,
                     render: function (data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                         // return "<div><span class='plus-minus-class'>"+ meta.row + meta.settings._iDisplayStart + 1+"</span></div>";
                     }
                 },
-                {data: 'title', name: 'title', class: "text-center", orderable: false,
+                {data: 'title', name: 'title', class: "text-left", orderable: false,
                     render: function (data, type, row) {
                         // return row.title;
                         return "<div><span class='application_text app_id_part total_request_text'>"+row.title+"</span></div>";
