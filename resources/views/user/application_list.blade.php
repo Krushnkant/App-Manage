@@ -36,8 +36,8 @@
                     
                     <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
-                            <div class="table-responsive">
-                                <table id="application_list" class="table zero-configuration customNewtable application_table" style="width:100%">
+                            <div class="table-responsive application_table_part">
+                                <table id="application_list" class="table zero-configuration customNewtable application_table shadow-none" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -108,8 +108,8 @@
         var sub_content_api_path = "{{url('api/sub-content-list')}}";
       
         if(d.is_category == 1){
-            cat_list +="<tr><tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left'>"+cat_path+"</span></td></tr>"+
+            cat_list +="<tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
+                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+cat_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -138,7 +138,7 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+                        "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
@@ -175,7 +175,7 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
+                        "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table mx-3'>"+
                             "<thead>"+
@@ -219,7 +219,7 @@
                             "</tbody>"+
                         "</table></tr>";
         }else{
-            cat_list +="<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+            cat_list +="<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table mx-3'>"+
                             "<thead>"+
@@ -249,7 +249,7 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr><tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
+                        "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
                         "<table class='w-100 child-inner-table mx-3'>"+
                             "<thead>"+

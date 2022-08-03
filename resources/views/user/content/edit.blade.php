@@ -32,7 +32,7 @@
                             <div class="row">
                                 <div class="col-md-10  col-xl-6">
                                     <div class="row">
-                                        <label class="col-lg-12 col-form-label px-sm-3" for="name">Field Select: <span class="text-danger">*</span></label>
+                                        <label class="col-lg-12 col-form-label px-sm-3" for="name">Field Select <span class="text-danger">*</span></label>
                                         <div class="form-group col-9 col-sm-10 px-sm-0">
                                             <div class="col-lg-12 px-0 px-sm-3">
                                                 <div class="position-relative">
@@ -89,7 +89,7 @@
                                     @foreach($already as $data)
                                         @if(isset($data->sub_form) && $data->sub_form != null && sizeof($data->sub_form)) 
                                             <div class="row mt-3 mx-3 border px-sm-3 py-sm-4 py-3 sub-form-card">
-                                            <label class="col-lg-12 col-form-label pt-0" for="name">Field Select: <span class="text-danger">*</span>
+                                            <label class="col-lg-12 col-form-label pt-0" for="name">Field Select <span class="text-danger">*</span>
                                                     </label>
                                                 <div class="form-group col-9 col-sm-10">
                                                     <div class="col-lg-12 px-0">
@@ -204,7 +204,7 @@ $(document).ready(function() {
                 '</div>';
 
            html += '<div class="row mt-3 mt-sm-0 mx-3 border px-sm-3 py-sm-4 py-3 sub-form-card">'+
-           '<label class="col-lg-12 col-form-label pt-0" for="name">Field Select: <span class="text-danger">*</span></label>'+
+           '<label class="col-lg-12 col-form-label pt-0" for="name">Field Select <span class="text-danger">*</span></label>'+
                 '<div class="form-group col-9 col-sm-10">'+
                     '<div class="col-lg-12 px-0">'+
                     '<div class="position-relative">'+
