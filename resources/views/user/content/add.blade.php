@@ -16,13 +16,26 @@
         pointer-events: none;
         background: #cfcfcf40;
     }
+    span.error-display {
+        color: #f00;
+    }
 </style>
-<div class="container-fluid mt-3 custom-form-design">
+<div class="row page-titles mx-0">
+    <div class="col p-md-0">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="{{url('application')}}">Application List</a></li>
+            <li class="breadcrumb-item active"><a href="{{url('content-list/'.$id)}}">content List</a></li>
+        </ol>
+    </div>
+</div>
+<div class="container-fluid pt-0 custom-form-design">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card ">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Add Form Structures</h4>
+                    <p><b>Note: </b> All Fields Are Mandatory</p>
                     <div class="form-validation">
                         <form class="form-valide" action="" mathod="POST" id="form_structures_add" enctype="multipart/form-data">
                             {{ csrf_field() }}
@@ -95,12 +108,15 @@
 <script type="text/javascript">
 $(document).ready(function() { 
     //$("#Add").on("click", function() {
+    var count = 0;
     $('body').on('click', '#Add', function(){    
         var html = "";
         // var valuee = $('#field').val();
         var selected = $('#field option:selected');
         var valuee = selected.attr('value')
         var type = "";
+        var inputkey = "input_key_"+count;
+        // var inputval = "input_val_"+count;
         // console.log(valuee)
         if(valuee == "textbox"){
             type = "text";
@@ -110,26 +126,25 @@ $(document).ready(function() {
             type = "multi-file";
         }else if(valuee == "sub-form"){
             type = "sub-form";
-            $('#field option').prop('disabled', true);
+            // $('#field option[value="sub-form"]').attr("disabled","disabled");
+            $("#field option[value='sub-form']").remove();
         }else{
             type = ""
         }
-
-
         if(type == 'sub-form'){
             html += '<div class="mx-3 border px-3 py-sm-3 py-3 sub-form-card mt-3"><div class="row">'+
                     '<div class="col-12 col-sm-5 mb-3">'+
-                        '<input type="text" placeholder="Field Name" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
+                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 mb-0 mb-sm-3">'+
-                        '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]"  />'+
+                        '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]" readonly />'+
                     '</div>'+
                     '<div class="col-2 col-sm-2 text-center">'+
-                        '<button type="button"  class="minus_btn btn btn-dark px-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
+                        '<button type="button" data="sub_section" class="minus_btn btn btn-dark px-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
                     '</div>'+
                 '</div>';
 
-           html += '<div class="row mt-3 mt-sm-0">'+
+           html += '<div class="row mt-3 mt-sm-0 sub-form-card">'+
                         '<label class="col-lg-12 col-form-label pt-0" for="name">Field Select <span class="text-danger">*</span></label>'+
                         '<div class="form-group col-9 col-sm-10">'+
                                 '<div class="col-lg-12 px-0">'+
@@ -158,10 +173,10 @@ $(document).ready(function() {
         }else if(type != ""){
             html += '<div class="row mt-3 mx-0">'+
                     '<div class="col-12 col-sm-5 mb-3 mb-sm-0">'+
-                        '<input type="text" placeholder="Field Name" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error my-0" class="error invalid-feedback animated fadeInDown" for=""></label>'+
+                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error my-0" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 mb-sm-0">'+
-                        '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]"  />'+
+                        '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]" readonly />'+
                     '</div>'+
                     '<div class="col-2 col-sm-2 text-center">'+
                         '<button type="button"  class="minus_btn btn btn-dark px-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
@@ -170,114 +185,116 @@ $(document).ready(function() {
 
                 // add-value-main
             $(".add-value-main").append(html);
-        }        
+        } 
+        count ++;       
         // $(".add-value").append(html);
     });
-
+    var count1 = 0;
     $('body').on('click', '#AddSub', function(){    
+        var next_sub_form_row = $(this).parent().parent().next('.add-value-sub')
         var html = "";
-        // var valuee = $('#field-subform').val()
-        // var type = "text";
-        // if(valuee == "textbox"){
-        //     type = "text";
-        // }
-        // if(valuee == "file"){
-        //     type = "file";
-        // }
-        // if(valuee == "multi-file"){
-        //     type = "multi-file";
-        // }
+        // console.log(count1)
+        var inputkey = "sub_input_key_"+count1;
         var selected = $('#field-subform option:selected');
         var valuee = selected.attr('value')
         var type = "";
-        // console.log(valuee)
+        console.log(valuee)
         if(valuee == "textbox"){
             type = "text";
         }else if(valuee == "file"){
             type = "file";
         }else if(valuee == "multi-file"){
             type = "multi-file";
-        }else if(valuee == "sub-form"){
-            type = "sub-form";
         }else{
             type = ""
         }
+        console.log(type)
         if(type != ""){
             html += '<div class="row mt-sm-3 mx-0">'+
                     '<div class="col-12 col-sm-5 my-3 my-sm-0">'+
-                        '<input type="text" placeholder="Field Name" class="form-control input-flat" name="sub_field_name[]" />'+
+                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat" name="sub_field_name[]" />'+
                     '</div>'+
                     '<div class="col-10 col-sm-5">'+
-                        '<input  type="text" value="'+type+'" class="form-control input-flat pe-none" name="sub_field_type[]"  />'+
+                        '<input  type="text" value="'+type+'" class="form-control input-flat pe-none" name="sub_field_type[]" readonly />'+
                     '</div>'+
                     '<div class="col-2 col-sm-2 text-center">'+
                         '<button type="button"  class="minus_btn btn btn-dark px-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>'+
                     '</div>'+
                 '</div>';
         }
-        $(".add-value-sub").append(html);
+        $(next_sub_form_row).append(html);
+        // $(".field-subform option:selected").remove();
+        // $(".field-subform").children("option:selected").remove();
+        count1 ++;
+        // $('.field-subform option:selected').removeAttr('selected');
     });
 
     $('body').on('click', '.minus_btn', function(){
-        var tthis = $(this).parent().parent();
-        var ddd = tthis.remove()
+        var datas = $(this).attr('data');
+        if(datas == "sub_section"){
+            $(this).parent().parent().next().remove();
+            $(this).parent().parent().remove();
+        }else{
+            $(this).parent().parent().remove();
+        }
     });
 
     $('body').on('click', '#submit_form_structures', function () {
-        $(this).prop('disabled',true);
+        // $(this).prop('disabled',true);
         // $(this).find('.submitloader').show();
         var btn = $(this);
 
         var formData = new FormData($("#form_structures_add")[0]);
-        var valid_form = validateForm();
-        if(valid_form==true && valid_form==true){
-        $.ajax({
-                type: 'POST',
-                url: "{{ route('content.store') }}",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (res) {
-                    if(res['status']==200){
-                        toastr.success("Form Added",'Success',{timeOut: 5000});
-                        window.location.href = "{{ url('content-form/'.$id)}}";
-                        $("#form_structures_add")[0].reset()
+        var validation = ValidateForm()
+        if(validation != false){
+            $.ajax({
+                    type: 'POST',
+                    url: "{{ route('content.store') }}",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if(res['status']==200){
+                            toastr.success("Form Added",'Success',{timeOut: 5000});
+                            window.location.href = "{{ url('content-form/'.$id)}}";
+                            $("#form_structures_add")[0].reset()
+                        }
+                    },
+                    error: function (data) {
+                        $(btn).prop('disabled',false);
+                        // $(btn).find('.submitloader').hide();
+                        toastr.error("Please try again",'Error',{timeOut: 5000});
                     }
-                },
-                error: function (data) {
-                    $(btn).prop('disabled',false);
-                    // $(btn).find('.submitloader').hide();
-                    toastr.error("Please try again",'Error',{timeOut: 5000});
-                }
-        });
-        }else{
-            $(btn).prop('disabled',false);
-            // $(btn).find('.submitloader').hide();
+            });
         }
     });
 
-    function validateForm() {
-         //alert();
-        var valid = true;
-        var this_form = $('#form_structures_add');
-        console.log($('#form_structures_add').find('.specReq'));
-        $('#form_structures_add').find('.specReq').each(function() {
-            var thi = $('.specReq');
-            //alert($(thi).attr('name'));
-            var this_err = $(thi).attr('data-name') + "-error";
-            if($(thi).val()=="" || $(thi).val()==null) {
-                $(this_form).find("#"+this_err).html("Please select any value");
-                $(this_form).find("#"+this_err).show();
-                valid = false;
-            }
-        
-        });
-
-        return valid;
-    }
-
- 
-
 });   
+function ValidateForm() {
+    var isFormValid = true;  
+    $("#form_structures_add input, select").each(function () { 
+        if($(this).attr("id") != undefined){
+            var FieldId = "span_" + $(this).attr("id");
+            if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
+                $(this).addClass("highlight");
+                if ($("#" + FieldId).length == 0) {  
+                        $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
+                }  
+                if ($("#" + FieldId).css('display') == 'none'){  
+                    $("#" + FieldId).fadeIn(500);  
+                } 
+                isFormValid = false;  
+            }else{  
+                $(this).removeClass("highlight");  
+                if ($("#" + FieldId).length > 0) {  
+                    $("#" + FieldId).fadeOut(1000);  
+                }  
+            }
+        }
+    })
+    console.log(isFormValid)
+    // return false;  
+    return isFormValid;  
+}
 </script>
 @endpush('scripts')

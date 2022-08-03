@@ -18,7 +18,15 @@
         color: #f00;
     }
 </style>
-<div class="container-fluid mt-3 add-form-part">
+<div class="row page-titles mx-0">
+    <div class="col p-md-0">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="{{url('application')}}">Application List</a></li>
+        </ol>
+    </div>
+</div>
+<div class="container-fluid pt-0 add-form-part">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="row">

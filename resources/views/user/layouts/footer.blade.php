@@ -1,3 +1,3 @@
 <div class="copyright">
-    <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018</p>
+    <p>Copyright &copy; Web Wedant Technology by <a href="https://webvedantinfotech.com/"></a> 2022</p>
 </div>

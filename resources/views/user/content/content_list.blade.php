@@ -1,28 +1,41 @@
 @extends('user.layouts.layout')
 
 @section('content')
-<div class="container-fluid mt-3 add-form-part">
+<div class="row page-titles mx-0">
+    <div class="col p-md-0">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="{{url('application')}}">Application List</a></li>
+        </ol>
+    </div>
+</div>
+<div class="container-fluid pt-0 add-form-part">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Content List</h4>
+                    <button class="btn mb-1 btn-primary"><a href="{{url('content-form/'.$id)}}" class="text-white">Add Content</a></button>
+                    <button class="btn mb-1 btn-primary"><a href="{{url('add-structure/'.$id)}}" class="text-white">Add Structure</a></button>
                 </div>
-                <div class="table-responsive">
-                    <table id="content_list" class="table zero-configuration customNewtable application_table table-child-part" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>No</th>
-                                <th>Application Id</th>
-                                <th>Category</th>
-                                <th>Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
+                    <div class="table-responsive">
+                        <table id="content_list" class="table zero-configuration customNewtable application_table" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>No</th>
+                                    <th>Application Id</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
                 </div> 
             </div>
         </div>
@@ -88,7 +101,9 @@
                     "mData": "action",
                     "mRender": function (data, type, row) {
 
-                        var url1 = '{{ Route("category.edit", "id") }}';
+                        // console.log(row)
+                        // console.log('{{ url("content-edit") }}/'+row.app_id+"/"+row.UUID)
+                        var url1 = '{{ url("content-edit") }}/'+row.app_id+"/"+row.UUID;
                         url1 = url1.replace('id', row.id);
                         var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                         var img_url2 = "{{asset('user/assets/icons/delete.png')}}";

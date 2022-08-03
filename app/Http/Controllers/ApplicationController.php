@@ -42,6 +42,13 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        $validated = $request->validate([
+            'name' => 'required',
+            'icon' => 'required|image|mimes:jpg,jpeg,png',
+            'app_id' => 'required|unique:application_data',
+            'package_name' => 'required',
+        ]);
         $data = $request->all();
         if($data['icon']){
             $path = public_path("app_icons/");
@@ -153,13 +160,10 @@ class ApplicationController extends Controller
         elseif ($tab_type == "deactive_application_tab"){
             $status = 0;
         }
-
-        
-
         $data = ApplicationData::get();
         if (isset($status)){
             $s = (string) $status;
-            $data = ApplicationData::where('status',$s)->get();
+            $data = ApplicationData::where('status',$s)->orderBy('id', 'DESC')->get();
         }
         
         foreach($data as $d){
@@ -203,5 +207,17 @@ class ApplicationController extends Controller
             $application->save();
             return response()->json(['status' => '200','action' =>'active']);
         }
+    }
+
+    public function CheckAppId(Request $request)
+    {
+       $data = $request->all();
+       $application = ApplicationData::where('app_id', $data['app_id'])->where('status', '1')->first();
+       if($application != null){
+        return response()->json(['status' => '200','message' => 'false']);  
+       }else{
+        return response()->json(['status' => '200','message' => 'true']);  
+       }
+        // dd($application);
     }
 }
