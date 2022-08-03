@@ -38,11 +38,14 @@ class ContentController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // dump($data);
         // $uuid = Str::random(30);
         // dd($randomString);
         $field_names = (isset($data['field_name']) && $data['field_name']) ? $data['field_name'] : null;
         $sub_field_names = (isset($data['sub_field_name']) && $data['sub_field_name']) ? $data['sub_field_name'] : null;
 
+        // dump($field_names);
+        // dd($sub_field_names);
         if($field_names != ""){
             foreach($field_names as $key => $field_name){
                 $FormStructures = new FormStructure();
@@ -88,9 +91,14 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $uuid)
     {
-        //
+        $application = ApplicationData::find($id);
+        $app_data = AppData::with('fieldd')->where('UUID', $uuid)->where('app_id', $id)->get();
+        $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->get();
+        $categories = Category::where('app_id', $id)->where('status', '1')->get();
+        // dd($sub_app_data);
+        return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories'));
     }
 
     /**
@@ -262,10 +270,20 @@ class ContentController extends Controller
 
     public function ContentForm($application_id)
     {
+        $is_category = 0;
+        $is_sub_formm = 0;
         $main_form = FormStructure::where('application_id', $application_id)->get();
         $sub_form = SubformStructure::where('application_id', $application_id)->get();
+        $is_sub_form = SubformStructure::where('application_id', $application_id)->first();
         $categories = Category::where('app_id', $application_id)->where('status', '1')->get();
-        return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories'));
+        $is_categories = Category::where('app_id', $application_id)->where('status', '1')->first();
+        if($is_categories != null){
+            $is_category = 1;
+        }
+        if($is_sub_form != null){
+            $is_sub_formm = 1;
+        }
+        return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories', 'is_category', 'is_sub_formm'));
     }
 
     public function ContentList(Request $request, $id)

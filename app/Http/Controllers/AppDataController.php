@@ -84,7 +84,7 @@ class AppDataController extends Controller
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                 $form_strcture = FormStructure::find($int_var);
 
-                $path = public_path("category_image/");
+                $path = public_path("app_data_images/");
                 $result = Helpers::UploadImage($d[0], $path);
 
                 if($form_strcture != null){
@@ -128,7 +128,7 @@ class AppDataController extends Controller
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                 $sub_form_strcture = SubformStructure::find($int_var);
                 foreach($d as $k => $fff){
-                    $path = public_path("category_image/");
+                    $path = public_path("app_data_images/");
                     $result = Helpers::UploadImage($fff, $path);
                     if($sub_form_strcture != null){
                         $app_data = new SubAppData();
@@ -166,11 +166,11 @@ class AppDataController extends Controller
      */
     public function edit($id, $uuid)
     {
-        $application = ApplicationData::find($id);
-        $app_data = AppData::with('fieldd')->where('UUID', $uuid)->where('app_id', $id)->get();
-        $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->get();
-        $categories = Category::where('app_id', $id)->where('status', '1')->get();
-        return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories'));
+        // $application = ApplicationData::find($id);
+        // $app_data = AppData::with('fieldd')->where('UUID', $uuid)->where('app_id', $id)->get();
+        // $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->get();
+        // $categories = Category::where('app_id', $id)->where('status', '1')->get();
+        // return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories'));
     }
 
     /**
@@ -207,7 +207,7 @@ class AppDataController extends Controller
             if (strpos($key, "one") !== false) {
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                 $app_data = AppData::find($int_var);
-                $path = public_path("category_image/");
+                $path = public_path("app_data_images/");
                 $result = Helpers::UploadImage($val[0], $path);
                 if($app_data != null){
                     $app_data->UUID = $UUID_main;

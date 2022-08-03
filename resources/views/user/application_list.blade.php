@@ -3,7 +3,15 @@
 @section('content')
 <!-- <link href="{{ url('public/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
-<div class="container-fluid mt-3">
+<div class="row page-titles mx-0">
+    <div class="col p-md-0">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
+            <!-- <li class="breadcrumb-item active"><a href="{{url('application')}}">Application List</a></li> -->
+        </ol>
+    </div>
+</div>
+<div class="container-fluid pt-0">
     <div class="row">
         <div class="col-12">
             <div class="card application_part">
@@ -403,11 +411,16 @@
     
                         var url2 = '{{ url("category-add", "id") }}';
                         url2 = url2.replace('id', row.id);
+                        var url3 = '{{ url("content-list") }}'+ '/'+ row.id;
+                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
+                                "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
+                        // if(row.is_category == 0){
+                        //     return "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
+                        // }else{
+                        //     return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
+                        //             "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
+                        // }
     
-                        var url3 = '{{ url("add-structure") }}'+ '/'+ row.id;
-    
-                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Add Category</a>" +
-                        "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Add Content</a>";
                     }
                 },
                 {
