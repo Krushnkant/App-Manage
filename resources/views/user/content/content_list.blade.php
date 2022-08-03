@@ -162,7 +162,7 @@
             }else{
                 ddd += '<spa>'+item.value+'</span>';
             }
-            list += '<td>'+item.field_name+'</td><td>'+ddd+'</td>';
+            list += '<tr><td class="text-left">'+item.field_name+'</td><td class="text-left">'+ddd+'</td></tr>';
         });
         $.each(d.sub_app_data, function(i, item) {
             // var ddd = '';
@@ -181,28 +181,33 @@
                 uniqueArray.push(bunch[i]);
             }
         }
-        var html = "<table>";
-        for(i=0; i < uniqueArray.length; i++){
-            var sss = uniqueArray[i];
-            $.each(d.sub_app_data, function(i, item) {
-                if(item.UUID == sss){
-                    var ddd = '';
-                    if (/(jpg|gif|png)$/.test(item.value)){ 
-                        var imgg = urll+"/"+item.value
-                        ddd += '<img class="img_side" src="'+imgg+'">';
-                    }else{
-                        ddd += '<span>'+item.value+'</span>';
-                    }
-                    html += "<tr>"+
-                                "<td>"+item.field_name+"</td><td>"+ddd+"</td>"
-                            "</tr>";
-                    
+        var html = "<table class='w-100 child-inner-table mb-4 mx-3'><thead><tr>";
+                $.each(d.sub_app_data, function(i, item) {
+                        if(item.UUID == uniqueArray[0]){
+                            html += '<th><strong>'+item.field_name+'</strong></th>';
+                        }
+                })
+            html +="</tr></thead>";
+            for(i=0; i < uniqueArray.length; i++){
+                var sss = uniqueArray[i];
+                html += "<tbody><tr>";
+                    $.each(d.sub_app_data, function(i, item) {
+                        if(item.UUID == sss){
+                            var ddd = '';
+                            if (/(jpg|gif|png)$/.test(item.value)){ 
+                                var imgg = urll+"/"+item.value
+                                ddd += '<img class="img_side" src="'+imgg+'">';
+                            }else{
+                                ddd += '<span>'+item.value+'</span>';
+                            }
+                            html += "<td>"+ddd+"</td>";
+                        }
+                    })
                 }
-            })
-        }
+                html += "</tr></tbody>";
         html += "</table>";
-        // console.log(uniqueArray)
-        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">'+list+''+html+'</table>';
+        return '<table cellpadding="5" class="mx-0 child_row_table" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">'+
+        '<ul class="d-none">'+list+''+html+'</ul></table>';
     }
 
     $('body').on('click', '.deleteUserBtn', function (e) {

@@ -21113,6 +21113,11 @@ input[type="file"] {
 .table_detail_part .application_table #child_row tbody td:first-child {
     text-align: right !important;
 }
+body .table_detail_part .application_table .child_row_table tbody td:first-child{
+    text-align: left !important;
+    color: #000 !important;
+    font-weight: 600 !important;
+}
 
 .pagination {
     justify-content: end;
