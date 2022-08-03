@@ -94,7 +94,7 @@
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
                 </div>
             </div>
@@ -412,14 +412,14 @@
                         var url2 = '{{ url("category-add", "id") }}';
                         url2 = url2.replace('id', row.id);
                         var url3 = '{{ url("content-list") }}'+ '/'+ row.id;
-                        return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
-                                "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
-                        // if(row.is_category == 0){
-                        //     return "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
-                        // }else{
-                        //     return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
-                        //             "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
-                        // }
+                        // return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
+                        //         "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
+                        if(row.is_category == 0){
+                            return "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
+                        }else{
+                            return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
+                                    "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
+                        }
     
                     }
                 },

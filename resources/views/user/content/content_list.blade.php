@@ -40,6 +40,21 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModalCenter">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to delete this record ?</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @push('scripts')
@@ -189,5 +204,34 @@
         // console.log(uniqueArray)
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">'+list+''+html+'</table>';
     }
+
+    $('body').on('click', '.deleteUserBtn', function (e) {
+        var delete_user_id = $(this).attr('data-id');
+        $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id',delete_user_id);
+    });
+
+    $('body').on('click', '#RemoveUserSubmit', function (e) {
+        $('#RemoveUserSubmit').prop('disabled',true);
+        var remove_user_id = $(this).attr('data-id');
+
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/content') }}" +'/' + remove_user_id +'/delete',
+            success: function (res) {
+                if(res.status == 200){
+                    $("#exampleModalCenter").modal('hide');
+                    $('#RemoveUserSubmit').prop('disabled',false);
+                    $('#application_list').DataTable().draw();
+                    toastr.success(res.action,'Success',{timeOut: 5000});
+                }else{
+                    $("#exampleModalCenter").modal('hide');
+                    $('#RemoveUserSubmit').prop('disabled',false);
+                }
+            },
+            error: function (data) {
+                toastr.error("Please try again",'Error',{timeOut: 5000});
+            }
+        });
+    });
 </script>
 @endpush('scripts')

@@ -52,6 +52,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/content-update/{id}',  [ContentController::class, 'update']);
     Route::get('content-list/{id}',[ContentController::class,'ContentList']); // content app data list
     Route::post('content-get-list/{id}',[ContentController::class,'ContentGetList']); // content data table
+    Route::get('/content/{id}/delete',[ContentController::class, 'destroy']);
 
     // application content data
     Route::resource('/app-data',  AppDataController::class);
