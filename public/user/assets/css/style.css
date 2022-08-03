@@ -10344,8 +10344,16 @@ sub {
     border-radius: 100%;
 }
 
-.content-body .container-fluid {
+.content-body>.container-fluid {
     padding: 15px 30px 0;
+}
+
+.application_table_part .container-fluid {
+    padding: 0;
+}
+
+.application_table_part .row {
+    margin: 0;
 }
 
 @media (max-width: 767px) {
@@ -21029,7 +21037,7 @@ input[type="file"] {
 }
 
 .application_table tr:nth-child(even) {
-    background: #F5F5F5 !important;
+    /* background: #F5F5F5 !important; */
 }
 
 .application_table tr {
@@ -21041,7 +21049,7 @@ input[type="file"] {
 }
 
 .add_application_btn_part {
-    padding-left: 30px;
+    /* padding-left: 30px; */
 }
 
 .table_detail_part .application_table th,
@@ -21073,7 +21081,8 @@ input[type="file"] {
 }
 
 .application_tab {
-    padding-left: 30px;
+    padding-left: 15px;
+    margin-bottom: 15px;
 }
 
 .table_detail_part thead th:after,
@@ -21101,6 +21110,10 @@ input[type="file"] {
     padding: 12px 12px;
 }
 
+.table_detail_part .application_table #child_row tbody td:first-child {
+    text-align: right !important;
+}
+
 .pagination {
     justify-content: end;
 }
@@ -21124,6 +21137,8 @@ input[type="file"] {
 .form-validation-part .col-form-label,
 .custom-form-design .col-form-label {
     font-size: 14px;
+    padding-bottom: 4px;
+    padding-top: 15px;
 }
 
 
@@ -21152,10 +21167,10 @@ input[type="file"] {
 
 .form-validation-part .col-form-label,
 .custom-form-design .col-form-label {
-    font-weight: 500;
+    /* font-weight: 500;
     font-size: 15px;
     line-height: 24px;
-    color: #000000;
+    color: #000000; */
     text-transform: capitalize;
 }
 
@@ -21235,7 +21250,7 @@ input[type="file"] {
 }
 
 .application_part .card-title {
-    padding-left: 30px;
+    padding-left: 15px;
 }
 
 .sub-form-card {
@@ -21250,10 +21265,40 @@ input[type="file"] {
     background: transparent;
 }
 
+#child_row {
+    margin: auto;
+}
+
 #child_row tr {
     margin-top: 10px;
     display: block;
     min-height: auto;
+}
+
+.error-display {
+    font-size: 12px;
+}
+
+.copy_btn {
+    outline: 0 !important;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.comman_loader svg {
+    width: 25px;
+    height: 25px;
+    position: initial;
+}
+
+.comman_loader svg .path {
+    animation: dash 1.5s ease-in-out infinite, 6s ease-in-out infinite;
+    stroke: #fff;
+}
+
+.field_btn {
+    padding: 7px 14px;
 }
 
 @media (max-width:1600px) {

@@ -121,8 +121,17 @@ span.error-display {
                                 @foreach($sub_app_data->groupBy('UUID') as $app)
                                 <div class="col-md-6 mb-4">
                                   <div class="form-validation-part p-3 p-sm-4 p-md-3 p-lg-4">
-                                    <div class="cp_btn d-flex justify-content-between">
-                                        <button class="btn btn-secondary text-white copy_btn" id="cp_btn" type="button">Copy</button>
+                                    <div class="cp_btn">
+                                      <button class="text-white copy_btn mr-2" id="cp_btn" type="button">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M11.332 8.93329V10.9333C11.332 13.6 10.2654 14.6666 7.5987 14.6666H5.06536C2.3987 14.6666 1.33203 13.6 1.33203 10.9333V8.39996C1.33203 5.73329 2.3987 4.66663 5.06536 4.66663H7.06537" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M11.3331 8.93329H9.19974C7.59974 8.93329 7.06641 8.39996 7.06641 6.79996V4.66663L11.3331 8.93329Z" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M7.73242 1.33337H10.3991" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M4.66797 3.33337C4.66797 2.22671 5.5613 1.33337 6.66797 1.33337H8.41464" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14.6663 5.33337V9.46004C14.6663 10.4934 13.8263 11.3334 12.793 11.3334" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14.668 5.33337H12.668C11.168 5.33337 10.668 4.83337 10.668 3.33337V1.33337L14.668 5.33337Z" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                          </svg>
+                                        </button>
                                         <button class="btn btn-secondary text-white remove_btn" id="cp_btn" type="button"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>
                                         <input type="hidden" class="UUID" data="already" name="UUID[]" value="{{$app[0]->UUID}}"/>
                                       </div>

@@ -23,20 +23,20 @@
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-xl-4">
-                    <div class="card">
+                    <div class="card shadow-none">
                         <div class="card-body">
                             <h4 class="card-title">Add Category Form</h4>
                             <div class="form-validation">
                                 <!-- {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }} -->
-                                <form class="form-valide form-validation-part custom-form-design" action="" mathod="POST" id="category_add" enctype="multipart/form-data">
+                                <form class="form-valide custom-form-design" action="" mathod="POST" id="category_add" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="app_id" value="{{$id}}" />
                                     <p class="error-display" style="display: none;"></p>
-                                    <div class="row m-0">
-                                        <div class="form-group col-12 title_part px-sm-3"> 
-                                            <label class="col-form-label" for="name">Title: <span class="text-danger">*</span>
+                                    <div class="row m-0 no-gutters">
+                                        <div class="form-group col-12 title_part"> 
+                                            <label class="col-form-label" for="name">Title <span class="text-danger">*</span>
                                             </label>
-                                            <div class="row m-0">
+                                            <div class="row m-0 no-gutters">
                                                 <div class="col-lg-12 p-0">
                                                     <input type="text" class="form-control" id="name" name="name" placeholder="Category Title.." required>
                                                     <p class="error-display"></p>
@@ -45,15 +45,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row no-gutters">
                                         <div class="col-md-12">
-                                            <label class="col-form-label px-0 px-sm-3" for="name">custom field <span class="text-danger">*</span>
+                                            <label class="col-form-label px-0" for="name">custom field <span class="text-danger">*</span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="row m-0">
+                                    <div class="row m-0 no-gutters">
                                         <!--  -->
-                                        <div class="form-group col-9 col-sm-10 mb-3 pl-0 px-sm-3"> 
+                                        <div class="form-group col-9 col-sm-10 mb-3 pl-0 "> 
                                             <div class="position-relative">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="arrow_selectbox" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="46" viewBox="0 0 46 46" fill="none">
                                                 <rect width="46" height="46" fill="url(#pattern0)"/>
@@ -70,8 +70,8 @@
                                                         <option data-id="{{$field->id}}" value="{{$field->type}}">{{$field->title}}</option>
                                                     @endforeach
                                                 </select>
-                                                <p class="error-display"></p>
                                             </div>
+                                            <p class="error-display"></p>
                                         </div>
                                         <div class="col-3 col-sm-2 text-center text-md-start p-0 mb-2 mb-md-0">
                                             <div class="custome_fields"><button type="button" data-id="{{$id}}" class="plus_btn btn mb-1 btn-info field_btn">Add</button></div>
@@ -95,10 +95,10 @@
                 </div>
                 <div class="col-xl-8 table_detail_part px-0 px-xl-3">
                     <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Add Category Form</h4>
+                        <div class="card-body px-3">
+                            <h4 class="card-title px-3">Category List</h4>
                             <div class="table-responsive">
-                                <table id="category_list" class="table zero-configuration customNewtable application_table table-child-part" style="width:100%">
+                                <table id="category_list" class="table zero-configuration customNewtable application_table table-child-part shadow-none" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -216,11 +216,11 @@
         }
         if(type != ""){       
                     html += '<div class="row mb-3 align-items-center">'+
-                    '<div class="col-12 col-sm-5 pr-0 px-0 pl-sm-3 mb-3 mb-sm-0">'+
+                    '<div class="col-12 col-sm-5 pr-0 px-0 pr-sm-3 mb-3 mb-sm-0">'+
                         '<input type="text" placeholder="title" class="form-control input-flat" name="'+field_key+'" />'+
                         '<p class="error-display"></p>'+    
                     '</div>'+
-                    '<div class="col-10 col-sm-5 px-0 px-sm-3">'+
+                    '<div class="col-10 col-sm-5 px-0 pl-sm-3">'+
                         '<input type="'+type+'" class="form-control input-flat" placeholder="value" name="'+field_name+'" />'+
                         '<p class="error-display"></p>'+    
                     '</div>'+
@@ -318,11 +318,11 @@
                 "data":{ _token: '{{ csrf_token() }}', app_id: app_id},
             },
             "columnDefs": [
-                { "width": "15%", "targets": 0 },
+                { "width": "7%", "targets": 0 },
                 { "width": "15%", "targets": 1 },
                 { "width": "25%", "targets": 2 },
                 { "width": "25%", "targets": 3 },
-                { "width": "20%", "targets": 4 },
+                { "width": "10%", "targets": 4 },
             ],
             "columns": [
                 {

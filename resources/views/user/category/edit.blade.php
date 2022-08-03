@@ -35,18 +35,18 @@
                                     <p class="error-display mb-0" style="display: none;"></p>
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <label class="col-form-label" for="name">Title: <span class="text-danger">*</span>
+                                            <label class="col-form-label" for="name">Title <span class="text-danger">*</span>
                                             </label>
                                             <div class="row pl-3">
-                                                <div class="col-lg-8 p-0 mr-2 mb-3">
+                                                <div class="col-md-11 p-0 mb-3">
                                                     <input type="text" class="form-control" id="name" value="{{$data->title}}" name="name" placeholder="Application Name..">
                                                     <p class="error-display mb-0"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="form-group col-9 col-md-11">
+                                    <div class="row mb-3 ">
+                                        <div class="form-group col-9 col-md-10">
                                             <div class="position-relative">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="arrow_selectbox" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="46" viewBox="0 0 46 46" fill="none">
                                                     <rect width="46" height="46" fill="url(#pattern0)"></rect>
@@ -77,7 +77,7 @@
                                                 $field_key_id = $d->id."_".$d->fields->id."_key"; 
                                                 $field_name_id = $d->id."_".$d->fields->id."_value"; 
                                                 ?>
-                                                <div class="row mb-3 position-relative align-items-center">
+                                                <div class="row position-relative align-items-center">
                                                     <div class="col-md-5 mb-3 mb-md-0">
                                                         <input type="text" placeholder="" value="{{$d->key}}" class="form-control input-flat" name="{{$field_key}}" />
                                                         <p class="error-display mb-0"></p>
@@ -104,15 +104,17 @@
                                                     <!-- <div class="col-md-2">
                                                         <button type="button" class="plus_btn btn mb-1 btn-primary">+</button>
                                                     </div> -->
-                                                    <div class="col-2 col-sm-1 col-md-1 mb-3 mb-md-0 text-center">
+                                                    <div class="col-2 col-sm-1 col-md-1 mb-3 mb-md-0 text-center delete_btn_part">
                                                         <button type="button" class="minus_btn btn mb-1 btn-dark p-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>
                                                     </div>
+                                                </div>
+                                                <div class="row mt-2 mb-3">
                                                     @if($d->fields->type == "file")
-                                                    <div class="col-md-1 img_class text-start text-lg-center pl-md-0 pl-xl-3">
+                                                    <div class="offset-md-5 col-md-1 img_class text-start text-lg-center">
                                                         <img class="img_side" src="{{asset('category_image/'.$d->value)}}" >
                                                     </div>
                                                     @elseif($d->fields->type == "multi-file")
-                                                    <div class="col-md-1 img_class text-start text-lg-center pl-md-0 pl-xl-3">
+                                                    <div class="offset-md-5 col-md-1 img_class text-start text-lg-center">
                                                         <img class="img_side" src="{{asset('category_image/'.$d->value)}}" >
                                                     </div>
                                                     @endif

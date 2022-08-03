@@ -7,7 +7,7 @@
             <div class="card login-form mb-0">
                 <div class="card-body pt-5">
                     <a class="text-center" href="{{ url('/') }}"> <h4>App Management</h4></a>
-                    <form action="" method="POST" id="LoginForm">
+                    <form action="" method="POST" id="LoginForm" class="mt-5 mb-3 login-input">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <input type="email" class="form-control" name="email" placeholder="Email">
@@ -17,7 +17,14 @@
                             <input type="password" class="form-control" name="password" placeholder="Password">
                             <div id="password-error" class="invalid-feedback animated fadeInDown" style="display: none;"></div>
                         </div>
-                        <button type="button" class="btn login-form__btn submit w-100" id="LoginSubmit">Sign In</button>
+                        <button type="button" class="btn login-form__btn submit w-100" id="LoginSubmit">
+                            <span>Sign In</span>
+                            <span class="comman_loader">
+                                <svg class="circular" viewBox="25 25 50 50">
+                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                </svg>
+                            </span>
+                        </button>
                     </form>
                     <!-- <p class="mt-5 login-form__footer">Dont have account? <a href="{{ url('register') }}" class="text-primary">Sign Up</a> now</p> -->
                 </div>

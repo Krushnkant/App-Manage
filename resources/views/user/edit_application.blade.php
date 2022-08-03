@@ -23,14 +23,14 @@
                         <!-- <form class="form-valide" action="" method="post"> -->
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="col-form-label" for="name">Application Name: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="name">Application Name <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
                                         <input type="text" class="form-control" value="{{$data->name}}" id="name" name="name" placeholder="Application Name..">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-form-label" for="icon">Application Icon: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
                                         <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Application Icon..">
@@ -47,14 +47,14 @@
                                     </div> -->
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-form-label" for="app_id">Application ID: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
                                         <input type="text" class="form-control" id="app_id" value="{{$data->app_id}}" name="app_id" placeholder="Application ID..">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-form-label" for="package_name">Package Name: <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="package_name">Package Name <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
                                         <input type="text" class="form-control" id="package_name" value="{{$data->package_name}}" name="package_name" placeholder="Package Name..">
