@@ -14,6 +14,11 @@
     <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
  
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
+    
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahianita&family=Playfair+Display:ital,wght@1,400;1,500&family=Raleway&display=swap" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="{{asset('user/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('user/assets/css/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">

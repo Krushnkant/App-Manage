@@ -50,7 +50,7 @@ span.error-display {
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Add Content</h4>
+                    <h4 class="card-title">Edit Content</h4>
                         <form class="form-valide" action="" mathod="POST" id="content_edit" enctype="multipart/form-data">
                             <input type="hidden" id="app_id" name="app_id" value="{{$id}}" />
                             <input type="hidden" id="UUID-main" name="UUID-main" value="{{$app_data[0]->UUID}}" />

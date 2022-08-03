@@ -248,7 +248,11 @@ class ContentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $content = AppData::find($id);
+        $get_all_app_data = AppData::where('UUID', $content->UUID)->delete();
+        $get_all_sub_app_data = SubAppData::where('app_uuid', $content->UUID)->delete();
+        
+        return response()->json(['status' => '200', 'action' => 'Delete Content Data Successfully']);
     }
 
     public function addstructure($id)
@@ -288,7 +292,7 @@ class ContentController extends Controller
 
     public function ContentList(Request $request, $id)
     {
-        $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
+        // $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
         // $get_app_data = AppData::with('category','application')->select("*")
         //                 ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
         //                 ->where("app_id", $id)
@@ -300,22 +304,25 @@ class ContentController extends Controller
         //         $rr->start_date = $rr->created_at->format('d M Y');
         //     }
         // }
-        $get_uuid = AppData::with('category','application')->groupBy('UUID')->get();
-        foreach($get_uuid as $gett){
-            // dump($get->UUID);
-            $get_app_data = AppData::with('category','application')->select("*")
-                        ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
-                        ->where("UUID", $gett->UUID)
-                        ->where("status", 1)
-                        ->get();
-            $gett->app_data = $get_app_data;
-            $form_structure = SubAppData::select("*")
-                    ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
-                    ->where("app_uuid",  $gett->UUID)
-                    ->where("status", 1)
-                    ->get();
-            $gett->sub_app_data = $form_structure;
-        }
+        // $get_uuid = AppData::with('category','application')->where('app_id', $id)->groupBy('UUID')->get();
+        // dd($get_uuid);
+        // foreach($get_uuid as $gett){
+        //     // dump($get->UUID);
+        //     $get_app_data = AppData::with('category','application')->select("*")
+        //                 ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
+        //                 ->where("UUID", $gett->UUID)
+        //                 ->where('app_id', $id)
+        //                 ->where("status", 1)
+        //                 ->get();
+        //     $gett->app_data = $get_app_data;
+        //     $form_structure = SubAppData::select("*")
+        //             ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
+        //             ->where("app_uuid",  $gett->UUID)
+        //             ->where('app_id', $id)
+        //             ->where("status", 1)
+        //             ->get();
+        //     $gett->sub_app_data = $form_structure;
+        // }
         // print_r($get_uuid);
         return view('user.content.content_list', compact('id'));
     }
@@ -335,17 +342,19 @@ class ContentController extends Controller
     //             $rr->start_date = $rr->created_at->format('d M Y');
     //         }
     //     }
-        $get_uuid = AppData::with('category','application')->groupBy('UUID')->get();
+        $get_uuid = AppData::with('category','application')->where('app_id', $id)->groupBy('UUID')->get();
             foreach($get_uuid as $gett){
                 $get_app_data = AppData::with('category','application')->select("*")
                             ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
                             ->where("UUID", $gett->UUID)
+                            ->where('app_id', $id)
                             ->where("status", 1)
                             ->get();
                 $gett->app_data = $get_app_data;
                 $form_structure = SubAppData::select("*")
                         ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
                         ->where("app_uuid",  $gett->UUID)
+                        ->where('app_id', $id)
                         ->where("status", 1)
                         ->get();
                 $gett->sub_app_data = $form_structure;

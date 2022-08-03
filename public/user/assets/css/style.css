@@ -21455,3 +21455,14 @@ input[type="file"] {
     font-size: 15px;
     font-weight: 500;
 }
+
+/* pooja css */
+.nav-header .brand-logo a span {
+    font-size: 22px;
+    font-family: 'Raleway', sans-serif;
+}
+.text-center h4 {
+    color: #7571f9;
+    font-family: 'Raleway', sans-serif;
+    font-size: 30px;
+}
