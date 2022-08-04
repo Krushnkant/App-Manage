@@ -101,7 +101,8 @@
                 {data: 'category_id', name: 'category_id', class: "text-center", orderable: false,
                     render: function (data, type, row) {
                         // console.log(row.category?.title)
-                        return "<div><span class='application_text app_id_part total_request_text'>"+row.category?.title+"</span></div>";
+                        var cat = (row.category?.title != undefined) ? row.category?.title : "-";
+                        return "<span class='application_text app_id_part total_request_text'>"+cat+"</span>";
                     }
                 },
                 {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,

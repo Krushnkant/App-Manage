@@ -124,7 +124,9 @@ class ContentController extends Controller
         $field_type = (isset($data['field_type']) && $data['field_type']) ? $data['field_type'] : null;
         $sub_field_names = (isset($data['sub_field_name']) && $data['sub_field_name']) ? $data['sub_field_name'] : null;
         $sub_field_type = (isset($data['sub_field_type']) && $data['sub_field_type']) ? $data['sub_field_type'] : null;
+        // $UUID_main = (isset($data['UUID-main']) && $data['UUID-main']) ? $data['UUID-main'] : null;
 
+        // dump($UUID_main);
         // dump($field_names);
         // dump($field_type);
         // dump($sub_field_names);

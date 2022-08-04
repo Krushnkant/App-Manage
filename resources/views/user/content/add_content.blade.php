@@ -53,6 +53,7 @@ span.error-display {
                         <form class="form-valide" action="" mathod="POST" id="content_add" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" value="{{ $application_id }}" name="application_id">
+                            <!-- <input type="hidden" value="{{ $application_id }}" name="application_id"> -->
                             @if($is_category != 0)
                             <div class="row">
                                 <div class="col-md-6">
@@ -107,56 +108,56 @@ span.error-display {
                                 @endforeach
                             </div>
                             @if($is_sub_formm != 0)
-                            <h4 class="card-title mt-4">Sub Form Content</h4>
-                            <div class="sub_form">
-                              <div class="row sub_form_row">
-                                <div class="col-md-6 mb-4">
-                                  <div class="form-validation-part p-3 p-sm-4 p-md-3 p-lg-4">
-                                    <div class="cp_btn text-right">
-                                      <button class="text-white copy_btn mr-2" id="cp_btn" type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                          <path d="M11.332 8.93329V10.9333C11.332 13.6 10.2654 14.6666 7.5987 14.6666H5.06536C2.3987 14.6666 1.33203 13.6 1.33203 10.9333V8.39996C1.33203 5.73329 2.3987 4.66663 5.06536 4.66663H7.06537" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path d="M11.3331 8.93329H9.19974C7.59974 8.93329 7.06641 8.39996 7.06641 6.79996V4.66663L11.3331 8.93329Z" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path d="M7.73242 1.33337H10.3991" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path d="M4.66797 3.33337C4.66797 2.22671 5.5613 1.33337 6.66797 1.33337H8.41464" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path d="M14.6663 5.33337V9.46004C14.6663 10.4934 13.8263 11.3334 12.793 11.3334" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path d="M14.668 5.33337H12.668C11.168 5.33337 10.668 4.83337 10.668 3.33337V1.33337L14.668 5.33337Z" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                      </button>
-                                      <button class="text-white remove_btn" id="cp_btn" type="button">
-                                        <img src="{{asset('user/assets/icons/delete-red.png')}}">
-                                      </button>
-                                      <input type="hidden" class="UUID" name="UUID[]" value=""/>
+                              <h4 class="card-title mt-4">Sub Form Content</h4>
+                              <div class="sub_form">
+                                <div class="row sub_form_row">
+                                  <div class="col-md-6 mb-4 sub_form_col">
+                                    <div class="form-validation-part p-3 p-sm-4 p-md-3 p-lg-4">
+                                      <div class="cp_btn text-right">
+                                        <button class="text-white copy_btn mr-2" id="cp_btn" type="button">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M11.332 8.93329V10.9333C11.332 13.6 10.2654 14.6666 7.5987 14.6666H5.06536C2.3987 14.6666 1.33203 13.6 1.33203 10.9333V8.39996C1.33203 5.73329 2.3987 4.66663 5.06536 4.66663H7.06537" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M11.3331 8.93329H9.19974C7.59974 8.93329 7.06641 8.39996 7.06641 6.79996V4.66663L11.3331 8.93329Z" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M7.73242 1.33337H10.3991" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M4.66797 3.33337C4.66797 2.22671 5.5613 1.33337 6.66797 1.33337H8.41464" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14.6663 5.33337V9.46004C14.6663 10.4934 13.8263 11.3334 12.793 11.3334" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14.668 5.33337H12.668C11.168 5.33337 10.668 4.83337 10.668 3.33337V1.33337L14.668 5.33337Z" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                          </svg>
+                                        </button>
+                                        <button class="text-white remove_btn" id="cp_btn" type="button">
+                                          <img src="{{asset('user/assets/icons/delete-red.png')}}">
+                                        </button>
+                                        <input type="hidden" class="UUID" name="UUID[]" value=""/>
+                                      </div>
+                                      <div class="row">
+                                        @foreach($sub_form as $dat)
+                                          <?php 
+                                            $input_name = $dat->id."subname[]"; 
+                                            $file_name = $dat->id."subfile[]"; 
+                                            $input_name_id = $dat->id."subname"; 
+                                            $file_name_id = $dat->id."subfile"; 
+                                            $uuid = $dat->id."uuid"; 
+                                          ?>
+                                            @if($dat->field_type == "file")
+                                            <div class="form-group col-12">
+                                                <label class="col-form-label" for="name">{{$dat->field_name}}</label>
+                                                <input type="{{$dat->field_type}}"  id="{{$file_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$file_name}}" />
+                                            </div>
+                                            @elseif($dat->field_type == "multi-file")
+                                            
+                                            @else
+                                            <div class="form-group col-12">
+                                                <label class="col-form-label" for="name">{{$dat->field_name}}</label>
+                                                <input type="{{$dat->field_type}}" id="{{$input_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                      </div>
                                     </div>
-                                    <div class="row">
-                                      @foreach($sub_form as $dat)
-                                        <?php 
-                                          $input_name = $dat->id."subname[]"; 
-                                          $file_name = $dat->id."subfile[]"; 
-                                          $input_name_id = $dat->id."subname"; 
-                                          $file_name_id = $dat->id."subfile"; 
-                                          $uuid = $dat->id."uuid"; 
-                                        ?>
-                                          @if($dat->field_type == "file")
-                                          <div class="form-group col-12">
-                                              <label class="col-form-label" for="name">{{$dat->field_name}}</label>
-                                              <input type="{{$dat->field_type}}"  id="{{$file_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$file_name}}" />
-                                          </div>
-                                          @elseif($dat->field_type == "multi-file")
-                                          
-                                          @else
-                                          <div class="form-group col-12">
-                                              <label class="col-form-label" for="name">{{$dat->field_name}}</label>
-                                              <input type="{{$dat->field_type}}" id="{{$input_name_id}}" placeholder="Field Name" class="form-control input-flat specReq" name="{{$input_name}}" />
-                                          </div>
-                                          @endif
-                                      @endforeach
-                                    </div>
+                                  
                                   </div>
-                                 
                                 </div>
                               </div>
-                            </div>
                             @endif
                             <div class="row">
                                 <div class="form-group col-md-6">
