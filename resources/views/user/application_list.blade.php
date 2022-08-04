@@ -185,7 +185,7 @@
                         
                         "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table mx-3'>"+
+                        "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -227,9 +227,9 @@
                             "</tbody>"+
                         "</table></tr>";
         }else{
-            cat_list +="<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table mx-3'>"+
+            cat_list +="<tr><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
+                        "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
@@ -259,7 +259,7 @@
                         
                         "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
                         "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
-                        "<table class='w-100 child-inner-table mx-3'>"+
+                        "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
                                     "<th><strong>PARAMS</strong></th>"+
