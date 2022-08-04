@@ -241,59 +241,47 @@ class AppDataController extends Controller
         // dump($uuid);
         $sub_form_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->whereNotIn('UUID', $uuid)->delete();
         // $sub_form_data = SubAppData::where('app_id', $app_id)->whereNotIn('UUID', $uuid)->get()->pluck('UUID')->toArray();
-        // dump("======");
-        // dump($sub_form_data);
         unset($data['UUID']);
         unset($data['_token']);
-        // dump($uuid);
-        // dump($data);
         foreach($data as $key => $ddd){
             if (strpos($key, "sub_single") !== false) {
                 $aaa = explode('-',$key);
-                // dump($aaa);
                 $uuuuid = $aaa[0];
                 // dump($uuuuid);
-                
                 if (($key = array_search($uuuuid, $uuid)) !== false) {
                     unset($uuid[$key]);
                 }
                 $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
-                $app_data = SubAppData::where('app_id', $app_id)->where('UUID', $uuuuid)->where('app_uuid', $UUID_main)->where('sub_form_structure_id', $int_var)->first();
+                // dump($UUID_main);
+                // dump($app_id);
+                // dump($int_var);
+                $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
                 // dump($app_data);
                 foreach($ddd as $i => $vall){
-                    // dump($i);
                     if($i == 0){
                         $imageName = Str::random().'.'.$vall->getClientOriginalExtension();
+                        // dump($imageName);
                         $fff = $vall->move(public_path().'/app_data_images/', $imageName);  
-                        $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
-                        $app_data->value = $imageName;
-                        $app_data->app_uuid = $UUID_main;
-                        $app_data->category_id = $category_id;
-                        $app_data->save();
-                        // dump($app_data);
+                        // $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
+                        if($app_data != null){
+                            $app_data->value = $imageName;
+                            $app_data->app_uuid = $UUID_main;
+                            $app_data->category_id = $category_id;
+                            $app_data->save();
+                            // dump($app_data);
+                        }
                         unset($ddd[$i]);
                     }else{
                         $app_datas = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->get()->pluck('UUID')->toArray();
-                        // dump($app_datas);
-                        // dump("-------");
-                        // dump($uuid);
-                        // $uuid = ['ddfdfs','fsdfsdf'];
                         $result = array_diff($uuid,$app_datas);
-                        // dump($result);
                         $rrr = [];
                         foreach($result as $da){
                             array_push($rrr, $da);
                         }
-                        // dump($rrr);
                         $imageName = Str::random().'.'.$vall->getClientOriginalExtension();
-                        // dump($imageName);
                         $fff = $vall->move(public_path().'/app_data_images/', $imageName);  
-                        // dump($fff);
-                        // dump(count($result));
                         if(count($result) > 1){
-                            // dump("ooooo");
                             foreach($rrr as $k => $r){
-                                // dump($rrr[$k]);
                                 $app_data = SubAppData::where('app_id', $app_id)->where('UUID', $rrr[$k])->where('sub_form_structure_id', $int_var)->first();
                                 if($app_data == null){
                                     $app_data = new SubAppData();
@@ -304,15 +292,9 @@ class AppDataController extends Controller
                                     $app_data->sub_form_structure_id = $int_var;
                                     $app_data->value = $imageName;
                                     $app_data->save();
-                                    // dump($app_data);
                                 }
                             }
                         }else if(count($result) == 1){
-                            // dump("else if");
-                            // dump($category_id);
-                            // dump($rrr);
-                            // dump($int_var);
-                            // dump($imageName);
                             $app_data = new SubAppData();
                             $app_data->app_id = $app_id;
                             $app_data->app_uuid = $UUID_main;
@@ -323,7 +305,6 @@ class AppDataController extends Controller
                             $app_data->save();
                         }
                         else{
-                            // dump("pppp");
                             foreach($uuid as $u){
                                 $app_datahh = SubAppData::where('app_id', $app_id)->where('UUID', $u)->where('sub_form_structure_id', $int_var)->first();
                                 if($app_datahh == null){
