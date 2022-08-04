@@ -21268,6 +21268,7 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
     outline: 0;
     border: 0;
     background: transparent;
+    padding: 0;
 }
 
 #child_row {
@@ -21309,11 +21310,18 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
     display: none;
 }
 
-.sub_form_col .copy_btn, .sub_form_edit_row .sub_form_col:first-child{
+.sub_form_col .copy_btn{
     display: none;
 }
 .sub_form_col:first-child .copy_btn {
     display: block;
+    margin-left: auto;
+}
+.sub_form_edit_row .copy_btn{
+    display: none !important;
+}
+.sub_form_edit_row .remove_btn{
+    display: block !important;
     margin-left: auto;
 }
 

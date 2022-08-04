@@ -148,7 +148,7 @@ span.error-display {
                                 @foreach($sub_app_data->groupBy('UUID') as $app)
                                   <div class="col-md-6 mb-4 sub_form_col">
                                       <div class="form-validation-part p-3 p-sm-4 p-md-3 p-lg-4">
-                                        <div class="cp_btn">
+                                        <div class="cp_btn text-right">
                                             <!-- <button class="btn btn-secondary text-white copy_btn" id="cp_btn" type="button">Copy</button> -->
                                             <button class="text-white copy_btn mr-2" id="cp_btn" type="button">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -276,7 +276,7 @@ $('body').on('click', '#submit_app_data', function () {
     // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
-      $('#loader').show();
+      // $('#loader').show();
       $.ajax({
               type: 'POST',
               url: "{{ url('/contentt-update')}}/"+app_id,
