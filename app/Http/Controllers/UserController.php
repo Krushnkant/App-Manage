@@ -114,8 +114,8 @@ class UserController extends Controller
                 $auth = Auth::user();
                 $user_id = $auth->id;
                 
-                // $ip = \Request::getClientIp(true);
-                $ip = "43.240.9.99";
+                $ip = \Request::getClientIp(true);
+                // $ip = "43.240.9.99";
                 $currentUserInfo = Location::get($ip);
                 if($currentUserInfo != null){
                     $country = $currentUserInfo->countryName;
