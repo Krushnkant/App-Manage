@@ -132,7 +132,7 @@ $(document).ready(function() {
             type = ""
         }
         if(type == 'sub-form'){
-            html += '<div class="mx-3 border px-3 py-sm-3 py-3 sub-form-card mt-3"><div class="row">'+
+            html += '<div class="mx-3 border px-3 py-sm-3 py-3 mt-3"><div class="row">'+
                     '<div class="col-12 col-sm-5 mb-3">'+
                         '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
@@ -144,7 +144,7 @@ $(document).ready(function() {
                     '</div>'+
                 '</div>';
 
-           html += '<div class="row mt-3 mt-sm-0 sub-form-card">'+
+           html += '<div class="row mt-3 mt-sm-0">'+
                         '<label class="col-lg-12 col-form-label pt-0" for="name">Field Select <span class="text-danger">*</span></label>'+
                         '<div class="form-group col-9 col-sm-10">'+
                                 '<div class="col-lg-12 px-0">'+

@@ -71,7 +71,11 @@ span.error-display {
                                     <select class="form-control select-box" id="category" name="category">
                                         <option value="">Please select</option>
                                         @foreach($categories as $cat)
+                                          @if($app_data[0]->category_id == $cat->id)
+                                            <option data-id="{{$cat->id}}" value="{{$cat->id}}" selected>{{$cat->title}}</option>
+                                            @else
                                             <option data-id="{{$cat->id}}" value="{{$cat->id}}">{{$cat->title}}</option>
+                                          @endif
                                         @endforeach
                                     </select>
                                   </div>
@@ -130,10 +134,9 @@ span.error-display {
                               <div class="row">
                                 <?php $count = 0; ?>
                                 @foreach($sub_app_data->groupBy('UUID') as $app)
-                                  <div class="col-md-6 mb-4">
+                                  <div class="col-md-6 mb-4 sub_form_col">
                                       <div class="form-validation-part p-3 p-sm-4 p-md-3 p-lg-4">
                                         <div class="cp_btn">
-                                          @if($count == 0)
                                             <!-- <button class="btn btn-secondary text-white copy_btn" id="cp_btn" type="button">Copy</button> -->
                                             <button class="text-white copy_btn mr-2" id="cp_btn" type="button">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -145,10 +148,7 @@ span.error-display {
                                                 <path d="M14.668 5.33337H12.668C11.168 5.33337 10.668 4.83337 10.668 3.33337V1.33337L14.668 5.33337Z" stroke="#8B8B8B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
                                               </svg>
                                             </button>
-                                          @endif
-                                          @if($count != 0)
                                           <button class="btn btn-secondary text-white remove_btn" id="cp_btn" type="button"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>
-                                          @endif
                                           <input type="hidden" class="UUID" data="already" name="UUID[]" value="{{$app[0]->UUID}}"/>
                                         </div>
                                           @foreach($app as $ap)

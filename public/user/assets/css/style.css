@@ -21305,6 +21305,17 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
 .field_btn {
     padding: 7px 14px;
 }
+.sub_form_col:first-child .remove_btn{
+    display: none;
+}
+
+.sub_form_col .copy_btn, .sub_form_edit_row .sub_form_col:first-child{
+    display: none;
+}
+.sub_form_col:first-child .copy_btn {
+    display: block;
+    margin-left: auto;
+}
 
 @media (max-width:1600px) {
     .application_img_text {
