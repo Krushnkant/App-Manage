@@ -21460,6 +21460,7 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
     background-color: #fff;
     margin: 5px 0px 15px;
     text-transform: lowercase;
+    line-height: normal;
 }
 
 .table_detail_part .application_table #child_row tbody td {
@@ -21472,11 +21473,14 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
     font-weight: 500;
 }
 
+
 /* pooja css */
+
 .nav-header .brand-logo a span {
     font-size: 22px;
     font-family: 'Raleway', sans-serif;
 }
+
 .text-center h4 {
     color: #7571f9;
     font-family: 'Raleway', sans-serif;
