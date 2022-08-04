@@ -34,6 +34,18 @@
 span.error-display {
     color: #f00;
 }
+#loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgb(0 0 0 / 22%) url("../../user/assets/loader/loader.gif") no-repeat center center;
+    z-index: 99999;
+    background-size: 200px;
+}
 </style>
 <div class="row page-titles mx-0">
     <div class="col p-md-0">
@@ -167,6 +179,7 @@ span.error-display {
                                 </div>
                             </div>
                         </form>
+                        <div id='loader'></div>
                 </div>
             </div>
         </div>
@@ -244,6 +257,7 @@ $('body').on('click', '#submit_app_data', function () {
     // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
+      $('#loader').show();
       $.ajax({
               type: 'POST',
               url: "{{ route('app-data.store') }}",
@@ -252,9 +266,12 @@ $('body').on('click', '#submit_app_data', function () {
               contentType: false,
               success: function(data) {
                   if(data.status == 200){
+                      $('#loader').hide();
                       toastr.success("Content Added",'Success',{timeOut: 5000})
                       $("#content_add")[0].reset()
+                      window.location.href = "{{ url('content-list/'.$application_id)}}";
                   }else{
+                      $('#loader').hide();
                       toastr.error("Please try again",'Error',{timeOut: 5000})
                   }
               }
