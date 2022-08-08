@@ -18,6 +18,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="{{url('application')}}">Application List</a></li>
+            <li class="breadcrumb-item active">Edit Application</li>
         </ol>
     </div>
 </div>

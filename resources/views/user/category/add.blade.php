@@ -22,7 +22,8 @@
     <div class="col p-md-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{url('application')}}">Application List</a></li>
+            <li class="breadcrumb-item"><a href="{{url('application')}}">Application List</a></li>
+            <li class="breadcrumb-item active">Add Category</li>
         </ol>
     </div>
 </div>
@@ -104,7 +105,7 @@
                 <div class="col-xl-8 table_detail_part px-0 px-xl-3">
                     <div class="card">
                         <div class="card-body px-3">
-                            <h4 class="card-title px-3">Category List</h4>
+                            <h4 class="card-title px-3">Category List - Application Management</h4>
                             <div class="table-responsive">
                                 <table id="category_list" class="table zero-configuration customNewtable application_table table-child-part shadow-none" style="width:100%">
                                     <thead>
