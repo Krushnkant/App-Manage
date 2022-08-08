@@ -14,7 +14,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Content List</h4>
+                    <h4 class="card-title">Content List - Application Management</h4>
                     <button class="btn mb-1 btn-primary"><a href="{{url('content-form/'.$id)}}" class="text-white">Add Content</a></button>
                     <button class="btn mb-1 btn-primary"><a href="{{url('add-structure/'.$id)}}" class="text-white">Add Structure</a></button>
                 </div>

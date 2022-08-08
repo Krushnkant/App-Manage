@@ -61,7 +61,7 @@ span.error-display {
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-3">Add Content</h4>
+                    <h4 class="card-title mb-3">Add Content - Application Management</h4>
                         <form class="form-valide" action="" mathod="POST" id="content_add" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" value="{{ $application_id }}" name="application_id">

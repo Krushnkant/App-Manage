@@ -26,6 +26,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                <h4 class="card-title mb-4">Edit Application - Application Management</h4>
                     <div class="form-validation">
                         {{ Form::open(array('route' => array('application.update', $data->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
                         <!-- <form class="form-valide" action="" method="post"> -->
@@ -43,7 +44,8 @@
                                     <div class="">
                                         <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Application Icon..">
                                         <div class="pre_img mt-3">
-                                            <img class="set_img input-set-img-part" src="{{asset('/app_icons/'.$data->icon)}}" />
+                                            <!-- <img class="set_img input-set-img-part" src="{{asset('/app_icons/'.$data->icon)}}" /> -->
+                                            <img class="set_img input-set-img-part" src="{{$data->icon}}" />
                                         </div>
                                     </div>
                                     <!-- <div class="form-group">

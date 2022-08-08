@@ -33,7 +33,7 @@
                 <div class="col-xl-4">
                     <div class="card shadow-none">
                         <div class="card-body">
-                            <h4 class="card-title">Add Category Form</h4>
+                            <h4 class="card-title">Add Category Form - Application Management</h4>
                             <div class="form-validation">
                                 <!-- {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }} -->
                                 <form class="form-valide custom-form-design" action="" mathod="POST" id="category_add" enctype="multipart/form-data">

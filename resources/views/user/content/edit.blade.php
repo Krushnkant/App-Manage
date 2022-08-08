@@ -34,7 +34,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-3">Edit Structure Form</h4>
+                    <h4 class="card-title mb-3">Edit Structure Form - Application Management</h4>
                     <p><b>Note : </b>If you will remove any field from below form, then all values data will be removed of that field.</p>
                     <div class="form-validation">
                         <form class="form-valide" action="" mathod="PUT" id="form_structures_add" enctype="multipart/form-data">

@@ -16,19 +16,19 @@
         <div class="col-12">
             <div class="card application_part">
                 <div class="card-body">
+                    <h4 class="card-title mb-4">Application List - Application Management</h4>
                     <div class="text-left mb-4 add_application_btn_part">
                         <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
-                               <span class="mr-2 d-inline-block">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <span class="mr-2 d-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M8 12H16" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M12 16V8" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                               </span>
+                            </span>
                             Add Application
                         </a>
                     </div>
-                    <h4 class="card-title mb-0">Application List</h4>
                     <ul class="nav application_tab mt-4" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link application_page_tabs active" data-tab="all_application_tab" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="falsse">All</a>
