@@ -239,7 +239,7 @@ class APIsController extends Controller
                 foreach($form_structure as $form){
                     $form = $form->makeHidden(['id','UUID','value','field_name','app_id', 'category_id','form_structure_id', 'created_at','updated_at', 'deleted_at','application_id', 'field_type','created_by', 'updated_by']);
                 }
-                if($form_structure != null){
+                if($form_structure != null && count($form_structure) > 0){
                     return response()->json([
                         'data' => $form_structure,
                         'responce' => 'success',
@@ -283,30 +283,30 @@ class APIsController extends Controller
                     // ->get();
                 // dd($form_structure);
                 //     ->where("status", 1);
-                if($cat_id != null && $cat_id != 0){
-                    // $form_structure = SubAppData::select("*")
-                    // ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
-                    // ->where("app_id", $app->id)
-                    // ->where("category_id", $cat_id)
-                    // ->where("subform_structures.form_id", $data['sub_form_id'])
-                    // ->where("status", 1)
-                    // ->get()
-                    // ->groupBy("UUID");
-                    $form_data = $form_structure->where("category_id", $cat_id);
-                }elseif($cat_id == 0 && $cat_id != null ){
-                    $form_data = $form_structure->where('category_id','!=',null);
-                }elseif($cat_id == null){
-                    // $form_structure = SubAppData::select("*")
-                    // ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
-                    // ->where('category_id',null)
-                    // ->where("app_id", $app->id)
-                    // ->where("subform_structures.form_id", $data['sub_form_id'])
-                    // ->where("status", 1)
-                    // ->get()
-                    // ->groupBy("UUID");
-                    $form_data = $form_structure->where('category_id', null);
-                }
-                $form_structure = $form_data->groupBy('UUID')->get();
+                // if($cat_id != null && $cat_id != 0){
+                //     // $form_structure = SubAppData::select("*")
+                //     // ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
+                //     // ->where("app_id", $app->id)
+                //     // ->where("category_id", $cat_id)
+                //     // ->where("subform_structures.form_id", $data['sub_form_id'])
+                //     // ->where("status", 1)
+                //     // ->get()
+                //     // ->groupBy("UUID");
+                //     $form_data = $form_structure->where("category_id", $cat_id);
+                // }elseif($cat_id == 0 && $cat_id != null ){
+                //     $form_data = $form_structure->where('category_id','!=',null);
+                // }elseif($cat_id == null){
+                //     // $form_structure = SubAppData::select("*")
+                //     // ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
+                //     // ->where('category_id',null)
+                //     // ->where("app_id", $app->id)
+                //     // ->where("subform_structures.form_id", $data['sub_form_id'])
+                //     // ->where("status", 1)
+                //     // ->get()
+                //     // ->groupBy("UUID");
+                //     $form_data = $form_structure->where('category_id', null);
+                // }
+                $form_structure = $form_structure->groupBy('UUID')->get();
                 foreach($form_structure as $form){
                     $get_bunch = SubAppData::select('*')
                         ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
@@ -316,7 +316,7 @@ class APIsController extends Controller
                         ->get();
                     foreach($get_bunch as $vvv){
                         $key = $vvv->field_name;
-                        if (preg_match('/(\.jpg|\.png|\.bmp)$/i', $vvv->value) && $vvv->field_type != "multi-file") {
+                        if (preg_match('/(\.jpg|\.png|\.bmp)$/i', $vvv->value)) {
                             $path = asset('/app_data_images');
                             $value = $path."/".$vvv->value;
                         }else{
@@ -328,7 +328,7 @@ class APIsController extends Controller
                 foreach($form_structure as $form){
                     $form = $form->makeHidden(['id','UUID','form_id','value','field_name','app_id', 'category_id','sub_form_structure_id', 'created_at','updated_at', 'deleted_at','application_id', 'field_type','created_by', 'updated_by']);
                 }
-                if($form_structure != null){
+                if($form_structure != null && count($form_structure) > 0){
                     return response()->json([
                         'data' => $form_structure,
                         'responce' => 'success',

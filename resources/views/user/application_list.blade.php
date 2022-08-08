@@ -213,13 +213,13 @@
                                     "<td class='text-left'>AppId must be same as example</td>"+
                                     "<td class='text-left'>"+UUID+"</td>"+
                                 "</tr>"+
-                                "<tr>"+
-                                    "<td><code>category_id</code></td>"+
-                                    "<td>YES</td>"+
-                                    "<td><em>string</em></td>"+
-                                    "<td class='text-left'>category_id must be same as example</td>"+
-                                    "<td class='text-left'>"+category_id+"</td>"+
-                                "</tr>"+
+                                // "<tr>"+
+                                //     "<td><code>category_id</code></td>"+
+                                //     "<td>YES</td>"+
+                                //     "<td><em>string</em></td>"+
+                                //     "<td class='text-left'>category_id must be same as example</td>"+
+                                //     "<td class='text-left'>"+category_id+"</td>"+
+                                // "</tr>"+
                                 "<tr>"+
                                     "<td><code>sub_form_id</code></td>"+
                                     "<td>YES</td>"+
