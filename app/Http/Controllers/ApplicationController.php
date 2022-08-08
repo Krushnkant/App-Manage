@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Helpers;
-use App\Models\ {ApplicationData, Category, FormStructure};
+use App\Models\ {ApplicationData, Category, FormStructure, AppData};
 // use DataTables;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -169,10 +169,11 @@ class ApplicationController extends Controller
         foreach($data as $d){
             $d->start_date = $d->created_at->format('d M Y');
             $category_ids = Category::where('app_id', $d->id)->where('status', '1')->get()->pluck('id')->toArray();
-            $structure_ids = FormStructure::where('application_id', $d->id)->where('status', 1)->where('field_type', 'sub-form')->get()->pluck('id')->toArray();
+            $app_data = AppData::where('app_id', $d->id)->first();
+            // $structure_ids = FormStructure::where('application_id', $d->id)->where('status', 1)->where('field_type', 'sub-form')->get()->pluck('id')->toArray();
             $cat_id = implode(',',$category_ids);
-            $structure_id = implode(',',$structure_ids);
-            if($structure_ids != null){
+            // $structure_id = implode(',',$structure_ids);
+            if($app_data != null){
                 $is_category = Category::where('app_id', $d->id)->where('status', '1')->first();
                 if($is_category != null){
                     $d->is_category = 1;
@@ -184,7 +185,7 @@ class ApplicationController extends Controller
             }else{
                 $d->is_category = 1;
             }
-            $d->strcuture_id = $structure_id;
+            $d->strcuture_id = $app_data->UUID;
         }
         // print_r($data);
         // dd();

@@ -106,6 +106,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
     function format(d) {
+        console.log(d)
         var cat_list = "";
         var token = d.token;
         var UUID = d.app_id;
@@ -137,7 +138,7 @@
                                     "<td class='text-left'>"+token+"</td>"+
                                 "</tr>"+
                                 "<tr>"+
-                                    "<td><code>AppId</code></td>"+
+                                    "<td><code>app_id</code></td>"+
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>AppId must be same as example</td>"+
@@ -146,8 +147,10 @@
                             "</tbody>"+
                         "</table></tr>"+
                         
-                        "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left mx-3'>"+content_api_path+"</span></td></tr>"+
+                        "<tr class='w-100'><td><div class='px-3'><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
+                        "<tr><p><strong><span>Note:</span></strong></p></tr>"+
+                        "<tr><ul><li><span>if you want to get all category then pass (0) instade of category id</span></li></ul></div></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -167,7 +170,7 @@
                                     "<td class='text-left'>"+token+"</td>"+
                                 "</tr>"+
                                 "<tr>"+
-                                    "<td><code>AppId</code></td>"+
+                                    "<td><code>app_id</code></td>"+
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>AppId must be same as example</td>"+
@@ -204,7 +207,7 @@
                                     "<td class='text-left'>"+token+"</td>"+
                                 "</tr>"+
                                 "<tr>"+
-                                    "<td><code>AppId</code></td>"+
+                                    "<td><code>app_id</code></td>"+
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>AppId must be same as example</td>"+
@@ -248,7 +251,7 @@
                                     "<td class='text-left'>"+token+"</td>"+
                                 "</tr>"+
                                 "<tr>"+
-                                    "<td><code>AppId</code></td>"+
+                                    "<td><code>app_id</code></td>"+
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>AppId must be same as example</td>"+
@@ -278,7 +281,7 @@
                                     "<td class='text-left'>"+token+"</td>"+
                                 "</tr>"+
                                 "<tr>"+
-                                    "<td><code>AppId</code></td>"+
+                                    "<td><code>app_id</code></td>"+
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>AppId must be same as example</td>"+
