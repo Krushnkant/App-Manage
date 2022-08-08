@@ -19,7 +19,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Add Application</h4>
+                    <h4 class="card-title">Add Application - Application Management</h4>
                     <p><b>Note: </b> All Fields Are Mandatory</p>
                     <div class="form-validation">
                         {{ Form::open(array('url' => 'application', 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'application_add')) }}
