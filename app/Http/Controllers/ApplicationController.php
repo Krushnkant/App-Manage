@@ -182,10 +182,11 @@ class ApplicationController extends Controller
                     $d->is_category = 0;
                     $d->cat_ids = "";
                 }
+                $d->strcuture_id = $app_data->UUID;
             }else{
                 $d->is_category = 1;
+                $d->strcuture_id = null;
             }
-            $d->strcuture_id = $app_data->UUID;
         }
         // print_r($data);
         // dd();
