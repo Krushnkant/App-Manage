@@ -40,14 +40,14 @@
                                     <label class="col-form-label" for="name">Application Name <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
-                                        <input type="text" class="form-control" value="{{$data->name}}" id="name" name="name" placeholder="Application Name..">
+                                        <input type="text" class="form-control" value="{{$data->name}}" id="name" name="name" placeholder="Enter Application Name">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
-                                        <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Application Icon..">
+                                        <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Enter Application Icon">
                                         <div class="pre_img mt-3">
                                             <!-- <img class="set_img input-set-img-part" src="{{asset('/app_icons/'.$data->icon)}}" /> -->
                                             <img class="set_img input-set-img-part" src="{{$data->icon}}" />
@@ -65,14 +65,14 @@
                                     <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
-                                        <input type="text" class="form-control" id="app_id" value="{{$data->app_id}}" name="app_id" placeholder="Application ID..">
+                                        <input type="text" class="form-control" id="app_id" value="{{$data->app_id}}" name="app_id" placeholder="Enter Application ID">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label" for="package_name">Package Name <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
-                                        <input type="text" class="form-control" id="package_name" value="{{$data->package_name}}" name="package_name" placeholder="Package Name..">
+                                        <input type="text" class="form-control" id="package_name" value="{{$data->package_name}}" name="package_name" placeholder="Enter Package Name">
                                     </div>
                                 </div>
                             </div>

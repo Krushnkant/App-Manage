@@ -391,7 +391,16 @@
                 {
                     "mData": "field",
                     "mRender": function (data, type, row) {
-                        return "<div><span class='application_text app_id_part total_request_text application_text'>"+row.total_request+"</span></div>";
+                        var cat_request = "0";
+                        if(row.cat_total_request != null){
+                            cat_request = row.cat_total_request
+                        }
+                        var total_request = "0";
+                        if(row.total_request != null){
+                            total_request = row.total_request
+                        }
+                        // return "<tr><td>"+cat_request+"</td><td>"+total_request+"</td></tr>";
+                        return "<div><span class='application_text app_id_part total_request_text application_text'>"+cat_request+" | "+total_request+"</span></div>";
                     }
                 },
                 {

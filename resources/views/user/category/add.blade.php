@@ -60,7 +60,7 @@
                                             </label>
                                             <div class="row m-0 no-gutters">
                                                 <div class="col-lg-12 p-0">
-                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Category Title.." required>
+                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category Title" required>
                                                 </div>
 
                                             </div>
@@ -208,10 +208,10 @@
         if(type != ""){       
                     html += '<div class="row mb-3 align-items-center">'+
                     '<div class="col-12 col-sm-5 pr-0 px-0 pr-sm-3 mb-3 mb-sm-0">'+
-                        '<input type="text" placeholder="title" class="form-control input-flat" data="specific" id="'+field_name_id+'" name="'+field_key+'" />'+
+                        '<input type="text" placeholder="Enter Title" class="form-control input-flat" data="specific" id="'+field_name_id+'" name="'+field_key+'" />'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 px-0 pl-sm-3">'+
-                        '<input type="'+type+'" class="form-control input-flat" placeholder="value" id="'+field_key_id+'" name="'+field_name+'" />'+
+                        '<input type="'+type+'" class="form-control input-flat" placeholder="Enter Value" id="'+field_key_id+'" name="'+field_name+'" />'+
                     '</div>'+
                     // '<div class="col-md-2">'+
                     //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
