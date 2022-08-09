@@ -15,6 +15,7 @@
     }
     span.error-display {
         color: #f00;
+        display: block;
     }
     #loader {
         display: none;
@@ -52,9 +53,7 @@
                                     <form class="form-valide" action="" mathod="PUT" id="category_add" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="category_id" value="{{$data->id}}" />
-                                        <p class="error-display mb-0" style="display: none;"></p>
                                         <input type="hidden" name="app_id" value="{{$data->app_id}}" />
-                                        <p class="error-display mb-0" style="display: none;"></p>
                                         <div class="row">
                                             <div class="form-group col-12">
                                                 <label class="col-form-label" for="name">Title <span class="text-danger">*</span>
@@ -62,7 +61,6 @@
                                                 <div class="row pl-3">
                                                     <div class="col-md-11 p-0 mb-3">
                                                         <input type="text" class="form-control" id="name" value="{{$data->title}}" name="name" placeholder="Application Name..">
-                                                        <p class="error-display mb-0"></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,26 +99,22 @@
                                                     ?>
                                                     <div class="row position-relative align-items-center">
                                                         <div class="col-md-5 mb-3 mb-md-0">
-                                                            <input type="text" placeholder="" value="{{$d->key}}" class="form-control input-flat" name="{{$field_key}}" />
-                                                            <p class="error-display mb-0"></p>
+                                                            <input type="text" placeholder="" value="{{$d->key}}" data="specific" id="{{$field_key_id}}" class="form-control input-flat" name="{{$field_key}}" />
                                                         </div>
                                                         @if($d->fields->type == "textbox")
                                                         <?php $field_name = $d->id."_".$d->fields->id."_value[]"; ?>
                                                         <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
-                                                            <input type="text" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
-                                                            <p class="error-display mb-0"></p>
+                                                            <input type="text" value="{{$d->value}}" class="form-control input-flat" id="{{$field_name_id}}" name="{{$field_name}}" />
                                                         </div>
                                                         @elseif($d->fields->type == "file")
                                                         <?php $field_name = $d->id."_".$d->fields->id."_file[]"; ?>
                                                         <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
-                                                            <input type="file" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
-                                                            <p class="error-display mb-0" style="display: none;"></p>
+                                                            <input type="file" value="{{$d->value}}" class="form-control input-flat" id="{{$field_name_id}}" name="{{$field_name}}" />
                                                         </div>
                                                         @elseif($d->fields->type == "multi-file")
                                                         <?php $field_name = $d->id."_".$d->fields->id."_file[]"; ?>
                                                         <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
-                                                            <input type="file" value="{{$d->value}}" class="form-control input-flat" name="{{$field_name}}" />
-                                                            <p class="error-display mb-0" style="display: none;"></p>
+                                                            <input type="file" value="{{$d->value}}" class="form-control input-flat" id="{{$field_name_id}}" name="{{$field_name}}" />
                                                         </div>
                                                         @endif
                                                         <!-- <div class="col-md-2">
@@ -204,7 +198,7 @@
         if(type != ""){ 
             html += '<div class="row mb-3">'+
                             '<div class="col-md-5 mb-3 mb-md-0">'+
-                                '<input type="text" placeholder="" id="'+field_key_id+'" class="form-control input-flat" name="'+field_key+'" />'+
+                                '<input type="text" placeholder="" id="'+field_key_id+'" data="specific" class="form-control input-flat" name="'+field_key+'" />'+
                             '</div>'+
                             '<div class="col-10 col-sm-10 col-md-5">'+
                                 '<input type="'+type+'" id="'+field_name_id+'" class="form-control input-flat" name="'+field_name+'" />'+
@@ -256,8 +250,28 @@
     })
 
     function ValidateForm() {
-        var isFormValid = true;  
+        var isFormValid = true;
+        var specific_arr = [];
+        var specific_ids = [];
+        var total_specific = $("#category_add input");
+        
+        $(total_specific).each( function(){
+            if($(this).attr('data') == "specific"){
+                if($(this).val()){
+                    specific_arr.push($(this).val())
+                }
+            }
+        })
+        $(total_specific).each( function(){
+            if($(this).attr('data') == "specific"){
+                if($(this).val()){
+                    specific_ids.push($(this).attr('id'))
+                }
+            }
+        })
+
         $("#category_add input").each(function () { 
+            var regexp = /^\S*$/;
             var only_id = "#"+$(this).attr("id");
             if($(this).attr("id") != undefined){
                 // console.log($(this).attr('value'))
@@ -274,7 +288,46 @@
                         } 
                         isFormValid = false; 
                     } 
-                }else{  
+                }else{ 
+                    if($.trim($(this).val()).length != 0 || $.trim($(this).val()) != 0 ){
+                        const seen = new Set();
+                        const duplicates = specific_arr.filter(n => seen.size === seen.add(n).size);
+                        var iddd = "";
+                        var idd1 = "";
+                        $(specific_ids).each( function(item, val){
+                            var vall = $("#"+val).val();
+                            var iddds = "#"+val;
+                            if(regexp.test(vall) == false){
+                                idd1 = "#span_"+val;
+                                $(this).addClass("highlight");
+                                $(iddds).nextAll('span').remove();
+                                $("<span class='error-display other' id='"+idd1+"'>Please remove space</span>").insertAfter(iddds);
+                                isFormValid = false;  
+                            }else{
+                                $(iddds).nextAll('span').remove();
+                                if(duplicates.length > 0){
+                                    $(duplicates).each( function(item, val){
+                                        var ddd = specific_arr.indexOf(val);
+                                        iddd = "#"+specific_ids[ddd];
+                                        idd1 = specific_ids[ddd];
+                                        
+                                        $(iddd).nextAll('span').remove();
+                                        $(iddd).addClass("highlight");
+                                        $("<span class='error-display other' id='" + idd1 + "'>Please enter different value</span>").insertAfter(iddd);  
+                                        isFormValid = false; 
+                                    })
+                                }
+                                // else{
+                                //     $(specific_ids).each( function(item, val){
+                                //         iddd = "#"+val;
+                                //         $(iddd).removeClass("highlight");  
+                                //         $(iddd).nextAll('span').remove();
+                                //         isFormValid = true; 
+                                //     }) 
+                                // }
+                            }
+                        })
+                    } 
                     $(this).removeClass("highlight");  
                     if ($("#" + FieldId).length > 0) {  
                         $("#" + FieldId).fadeOut(1000);  
@@ -282,6 +335,7 @@
                 }
             }
         })
+        // console.log(isFormValid)
         return isFormValid;  
         // return false;  
     }
