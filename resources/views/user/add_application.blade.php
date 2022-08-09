@@ -34,28 +34,28 @@
                                         <label class="col-form-label" for="name">Application Name <span class="text-danger">*</span>
                                         </label>
                                         <div class="">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="Application Name..">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Application Name">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3">
                                         <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
                                         </label>
                                         <div class="">
-                                            <input type="file" class="form-control" id="icon" name="icon" placeholder="Application Icon..">
+                                            <input type="file" class="form-control" id="icon" name="icon" placeholder="Enter Application Icon">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3">
                                         <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
                                         </label>
                                         <div class="">
-                                            <input type="text" class="form-control" id="app_id" name="app_id" placeholder="Application ID..">
+                                            <input type="text" class="form-control" id="app_id" name="app_id" placeholder="Enter Application ID">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3">
                                         <label class="col-form-label" for="package_name">Package Name <span class="text-danger">*</span>
                                         </label>
                                         <div class="">
-                                            <input type="text" class="form-control" id="package_name" name="package_name" placeholder="Package Name..">
+                                            <input type="text" class="form-control" id="package_name" name="package_name" placeholder="Enter Package Name">
                                         </div>
                                     </div>
                                 </div>

@@ -178,9 +178,11 @@ class ApplicationController extends Controller
                 if($is_category != null){
                     $d->is_category = 1;
                     $d->cat_ids = $cat_id;
+                    // $d->cat_request = $is_category->total_request;
                 }else{
                     $d->is_category = 0;
                     $d->cat_ids = "";
+                    // $d->cat_request = "";
                 }
                 $d->strcuture_id = $app_data->UUID;
             }else{

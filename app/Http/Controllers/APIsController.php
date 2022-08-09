@@ -139,6 +139,8 @@ class APIsController extends Controller
                         $cat->$key = $value;
                     }
                 }
+                $app->cat_total_request += 1;
+                $app->save();
                 if($category != null && count($category) != 0){
                     return response()->json([
                         'data' => $category,
@@ -173,6 +175,7 @@ class APIsController extends Controller
         try {
             $data = $request->all();
             $app = ApplicationData::where('app_id', $data['app_id'])->where('token', $data['token'])->first();
+            
             if($app != null){
                 $cat_id = (isset($data['category_id'])) ? $data['category_id'] : null ;
                 $form_structure = AppData::select('*','UUID as sub_form_id')
@@ -217,6 +220,9 @@ class APIsController extends Controller
                 foreach($form_structure as $form){
                     $form = $form->makeHidden(['id','UUID','value','field_name','app_id', 'category_id','form_structure_id', 'created_at','updated_at', 'deleted_at','application_id', 'field_type','created_by', 'updated_by']);
                 }
+
+                $app->total_request += 1;
+                $app->save();
                 if($form_structure != null && count($form_structure) > 0){
                     return response()->json([
                         'data' => $form_structure,
