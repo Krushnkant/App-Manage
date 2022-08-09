@@ -397,40 +397,47 @@ function ValidateForm() {
                     $("#" + FieldId).fadeIn(500);  
                 } 
                 isFormValid = false;  
-            }else if(regexp.test($(this).val()) == false && $.trim($(this).val()).length != 0){
-                $(this).addClass("highlight");
-                if ($("#" + FieldId).length == 0) {  
-                        $("<span class='error-display' id='" + FieldId + "'>Please remove space</span>").insertAfter(this);  
-                }
-                if ($("#" + FieldId).css('display') == 'none'){  
-                    $("#" + FieldId).fadeIn(500);  
-                } 
-                isFormValid = false;  
             }else{ 
-                const seen = new Set();
-                const duplicates = specific_arr.filter(n => seen.size === seen.add(n).size);
-                var iddd = "";
-                var idd1 = "";
-                if(duplicates.length > 0){
-                    $(duplicates).each( function(item, val){
-                        var ddd = specific_arr.indexOf(val);
-                        iddd = "#"+specific_ids[ddd];
-                        idd1 = specific_ids[ddd];
-                        if($(iddd).next().hasClass("other")){
-
+                if($.trim($(this).val()).length != 0 || $.trim($(this).val()) != 0 ){
+                    const seen = new Set();
+                    const duplicates = specific_arr.filter(n => seen.size === seen.add(n).size);
+                    // console.log(duplicates)
+                    // console.log(specific_ids)
+                    var iddd = "";
+                    var idd1 = "";
+                    $(specific_ids).each( function(item, val){
+                        var vall = $("#"+val).val();
+                        var iddds = "#"+val;
+                        if(regexp.test(vall) == false){
+                            idd1 = "#span_"+val;
+                            $(this).addClass("highlight");
+                            $(iddds).nextAll('span').remove();
+                            $("<span class='error-display other' id='"+idd1+"'>Please remove space</span>").insertAfter(iddds);
+                            isFormValid = false;  
                         }else{
-                            $(iddd).addClass("highlight");
-                            $("<span class='error-display other' id='" + idd1 + "'>Please enter different value</span>").insertAfter(iddd);  
+                            $(iddds).nextAll('span').remove();
+                            if(duplicates.length > 0){
+                                $(duplicates).each( function(item, val){
+                                    var ddd = specific_arr.indexOf(val);
+                                    iddd = "#"+specific_ids[ddd];
+                                    idd1 = specific_ids[ddd];
+                                    
+                                    $(iddd).nextAll('span').remove();
+                                    $(iddd).addClass("highlight");
+                                    $("<span class='error-display other' id='" + idd1 + "'>Please enter different value</span>").insertAfter(iddd);  
+                                    isFormValid = false; 
+                                })
+                            }
+                            // else{
+                            //     $(specific_ids).each( function(item, val){
+                            //         iddd = "#"+val;
+                            //         $(iddd).removeClass("highlight");  
+                            //         $(iddd).nextAll('span').remove();
+                            //         isFormValid = true; 
+                            //     }) 
+                            // }
                         }
-                        isFormValid = false; 
                     })
-                }else{
-                   $(specific_ids).each( function(item, val){
-                        iddd = "#"+val;
-                        $(iddd).removeClass("highlight");  
-                        $(iddd).next().remove();
-                        isFormValid = true; 
-                   }) 
                 } 
                 $(this).removeClass("highlight");  
                 if ($("#" + FieldId).length > 0) {  
