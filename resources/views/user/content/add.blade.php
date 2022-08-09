@@ -18,6 +18,7 @@
     }
     span.error-display {
         color: #f00;
+        display: block;
     }
     #loader {
         display: none;
@@ -150,7 +151,7 @@ $(document).ready(function() {
         if(type == 'sub-form'){
             html += '<div class="mx-3 border px-3 py-sm-3 py-3 mt-3"><div class="row">'+
                     '<div class="col-12 col-sm-5 mb-3">'+
-                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
+                        '<input type="text" placeholder="Field Name" data="specific" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 mb-0 mb-sm-3">'+
                         '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]" readonly />'+
@@ -189,7 +190,7 @@ $(document).ready(function() {
         }else if(type != ""){
             html += '<div class="row mt-3 mx-0">'+
                     '<div class="col-12 col-sm-5 mb-3 mb-sm-0">'+
-                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error my-0" class="error invalid-feedback animated fadeInDown" for=""></label>'+
+                        '<input type="text" placeholder="Field Name" data="specific" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error my-0" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 mb-sm-0">'+
                         '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]" readonly />'+
@@ -224,11 +225,11 @@ $(document).ready(function() {
         }else{
             type = ""
         }
-        console.log(type)
+        // console.log(type)
         if(type != ""){
             html += '<div class="row mt-sm-3 mx-0">'+
                     '<div class="col-12 col-sm-5 my-3 my-sm-0">'+
-                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat" name="sub_field_name[]" />'+
+                        '<input type="text" placeholder="Field Name" data="specific" id="'+inputkey+'" class="form-control input-flat" name="sub_field_name[]" />'+
                     '</div>'+
                     '<div class="col-10 col-sm-5">'+
                         '<input  type="text" value="'+type+'" class="form-control input-flat pe-none" name="sub_field_type[]" readonly />'+
@@ -293,28 +294,75 @@ $(document).ready(function() {
 });   
 function ValidateForm() {
     var isFormValid = true;  
-    $("#form_structures_add input, select").each(function () { 
+    var app_id = "{{$id}}";
+    var specific_arr = [];
+    var specific_ids = [];
+    var total_specific = $("#form_structures_add input");
+    $(total_specific).each( function(){
+        if($(this).attr('data') == "specific"){
+            specific_arr.push($(this).val())
+        }
+    })
+    $(total_specific).each( function(){
+        if($(this).attr('data') == "specific"){
+            specific_ids.push($(this).attr('id'))
+        }
+    })
+    $("#form_structures_add input, select#field-subform").each(function () { 
+        var regexp = /^\S*$/; 
         if($(this).attr("id") != undefined){
             var FieldId = "span_" + $(this).attr("id");
             if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
                 $(this).addClass("highlight");
                 if ($("#" + FieldId).length == 0) {  
                         $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
-                }  
+                }
+                if ($("#" + FieldId).css('display') == 'none'){  
+                    $("#" + FieldId).fadeIn(500);  
+                } 
+                isFormValid = false;  
+            }else if(regexp.test($(this).val()) == false && $.trim($(this).val()).length != 0){
+                $(this).addClass("highlight");
+                if ($("#" + FieldId).length == 0) {  
+                        $("<span class='error-display' id='" + FieldId + "'>Please remove space</span>").insertAfter(this);  
+                }
                 if ($("#" + FieldId).css('display') == 'none'){  
                     $("#" + FieldId).fadeIn(500);  
                 } 
                 isFormValid = false;  
             }else{  
+                const seen = new Set();
+                const duplicates = specific_arr.filter(n => seen.size === seen.add(n).size);
+                var iddd = "";
+                var idd1 = "";
+                if(duplicates.length > 0){
+                    $(duplicates).each( function(item, val){
+                        var ddd = specific_arr.indexOf(val);
+                        iddd = "#"+specific_ids[ddd];
+                        idd1 = specific_ids[ddd];
+                        if($(iddd).next().hasClass("other")){
+
+                        }else{
+                            $(iddd).addClass("highlight");
+                            $("<span class='error-display other' id='" + idd1 + "'>Please enter different value</span>").insertAfter(iddd);  
+                        }
+                        isFormValid = false; 
+                    })
+                }else{
+                   $(specific_ids).each( function(item, val){
+                        iddd = "#"+val;
+                        $(iddd).removeClass("highlight");  
+                        $(iddd).next().remove();
+                        isFormValid = true; 
+                   }) 
+                }
                 $(this).removeClass("highlight");  
                 if ($("#" + FieldId).length > 0) {  
                     $("#" + FieldId).fadeOut(1000);  
                 }  
             }
         }
-    })
-    console.log(isFormValid)
-    // return false;  
+    }) 
     return isFormValid;  
 }
 </script>

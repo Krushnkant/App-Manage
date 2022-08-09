@@ -464,4 +464,18 @@ class AppDataController extends Controller
             return response()->json(['is_category' => 0]); 
         }
     }
+
+    public function SameValueMatch(Request $request)
+    {
+        $data = $request->all();
+        $structure_ids = FormStructure::where('field_name', $data['formData'])
+                        ->where('application_id', $data['app_id'])
+                        ->first();
+        // dd($structure_ids);
+        if($structure_ids == null){
+            return response()->json(['success' => 1, 'responce' => true]);
+        }else{
+            return response()->json(['success' => 0, 'responce' => false]); 
+        }
+    }
 }
