@@ -19,6 +19,18 @@
     span.error-display {
         color: #f00;
     }
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgb(0 0 0 / 22%) url("../../user/assets/loader/loader.gif") no-repeat center center;
+        z-index: 99999;
+        background-size: 200px;
+    }
 </style>
 <div class="row page-titles mx-0">
     <div class="col p-md-0">
@@ -101,6 +113,7 @@
             </div>
         </div>
     </div>
+    <div id='loader'></div>
 </div>
 @endsection
 @push('scripts')
@@ -248,6 +261,8 @@ $(document).ready(function() {
         var formData = new FormData($("#form_structures_add")[0]);
         var validation = ValidateForm()
         if(validation != false){
+            $('#loader').show();
+            $('#Add').prop('disabled', true);
             $.ajax({
                     type: 'POST',
                     url: "{{ route('content.store') }}",
@@ -256,12 +271,15 @@ $(document).ready(function() {
                     contentType: false,
                     success: function (res) {
                         if(res['status']==200){
+                            $('#loader').hide();
                             toastr.success("Form Added",'Success',{timeOut: 5000});
                             window.location.href = "{{ url('content-form/'.$id)}}";
                             $("#form_structures_add")[0].reset()
                         }
                     },
                     error: function (data) {
+                        $('#Add').prop('disabled', false);
+                        $('#loader').hide();
                         $(btn).prop('disabled',false);
                         // $(btn).find('.submitloader').hide();
                         toastr.error("Please try again",'Error',{timeOut: 5000});

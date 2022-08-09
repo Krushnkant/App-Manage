@@ -259,6 +259,7 @@ $('body').on('click', '#submit_app_data', function () {
     var validation = ValidateForm()
     if(validation != false){
       $('#loader').show();
+      $('#submit_app_data').prop('disabled', true);
       $.ajax({
               type: 'POST',
               url: "{{ route('app-data.store') }}",
@@ -272,6 +273,7 @@ $('body').on('click', '#submit_app_data', function () {
                       $("#content_add")[0].reset()
                       window.location.href = "{{ url('content-list/'.$application_id)}}";
                   }else{
+                      $('#submit_app_data').prop('disabled', false);
                       $('#loader').hide();
                       toastr.error("Please try again",'Error',{timeOut: 5000})
                   }
