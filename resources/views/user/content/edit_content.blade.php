@@ -277,7 +277,8 @@ $('body').on('click', '#submit_app_data', function () {
     // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
-      // $('#loader').show();
+      $('#loader').show();
+      $('#submit_app_data').prop('disabled', true);
       $.ajax({
               type: 'POST',
               url: "{{ url('/contentt-update')}}/"+app_id,
@@ -292,6 +293,7 @@ $('body').on('click', '#submit_app_data', function () {
                       window.location.href = "{{ url('content-list/'.$id)}}";
                   }else{
                       $('#loader').hide();
+                      $('#submit_app_data').prop('disabled', false);
                       toastr.error("Please try again",'Error',{timeOut: 5000})
                   }
               }

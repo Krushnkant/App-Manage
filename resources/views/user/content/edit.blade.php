@@ -19,6 +19,18 @@
     span.error-display {
         color: #f00;
     }
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgb(0 0 0 / 22%) url("../../user/assets/loader/loader.gif") no-repeat center center;
+        z-index: 99999;
+        background-size: 200px;
+    }
 </style>
 <div class="row page-titles mx-0">
     <div class="col p-md-0">
@@ -89,7 +101,7 @@
                                     ?>
                                         <div class="row mt-3 mx-0"> 
                                             <div class="col-12 col-sm-5 mb-3 mb-sm-0">
-                                                <input type="text" placeholder="Field Name" id="{{$key_name_id}}" value="{{$data->field_name}}" class="form-control input-flat specReq" data-name="field_name" name="{{$key_name}}" />
+                                                <input type="text" placeholder="Field Name" data="specific" id="{{$key_name_id}}" value="{{$data->field_name}}" class="form-control input-flat specReq" data-name="field_name" name="{{$key_name}}" />
                                                 <label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>
                                             </div>
                                             <div class="col-10 col-sm-5 mb-sm-0">
@@ -149,13 +161,13 @@
                                                     ?>
                                                         <div class="row mt-sm-3 mx-0">
                                                             <div class="col-12 col-sm-5 my-3 my-sm-0">
-                                                                <input type="text" placeholder="Field Name" id="{{$key_name1_id}}" value="{{$dat->field_name}}" class="form-control input-flat specReq" data-name="field_name" name="{{$key_name1}}" />
+                                                                <input type="text" placeholder="Field Name" data="specific" id="{{$key_name1_id}}" value="{{$dat->field_name}}" class="form-control input-flat specReq" data-name="field_name" name="{{$key_name1}}" />
                                                             </div>
                                                             <div class="col-10 col-sm-5">
                                                                 <input type="text" placeholder="Field Name" value="{{$dat->field_type}}" class="form-control input-flat pe-none" name="{{$key_type1}}" readonly />
                                                             </div>
                                                             <div class="col-2 col-sm-2 text-center">
-                                                                <button type="button" class="minus_btn btn btn-dark px-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>
+                                                                <button type="button" class="minus_btn btn btn-dark px-0" id="Add"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -180,6 +192,7 @@
             </div>
         </div>
     </div>
+    <div id='loader'></div>
 </div>
 @endsection
 @push('scripts')
@@ -217,7 +230,7 @@ $(document).ready(function() {
         if(type == 'sub-form'){
             html += '<div class="row mt-3 mx-0">'+
                     '<div class="col-12 col-sm-5 mb-3">'+
-                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
+                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" data="specific" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 mb-0 mb-sm-">'+
                         '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]" readonly />'+
@@ -255,7 +268,7 @@ $(document).ready(function() {
         }else if(type != ""){
             html += '<div class="row mt-3 mx-0">'+
                     '<div class="col-12 col-sm-5 mb-3 mb-sm-0">'+
-                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
+                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" data="specific" class="form-control input-flat specReq" data-name="field_name" name="field_name[]" /><label id="field_name-error" class="error invalid-feedback animated fadeInDown" for=""></label>'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 mb-sm-0">'+
                         '<input type="text" value="'+type+'" class="form-control input-flat pe-none" name="field_type[]" readonly />'+
@@ -271,9 +284,9 @@ $(document).ready(function() {
     var coun1t = 0;
     $('body').on('click', '#AddSub', function(){    
         var html = "";
-        console.log(coun1t)
+        // console.log(coun1t)
         var inputkey = "sub_input_key_"+coun1t;
-        console.log(inputkey)
+        // console.log(inputkey)
         var selected = $('#field-subform option:selected');
         // var selected = $('#field option:selected');
         var valuee = selected.attr('value')
@@ -292,7 +305,7 @@ $(document).ready(function() {
         if(type != ""){
             html += '<div class="row mt-sm-3 mx-0">'+
                     '<div class="col-12 col-sm-5 my-3 my-sm-0">'+
-                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" class="form-control input-flat" name="sub_field_name[]" />'+
+                        '<input type="text" placeholder="Field Name" id="'+inputkey+'" data="specific" class="form-control input-flat" name="sub_field_name[]" />'+
                     '</div>'+
                     '<div class="col-10 col-sm-5">'+
                         '<input  type="text" value="'+type+'" class="form-control input-flat pe-none" name="sub_field_type[]" readonly />'+
@@ -316,14 +329,12 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '#submit_form_structures', function () {
-       
-        // $(this).prop('disabled',true);
-        // $(this).find('.submitloader').show();
         var btn = $(this);
-
         var formData = new FormData($("#form_structures_add")[0]);
         var validation = ValidateForm()
         if(validation != false){
+            $('#loader').show();
+            $('#Add').prop('disabled', true);
             $.ajax({
                     type: 'POST',
                     url: "{{ url('/content-update')}}/"+app_id,
@@ -332,7 +343,7 @@ $(document).ready(function() {
                     contentType: false,
                     success: function (res) {
                         if(res['status']==200){
-
+                            $('#loader').hide();
                             toastr.success("Form Structure Added",'Success',{timeOut: 5000});
                             window.location.href = "{{ url('/content-form/')}}"+'/'+app_id;
                             console.log("{{ url('/content-form')}}"+app_id)
@@ -340,6 +351,8 @@ $(document).ready(function() {
                         }
                     },
                     error: function (data) {
+                        $('#Add').prop('disabled', false);
+                        $('#loader').hide();
                         // $(btn).prop('disabled',false);
                         // $(btn).find('.submitloader').hide();
                         toastr.error("Please try again",'Error',{timeOut: 5000});
@@ -350,7 +363,15 @@ $(document).ready(function() {
 }); 
 function ValidateForm() {
     var isFormValid = true;  
+    var textValues = [];
     $("#form_structures_add input").each(function () { 
+
+        // if($(this).attr("data") == "specific"){
+        //     textValues.push($(this).val());
+        //     var doesExisit = ($.inArray($(this).val(), textValues) === -1) ? false : true;
+        //     console.log(doesExisit)
+        // }
+        // console.log(textValues)
         if($(this).attr("id") != undefined){
             var FieldId = "span_" + $(this).attr("id");
             if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {

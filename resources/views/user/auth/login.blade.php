@@ -1,6 +1,11 @@
 @extends('user.auth.layout')
 
 @section('content')
+<style>
+    .comman_loader{
+        display: none;
+    }
+</style>
 <div class="row justify-content-center h-100">
     <div class="col-xl-6">
         <div class="form-input-content">
@@ -19,11 +24,11 @@
                         </div>
                         <button type="button" class="btn login-form__btn submit w-100" id="LoginSubmit">
                             <span>Sign In</span>
-                            <!-- <span class="comman_loader">
+                            <span class="comman_loader">
                                 <svg class="circular" viewBox="25 25 50 50">
                                     <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
                                 </svg>
-                            </span> -->
+                            </span>
                         </button>
                     </form>
                     <!-- <p class="mt-5 login-form__footer">Dont have account? <a href="{{ url('register') }}" class="text-primary">Sign Up</a> now</p> -->
@@ -39,6 +44,7 @@
 $( "#LoginSubmit").click(function() {
     $(this).prop('disabled',true);
     var formData = new FormData($("#LoginForm")[0]);
+    $('.comman_loader').show()
     $.ajax({
         type: 'POST',
         url: "{{ url('/login') }}",
@@ -62,6 +68,7 @@ $( "#LoginSubmit").click(function() {
                 }
             }
             if(res['status'] == 200){
+                $('.comman_loader').hide()
                 toastr.success(res['message'], 'Success',{timeOut: 5000});
                 location.href ="{{ url('dashboard') }}";
             }

@@ -5,6 +5,9 @@
     label.error {
         color: #ff0202;
     }
+    .comman_loader{
+        display: none;
+    }
 </style>
 <div class="row page-titles mx-0">
     <div class="col p-md-0">
@@ -58,7 +61,12 @@
                             <div class="row mt-2 mt-md-3">
                                 <div class="form-group col-md-6">
                                     <div class="">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary" id="add_app">Submit</button>
+                                        <span class="comman_loader">
+                                            <svg class="circular" viewBox="25 25 50 50">
+                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                            </svg>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -123,6 +131,9 @@
     }, "Please enter different application ID");
 
     // console.log(validation)
+    $( "#add_app").click(function() {
+        $('.comman_loader').show()
+    })
 
 </script>
 @endpush('scripts')

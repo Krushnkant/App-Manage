@@ -17,6 +17,18 @@
     p.error-display {
         color: #f00;
     }
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgb(0 0 0 / 22%) url("../../user/assets/loader/loader.gif") no-repeat center center;
+        z-index: 99999;
+        background-size: 200px;
+    }
 </style>
 <div class="row page-titles mx-0">
     <div class="col p-md-0">
@@ -93,6 +105,11 @@
                                         <div class="form-group col-12 mb-0 text-center mt-2">
                                             <div class="">
                                                 <button type="button" id="submit_category" class="btn btn-primary">Submit</button>
+                                                <!-- <span class="comman_loader">
+                                                    <svg class="circular" viewBox="25 25 50 50">
+                                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                                    </svg>
+                                                </span> -->
                                             </div>
                                         </div>
                                     </div>
@@ -152,6 +169,7 @@
             </div>
         </div>
     </div>
+    <div id='loader'></div>
 </div>
 @endsection
 @push('scripts')
@@ -166,45 +184,7 @@
         var app_id = $(this).attr('data-id');
         $("#cat_form").show();
     });
-    // $('#val-skill').change(function(){
-    //     var html = "";
-    //     var valuee = $(this).val()
-    //     var option = $('option:selected', this).attr('data-id');
-    //     var field_name = option+"field_value[]";
-    //     var field_key = option+"field_key[]";
-    //     // console.log(field_name)
-    //     var type = "text";
-    //     if(valuee == "textbox"){
-    //         type = "text";
-    //     }
-    //     if(valuee == "file"){
-    //         type = "file";
-    //     }
-    //     if(valuee == "multi-file"){
-    //         type = "file";
-    //     }
-
-    //     html += '<div class="row mb-2">'+
-    //                 '<div class="col-md-4">'+
-    //                     '<input type="text" placeholder="" class="form-control input-flat" name="'+field_key+'" />'+
-    //                 '</div>'+
-    //                 '<div class="col-md-4">'+
-    //                     '<input type="'+type+'" class="form-control input-flat" name="'+field_name+'" />'+
-    //                 '</div>'+
-    //                 // '<div class="col-md-2">'+
-    //                 //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
-    //                 // '</div>'+
-    //                 '<div class="col-md-2">'+
-    //                     '<button type="button" class="minus_btn btn mb-1 btn-dark">-</button>'+
-    //                 '</div>'+
-    //             '</div>';
-    //     $("#category_form").append(html);
-    // })
-
     $('body').on('click', '.plus_btn', function(){
-        // var tthis = $(this).parent().parent();
-        // var ddd = tthis.clone()
-        // $("#category_form").append(ddd);
         var html = "";
         var selected = $('#val-skill option:selected');
         var option = selected.attr('data-id')
@@ -249,8 +229,9 @@
     })
 
     $('body').on('click', '#submit_category', function () {
-        // var total_length = $("form#category_add :input").length;
-        // console.log(total_length)
+        // $("#submit_category").disabled();
+        // $('#submit_category').prop('disabled', true);
+        // $('.comman_loader').show()
         var total_length = 0;
         $("form#category_add :input").each(function(){
             if($(this).val().length == 0){
@@ -270,22 +251,27 @@
             }
         })
         if(total_length == 0){
+            $('#loader').show();
+            $('#submit_category').prop('disabled', true);
             var formData = new FormData($("#category_add")[0]);
             $.ajax({
-                    type: 'POST',
-                    url: "{{ route('category.store') }}",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        if(data.status == 200){
-                            toastr.success("Category Added",'Success',{timeOut: 5000});
-                            $('#category_list').DataTable().draw();
-                            $("#category_add")[0].reset();
-                        }else{
-                            toastr.error("Please try again",'Error',{timeOut: 5000})
-                        }
+                type: 'POST',
+                url: "{{ route('category.store') }}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if(data.status == 200){
+                        $('#loader').hide();
+                        toastr.success("Category Added",'Success',{timeOut: 5000});
+                        $('#category_list').DataTable().draw();
+                        $("#category_add")[0].reset();
+                    }else{
+                        $('#submit_category').prop('disabled', false);
+                        $('#loader').hide();
+                        toastr.error("Please try again",'Error',{timeOut: 5000})
                     }
+                }
             });
         }
     })

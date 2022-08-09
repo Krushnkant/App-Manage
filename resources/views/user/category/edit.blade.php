@@ -16,6 +16,18 @@
     span.error-display {
         color: #f00;
     }
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgb(0 0 0 / 22%) url("../../user/assets/loader/loader.gif") no-repeat center center;
+        z-index: 99999;
+        background-size: 200px;
+    }
 </style>
 <div class="row page-titles mx-0">
     <div class="col p-md-0">
@@ -147,6 +159,7 @@
             </div>
         </div>
     </div>
+    <div id='loader'></div>
 </div>
 @endsection
 @push('scripts')
@@ -215,6 +228,8 @@
         var validation = ValidateForm()
        
         if(validation != false){
+            $('#loader').show();
+            $('#submit_category').prop('disabled', true);
             $.ajax({
                     type: 'POST',
                     url: "{{ url('/category-update')}}/"+cat_id,
@@ -223,11 +238,14 @@
                     contentType: false,
                     success: function(data) {
                         if(data.status == 200){
+                            $('#loader').hide();
                             var app_id = "{{$id}}";
                             toastr.success("Category Update",'Success',{timeOut: 5000});
                             window.location.href = "{{ url('category-add/'.$data->app_id)}}";
                             // $("#category_add")[0].reset()
                         }else{
+                            $('#submit_category').prop('disabled', false);
+                            $('#loader').hide();
                             toastr.error("Please try again",'Error',{timeOut: 5000})
                         }
                     }
