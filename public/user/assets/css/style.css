@@ -15376,7 +15376,7 @@ table.dataTable thead .sorting::after {
     padding: 0;
     background: transparent;
     font-size: 0.875rem;
-    float: right;
+    /* float: right; */
 }
 
 .page-titles .breadcrumb li {
@@ -21113,7 +21113,8 @@ input[type="file"] {
 .table_detail_part .application_table #child_row tbody td:first-child {
     text-align: right !important;
 }
-body .table_detail_part .application_table .child_row_table tbody td:first-child{
+
+body .table_detail_part .application_table .child_row_table tbody td:first-child {
     text-align: left !important;
     color: #000 !important;
     font-weight: 600 !important;
@@ -21187,14 +21188,16 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
 }
 
 .form-validation-part input,
-.custom-form-design input,
-.form-validation-part input::placeholder,
-.custom-form-design input::placeholder {
+.custom-form-design input {
     border-radius: 7px;
     height: 40px;
     color: #495057;
-    text-transform: capitalize;
     font-size: 14px;
+}
+
+.form-validation-part input::placeholder,
+.custom-form-design input::placeholder {
+    color: #495057;
 }
 
 .form-validation-part .field_btn,
@@ -21306,23 +21309,32 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
 .field_btn {
     padding: 7px 14px;
 }
-.sub_form_col:first-child .remove_btn{
+
+.sub_form_col:first-child .remove_btn {
     display: none;
 }
 
-.sub_form_col .copy_btn{
+.sub_form_col .copy_btn {
     display: none;
 }
+
 .sub_form_col:first-child .copy_btn {
     display: block;
     margin-left: auto;
 }
-.sub_form_edit_row .copy_btn{
+
+.sub_form_edit_row .copy_btn {
     display: none !important;
 }
-.sub_form_edit_row .remove_btn{
+
+.sub_form_edit_row .remove_btn {
     display: block !important;
     margin-left: auto;
+}
+
+.error {
+    margin-bottom: 0;
+    font-size: 12px;
 }
 
 @media (max-width:1600px) {

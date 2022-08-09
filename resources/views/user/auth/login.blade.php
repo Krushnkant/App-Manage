@@ -19,11 +19,11 @@
                         </div>
                         <button type="button" class="btn login-form__btn submit w-100" id="LoginSubmit">
                             <span>Sign In</span>
-                            <span class="comman_loader">
+                            <!-- <span class="comman_loader">
                                 <svg class="circular" viewBox="25 25 50 50">
                                     <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
                                 </svg>
-                            </span>
+                            </span> -->
                         </button>
                     </form>
                     <!-- <p class="mt-5 login-form__footer">Dont have account? <a href="{{ url('register') }}" class="text-primary">Sign Up</a> now</p> -->
