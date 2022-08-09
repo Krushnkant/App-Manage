@@ -364,36 +364,42 @@ $(document).ready(function() {
 function ValidateForm() {
     var isFormValid = true;  
     var textValues = [];
-    $("#form_structures_add input").each(function () { 
-
-        // if($(this).attr("data") == "specific"){
-        //     textValues.push($(this).val());
-        //     var doesExisit = ($.inArray($(this).val(), textValues) === -1) ? false : true;
-        //     console.log(doesExisit)
-        // }
-        // console.log(textValues)
-        if($(this).attr("id") != undefined){
-            var FieldId = "span_" + $(this).attr("id");
-            if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
-                $(this).addClass("highlight");
-                if ($("#" + FieldId).length == 0) {  
-                        $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
-                }  
-                if ($("#" + FieldId).css('display') == 'none'){  
-                    $("#" + FieldId).fadeIn(500);  
-                } 
-                isFormValid = false;  
-            }else{  
-                $(this).removeClass("highlight");  
-                if ($("#" + FieldId).length > 0) {  
-                    $("#" + FieldId).fadeOut(1000);  
-                }  
-            }
+    var select_all_section = $('#form_structures_add input');
+    // console.log(select_all_section)
+    $(select_all_section).each( function(){
+        // console.log($(this).attr('data'));
+        if($(this).attr('data') == "specific"){
+            textValues.push($(this).val());
         }
     })
-    return isFormValid;  
+    console.log(textValues)
+    $("#form_structures_add input").each(function () { 
+        // if($(this).attr("data") == "specific"){
+        //     textValues.push($(this).val());
+        // }
+        if($(this).attr("id") != undefined){
+            // var doesExisit = ($.inArray($(this).val(), textValues) >= 0) ? false : true;
+            // var FieldId = "span_" + $(this).attr("id");
+            // if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
+            //     $(this).addClass("highlight");
+            //     if ($("#" + FieldId).length == 0) {  
+            //             $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
+            //     }  
+            //     if ($("#" + FieldId).css('display') == 'none'){  
+            //         $("#" + FieldId).fadeIn(500);  
+            //     } 
+            //     isFormValid = false;  
+            // }else{  
+            //     $(this).removeClass("highlight");  
+            //     if ($("#" + FieldId).length > 0) {  
+            //         $("#" + FieldId).fadeOut(1000);  
+            //     }  
+            // }
+        }
+    })
+    // return isFormValid;  
     // console.log(isFormValid)
-    // return false;  
+    return false;  
 }  
 </script>
 @endpush('scripts')
