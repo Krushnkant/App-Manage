@@ -16,6 +16,7 @@
         display: none;
     }
 </style>
+<div>
 <div class="row page-titles mx-0">
     <div class="col p-md-0">
         <ol class="breadcrumb">
@@ -95,6 +96,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
 @push('scripts')
