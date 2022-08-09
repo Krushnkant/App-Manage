@@ -243,7 +243,7 @@ $(document).ready(function() {
       $(sss).val(image_string)
     });
   } else {
-    alert("Your browser doesn't support to File API")
+    // alert("Your browser doesn't support to File API")
   }
 });
 
@@ -295,6 +295,7 @@ $('body').on('click', '.remove_btn', function () {
 
 function ValidateForm() {
   var isFormValid = true;  
+  var app_id = "{{$application_id}}";
   $("#content_add input, select").each(function () { 
     var FieldId = "span_" + $(this).attr("id");
       if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
@@ -305,6 +306,21 @@ function ValidateForm() {
           if ($("#" + FieldId).css('display') == 'none'){  
               $("#" + FieldId).fadeIn(500);  
           } 
+          // var formData = $(this).val()
+          // $.ajax({
+          //     type: 'POST',
+          //     url: "{{ url('/same_value_match')}}/",
+          //     "data":{ _token: '{{ csrf_token() }}', formData: formData, app_id: app_id},
+          //     success: function (res) {
+          //         if(res.responce == true){
+          //             $(this).addClass("highlight");
+          //             $("<span class='error-display' id='" + FieldId + "'>Same value not enter</span>").insertAfter(this);  
+          //         }
+          //     },
+          //     error: function (data) {
+          //         console.log(data)
+          //     }
+          // })
           isFormValid = false;  
       }else{  
           $(this).removeClass("highlight");  
@@ -313,7 +329,8 @@ function ValidateForm() {
           }  
       }
   })
-  return isFormValid;  
+  return false;
+  // return isFormValid;  
 }
 
 </script>

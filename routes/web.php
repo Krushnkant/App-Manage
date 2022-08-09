@@ -62,6 +62,9 @@ Route::group(['middleware'=>'auth'],function (){
     // application data table
     Route::post('application-has-category',[AppDataController::class,'ApplicationHasCategory']);
 
+    // match same value
+    Route::post('same_value_match',[AppDataController::class,'SameValueMatch']);
+
 });
 
 

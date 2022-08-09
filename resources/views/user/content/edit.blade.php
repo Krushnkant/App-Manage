@@ -18,6 +18,7 @@
     }
     span.error-display {
         color: #f00;
+        display: block;
     }
     #loader {
         display: none;
@@ -365,43 +366,78 @@ $(document).ready(function() {
 }); 
 function ValidateForm() {
     var isFormValid = true;  
-    var textValues = [];
-    var select_all_section = $('#form_structures_add input');
-    // console.log(select_all_section)
-    $(select_all_section).each( function(){
-        // console.log($(this).attr('data'));
+    var app_id = "{{$id}}"; 
+    var specific_arr = [];
+    var specific_ids = [];
+    var total_specific = $("#form_structures_add input");
+    $(total_specific).each( function(){
         if($(this).attr('data') == "specific"){
-            textValues.push($(this).val());
+            specific_arr.push($(this).val())
         }
     })
-    console.log(textValues)
-    $("#form_structures_add input").each(function () { 
-        // if($(this).attr("data") == "specific"){
-        //     textValues.push($(this).val());
-        // }
+    $(total_specific).each( function(){
+        if($(this).attr('data') == "specific"){
+            specific_ids.push($(this).attr('id'))
+        }
+    })
+    $("#form_structures_add input").each(function () {
+        var regexp = /^\S*$/; 
         if($(this).attr("id") != undefined){
-            // var doesExisit = ($.inArray($(this).val(), textValues) >= 0) ? false : true;
-            // var FieldId = "span_" + $(this).attr("id");
-            // if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
-            //     $(this).addClass("highlight");
-            //     if ($("#" + FieldId).length == 0) {  
-            //             $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
-            //     }  
-            //     if ($("#" + FieldId).css('display') == 'none'){  
-            //         $("#" + FieldId).fadeIn(500);  
-            //     } 
-            //     isFormValid = false;  
-            // }else{  
-            //     $(this).removeClass("highlight");  
-            //     if ($("#" + FieldId).length > 0) {  
-            //         $("#" + FieldId).fadeOut(1000);  
-            //     }  
-            // }
+            var FieldId = "span_" + $(this).attr("id");
+            if ($.trim($(this).val()).length == 0 || $.trim($(this).val())==0) {
+                $(this).addClass("highlight");
+                if ($("#" + FieldId).length == 0) {  
+                    $("<span class='error-display' id='" + FieldId + "'>This Field Is Required</span>").insertAfter(this);  
+                }  
+                if ($("#" + FieldId).css('display') == 'none'){  
+                    $("#" + FieldId).fadeIn(500);  
+                } 
+                isFormValid = false;  
+            }else if(regexp.test($(this).val()) == false && $.trim($(this).val()).length != 0){
+                $(this).addClass("highlight");
+                if ($("#" + FieldId).length == 0) {  
+                        $("<span class='error-display' id='" + FieldId + "'>Please remove space</span>").insertAfter(this);  
+                }
+                if ($("#" + FieldId).css('display') == 'none'){  
+                    $("#" + FieldId).fadeIn(500);  
+                } 
+                isFormValid = false;  
+            }else{ 
+                const seen = new Set();
+                const duplicates = specific_arr.filter(n => seen.size === seen.add(n).size);
+                var iddd = "";
+                var idd1 = "";
+                if(duplicates.length > 0){
+                    $(duplicates).each( function(item, val){
+                        var ddd = specific_arr.indexOf(val);
+                        iddd = "#"+specific_ids[ddd];
+                        idd1 = specific_ids[ddd];
+                        if($(iddd).next().hasClass("other")){
+
+                        }else{
+                            $(iddd).addClass("highlight");
+                            $("<span class='error-display other' id='" + idd1 + "'>Please enter different value</span>").insertAfter(iddd);  
+                        }
+                        isFormValid = false; 
+                    })
+                }else{
+                   $(specific_ids).each( function(item, val){
+                        iddd = "#"+val;
+                        $(iddd).removeClass("highlight");  
+                        $(iddd).next().remove();
+                        isFormValid = true; 
+                   }) 
+                } 
+                $(this).removeClass("highlight");  
+                if ($("#" + FieldId).length > 0) {  
+                    $("#" + FieldId).fadeOut(1000);  
+                }  
+            }
         }
     })
-    // return isFormValid;  
+    return isFormValid;  
     // console.log(isFormValid)
-    return false;  
+    // return false;  
 }  
 </script>
 @endpush('scripts')
