@@ -10540,7 +10540,7 @@ sub {
 .footer {
     padding-left: 15.1875rem;
     background-color: #fff;
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     left: 0;
     margin-top: 20px;
@@ -21400,7 +21400,14 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
 }
 
 .content-body {
-    min-height: calc(100vh - 94px) !important;
+    min-height: calc(100vh - 84px) !important;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+table.dataTable td.dataTables_empty {
+    text-align: center !important;
 }
 
 @media (max-width:1199px) {

@@ -3,102 +3,105 @@
 @section('content')
 <!-- <link href="{{ url('public/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
-<div class="row page-titles mx-0">
-    <div class="col p-md-0">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Application List</li>
-        </ol>
+<div>
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Application List</li>
+            </ol>
+        </div>
     </div>
-</div>
-<div class="container-fluid pt-0">
-    <div class="row">
-        <div class="col-12">
-            <div class="card application_part">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Application List - Application Management</h4>
-                    <div class="text-left mb-4 add_application_btn_part">
-                        <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
-                            <span class="mr-2 d-inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M8 12H16" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 16V8" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </span>
-                            Add Application
-                        </a>
-                    </div>
-                    <ul class="nav application_tab mt-4" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link application_page_tabs active" data-tab="all_application_tab" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="falsse">All</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link application_page_tabs" data-tab="active_application_tab" id="profile-tab" data-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">Active</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link application_page_tabs" data-tab="deactive_application_tab" id="contact-tab" data-toggle="tab" href="#Inactive" role="tab" aria-controls="Inactive" aria-selected="false">Inactive</a>
-                    </li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                    
-                    <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
-                            <div class="table-responsive application_table_part">
-                                <table id="application_list" class="table zero-configuration customNewtable application_table shadow-none" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>No</th>
-                                            <th>Application</th>
-                                            <th>App Id</th>
-                                            <th>Package Name</th>
-                                            <th>Total Request</th>
-                                            <th>status</th>
-                                            <th>Date</th>
-                                            <th>Action</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                    <!-- <tfoot>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Application</th>
-                                            <th>App Id</th>
-                                            <th>Package Name</th>
-                                            <th>Total Request</th>
-                                            <th>Icon</th>
-                                            <th>Date</th>
-                                            <th>Action</th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot> -->
-                                </table>
+    <div class="container-fluid pt-0">
+        <div class="row">
+            <div class="col-12">
+                <div class="card application_part">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Application List - Application Management</h4>
+                        <div class="text-left mb-4 add_application_btn_part">
+                            <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
+                                <span class="mr-2 d-inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 12H16" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 16V8" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                Add Application
+                            </a>
+                        </div>
+                        <ul class="nav application_tab mt-4" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link application_page_tabs active" data-tab="all_application_tab" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="falsse">All</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link application_page_tabs" data-tab="active_application_tab" id="profile-tab" data-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">Active</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link application_page_tabs" data-tab="deactive_application_tab" id="contact-tab" data-toggle="tab" href="#Inactive" role="tab" aria-controls="Inactive" aria-selected="false">Inactive</a>
+                        </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                        
+                        <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
+                                <div class="table-responsive application_table_part">
+                                    <table id="application_list" class="table zero-configuration customNewtable application_table shadow-none" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>No</th>
+                                                <th>Application</th>
+                                                <th>App Id</th>
+                                                <th>Package Name</th>
+                                                <th>Total Request</th>
+                                                <th>status</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <!-- <tfoot>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Application</th>
+                                                <th>App Id</th>
+                                                <th>Package Name</th>
+                                                <th>Total Request</th>
+                                                <th>Icon</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot> -->
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                    
                     </div>
-                   
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModalCenter">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Are you sure you want to delete this record ?</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="exampleModalCenter">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Are you sure you want to delete this record ?</h5>
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection

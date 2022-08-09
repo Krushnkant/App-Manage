@@ -1,57 +1,59 @@
 @extends('user.layouts.layout')
 
 @section('content')
-<div class="row page-titles mx-0">
-    <div class="col p-md-0">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item "><a href="{{url('application')}}">Application List</a></li>
-            <li class="breadcrumb-item active">Content List</li>
-        </ol>
-    </div>
-</div>
-<div class="container-fluid pt-0 add-form-part">
-    <div class="row justify-content-center">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Content List - Application Management</h4>
-                    <button class="btn mb-1 btn-primary"><a href="{{url('content-form/'.$id)}}" class="text-white">Add Content</a></button>
-                    <button class="btn mb-1 btn-primary"><a href="{{url('add-structure/'.$id)}}" class="text-white">Add Structure</a></button>
-                </div>
-                <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
-                    <div class="table-responsive">
-                        <table id="content_list" class="table zero-configuration customNewtable application_table" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>No</th>
-                                    <th>Application Id</th>
-                                    <th>Category</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot></tfoot>
-                        </table>
-                    </div>
-                </div> 
-            </div>
+<div>
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item "><a href="{{url('application')}}">Application List</a></li>
+                <li class="breadcrumb-item active">Content List</li>
+            </ol>
         </div>
     </div>
-    <div class="modal fade" id="exampleModalCenter">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Are you sure you want to delete this record ?</h5>
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                    </button>
+    <div class="container-fluid pt-0 add-form-part">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        <h4 class="card-title mb-3">Content List - Application Management</h4>
+                        <button class="btn mb-1 btn-primary"><a href="{{url('content-form/'.$id)}}" class="text-white">Add Content</a></button>
+                        <button class="btn mb-1 btn-primary"><a href="{{url('add-structure/'.$id)}}" class="text-white">Add Structure</a></button>
+                        <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
+                        <div class="table-responsive">
+                                <table id="content_list" class="table zero-configuration customNewtable application_table shadow-none px-0" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>No</th>
+                                            <th>Application Id</th>
+                                            <th>Category</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                        </div> 
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalCenter">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Are you sure you want to delete this record ?</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -75,11 +77,12 @@
                 "data":{ _token: '{{ csrf_token() }}', app_id: app_id},
             },
             "columnDefs": [
-                { "width": "", "targets": 0 },
-                { "width": "", "targets": 1 },
-                { "width": "", "targets": 2 },
-                { "width": "", "targets": 3 },
-                { "width": "", "targets": 4 },
+                { "width": "10%", "targets": 0 },
+                { "width": "10%", "targets": 1 },
+                { "width": "20%", "targets": 2 },
+                { "width": "20%", "targets": 3 },
+                { "width": "20%", "targets": 4 },
+                { "width": "20%", "targets": 5 },
             ],
             "columns": [
                 {

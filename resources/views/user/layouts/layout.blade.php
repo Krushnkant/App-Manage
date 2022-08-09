@@ -83,7 +83,12 @@
         <div class="content-body">
             @yield('content')
             <!-- #/ container -->
+
+            <div class="footer">
+                @include('user.layouts.footer')
+            </div>
         </div>
+       
         <!--**********************************
             Content body end
         ***********************************-->
@@ -92,9 +97,7 @@
         <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
-        @include('user.layouts.footer')
-        </div>
+    
         <!--**********************************
             Footer end
         ***********************************-->
