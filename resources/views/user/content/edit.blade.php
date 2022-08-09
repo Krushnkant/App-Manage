@@ -372,12 +372,16 @@ function ValidateForm() {
     var total_specific = $("#form_structures_add input");
     $(total_specific).each( function(){
         if($(this).attr('data') == "specific"){
-            specific_arr.push($(this).val())
+            if($(this).val()){
+                specific_arr.push($(this).val())
+            }
         }
     })
     $(total_specific).each( function(){
         if($(this).attr('data') == "specific"){
-            specific_ids.push($(this).attr('id'))
+            if($(this).val()){
+                specific_ids.push($(this).attr('id'))
+            }
         }
     })
     $("#form_structures_add input").each(function () {
