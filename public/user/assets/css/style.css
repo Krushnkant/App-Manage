@@ -10352,6 +10352,10 @@ sub {
     padding: 0;
 }
 
+.content_list_table .container-fluid {
+    padding-left: 0;
+}
+
 .application_table_part .row {
     margin: 0;
 }

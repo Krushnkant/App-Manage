@@ -20,8 +20,8 @@
                         <button class="btn mb-1 btn-primary"><a href="{{url('content-form/'.$id)}}" class="text-white">Add Content</a></button>
                         <button class="btn mb-1 btn-primary"><a href="{{url('add-structure/'.$id)}}" class="text-white">Add Structure</a></button>
                         <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
-                        <div class="table-responsive">
-                                <table id="content_list" class="table zero-configuration customNewtable application_table shadow-none px-0" style="width:100%">
+                        <div class="table-responsive content_list_table">
+                                <table id="content_list" class="table zero-configuration customNewtable application_table  shadow-none px-0" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th></th>
