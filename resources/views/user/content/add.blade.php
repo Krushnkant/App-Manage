@@ -104,7 +104,9 @@
             </div>
         </div>
     </div>
-    <div id='loader'></div>
+    <div id='loader'>
+        <!-- <img src="{{asset('user/assets/loader/loader.gif')}}" /> -->
+    </div>
 </div>
 @endsection
 @push('scripts')
