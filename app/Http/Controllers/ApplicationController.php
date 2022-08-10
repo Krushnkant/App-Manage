@@ -232,10 +232,9 @@ class ApplicationController extends Controller
        $data = $request->all();
        $application = ApplicationData::where('app_id', $data['app_id'])->where('status', '1')->first();
        if($application != null){
-        return response()->json(['status' => '200','message' => 'false']);  
+            return json_encode(false);
        }else{
-        return response()->json(['status' => '200','message' => 'true']);  
+            return json_encode(true);
        }
-        // dd($application);
     }
 }
