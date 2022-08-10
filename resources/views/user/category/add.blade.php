@@ -76,7 +76,9 @@
                                                 <select class="form-control select-box" id="val-skill" name="val-skill">
                                                     <option value="">Please select</option>
                                                     @foreach($fields as $field)
+                                                        @if($field->type != "multi-file")
                                                         <option data-id="{{$field->id}}" value="{{$field->type}}">{{$field->title}}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -92,11 +94,13 @@
                                         <div class="form-group col-12 mb-0 text-center mt-2">
                                             <div class="">
                                                 <button type="button" id="submit_category" class="btn btn-primary">Submit</button>
-                                                <!-- <span class="comman_loader">
-                                                    <svg class="circular" viewBox="25 25 50 50">
-                                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
-                                                    </svg>
-                                                </span> -->
+                                                <span id="loader">
+                                                    <div class="loader">
+                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                                        </svg>
+                                                    </div>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -174,6 +178,7 @@
     var pluss = 0;
     $('body').on('click', '.plus_btn', function(){
         var html = "";
+        var set_multiple = "";
         var selected = $('#val-skill option:selected');
         var option = selected.attr('data-id')
         var valuee = selected.attr('value')
@@ -190,6 +195,7 @@
             type = "file";
         }else if(valuee == "multi-file"){
             type = "file";
+            set_multiple = "multiple";
         }else{
             type = ""
         }
@@ -199,7 +205,7 @@
                         '<input type="text" placeholder="Enter Title" class="form-control input-flat" data="specific" id="'+field_name_id+'" name="'+field_key+'" />'+
                     '</div>'+
                     '<div class="col-10 col-sm-5 px-0 pl-sm-3">'+
-                        '<input type="'+type+'" class="form-control input-flat" placeholder="Enter Value" id="'+field_key_id+'" name="'+field_name+'" />'+
+                        '<input type="'+type+'" class="form-control input-flat disabled_a" placeholder="Enter Value" id="'+field_key_id+'" name="'+field_name+'" '+set_multiple+'/>'+
                     '</div>'+
                     // '<div class="col-md-2">'+
                     //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
@@ -242,7 +248,7 @@
         var formData = new FormData($("#category_add")[0]);
         var validation = ValidateForm()
         if(validation != false){
-            $('#preloader').show();
+            $('#loader').show();
             $('#submit_category').prop('disabled', true);
             $.ajax({
                 type: 'POST',
@@ -252,13 +258,20 @@
                 contentType: false,
                 success: function(data) {
                     if(data.status == 200){
-                        $('#preloader').hide();
+                        $('#loader').hide();
                         toastr.success("Category Added",'Success',{timeOut: 5000});
                         $('#category_list').DataTable().draw();
-                        $("#category_add")[0].reset();
+                        $('#submit_category').prop('disabled', false);
+                        var total_specific = $(".disabled_a");
+                        $(total_specific).each( function(){
+                            if($(this).val().length > 0){
+                                $(this).val('');
+                            }
+                        })
+                        $("input#name").val('');
                     }else{
                         $('#submit_category').prop('disabled', false);
-                        $('#preloader').hide();
+                        $('#loader').hide();
                         toastr.error("Please try again",'Error',{timeOut: 5000})
                     }
                 }
@@ -306,7 +319,7 @@
                         var iddd = "";
                         var idd1 = "";
                         $(specific_ids).each( function(item, val){
-                            console.log("---->"+val)
+                            // console.log("---->"+val)
                             var vall = $("#"+val).val();
                             var iddds = "#"+val;
                             if(regexp.test(vall) == false){
@@ -347,12 +360,13 @@
                 }
             }
         })
+        // return false;
         return isFormValid;  
     }
     function format(d) {
         var list;
         $.each(d.category, function(i, item) {
-            console.log(item.fields.type)
+            // console.log(item.fields.type)
             var ddd = '';
             // if (/(jpg|gif|png)$/.test(item.value)){ 
             if (item.fields.type == "file" || item.fields.type == "multi-file"){ 

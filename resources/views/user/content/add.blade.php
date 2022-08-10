@@ -92,8 +92,15 @@
                                 <div class="row">
                                     <div class="form-group col-md-6 mt-3">
                                         <div class="">
-                                        <button type="button" id="submit_form_structures" class="btn btn-primary">Submit</button>
+                                            <button type="button" id="submit_form_structures" class="btn btn-primary">Submit</button>
                                         </div>
+                                        <span id="loader">
+                                            <div class="loader">
+                                                <svg class="circular" viewBox="25 25 50 50">
+                                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                                </svg>
+                                            </div>
+                                        </span>
                                     </div>
                                 </div>
                             </form>
@@ -254,7 +261,7 @@ $(document).ready(function() {
         var formData = new FormData($("#form_structures_add")[0]);
         var validation = ValidateForm()
         if(validation != false){
-            $('#preloader').show();
+            $('#loader').show();
             $('#Add').prop('disabled', true);
             $.ajax({
                     type: 'POST',
@@ -264,7 +271,7 @@ $(document).ready(function() {
                     contentType: false,
                     success: function (res) {
                         if(res['status']==200){
-                            $('#preloader').hide();
+                            $('#loader').hide();
                             toastr.success("Form Added",'Success',{timeOut: 5000});
                             window.location.href = "{{ url('content-form/'.$id)}}";
                             $("#form_structures_add")[0].reset()
@@ -272,7 +279,7 @@ $(document).ready(function() {
                     },
                     error: function (data) {
                         $('#Add').prop('disabled', false);
-                        $('#preloader').hide();
+                        $('#loader').hide();
                         $(btn).prop('disabled',false);
                         // $(btn).find('.submitloader').hide();
                         toastr.error("Please try again",'Error',{timeOut: 5000});

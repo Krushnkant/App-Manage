@@ -47,6 +47,8 @@ class CategoryController extends Controller
        $field_key3 = (isset($data['3field_key']) && $data['3field_key']) ? $data['3field_key'] : null;
        $field_value3 = (isset($data['3field_value']) && $data['3field_value']) ? $data['3field_value'] : null;
 
+    //    dd($data);
+
         $category = new Category();
         $category->app_id = (int)$app_id;
         $category->title = $name;
@@ -77,8 +79,11 @@ class CategoryController extends Controller
                     $CategoryFields->save();
                 }
             }
+            // dump($field_value3);
+            // dump($field_key3);
             if($field_key3 != null){
                 foreach($field_key3 as $key => $field3){
+                    // dump($field3);
                     $path = public_path("category_image/");
                     $result = Helpers::UploadImage($field_value3[$key], $path);
                     $CategoryFields = new CategoryFields();
@@ -90,6 +95,7 @@ class CategoryController extends Controller
                     $CategoryFields->save();
                 }
             }
+            // dd();
             return response()->json(['status' => '200']);
         }else{
             return response()->json('status', '400');

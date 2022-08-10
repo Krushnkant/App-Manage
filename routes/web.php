@@ -34,7 +34,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/application/{id}/delete',[ApplicationController::class, 'destroy']);
     Route::get('chageapplicationstatus/{id}',[ApplicationController::class,'chageapplicationstatus']);
     // Route::post('insert-application-data',[ApplicationController::class,'index']);
-    Route::get('check-applicationId',[ApplicationController::class,'CheckAppId']);
+    Route::get('check-applicationId/{id}',[ApplicationController::class,'CheckAppId']);
 
     // category
     Route::resource('/category',  CategoryController::class);

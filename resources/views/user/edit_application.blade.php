@@ -12,8 +12,11 @@
         border: 2px dotted #1833FF;
         margin-top: 50px;
     }
-    .comman_loader{
+    #loader{
         display: none;
+    }
+    label.error {
+        color: #ff0202;
     }
 </style>
 <div>
@@ -33,7 +36,7 @@
                 <div class="card-body">
                 <h4 class="card-title mb-4">Edit Application - Application Management</h4>
                     <div class="form-validation">
-                        {{ Form::open(array('route' => array('application.update', $data->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data')) }}
+                        {{ Form::open(array('route' => array('application.update', $data->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data', 'id' => 'application_add')) }}
                         <!-- <form class="form-valide" action="" method="post"> -->
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -47,11 +50,17 @@
                                     <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
                                     </label>
                                     <div class="">
+                                        @if($data->is_url == 1)
+                                        <input type="text" class="form-control" value="{{$data->icon_url}}" id="icon_url" name="icon_url" placeholder="Enter Application Icon">
+                                        <div class="pre_img mt-3">
+                                            <img class="set_img input-set-img-part" src="{{$data->icon_url}}" />
+                                        </div>
+                                        @else
                                         <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Enter Application Icon">
                                         <div class="pre_img mt-3">
-                                            <!-- <img class="set_img input-set-img-part" src="{{asset('/app_icons/'.$data->icon)}}" /> -->
-                                            <img class="set_img input-set-img-part" src="{{$data->icon}}" />
+                                            <img class="set_img input-set-img-part" src="{{asset('app_icons/'.$data->icon)}}" />
                                         </div>
+                                        @endif
                                     </div>
                                     <!-- <div class="form-group">
                                         <label class="col-form-label" for="Thumbnail">Application Icon  <span class="text-danger">*</span>
@@ -81,10 +90,12 @@
                                 <div class="form-group col-md-6 mt-4">
                                     <div class="col-lg-8">
                                         <button type="submit" class="btn btn-primary" id="edit_app">Submit</button>
-                                        <span class="comman_loader">
-                                            <svg class="circular" viewBox="25 25 50 50">
-                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
-                                            </svg>
+                                        <span id="loader">
+                                            <div class="loader">
+                                                <svg class="circular" viewBox="25 25 50 50">
+                                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                                </svg>
+                                            </div>
                                         </span>
                                     </div>
                                 </div>
@@ -100,64 +111,56 @@
 </div>
 @endsection
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-    // var dropzone = new Dropzone('#file-upload', {
-    //         previewTemplate: document.querySelector('#preview-template').innerHTML,
-    //         parallelUploads: 3,
-    //         thumbnailHeight: 150,
-    //         thumbnailWidth: 150,
-    //         maxFilesize: 5,
-    //         filesizeBase: 1500,
-    //         thumbnail: function (file, dataUrl) {
-    //             if (file.previewElement) {
-    //                 file.previewElement.classList.remove("dz-file-preview");
-    //                 var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
-    //                 for (var i = 0; i < images.length; i++) {
-    //                     var thumbnailElement = images[i];
-    //                     thumbnailElement.alt = file.name;
-    //                     thumbnailElement.src = dataUrl;
-    //                 }
-    //                 setTimeout(function () {
-    //                     file.previewElement.classList.add("dz-image-preview");
-    //                 }, 1);
-    //             }
-    //         }
-    //     });
-        
-    //     var minSteps = 6,
-    //         maxSteps = 60,
-    //         timeBetweenSteps = 100,
-    //         bytesPerStep = 100000;
-    //     dropzone.uploadFiles = function (files) {
-    //         var self = this;
-    //         for (var i = 0; i < files.length; i++) {
-    //             var file = files[i];
-    //             totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
-    //             for (var step = 0; step < totalSteps; step++) {
-    //                 var duration = timeBetweenSteps * (step + 1);
-    //                 setTimeout(function (file, totalSteps, step) {
-    //                     return function () {
-    //                         file.upload = {
-    //                             progress: 100 * (step + 1) / totalSteps,
-    //                             total: file.size,
-    //                             bytesSent: (step + 1) * file.size / totalSteps
-    //                         };
-    //                         self.emit('uploadprogress', file, file.upload.progress, file.upload
-    //                             .bytesSent);
-    //                         if (file.upload.progress == 100) {
-    //                             file.status = Dropzone.SUCCESS;
-    //                             self.emit("success", file, 'success', null);
-    //                             self.emit("complete", file);
-    //                             self.processQueue();
-    //                         }
-    //                     };
-    //                 }(file, totalSteps, step), duration);
-    //             }
-    //         }
-    //     }
-    $( "#add_app").click(function() {
-        $('.comman_loader').show()
+    var app_id = "{{$data->id}}";
+    console.log('{{ url("check-applicationId/") }}/'+app_id)
+    var validation = $("#application_add").validate({
+        rules: {
+            name: {
+                required: true,
+            },
+            // icon: {
+            //     required: true,
+            // },
+            icon_url: {
+                required: true,
+            },
+            app_id: {
+                required: true,
+                remote: '{{ url("check-applicationId/") }}/'+app_id
+            },
+            package_name: {
+                required: true,
+            },
+        },
+        messages: {
+            name: {
+                required: "Please enter application name",
+            },
+            // icon: {
+            //     required: "Please choose application icon",
+            // },
+            icon_url: {
+                required: "Please enter application icon url",
+            },
+            app_id: {
+                required: "Please enter application ID",
+                remote: "Please enter different application ID",
+            },
+            package_name: {
+                required: "Please enter package name",
+            },
+        },
+        submitHandler: function (form) {
+            $('#loader').show()
+            form.submit();
+        }
     })
+    // console.log(validation)
+    // $( "#add_app").click(function() {
+    //     $('#loader').show()
+    // })
 </script>
 @endpush('scripts')
