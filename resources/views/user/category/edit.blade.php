@@ -17,18 +17,6 @@
         color: #f00;
         display: block;
     }
-    #loader {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        background: rgb(0 0 0 / 22%) url("../../user/assets/loader/loader.gif") no-repeat center center;
-        z-index: 99999;
-        background-size: 200px;
-    }
 </style>
 <div>
     <div class="row page-titles mx-0">
