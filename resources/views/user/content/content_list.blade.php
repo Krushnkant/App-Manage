@@ -161,7 +161,7 @@
         var newArray = [];
         $.each(d.app_data, function(i, item) {
             var ddd = '';
-            if (/(jpg|gif|png)$/.test(item.value)){ 
+            if (item.field_type == "file" || item.field_type == "multi-file"){ 
                 var imgg = urll+"/"+item.value
                 ddd += '<img class="img_side" src="'+imgg+'">';
             }else{
@@ -170,16 +170,7 @@
             list += '<tr><td class="text-left">'+item.field_name+'</td><td class="text-left">'+ddd+'</td></tr>';
         });
         $.each(d.sub_app_data, function(i, item) {
-            // var ddd = '';
-            // console.log(item.UUID)
             bunch.push(item.UUID)
-            // if (/(jpg|gif|png)$/.test(item.value)){ 
-            //     var imgg = urll+"/"+item.value
-            //     ddd += '<img class="img_side" src="'+imgg+'">';
-            // }else{
-            //     ddd += '<span>'+item.value+'</span>';
-            // }
-            // list += '<tr><td>'+item.field_name+'</td><td>'+ddd+'</td></tr>';
         });
         for(i=0; i < bunch.length; i++){
             if(uniqueArray.indexOf(bunch[i]) === -1) {
@@ -197,10 +188,12 @@
                 var sss = uniqueArray[i];
                 html += "<tbody><tr>";
                     $.each(d.sub_app_data, function(i, item) {
+                        console.log(item)
                         if(item.UUID == sss){
                             var ddd = '';
-                            if (/(jpg|gif|png)$/.test(item.value)){ 
+                            if (/(jpg|gif|png|jpeg)$/.test(item.value)){ 
                                 var imgg = urll+"/"+item.value
+                                console.log(imgg)
                                 ddd += '<img class="img_side" src="'+imgg+'">';
                             }else{
                                 ddd += '<span>'+item.value+'</span>';

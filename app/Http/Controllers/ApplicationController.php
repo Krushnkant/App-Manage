@@ -45,12 +45,11 @@ class ApplicationController extends Controller
         // dd($request->all());
         $validated = $request->validate([
             'name' => 'required',
-            'icon' => 'required|image|mimes:jpg,jpeg,png',
             'app_id' => 'required|unique:application_data',
             'package_name' => 'required',
         ]);
         $data = $request->all();
-        if($data['icon']){
+        if(isset($data['icon'])){
             $path = public_path("app_icons/");
             $public_path = asset('app_icons/');
             $result = Helpers::UploadImage($data['icon'], $path);
