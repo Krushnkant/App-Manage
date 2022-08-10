@@ -131,6 +131,13 @@
                                                 <div class="">
                                                     <button type="button" id="submit_category" class="btn btn-primary">Submit</button>
                                                 </div>
+                                                <span id="loader">
+                                                    <div class="loader">
+                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                                        </svg>
+                                                    </div>
+                                                </span>
                                             </div>
                                         </div>
                                     </form>
@@ -212,7 +219,7 @@
         var validation = ValidateForm()
        
         if(validation != false){
-            $('#preloader').show();
+            $('#loader').show();
             $('#submit_category').prop('disabled', true);
             $.ajax({
                     type: 'POST',
@@ -222,14 +229,14 @@
                     contentType: false,
                     success: function(data) {
                         if(data.status == 200){
-                            $('#preloader').hide();
+                            $('#loader').hide();
                             var app_id = "{{$id}}";
                             toastr.success("Category Update",'Success',{timeOut: 5000});
                             window.location.href = "{{ url('category-add/'.$data->app_id)}}";
                             // $("#category_add")[0].reset()
                         }else{
                             $('#submit_category').prop('disabled', false);
-                            $('#preloader').hide();
+                            $('#loader').hide();
                             toastr.error("Please try again",'Error',{timeOut: 5000})
                         }
                     }

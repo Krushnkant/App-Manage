@@ -167,6 +167,13 @@ span.error-display {
                                       <div class="">
                                         <button type="button" id="submit_app_data" class="btn btn-primary">Submit</button>
                                       </div>
+                                      <span id="loader">
+                                          <div class="loader">
+                                              <svg class="circular" viewBox="25 25 50 50">
+                                                  <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                              </svg>
+                                          </div>
+                                      </span>
                                   </div>
                               </div>
                           </form>
@@ -249,7 +256,7 @@ $('body').on('click', '#submit_app_data', function () {
     // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
-      $('#preloader').show();
+      $('#loader').show();
       $('#submit_app_data').prop('disabled', true);
       $.ajax({
               type: 'POST',
@@ -259,13 +266,13 @@ $('body').on('click', '#submit_app_data', function () {
               contentType: false,
               success: function(data) {
                   if(data.status == 200){
-                      $('#preloader').hide();
+                      $('#loader').hide();
                       toastr.success("Content Added",'Success',{timeOut: 5000})
                       $("#content_add")[0].reset()
                       window.location.href = "{{ url('content-list/'.$application_id)}}";
                   }else{
                       $('#submit_app_data').prop('disabled', false);
-                      $('#preloader').hide();
+                      $('#loader').hide();
                       toastr.error("Please try again",'Error',{timeOut: 5000})
                   }
               }

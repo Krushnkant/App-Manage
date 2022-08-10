@@ -226,9 +226,13 @@ class ApplicationController extends Controller
         }
     }
 
-    public function CheckAppId(Request $request)
+    public function CheckAppId(Request $request, $id)
     {
        $data = $request->all();
+    //    dd($data);
+    //    if($id != 0){
+
+    //    }
        $application = ApplicationData::where('app_id', $data['app_id'])->where('status', '1')->first();
        if($application != null){
             return json_encode(false);

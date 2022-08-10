@@ -5,7 +5,7 @@
     label.error {
         color: #ff0202;
     }
-    .comman_loader{
+    #loader{
         display: none;
     }
     input.form-check-input.is_url {
@@ -83,10 +83,12 @@
                                         <div class="">
                                             <!-- <button type="button" class="btn btn-primary" id="add_app">Submit</button> -->
                                             <button type="submit" class="btn btn-primary" id="add_app">Submit</button>
-                                            <span class="comman_loader">
-                                                <svg class="circular" viewBox="25 25 50 50">
-                                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-                                                </svg>
+                                            <span id="loader">
+                                                <div class="loader">
+                                                    <svg class="circular" viewBox="25 25 50 50">
+                                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                                    </svg>
+                                                </div>
                                             </span>
                                         </div>
                                     </div>
@@ -105,6 +107,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
+    var app_id = "0";
     var validation = $("#application_add").validate({
         rules: {
             name: {
@@ -116,12 +119,10 @@
             icon_url: {
                 required: true,
             },
-            app_id: {
-                required: true,
-                remote: '{{ url("check-applicationId") }}'
-                // checkApp: true,
-                // unique: true,
-            },
+            // app_id: {
+            //     required: true,
+            //     remote: '{{ url("check-applicationId") }}/'+app_id
+            // },
             package_name: {
                 required: true,
             },
@@ -136,18 +137,23 @@
             icon_url: {
                 required: "Please enter application icon url",
             },
-            app_id: {
-                required: "Please enter application ID",
-                remote: "Please enter different application ID",
-            },
+            // app_id: {
+            //     required: "Please enter application ID",
+            //     remote: "Please enter different application ID",
+            // },
             package_name: {
                 required: "Please enter package name",
             },
         },
+        submitHandler: function (form) {
+            $('#loader').show()
+            form.submit();
+        }
     })
-    $( "#add_app").click(function() {
-        $('.comman_loader').show()
-    })
+    // console.log(validation)
+    // $( "#add_app").click(function() {
+    //     $('#loader').show()
+    // })
     $(".text_div").hide();
     $(".is_url").change(function(){
         var selValue = $("input[type='radio']:checked").val();
