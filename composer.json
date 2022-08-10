@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.5",
         "laravelcollective/html": "^6.3",
         "stevebauman/location": "^6.5",
-        "yajra/laravel-datatables-oracle": "*"
+        "yajra/laravel-datatables-oracle": "*",
+        "yoeunes/toastr": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
