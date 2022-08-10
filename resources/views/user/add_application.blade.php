@@ -95,7 +95,8 @@
             },
             app_id: {
                 required: true,
-                checkApp: true,
+                // checkApp: true,
+                unique: true,
             },
             package_name: {
                 required: true,
@@ -117,19 +118,27 @@
             },
         },
     })
-    let result = false;
-    $.validator.addMethod("checkApp", function(value, element) {
+
+    // let result = false;
+    $.validator.addMethod("checkApp", function(value, element, isSuccess = false) {
         var app_id = value;
+        var response = [];
+        // var isSuccess = false;
         $.ajax({
             type: 'POST',
             url: "{{ url('check-applicationId') }}",
             data: { _token: '{{ csrf_token() }}', app_id: app_id},
             success: function(data) {
-                result = data.message
+                // result = data.message
+                // response = data;
+                response.push(data)
+                isSuccess = data.message === "false" ? false : true
             }
         });
-        return result;
-    
+        console.log(response)
+        console.log(isSuccess)
+        // return result;
+        return false;
     }, "Please enter different application ID");
 
     // console.log(validation)
