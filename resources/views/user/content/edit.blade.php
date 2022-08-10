@@ -74,9 +74,9 @@
                                             </div>
                                             <div class="form-group col-3 px-0 px-sm-3 col-sm-2 text-center">
                                                 <!-- <label class="col-lg-4 col-form-label" for="name">-</label> -->
-                                                <div class="ml-auto ">
+                                                <!-- <div class="ml-auto ">
                                                     <button type="button" class="plus_btn btn btn-info field_btn" id="Add">Add</button>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -138,9 +138,9 @@
                                                     </div>
                                                     <div class="form-group col-3 col-sm-2 px-0 px-sm-3 text-center">
                                                         <!-- <label class="col-lg-4 col-form-label" for="name">-</label> -->
-                                                        <div class="ml-auto ">
+                                                        <!-- <div class="ml-auto ">
                                                             <button type="button" class="plus_btn btn btn-info field_btn" id="AddSub">Add</button>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="form-group col-md-12 add-value-sub mb-0 px-0">
                                                         @foreach($data->sub_form as $dat)
@@ -183,9 +183,9 @@
             </div>
         </div>
     </div>
-    <div id='loader'>
-        <!-- <img src="{{asset('user/assets/loader/loader.gif')}}" /> -->
-    </div>
+    <!-- <img src="{{asset('user/assets/loader/loader.gif')}}" /> -->
+    <!-- <div id='loader'>
+    </div> -->
 </div>
 @endsection
 @push('scripts')
@@ -250,9 +250,9 @@ $(document).ready(function() {
                 '<div class="form-group col-3 col-sm-2 px-0 px-sm-3 text-center">'+
                     // '<label class="col-lg-4 col-form-label" for="name">-'+
                     // '</label>'+
-                    '<div class="ml-auto ">'+
-                        '<button type="button" class="plus_btn btn mb-1 btn-info field_btn" id="AddSub">Add</button>'+
-                    '</div>'+
+                    // '<div class="ml-auto ">'+
+                    //     '<button type="button" class="plus_btn btn mb-1 btn-info field_btn" id="AddSub">Add</button>'+
+                    // '</div>'+
                 '</div>'+ 
                 '<div class="form-group col-md-12 add-value-sub mb-0 px-0">'+
                                    
@@ -326,7 +326,7 @@ $(document).ready(function() {
         var formData = new FormData($("#form_structures_add")[0]);
         var validation = ValidateForm()
         if(validation != false){
-            $('#loader').show();
+            $('#preloader').show();
             $('#Add').prop('disabled', true);
             $.ajax({
                     type: 'POST',
@@ -336,7 +336,7 @@ $(document).ready(function() {
                     contentType: false,
                     success: function (res) {
                         if(res['status']==200){
-                            $('#loader').hide();
+                            $('#preloader').hide();
                             toastr.success("Form Structure Added",'Success',{timeOut: 5000});
                             window.location.href = "{{ url('/content-form/')}}"+'/'+app_id;
                             console.log("{{ url('/content-form')}}"+app_id)
@@ -345,7 +345,7 @@ $(document).ready(function() {
                     },
                     error: function (data) {
                         $('#Add').prop('disabled', false);
-                        $('#loader').hide();
+                        $('#preloader').hide();
                         // $(btn).prop('disabled',false);
                         // $(btn).find('.submitloader').hide();
                         toastr.error("Please try again",'Error',{timeOut: 5000});

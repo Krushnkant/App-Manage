@@ -42,7 +42,7 @@ class AppDataController extends Controller
         // dd($data);
         $application_id = (isset($data['application_id']) && $data['application_id']) ? $data['application_id'] : null;
         $category_id = (isset($data['category']) && $data['category']) ? $data['category'] : null;
-        $uuid = $data['UUID'];
+        $Uuid = (isset($data['UUID']) && $data['UUID']) ? $data['UUID'] : null;
         $main_uuid = "";
         
         foreach($data as $key => $d){
@@ -101,47 +101,49 @@ class AppDataController extends Controller
         }
         unset($data['_token']);
         unset($data['application_id']);
-        $Uuid = $data['UUID'];
+        // $Uuid = $data['UUID'];
 
         // dd($main_uuid);
-        foreach($data as $key => $d){
-            if (strpos($key, "subname") !== false) {
-                $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
-                $sub_form_strcture = SubformStructure::find($int_var);
-                foreach($d as $k => $fff){
-                    if($sub_form_strcture != null){
-                        $app_data = new SubAppData();
-                        $app_data->app_id = $application_id;
-                        $app_data->category_id = $category_id;
-                        $app_data->app_uuid = $randomString;
-                        $app_data->UUID = $Uuid[$k];
-                        $app_data->sub_form_structure_id = $sub_form_strcture->id;
-                        $app_data->value = $fff;
-                        $app_data->save();
+        if($Uuid != null){
+            foreach($data as $key => $d){
+                if (strpos($key, "subname") !== false) {
+                    $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+                    $sub_form_strcture = SubformStructure::find($int_var);
+                    foreach($d as $k => $fff){
+                        if($sub_form_strcture != null){
+                            $app_data = new SubAppData();
+                            $app_data->app_id = $application_id;
+                            $app_data->category_id = $category_id;
+                            $app_data->app_uuid = $randomString;
+                            $app_data->UUID = $Uuid[$k];
+                            $app_data->sub_form_structure_id = $sub_form_strcture->id;
+                            $app_data->value = $fff;
+                            $app_data->save();
+                        }
                     }
+                    unset($data[$key]);
                 }
-                unset($data[$key]);
             }
-        }
-        foreach($data as $key => $d){
-            if (strpos($key, "subfile") !== false) {
-                $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
-                $sub_form_strcture = SubformStructure::find($int_var);
-                foreach($d as $k => $fff){
-                    $path = public_path("app_data_images/");
-                    $result = Helpers::UploadImage($fff, $path);
-                    if($sub_form_strcture != null){
-                        $app_data = new SubAppData();
-                        $app_data->app_id = $application_id;
-                        $app_data->category_id = $category_id;
-                        $app_data->app_uuid = $randomString;
-                        $app_data->UUID = $Uuid[$k];
-                        $app_data->sub_form_structure_id = $sub_form_strcture->id;
-                        $app_data->value = $result;
-                        $app_data->save();
+            foreach($data as $key => $d){
+                if (strpos($key, "subfile") !== false) {
+                    $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+                    $sub_form_strcture = SubformStructure::find($int_var);
+                    foreach($d as $k => $fff){
+                        $path = public_path("app_data_images/");
+                        $result = Helpers::UploadImage($fff, $path);
+                        if($sub_form_strcture != null){
+                            $app_data = new SubAppData();
+                            $app_data->app_id = $application_id;
+                            $app_data->category_id = $category_id;
+                            $app_data->app_uuid = $randomString;
+                            $app_data->UUID = $Uuid[$k];
+                            $app_data->sub_form_structure_id = $sub_form_strcture->id;
+                            $app_data->value = $result;
+                            $app_data->save();
+                        }
                     }
+                    unset($data[$key]);
                 }
-                unset($data[$key]);
             }
         }
         return response()->json(['status' => '200']);

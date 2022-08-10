@@ -201,7 +201,8 @@ class APIsController extends Controller
                         $multi_img = [];
                         foreach($get_bunch as $vvv){
                             $key = $vvv->field_name;
-                            if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $vvv->value) && $vvv->field_type != "multi-file") {
+                            // if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $vvv->value) && $vvv->field_type != "multi-file") {
+                            if ($vvv->field_type == "file") {
                                 $path = asset('/app_data_images');
                                 $value = $path."/".$vvv->value;
                             }else{
@@ -209,7 +210,7 @@ class APIsController extends Controller
                             }
                             $form->$key = $value;
                             if($vvv->field_type == "multi-file"){
-                                if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $vvv->value)) {
+                                if ($vvv->field_type == "multi-file") {
                                     $path = asset('/app_data_images');
                                     $value = $path."/".$vvv->value;
                                     array_push($multi_img, $value);
@@ -273,9 +274,12 @@ class APIsController extends Controller
                         ->where("status", 1)
                         ->where('UUID', $form->UUID)
                         ->get();
+                    // dump($get_bunch);
                     foreach($get_bunch as $vvv){
                         $key = $vvv->field_name;
-                        if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $vvv->value)) {
+                        // dump($vvv->fieldd->field_type);
+                        // if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $vvv->value)) {
+                        if ($vvv->field_type == "file") {
                             $path = asset('/app_data_images');
                             $value = $path."/".$vvv->value;
                         }else{
@@ -284,6 +288,7 @@ class APIsController extends Controller
                         $form->$key = $value;
                     }
                 }
+                // dd();
                 foreach($form_structure as $form){
                     $form = $form->makeHidden(['id','UUID','form_id','value','field_name','app_id', 'category_id','sub_form_structure_id', 'created_at','updated_at', 'deleted_at','application_id', 'field_type','created_by', 'updated_by']);
                 }
