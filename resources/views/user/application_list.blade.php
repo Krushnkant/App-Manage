@@ -109,7 +109,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
     function format(d) {
-        console.log(d)
+        // console.log(d)
         var cat_list = "";
         var token = d.token;
         var UUID = d.app_id;
@@ -376,8 +376,12 @@
                     "mData": "icon",
                     className: 'text-left',
                     "mRender": function (data, type, row) {
-                        var img_url = "{{asset('/app_icons/')}}/"+row.icon;
-                        return "<div class='application_img_text'><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
+                        if(row.is_url == 1){
+                            return "<div class='application_img_text'><img class='set_img' src="+row.icon_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
+                        }else{
+                            var img_url = "{{asset('/app_icons/')}}/"+row.icon;
+                            return "<div class='application_img_text'><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
+                        }
                     }
                 },
                 

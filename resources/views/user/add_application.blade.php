@@ -8,6 +8,9 @@
     .comman_loader{
         display: none;
     }
+    input.form-check-input.is_url {
+    height: auto;
+}
 </style>
 <div>
     <div class="row page-titles mx-0">
@@ -38,11 +41,26 @@
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Application Name">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6 mb-2 mb-xl-3">
+                                    <div class="form-group col-md-6 mb-2 mb-xl-3" id="myForm">
                                         <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
                                         </label>
-                                        <div class="">
+                                        <div class="radio_btn">
+                                            <label class="col-form-label" for="icon">Are You Add Application Icon Url ?</label>
+                                            <br>
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input is_url" name="is_url" value="1">
+                                                <label for="yes">Yes</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input is_url" name="is_url" value="0" checked>
+                                                <label for="no">No</label>
+                                            </div>
+                                        </div>
+                                        <div class="file_div">
                                             <input type="file" class="form-control" id="icon" name="icon" placeholder="Enter Application Icon">
+                                        </div>
+                                        <div class="text_div">
+                                            <input type="text" class="form-control" id="icon_url" name="icon_url" placeholder="Enter Application Icon Url">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3">
@@ -95,6 +113,9 @@
             icon: {
                 required: true,
             },
+            icon_url: {
+                required: true,
+            },
             app_id: {
                 required: true,
                 remote: '{{ url("check-applicationId") }}'
@@ -112,6 +133,9 @@
             icon: {
                 required: "Please choose application icon",
             },
+            icon_url: {
+                required: "Please enter application icon url",
+            },
             app_id: {
                 required: "Please enter application ID",
                 remote: "Please enter different application ID",
@@ -121,8 +145,21 @@
             },
         },
     })
-
-    let result = false;
+    $( "#add_app").click(function() {
+        $('.comman_loader').show()
+    })
+    $(".text_div").hide();
+    $(".is_url").change(function(){
+        var selValue = $("input[type='radio']:checked").val();
+        if(selValue == 1){
+            $(".text_div").show();
+            $(".file_div").hide();
+        }else{
+            $(".file_div").show();
+            $(".text_div").hide();
+        }
+    });
+    // let result = false;
     // $.validator.addMethod("checkApp", function(value, element, isSuccess = false) {
     //     var app_id = value;
     //     var response = [];
@@ -145,9 +182,7 @@
     // }, "Please enter different application ID");
 
     // console.log(validation)
-    $( "#add_app").click(function() {
-        $('.comman_loader').show()
-    })
+    
 
     // $('body').on('click', '#add_app', function () {
     //     var formData = new FormData($("#application_add")[0]);
