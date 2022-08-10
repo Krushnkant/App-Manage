@@ -184,7 +184,7 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>category_id must be same as example</td>"+
-                                    "<td class='text-left'>"+category_id+"</td>"+
+                                    "<td class='text-left'>-</td>"+
                                 "</tr>"+
                             "</tbody>"+
                         "</table></tr>"+
@@ -228,7 +228,7 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>category_id must be same as example</td>"+
-                                    "<td class='text-left'>"+strcuture_id+"</td>"+
+                                    "<td class='text-left'>-</td>"+
                                 "</tr>"+
                             "</tbody>"+
                         "</table></tr>";
@@ -295,7 +295,7 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>category_id must be same as example</td>"+
-                                    "<td class='text-left'>"+strcuture_id+"</td>"+
+                                    "<td class='text-left'>-</td>"+
                                 "</tr>"+
                             "</tbody>"+
                         "</table></tr>";
