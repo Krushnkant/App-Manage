@@ -95,9 +95,9 @@ class ContentController extends Controller
     {
         $application = ApplicationData::find($id);
         $app_data = AppData::with('fieldd')->where('UUID', $uuid)->where('app_id', $id)->get();
-        $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->get();
+        $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->where('app_uuid', $uuid)->get();
         $categories = Category::where('app_id', $id)->where('status', '1')->get();
-        // dd($sub_app_data);
+        // dd($app_data);
         return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories'));
     }
 
@@ -117,7 +117,8 @@ class ContentController extends Controller
         $main_structure = FormStructure::where('application_id', $application_id)->get()->pluck('id')->toArray();
         $sub_structure = SubformStructure::where('application_id', $application_id)->get()->pluck('id')->toArray();
         $sub_structure_formid = SubformStructure::where('application_id', $application_id)->first();
-        if($sub_structure_formid != null){
+        // dd($sub_structure_formid);
+        if($sub_structure_formid != null && !empty($sub_structure_formid)){
             $sub_form_id = $sub_structure_formid->form_id;
         }
         $field_names = (isset($data['field_name']) && $data['field_name']) ? $data['field_name'] : null;
@@ -197,9 +198,16 @@ class ContentController extends Controller
                         ->where('field_type', 'sub-form')
                         ->whereNotIn('id', $from_struucture_array)
                         ->first();
+        // dd($from_struucture_array);
+        $other_form_fields = FormStructure::where('application_id', $application_id)
+        ->whereNotIn('id', $from_struucture_array)
+        ->get()->pluck('id')->toArray();
+        $main_data_delete = AppData::whereIn('form_structure_id', $other_form_fields)->where('app_id', $application_id)->delete();
         $form_fields = FormStructure::where('application_id', $application_id)
                         ->whereNotIn('id', $from_struucture_array)
                         ->delete();
+        // dd($other_form_fields);
+        
         if($subform_remove_form_fields != null){
             $sub_form_fields = SubformStructure::where('application_id', $application_id)
                                             ->where('form_id', $subform_remove_form_fields->id)
@@ -208,9 +216,22 @@ class ContentController extends Controller
         }else{
             $sub_form_fieldss = SubformStructure::where('application_id', $application_id)->first();
             if($sub_form_fieldss != null){
+                $other_form_fields1 = FormStructure::where('application_id', $application_id)
+                                    ->whereNotIn('id', $from_struucture_array)
+                                    ->get()->pluck('id')->toArray();
+                $main_data_delete = AppData::whereIn('form_structure_id', $other_form_fields1)->where('app_id', $application_id)->delete();
+
                 $form_fields = FormStructure::where('application_id', $application_id)
                                                 ->whereNotIn('id', $from_struucture_array)
                                                 ->delete();
+
+                $other_form_fields2 = SubformStructure::where('application_id', $application_id)
+                        ->whereNotIn('id', $from_struucture_array)
+                        ->where('form_id', $sub_form_id)
+                        ->get()->pluck('id')->toArray();
+                $main_data_delete1 = SubAppData::where('app_id', $application_id)
+                                    ->whereIn('sub_form_structure_id', $other_form_fields2)
+                                    ->delete();
                 $sub_form_fields = SubformStructure::where('application_id', $application_id)
                                                 ->where('form_id', $sub_form_id)
                                                 ->whereNotIn('id', $sub_from_struucture_array)

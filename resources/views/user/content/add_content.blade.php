@@ -170,7 +170,7 @@ span.error-display {
                                   </div>
                               </div>
                           </form>
-                          <div id='loader'></div>
+                          <!-- <div id='loader'></div> -->
                   </div>
               </div>
           </div>
@@ -249,7 +249,7 @@ $('body').on('click', '#submit_app_data', function () {
     // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
-      $('#loader').show();
+      $('#preloader').show();
       $('#submit_app_data').prop('disabled', true);
       $.ajax({
               type: 'POST',
@@ -259,13 +259,13 @@ $('body').on('click', '#submit_app_data', function () {
               contentType: false,
               success: function(data) {
                   if(data.status == 200){
-                      $('#loader').hide();
+                      $('#preloader').hide();
                       toastr.success("Content Added",'Success',{timeOut: 5000})
                       $("#content_add")[0].reset()
                       window.location.href = "{{ url('content-list/'.$application_id)}}";
                   }else{
                       $('#submit_app_data').prop('disabled', false);
-                      $('#loader').hide();
+                      $('#preloader').hide();
                       toastr.error("Please try again",'Error',{timeOut: 5000})
                   }
               }

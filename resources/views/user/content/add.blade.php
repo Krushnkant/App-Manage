@@ -104,9 +104,12 @@
             </div>
         </div>
     </div>
-    <div id='loader'>
-        <!-- <img src="{{asset('user/assets/loader/loader.gif')}}" /> -->
-    </div>
+    <!-- <img src="{{asset('user/assets/loader/loader.gif')}}" /> -->
+    <!-- <span class="comman_loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+        </svg>
+    </span> -->
 </div>
 @endsection
 @push('scripts')
@@ -251,7 +254,7 @@ $(document).ready(function() {
         var formData = new FormData($("#form_structures_add")[0]);
         var validation = ValidateForm()
         if(validation != false){
-            $('#loader').show();
+            $('#preloader').show();
             $('#Add').prop('disabled', true);
             $.ajax({
                     type: 'POST',
@@ -261,7 +264,7 @@ $(document).ready(function() {
                     contentType: false,
                     success: function (res) {
                         if(res['status']==200){
-                            $('#loader').hide();
+                            $('#preloader').hide();
                             toastr.success("Form Added",'Success',{timeOut: 5000});
                             window.location.href = "{{ url('content-form/'.$id)}}";
                             $("#form_structures_add")[0].reset()
@@ -269,7 +272,7 @@ $(document).ready(function() {
                     },
                     error: function (data) {
                         $('#Add').prop('disabled', false);
-                        $('#loader').hide();
+                        $('#preloader').hide();
                         $(btn).prop('disabled',false);
                         // $(btn).find('.submitloader').hide();
                         toastr.error("Please try again",'Error',{timeOut: 5000});

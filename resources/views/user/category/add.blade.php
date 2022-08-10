@@ -156,7 +156,7 @@
             </div>
         </div>
     </div>
-    <div id='loader'></div>
+    <!-- <div id='loader'></div> -->
 </div>
 @endsection
 @push('scripts')
@@ -242,7 +242,7 @@
         var formData = new FormData($("#category_add")[0]);
         var validation = ValidateForm()
         if(validation != false){
-            $('#loader').show();
+            $('#preloader').show();
             $('#submit_category').prop('disabled', true);
             $.ajax({
                 type: 'POST',
@@ -252,13 +252,13 @@
                 contentType: false,
                 success: function(data) {
                     if(data.status == 200){
-                        $('#loader').hide();
+                        $('#preloader').hide();
                         toastr.success("Category Added",'Success',{timeOut: 5000});
                         $('#category_list').DataTable().draw();
                         $("#category_add")[0].reset();
                     }else{
                         $('#submit_category').prop('disabled', false);
-                        $('#loader').hide();
+                        $('#preloader').hide();
                         toastr.error("Please try again",'Error',{timeOut: 5000})
                     }
                 }
