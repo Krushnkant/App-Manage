@@ -2,83 +2,81 @@
 
 @section('content')
 <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card gradient-1">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Total Application</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">{{ $ApplicationData->total_applications }}</h2>
-                                    <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-6">
+            <div class="card gradient-1">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Total Application</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">{{ $ApplicationData->total_applications }}</h2>
+                        <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                     </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card gradient-2">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Publish Application</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">{{ $ApplicationData->total_active_applications }}</h2>
-                                    <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card gradient-3">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Unpublish Application</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">{{ $ApplicationData->total_deactive_applications }}</h2>
-                                    <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="card gradient-2">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Publish Application</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">{{ $ApplicationData->total_active_applications }}</h2>
+                        <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="card gradient-3">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Unpublish Application</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">{{ $ApplicationData->total_deactive_applications }}</h2>
+                        <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="active-member">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="active-member">
+                        <div class="table-responsive">
+                        <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="tab-pane fade show active table-responsive table_detail_part">
+                                    <h4 class="mb-1">Request Application</h4>
                                     <div class="table-responsive">
-                                    <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="profile-tab">
-                                            <div class="tab-pane fade show active table-responsive table_detail_part">
-                                                <h4 class="mb-1">Request Application</h4>
-                                                <div class="table-responsive">
-                                                    <table id="application_list" class="table zero-configuration customNewtable application_table" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>No</th>
-                                                                <th>Application</th>
-                                                                <th>App Id</th>
-                                                                <th>Package Name</th>
-                                                                <th>Total Request</th>
-                                                                <th>Status</th>
-                                                                <th>Date</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <table id="application_list" class="table zero-configuration customNewtable shadow-none application_table" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Application</th>
+                                                    <th>App Id</th>
+                                                    <th>Package Name</th>
+                                                    <th>Total Request</th>
+                                                    <th>Status</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
-
-           
-            </div>
+            </div>                        
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
