@@ -97,7 +97,8 @@
             },
             app_id: {
                 required: true,
-                checkApp: true,
+                remote: '{{ url("check-applicationId") }}'
+                // checkApp: true,
                 // unique: true,
             },
             package_name: {
@@ -113,7 +114,7 @@
             },
             app_id: {
                 required: "Please enter application ID",
-                checkApp: "Please enter different application ID",
+                remote: "Please enter different application ID",
             },
             package_name: {
                 required: "Please enter package name",
@@ -122,26 +123,26 @@
     })
 
     let result = false;
-    $.validator.addMethod("checkApp", function(value, element, isSuccess = false) {
-        var app_id = value;
-        var response = [];
-        // var isSuccess = false;
-        $.ajax({
-            type: 'POST',
-            url: "{{ url('check-applicationId') }}",
-            data: { _token: '{{ csrf_token() }}', app_id: app_id},
-            success: function(data) {
-                result = data.message
-                // response = data;
-                response.push(data)
-                isSuccess = data.message === "false" ? false : true
-            }
-        });
-        console.log(response)
-        console.log(isSuccess)
-        return result;
-        // return false;
-    }, "Please enter different application ID");
+    // $.validator.addMethod("checkApp", function(value, element, isSuccess = false) {
+    //     var app_id = value;
+    //     var response = [];
+    //     // var isSuccess = false;
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: "{{ url('check-applicationId') }}",
+    //         data: { _token: '{{ csrf_token() }}', app_id: app_id},
+    //         success: function(data) {
+    //             result = data.message
+    //             // response = data;
+    //             response.push(data)
+    //             isSuccess = data.message === "false" ? false : true
+    //         }
+    //     });
+    //     console.log(response)
+    //     console.log(isSuccess)
+    //     return result;
+    //     // return false;
+    // }, "Please enter different application ID");
 
     // console.log(validation)
     $( "#add_app").click(function() {
