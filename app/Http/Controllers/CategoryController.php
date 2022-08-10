@@ -271,7 +271,9 @@ class CategoryController extends Controller
     {
         $table = $request->all();
         // $data = CategoryFields::with('category','application')->where('app_id', $table['app_id'])->get();
-        $data = Category::with('category')->where('app_id', $table['app_id'])->get();
+        $data = Category::with(['category' => function($query){
+            $query->with('fields');
+        }])->where('app_id', $table['app_id'])->get();
         foreach($data as $d){
             $d->start_date = $d->created_at->format('d M Y');
             // dump($d->created_at);

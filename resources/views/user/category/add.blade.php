@@ -352,8 +352,10 @@
     function format(d) {
         var list;
         $.each(d.category, function(i, item) {
+            console.log(item.fields.type)
             var ddd = '';
-            if (/(jpg|gif|png)$/.test(item.value)){ 
+            // if (/(jpg|gif|png)$/.test(item.value)){ 
+            if (item.fields.type == "file" || item.fields.type == "multi-file"){ 
                 var imgg = urll+"/"+item.value
                 ddd += '<img class="img_side" src="'+imgg+'">';
             }else{

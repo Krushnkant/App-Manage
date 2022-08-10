@@ -127,10 +127,11 @@ class APIsController extends Controller
             if($app != null){
                 $category = Category::select('id','app_id','title','status','created_at')->where('app_id', $app->id)->where('status', '1')->get();
                 foreach($category as $key => $cat){
-                    $category_fields = CategoryFields::where('category_id', $cat->id)->where('status', '1')->get();
+                    $category_fields = CategoryFields::with('fields')->where('category_id', $cat->id)->where('status', '1')->get();
                     foreach($category_fields as $d){
                         $key = $d->key;
-                        if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $d->value)) {
+                        // if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $d->value)) {
+                        if ($d->fields->type == "file" || $d->fields->type == "multi-file") {
                             $path = asset('/category_image');
                             $value = $path."/".$d->value;
                         }else{
