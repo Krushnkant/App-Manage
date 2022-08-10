@@ -329,8 +329,8 @@ function ValidateForm() {
           }  
       }
   })
-  return false;
-  // return isFormValid;  
+  // return false;
+  return isFormValid;  
 }
 
 </script>
