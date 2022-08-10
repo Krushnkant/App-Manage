@@ -173,8 +173,8 @@ class ApplicationController extends Controller
             // $structure_ids = FormStructure::where('application_id', $d->id)->where('status', 1)->where('field_type', 'sub-form')->get()->pluck('id')->toArray();
             $cat_id = implode(',',$category_ids);
             // $structure_id = implode(',',$structure_ids);
+            $is_category = Category::where('app_id', $d->id)->where('status', '1')->first();
             if($app_data != null){
-                $is_category = Category::where('app_id', $d->id)->where('status', '1')->first();
                 if($is_category != null){
                     $d->is_category = 1;
                     $d->cat_ids = $cat_id;
@@ -186,7 +186,16 @@ class ApplicationController extends Controller
                 }
                 $d->strcuture_id = $app_data->UUID;
             }else{
-                $d->is_category = 1;
+                if($is_category != null){
+                    $d->is_category = 1;
+                    $d->cat_ids = $cat_id;
+                    // $d->cat_request = $is_category->total_request;
+                }else{
+                    $d->is_category = 0;
+                    $d->cat_ids = "";
+                    // $d->cat_request = "";
+                }
+                // $d->is_category = 1;
                 $d->strcuture_id = null;
             }
         }
