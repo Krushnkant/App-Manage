@@ -42,10 +42,9 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required',
-            'app_id' => 'required|unique:application_data',
+            'app_id' => 'required',
             'package_name' => 'required',
         ]);
         $data = $request->all();
@@ -231,10 +230,10 @@ class ApplicationController extends Controller
         $id = (int)$id;
         $data = $request->all();
         if($id != 0){
-            $application = ApplicationData::where('app_id', $data['app_id'])->where('id','!=', $id)->where('status', '1')->first();
+            $application = ApplicationData::where('app_id', $data['app_id'])->where('id','!=', $id)->where('deleted_at', null)->where('status', '1')->first();
         }
         else{
-            $application = ApplicationData::where('app_id', $data['app_id'])->where('status', '1')->first();
+            $application = ApplicationData::where('app_id', $data['app_id'])->where('status', '1')->where('deleted_at', null)->first();
         }
         if($application != null){
             return json_encode(false);
