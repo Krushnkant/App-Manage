@@ -31,7 +31,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        dd("create");
+        // dd("create");
     }
 
     /**
