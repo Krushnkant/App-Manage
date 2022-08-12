@@ -21,6 +21,9 @@
     input.form-check-input.is_url {
         height: auto;
     }
+    .radio_btn {
+        display: flex;
+    }
 </style>
 <div>
 <div class="row page-titles mx-0">
@@ -50,12 +53,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
+                                    <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
                                     </label>
-                                    <div class="radio_btn">
-                                        <label class="col-form-label" for="icon">Are You Add Application Icon Url ?</label>
-                                        <br>
-                                        <div class="form-check">
+                                    <div class="">
+                                        <input type="text" class="form-control" id="app_id" value="{{$data->app_id}}" name="app_id" placeholder="Enter Application ID">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-form-label pt-3" for="icon">Application Icon <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="radio_btn mb-1">
+                                        <!-- <label class="col-form-label" for="icon">Are You Add Application Icon Url ?</label>
+                                        <br> -->
+                                        <div class="form-check mr-2">
                                             <input type="radio" class="form-check-input is_url" name="is_url" {{ ($data->is_url== "1") ? "checked" : "" }} value="1">
                                             <label for="yes">Yes</label>
                                         </div>
@@ -92,13 +102,6 @@
                                         <input type="hidden" name="catImg" id="catImg" value="">
                                         <div id="categorythumb-error" class="invalid-feedback animated fadeInDown" style="display: none;"></div>
                                     </div> -->
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="">
-                                        <input type="text" class="form-control" id="app_id" value="{{$data->app_id}}" name="app_id" placeholder="Enter Application ID">
-                                    </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label" for="package_name">Package Name <span class="text-danger">*</span>

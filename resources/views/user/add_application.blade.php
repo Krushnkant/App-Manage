@@ -11,6 +11,9 @@
     input.form-check-input.is_url {
         height: auto;
     }
+    .radio_btn {
+        display: flex;
+    }
 </style>
 <div>
     <div class="row page-titles mx-0">
@@ -41,19 +44,26 @@
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Application Name">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6 mb-2 mb-xl-3" id="myForm">
-                                        <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
+                                    <div class="form-group col-md-6 mb-2 mb-xl-3">
+                                        <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
                                         </label>
-                                        <div class="radio_btn">
-                                            <label class="col-form-label" for="icon">Are You Add Application Icon Url ?</label>
-                                            <br>
-                                            <div class="form-check">
+                                        <div class="">
+                                            <input type="text" class="form-control app_ajax" id="app_id" name="app_id" placeholder="Enter Application ID">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-2 mb-xl-3" id="myForm">
+                                        <label class="col-form-label pt-0" for="icon">Application Icon <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="radio_btn mb-1">
+                                            <!-- <label class="col-form-label" for="icon">Are You Add Application Icon Url ?</label> -->
+                                            <!-- <br> -->
+                                            <div class="form-check mr-2">
                                                 <input type="radio" class="form-check-input is_url" name="is_url" value="1">
-                                                <label for="yes">Yes</label>
+                                                <label for="yes">URL</label>
                                             </div>
                                             <div class="form-check">
                                                 <input type="radio" class="form-check-input is_url" name="is_url" value="0" checked>
-                                                <label for="no">No</label>
+                                                <label for="no">Image</label>
                                             </div>
                                         </div>
                                         <div class="file_div">
@@ -61,13 +71,6 @@
                                         </div>
                                         <div class="text_div">
                                             <input type="text" class="form-control" id="icon_url" name="icon_url" placeholder="Enter Application Icon Url">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6 mb-2 mb-xl-3">
-                                        <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="">
-                                            <input type="text" class="form-control app_ajax" id="app_id" name="app_id" placeholder="Enter Application ID">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3">
