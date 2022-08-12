@@ -211,13 +211,13 @@ span.error-display {
 $(document).ready(function() {
   var ddd = 0;
   var app_id = "{{$id}}";
-  console.log(app_id)
+  // console.log(app_id)
   if (window.File && window.FileList && window.FileReader) {
     $('body').on('change', '.files', function (e) {
     // $(".files").on("change", function(e) {
       var uniq = (new Date()).getTime()+"_s"+ddd;
       var main = $(this)
-      console.log(main)
+      // console.log(main)
       // var image_array = [];
       // var image_string = "";
       var files = e.target.files, filesLength = files.length;
@@ -265,7 +265,7 @@ var app_id = "{{$id}}";
 $('body').on('click', '#submit_app_data', function () {
     // var plus = 1;
     var all = $('.sub_form_edit .row.sub_form_edit_row .col-md-6').find('.cp_btn').find('.UUID');
-   
+    // console.log(all)
     $(all).map(function(key, value){
       var uniq = (new Date()).getTime()+"_s"+key;
       return $(this).val(uniq);
@@ -274,8 +274,8 @@ $('body').on('click', '#submit_app_data', function () {
     // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
-      $('#loader').show();
-      $('#submit_app_data').prop('disabled', true);
+      // $('#loader').show();
+      // $('#submit_app_data').prop('disabled', true);
       $.ajax({
               type: 'POST',
               url: "{{ url('/contentt-update')}}/"+app_id,
@@ -300,8 +300,19 @@ $('body').on('click', '#submit_app_data', function () {
 // var uniqq = (new Date()).getTime()+"_"+1;
 // $(".UUID").val(uniqq);
 $('body').on('click', '.copy_btn', function () {
-  console.log($(this).parent().parent())
   var parent_ = $(this).parent().parent().parent().clone();
+  var childrenss_ = parent_.children().children()
+  var count_ = 0
+  $(childrenss_).each(function() {
+    if(count_ != 0){
+      var inputt_ = $(this).children()[1]
+      var ddd_ = $(inputt_).attr('name');
+      const myArray = ddd_.split("-");
+      var new_box = "newbox-"+myArray[1]
+      var ddd_1 = $(inputt_).attr('name',new_box);
+    }
+    count_++;
+  })
   $(".sub_form_edit .row.sub_form_edit_row").append(parent_);
 })
 $('body').on('click', '.remove_btn', function () {

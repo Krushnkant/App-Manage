@@ -68,7 +68,9 @@
                                                     <select class="form-control select-box" id="val-skill" name="val-skill">
                                                         <option value="">Please select</option>
                                                         @foreach($fields as $field)
-                                                            <option data-id="{{$field->id}}" value="{{$field->type}}">{{$field->title}}</option>
+                                                            @if($field->type != "multi-file")
+                                                                <option data-id="{{$field->id}}" value="{{$field->type}}">{{$field->title}}</option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                     </div>

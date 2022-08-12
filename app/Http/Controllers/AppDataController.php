@@ -185,6 +185,7 @@ class AppDataController extends Controller
     public function update(Request $request, AppData $appData)
     {
         $data = $request->all();
+        // dd($data);
         $data1 = [];
         $app_id = (isset($data['app_id']) && $data['app_id']) ? $data['app_id'] : null;
         $category_id = (isset($data['category']) && $data['category']) ? $data['category'] : null;
@@ -227,7 +228,7 @@ class AppDataController extends Controller
                 foreach($val as $ddd){
                     $imageName = Str::random().'.'.$ddd->getClientOriginalExtension();
                     $fff = $ddd->move(public_path().'/app_data_images/', $imageName);  
-                    dump($fff);
+                    // dump($fff);
                     $app_data = new AppData();
                     $app_data->UUID = $UUID_main;
                     $app_data->app_id = $app_idd;
@@ -239,7 +240,7 @@ class AppDataController extends Controller
                 unset($data[$key]);
             }
         }
-        dd($data);
+        // dd($data);
         $uuid = (isset($data['UUID']) && $data['UUID']) ? $data['UUID'] : null;
         if($uuid != null){
             $sub_form_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->whereNotIn('UUID', $uuid)->delete();
@@ -250,92 +251,141 @@ class AppDataController extends Controller
         // dd($data);
 
         // dd($uuid);
+        $new_box = [];
         $rrr = [];
         if($uuid != null){
             foreach($data as $key => $ddd){
-                if (strpos($key, "sub_single") !== false) {
-                    $aaa = explode('-',$key);
-                    $uuuuid = $aaa[0];
-                    if (($key = array_search($uuuuid, $uuid)) !== false) {
-                        unset($uuid[$key]);
-                    }
-                    $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
-                    $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
-                    foreach($ddd as $i => $vall){
-                        if($app_data != null){
-                            $imageName = Str::random().'.'.$vall->getClientOriginalExtension();
-                            $fff = $vall->move(public_path().'/app_data_images/', $imageName);  
+                if (strpos($key, 'sub_single') !== false){
+                    $itss = strpos($key, 'newbox') !== false ? true : false;
+                    if($itss == false){
+                        $aaa = explode('-',$key);
+                        $uuuuid = $aaa[0];
+                        if (($key = array_search($uuuuid, $uuid)) !== false) {
+                            unset($uuid[$key]);
+                        }
+                        $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
+                        $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
+                        foreach($ddd as $i => $vall){
+                            if($app_data != null){
+                                $imageName = Str::random().'.'.$vall->getClientOriginalExtension();
+                                $fff = $vall->move(public_path().'/app_data_images/', $imageName);  
 
-                            $app_data->value = $imageName;
-                            $app_data->app_uuid = $UUID_main;
-                            $app_data->category_id = $category_id;
-                            $app_data->save();
-                            unset($ddd[$i]);
+                                $app_data->value = $imageName;
+                                $app_data->app_uuid = $UUID_main;
+                                $app_data->category_id = $category_id;
+                                $app_data->save();
+                                unset($ddd[$i]);
+                            }
                         }
                     }
-                    // dd();
                 }
-                if (strpos($key, "sub_fieldname") !== false) {
-                    $aaa = explode('-',$key);
-                    $uuuuid = $aaa[0];
-                    
-                    if (($key = array_search($uuuuid, $uuid)) !== false) {
-                        unset($uuid[$key]);
-                    }
-                    $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
-                    $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
-                
-                    foreach($ddd as $i => $vall){
-                        if($app_data != null){
-                            $app_data->value = $vall;
-                            $app_data->app_uuid = $UUID_main;
-                            $app_data->category_id = $category_id;
-                            $app_data->save();
-                            unset($ddd[$i]);
-                        }
-                        // unset($data[$key]);
-                        // if($i == 0){
-                        //     $app_data = SubAppData::where('app_id', $app_id)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
-                        //     $app_data->value = $vall;
-                        //     $app_data->app_uuid = $UUID_main;
-                        //     $app_data->category_id = $category_id;
-                        //     $app_data->save();
-                        //     unset($ddd[$i]);
-                        // }else{
-                        //     $app_data = SubAppData::where('app_id', $app_id)->get()->pluck('UUID')->toArray();
-                        //     $result = array_diff($uuid,$app_data);
-                        //     $rrr = [];
-                        //     foreach($result as $da){
-                        //         array_push($rrr, $da);
-                        //     }
-                        //     if(count($result) > 1){
-                        //         foreach($rrr as $k => $r){
-                        //             $app_data = SubAppData::where('app_id', $app_id)->where('UUID', $rrr[$k])->where('sub_form_structure_id', $int_var)->first();
-                        //             if($app_data == null){
-                        //                 $app_data = new SubAppData();
-                        //                 $app_data->app_id = $app_id;
-                        //                 $app_data->app_uuid = $UUID_main;
-                        //                 $app_data->category_id = $category_id;
-                        //                 $app_data->UUID = $rrr[$k];
-                        //                 $app_data->sub_form_structure_id = $int_var;
-                        //                 $app_data->value = $vall;
-                        //                 $app_data->save();
-                        //             }
-                        //         }
-                        //     }else if(count($result) == 1){
-                        //         $app_data = new SubAppData();
-                        //         $app_data->app_id = $app_id;
-                        //         $app_data->app_uuid = $UUID_main;
-                        //         $app_data->category_id = $category_id;
-                        //         $app_data->UUID = $rrr[0];
-                        //         $app_data->sub_form_structure_id = $int_var;
-                        //         $app_data->value = $vall;
-                        //         $app_data->save();
-                        //     }
-                        // }
+                if (strpos($key, 'sub_fieldname') !== false){
+                    $itss = strpos($key, 'newbox') !== false ? true : false;
+                    if($itss == false){
+                        $aaa = explode('-',$key);
+                        $uuuuid = $aaa[0];
                         
+                        if (($key = array_search($uuuuid, $uuid)) !== false) {
+                            unset($uuid[$key]);
+                        }
+                        $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
+                        $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
+                    
+                        foreach($ddd as $i => $vall){
+                            if($app_data != null){
+                                $app_data->value = $vall;
+                                $app_data->app_uuid = $UUID_main;
+                                $app_data->category_id = $category_id;
+                                $app_data->save();
+                                unset($ddd[$i]);
+                            }
+                        }
                     }
                 }
+                
+
+                // if (strpos($key, "sub_single") !== false && strpos($key, "newbox") !== true) {
+                //     $aaa = explode('-',$key);
+                //     $uuuuid = $aaa[0];
+                //     if (($key = array_search($uuuuid, $uuid)) !== false) {
+                //         unset($uuid[$key]);
+                //     }
+                //     $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
+                //     $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
+                //     foreach($ddd as $i => $vall){
+                //         if($app_data != null){
+                //             $imageName = Str::random().'.'.$vall->getClientOriginalExtension();
+                //             $fff = $vall->move(public_path().'/app_data_images/', $imageName);  
+
+                //             $app_data->value = $imageName;
+                //             $app_data->app_uuid = $UUID_main;
+                //             $app_data->category_id = $category_id;
+                //             $app_data->save();
+                //             unset($ddd[$i]);
+                //         }
+                //     }
+                // }
+                // if (strpos($key, "sub_fieldname") !== false && strpos($key, "newbox") !== true) {
+                //     $aaa = explode('-',$key);
+                //     $uuuuid = $aaa[0];
+                    
+                //     if (($key = array_search($uuuuid, $uuid)) !== false) {
+                //         unset($uuid[$key]);
+                //     }
+                //     $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
+                //     $app_data = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
+                
+                //     foreach($ddd as $i => $vall){
+                //         if($app_data != null){
+                //             $app_data->value = $vall;
+                //             $app_data->app_uuid = $UUID_main;
+                //             $app_data->category_id = $category_id;
+                //             $app_data->save();
+                //             unset($ddd[$i]);
+                //         }
+                //         // unset($data[$key]);
+                //         // if($i == 0){
+                //         //     $app_data = SubAppData::where('app_id', $app_id)->where('UUID', $uuuuid)->where('sub_form_structure_id', $int_var)->first();
+                //         //     $app_data->value = $vall;
+                //         //     $app_data->app_uuid = $UUID_main;
+                //         //     $app_data->category_id = $category_id;
+                //         //     $app_data->save();
+                //         //     unset($ddd[$i]);
+                //         // }else{
+                //         //     $app_data = SubAppData::where('app_id', $app_id)->get()->pluck('UUID')->toArray();
+                //         //     $result = array_diff($uuid,$app_data);
+                //         //     $rrr = [];
+                //         //     foreach($result as $da){
+                //         //         array_push($rrr, $da);
+                //         //     }
+                //         //     if(count($result) > 1){
+                //         //         foreach($rrr as $k => $r){
+                //         //             $app_data = SubAppData::where('app_id', $app_id)->where('UUID', $rrr[$k])->where('sub_form_structure_id', $int_var)->first();
+                //         //             if($app_data == null){
+                //         //                 $app_data = new SubAppData();
+                //         //                 $app_data->app_id = $app_id;
+                //         //                 $app_data->app_uuid = $UUID_main;
+                //         //                 $app_data->category_id = $category_id;
+                //         //                 $app_data->UUID = $rrr[$k];
+                //         //                 $app_data->sub_form_structure_id = $int_var;
+                //         //                 $app_data->value = $vall;
+                //         //                 $app_data->save();
+                //         //             }
+                //         //         }
+                //         //     }else if(count($result) == 1){
+                //         //         $app_data = new SubAppData();
+                //         //         $app_data->app_id = $app_id;
+                //         //         $app_data->app_uuid = $UUID_main;
+                //         //         $app_data->category_id = $category_id;
+                //         //         $app_data->UUID = $rrr[0];
+                //         //         $app_data->sub_form_structure_id = $int_var;
+                //         //         $app_data->value = $vall;
+                //         //         $app_data->save();
+                //         //     }
+                //         // }
+                        
+                //     }
+                // }
                 // unset($data[$key]);
             }
             $app_datas = SubAppData::where('app_id', $app_id)->where('app_uuid', $UUID_main)->get()->pluck('UUID')->toArray();
@@ -346,13 +396,63 @@ class AppDataController extends Controller
             $coount = 0;
             $last_dd = [];
         }
-        // foreach($data as $key => $dd){
+        $coount1 = 0;
+        $dcount = 0;
+        foreach($data as $key => $dd){
+            if (strpos($key, "newbox") !== false){
+                // dump($dd);
+                $sub_file = strpos($key, 'sub_single') !== false ? true : false;
+                $sub_field = strpos($key, 'sub_fieldname') !== false ? true : false;
+                if($sub_file == true){
+                    $aaa = explode('-',$key);
+                    // dump($aaa);
+                    $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
+                    $bb = 0;
+                    foreach($dd as $tt){
+                        $imageName = Str::random().'.'.$tt->getClientOriginalExtension();
+                        // dump($imageName);
+                        $fff = $tt->move(public_path().'/app_data_images/', $imageName);
+                        // dump($fff);
+                        $app_data = new SubAppData();
+                        $app_data->app_id = $app_id;
+                        $app_data->category_id = $category_id;
+                        $app_data->app_uuid = $UUID_main;
+                        $app_data->UUID = $rrr[$bb];
+                        $app_data->sub_form_structure_id = $int_var;
+                        $app_data->value = $imageName;
+                        $app_data->save();
+                        $bb ++;
+                        // dump($app_data); 
+                    }
+                }
+                if($sub_field == true){
+                    $aaa = explode('-',$key);
+                    $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
+                    $aa = 0;
+                    foreach($dd as $vv){
+                        // dump($rrr[$aa]);
+                        $app_data = new SubAppData();
+                        $app_data->app_id = $app_id;
+                        $app_data->category_id = $category_id;
+                        $app_data->app_uuid = $UUID_main;
+                        $app_data->UUID = $rrr[$aa];
+                        $app_data->sub_form_structure_id = $int_var;
+                        $app_data->value = $vv;
+                        $app_data->save();
+                        $aa ++;
+                        // dump($app_data); 
+                    }
+                }
+            }
+        //     dump($dd);
         //     if (strpos($key, "sub_fieldname") !== false) {
         //         $aaa = explode('-',$key);
         //         $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
-        //         if($coount == 0){
+        //         dump($int_var);
+        //         if($dcount == 0){
         //             unset($dd[0]);
         //             $aa = 0;
+        //             dump($dd);
         //             foreach($dd as $vv){
         //                 $app_data = new SubAppData();
         //                 $app_data->app_id = $app_id;
@@ -369,11 +469,27 @@ class AppDataController extends Controller
         //     if (strpos($key, "sub_single") !== false) {
         //         $aaa = explode('-',$key);
         //         $int_var = (int)filter_var($aaa[1], FILTER_SANITIZE_NUMBER_INT);
+        //         dump($int_var);
+        //         dump($dd);
+        //         foreach($dd as $i => $vall){
+        //             $imageName = Str::random().'.'.$vall->getClientOriginalExtension();
+        //             dump($imageName);
+        //             $fff = $vall->move(public_path().'/app_data_images/', $imageName); 
+        //             dump($fff); 
+        //         }
         //         $bb = 0;
+        //         $imageName = Str::random().'.'.$dd[0]->getClientOriginalExtension();
+        //         $fff = $dd[0]->move(public_path().'app_data_images/', $imageName);
+        //         dump($fff);
         //         foreach($dd as $tt){
+        //             dump($tt);
+        //             $filename= date('YmdHi').$tt->getClientOriginalName();
+        //             $path = public_path("app_data_images/");
+        //             $result = Helpers::UploadImage($val[0], $path);
+        //             $imageName = $tt->move(public_path('public/app_data_images'), $filename);
         //             $imageName = Str::random().'.'.$tt->getClientOriginalExtension();
-        //             $fff = $tt->move(public_path().'/app_data_images/', $imageName);  
-
+        //             dump($imageName);
+        //             $fff = $tt->move(public_path().'/app_data_images/', $imageName);
         //             $app_data = new SubAppData();
         //             $app_data->app_id = $app_id;
         //             $app_data->category_id = $category_id;
@@ -385,9 +501,10 @@ class AppDataController extends Controller
         //             $bb ++; 
         //         }
         //     }
-        //     $coount ++;
-        // }
-        // dd();
+        //     $coount1 ++;
+        //     $dcount ++;
+        }
+        // dd("uououo");
         return response()->json(['status' => '200']);
     }
 
