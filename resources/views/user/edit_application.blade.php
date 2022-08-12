@@ -18,6 +18,9 @@
     label.error {
         color: #ff0202;
     }
+    input.form-check-input.is_url {
+        height: auto;
+    }
 </style>
 <div>
 <div class="row page-titles mx-0">
@@ -49,18 +52,38 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label" for="icon">Application Icon <span class="text-danger">*</span>
                                     </label>
+                                    <div class="radio_btn">
+                                        <label class="col-form-label" for="icon">Are You Add Application Icon Url ?</label>
+                                        <br>
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input is_url" name="is_url" {{ ($data->is_url== "1") ? "checked" : "" }} value="1">
+                                            <label for="yes">Yes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input is_url" name="is_url"  {{ ($data->is_url== "0") ? "checked" : "" }}  value="0">
+                                            <label for="no">No</label>
+                                        </div>
+                                    </div>
                                     <div class="">
-                                        @if($data->is_url == 1)
-                                        <input type="text" class="form-control" value="{{$data->icon_url}}" id="icon_url" name="icon_url" placeholder="Enter Application Icon">
-                                        <div class="pre_img mt-3">
-                                            <img class="set_img input-set-img-part" src="{{$data->icon_url}}" />
+                                        <div class="text_div">
+                                            <input type="text" class="form-control" value="{{$data->icon_url}}" id="icon_url" name="icon_url" placeholder="Enter Application Icon">
+                                            @if($data->icon_url != null)
+                                            <div class="pre_img mt-3">
+                                                <img class="set_img input-set-img-part" src="{{$data->icon_url}}" />
+                                            </div>
+                                            @endif
                                         </div>
-                                        @else
-                                        <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Enter Application Icon">
-                                        <div class="pre_img mt-3">
-                                            <img class="set_img input-set-img-part" src="{{asset('app_icons/'.$data->icon)}}" />
+                                        <div class="file_div">
+                                            <input type="file" class="form-control" value="{{$data->icon}}" id="icon" name="icon" placeholder="Enter Application Icon">
+                                            @if($data->icon != null)
+                                            <div class="pre_img mt-3">
+                                                <img class="set_img input-set-img-part" src="{{asset('app_icons/'.$data->icon)}}" />
+                                            </div>
+                                            @endif
                                         </div>
-                                        @endif
+                                        <!-- @if($data->is_url == 1)
+                                        @else -->
+                                        <!-- @endif -->
                                     </div>
                                     <!-- <div class="form-group">
                                         <label class="col-form-label" for="Thumbnail">Application Icon  <span class="text-danger">*</span>
@@ -86,7 +109,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                
                                 <div class="form-group col-md-6 mt-4">
                                     <div class="col-lg-8">
                                         <button type="submit" class="btn btn-primary" id="edit_app">Submit</button>
@@ -115,17 +137,36 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
     var app_id = "{{$data->id}}";
-    console.log('{{ url("check-applicationId/") }}/'+app_id)
+    var selValue = "{{$data->is_url}}";
+    if(selValue == 1){
+        $(".text_div").show();
+        $(".file_div").hide();
+    }else{
+        $(".file_div").show();
+        $(".text_div").hide(); 
+    }
+    $(".is_url").change(function(){
+        selValue = $("input[type='radio']:checked").val();
+        if(selValue == 1){
+            $(".text_div").show();
+            $(".file_div").hide();
+        }else{
+            $(".file_div").show();
+            $(".text_div").hide();
+        }
+    });
     var validation = $("#application_add").validate({
         rules: {
             name: {
                 required: true,
             },
-            // icon: {
-            //     required: true,
-            // },
+            icon: {
+                required: true,
+                validateFile: true
+            },
             icon_url: {
                 required: true,
+                checkLink: true,
             },
             app_id: {
                 required: true,
@@ -139,11 +180,13 @@
             name: {
                 required: "Please enter application name",
             },
-            // icon: {
-            //     required: "Please choose application icon",
-            // },
+            icon: {
+                required: "Please choose application icon",
+                extension: "Only allow PNG, JPEG or JPEG image"
+            },
             icon_url: {
                 required: "Please enter application icon url",
+                checkLink: "Please enter valid URL"
             },
             app_id: {
                 required: "Please enter application ID",
@@ -158,9 +201,17 @@
             form.submit();
         }
     })
-    // console.log(validation)
-    // $( "#add_app").click(function() {
-    //     $('#loader').show()
-    // })
+    $.validator.addMethod("checkLink", function(value, element) {
+        var result = false;
+        var pattern = (/^(http(s)?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
+        result = pattern.test(value);
+        return result;
+    }, "Please enter valid URL");
+    $.validator.addMethod("validateFile", function(value, element) {
+        var result = false;
+        var fileExtension = ['jpg', 'jpeg', 'png'];
+        result = ($.inArray(value.split('.').pop().toLowerCase(), fileExtension) != -1)
+        return result;
+    }, "Please choose only JPG, JPEG & PNG image");
 </script>
 @endpush('scripts')
