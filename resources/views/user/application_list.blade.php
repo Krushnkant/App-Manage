@@ -3,6 +3,11 @@
 @section('content')
 <!-- <link href="{{ url('public/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
+<style>
+    .application_img_text {
+        display: flex;
+    }
+</style>
 <div>
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
