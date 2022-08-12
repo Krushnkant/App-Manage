@@ -274,8 +274,8 @@ $('body').on('click', '#submit_app_data', function () {
     // console.log(ValidateForm())
     var validation = ValidateForm()
     if(validation != false){
-      // $('#loader').show();
-      // $('#submit_app_data').prop('disabled', true);
+      $('#loader').show();
+      $('#submit_app_data').prop('disabled', true);
       $.ajax({
               type: 'POST',
               url: "{{ url('/contentt-update')}}/"+app_id,
