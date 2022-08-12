@@ -9,8 +9,8 @@
         display: none;
     }
     input.form-check-input.is_url {
-    height: auto;
-}
+        height: auto;
+    }
 </style>
 <div>
     <div class="row page-titles mx-0">
@@ -115,14 +115,16 @@
             },
             icon: {
                 required: true,
+                validateFile: true
             },
             icon_url: {
                 required: true,
+                checkLink: true,
             },
-            // app_id: {
-            //     required: true,
-            //     remote: '{{ url("check-applicationId") }}/'+app_id
-            // },
+            app_id: {
+                required: true,
+                remote: '{{ url("check-applicationId") }}/'+app_id
+            },
             package_name: {
                 required: true,
             },
@@ -133,27 +135,40 @@
             },
             icon: {
                 required: "Please choose application icon",
+                // accept: "Only allow PNG, JPEG or JPEG image"
             },
             icon_url: {
                 required: "Please enter application icon url",
+                checkLink: "Please enter valid URL"
             },
-            // app_id: {
-            //     required: "Please enter application ID",
-            //     remote: "Please enter different application ID",
-            // },
+            app_id: {
+                required: "Please enter application ID",
+                remote: "Please enter different application ID",
+            },
             package_name: {
                 required: "Please enter package name",
             },
         },
         submitHandler: function (form) {
+            // console.log(form)
             $('#loader').show()
             form.submit();
         }
     })
-    // console.log(validation)
-    // $( "#add_app").click(function() {
-    //     $('#loader').show()
-    // })
+    $.validator.addMethod("checkLink", function(value, element) {
+        var result = false;
+        var pattern = (/^(http(s)?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
+        result = pattern.test(value);
+        return result;
+    }, "Please enter valid URL");
+
+    $.validator.addMethod("validateFile", function(value, element) {
+        var result = false;
+        var fileExtension = ['jpg', 'jpeg', 'png'];
+        result = ($.inArray(value.split('.').pop().toLowerCase(), fileExtension) != -1)
+        return result;
+    }, "Please choose only JPG, JPEG & PNG image");
+    
     $(".text_div").hide();
     $(".is_url").change(function(){
         var selValue = $("input[type='radio']:checked").val();
@@ -165,30 +180,7 @@
             $(".text_div").hide();
         }
     });
-    // let result = false;
-    // $.validator.addMethod("checkApp", function(value, element, isSuccess = false) {
-    //     var app_id = value;
-    //     var response = [];
-    //     // var isSuccess = false;
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: "{{ url('check-applicationId') }}",
-    //         data: { _token: '{{ csrf_token() }}', app_id: app_id},
-    //         success: function(data) {
-    //             result = data.message
-    //             // response = data;
-    //             response.push(data)
-    //             isSuccess = data.message === "false" ? false : true
-    //         }
-    //     });
-    //     console.log(response)
-    //     console.log(isSuccess)
-    //     return result;
-    //     // return false;
-    // }, "Please enter different application ID");
-
-    // console.log(validation)
-    
+   
 
     // $('body').on('click', '#add_app', function () {
     //     var formData = new FormData($("#application_add")[0]);
