@@ -150,7 +150,6 @@
             </div>
         </div>
     </div>
-    <!-- <div id='loader'></div> -->
 </div>
 @endsection
 @push('scripts')
