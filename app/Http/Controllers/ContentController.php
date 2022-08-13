@@ -367,6 +367,7 @@ class ContentController extends Controller
 
     public function ContentList(Request $request, $id)
     {
+        $application = ApplicationData::find($id);
         // $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
         // $get_app_data = AppData::with('category','application')->select("*")
         //                 ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
@@ -399,7 +400,7 @@ class ContentController extends Controller
         //     $gett->sub_app_data = $form_structure;
         // }
         // print_r($get_uuid);
-        return view('user.content.content_list', compact('id'));
+        return view('user.content.content_list', compact('id', 'application'));
     }
 
     public function ContentGetList(Request $request, $id)
