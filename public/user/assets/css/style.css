@@ -21278,9 +21278,6 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
     padding: 0;
 }
 
-#child_row {
-    margin: auto;
-}
 
 #child_row tr {
     margin-top: 10px;
