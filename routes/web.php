@@ -53,6 +53,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('content-list/{id}',[ContentController::class,'ContentList']); // content app data list
     Route::post('content-get-list/{id}',[ContentController::class,'ContentGetList']); // content data table
     Route::get('/content/{id}/delete',[ContentController::class, 'destroy']);
+    Route::get('/content_image_delete/{id}',[ContentController::class, 'DeleteContent']);
 
     // application content data
     Route::resource('/app-data',  AppDataController::class);
