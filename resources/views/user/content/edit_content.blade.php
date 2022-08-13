@@ -42,7 +42,7 @@ span.error-display {
           <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
               <li class="breadcrumb-item "><a href="{{url('application')}}">Application List</a></li>
-              <li class="breadcrumb-item "><a href="{{url('content-list/'.$id)}}">content List</a></li>
+              <li class="breadcrumb-item "><a href="{{url('content-list/'.$id)}}">Content List</a></li>
               <li class="breadcrumb-item active">Edit Content</li>
           </ol>
       </div>
@@ -52,7 +52,7 @@ span.error-display {
           <div class="col-lg-12">
               <div class="card">
                   <div class="card-body">
-                      <h4 class="card-title">Edit Content - Application Management</h4>
+                      <h4 class="card-title">Edit Content - {{$application->name}}</h4>
                           <form class="form-valide" action="" mathod="POST" id="content_edit" enctype="multipart/form-data">
                               <input type="hidden" id="app_id" name="app_id" value="{{$id}}" />
                               <input type="hidden" id="UUID-main" name="UUID-main" value="{{$app_data[0]->UUID}}" />
@@ -131,6 +131,7 @@ span.error-display {
                                       @endif
                                     @endforeach
                                 </div>
+                              @if(count($sub_app_data) > 0)
                               <h4 class="card-title">Sub Form Content</h4>
                               <div class="sub_form">
                                 <div class="row">
@@ -179,6 +180,7 @@ span.error-display {
                               <div class="sub_form_edit">
                                 <div class="row sub_form_edit_row"></div>
                               </div>
+                              @endif
                               <div class="row">
                                   <div class="form-group col-md-6">
                                       <div class="">

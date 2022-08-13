@@ -99,7 +99,7 @@ class ContentController extends Controller
         $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->where('app_uuid', $uuid)->get();
         $categories = Category::where('app_id', $id)->where('status', '1')->get();
         // dd($app_data);
-        return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories'));
+        return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories','application'));
     }
 
     /**
@@ -331,6 +331,7 @@ class ContentController extends Controller
     public function addstructure($id)
     {
         $is_sub = 0;
+        $application = ApplicationData::find($id);
         $fields = Field::where('estatus', 1)->get();
         $already = FormStructure::with('sub_form')->where('application_id', $id)->get();
         $is_sub = FormStructure::where('application_id', $id)->where('field_type', 'sub-form')->first();
@@ -339,9 +340,9 @@ class ContentController extends Controller
         }
         $is_form = FormStructure::where('application_id', $id)->first();
         if($is_form != null){
-            return view('user.content.edit', compact('id', 'fields', 'already', 'is_sub'));
+            return view('user.content.edit', compact('id', 'fields', 'already', 'is_sub', 'application'));
         }else{
-            return view('user.content.add', compact('id', 'fields'));
+            return view('user.content.add', compact('id', 'fields', 'application'));
         }
     }
 
@@ -349,6 +350,7 @@ class ContentController extends Controller
     {
         $is_category = 0;
         $is_sub_formm = 0;
+        $application = ApplicationData::find($application_id);
         $main_form = FormStructure::where('application_id', $application_id)->get();
         $sub_form = SubformStructure::where('application_id', $application_id)->get();
         $is_sub_form = SubformStructure::where('application_id', $application_id)->first();
@@ -360,7 +362,7 @@ class ContentController extends Controller
         if($is_sub_form != null){
             $is_sub_formm = 1;
         }
-        return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories', 'is_category', 'is_sub_formm'));
+        return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories', 'is_category', 'is_sub_formm','application'));
     }
 
     public function ContentList(Request $request, $id)

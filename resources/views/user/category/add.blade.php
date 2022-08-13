@@ -36,7 +36,7 @@
                     <div class="col-xl-4">
                         <div class="card shadow-none">
                             <div class="card-body">
-                                <h4 class="card-title">Add Category Form - Application Management</h4>
+                                <h4 class="card-title">Add Category Form - {{$app_data->name}}</h4>
                                 <div class="form-validation">
                                     <!-- {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }} -->
                                     <form class="form-valide custom-form-design" action="" mathod="POST" id="category_add" enctype="multipart/form-data">
@@ -114,7 +114,7 @@
                     <div class="col-xl-8 table_detail_part px-0 px-xl-3">
                         <div class="card">
                             <div class="card-body px-3">
-                                <h4 class="card-title px-3">Category List - Application Management</h4>
+                                <h4 class="card-title px-3">Category List - {{$app_data->name}}</h4>
                                 <div class="table-responsive">
                                     <table id="category_list" class="table zero-configuration customNewtable application_table table-child-part shadow-none" style="width:100%">
                                         <thead>

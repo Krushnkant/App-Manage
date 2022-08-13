@@ -21534,3 +21534,9 @@ span.error-display {
     color: #f00;
     display: block;
 }
+/* #child_row {
+    margin: 0px !important;
+}
+.table_detail_part .application_table #child_row tbody td {
+    text-transform: lowercase !important;
+} */
