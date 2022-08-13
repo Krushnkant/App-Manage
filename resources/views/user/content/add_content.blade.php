@@ -219,18 +219,19 @@ $(document).ready(function() {
           var file = e.target;
           $("<span class=\"pip\">" +
             "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-            "<br/><span class=\"remove\">Remove image</span>" +
+            "<br/><span class=\"remove\">X</span>" +
             "</span>").insertAfter(main);
           $(".remove").click(function(){
+          // $('body').on('click', '.remove', function () {
             $(this).parent(".pip").remove();
           });
           
           // Old code here
-          /*$("<img></img>", {
-            class: "imageThumb",
-            src: e.target.result,
-            title: file.name + " | Click to remove"
-          }).insertAfter("#files").click(function(){$(this).remove();});*/
+          // $("<img></img>", {
+          //   class: "imageThumb",
+          //   src: e.target.result,
+          //   title: file.name + " | Click to remove"
+          // }).insertAfter("#files").click(function(){$(this).remove();});
           
         });
         fileReader.readAsDataURL(f);

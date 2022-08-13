@@ -441,4 +441,19 @@ class ContentController extends Controller
         return datatables::of($get_uuid)->make(true);
     }
 
+    public function DeleteContent($id)
+    {
+        $app_data = AppData::find($id);
+        if($app_data != null){
+            $data = $app_data->delete();
+            if($data == true){
+                return response()->json(['status' => '200']);
+            }else{
+                return response()->json(['status' => '400']);
+            }
+        }else{
+            return response()->json(['status' => '400']);
+        }
+    }
+
 }

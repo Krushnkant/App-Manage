@@ -127,6 +127,8 @@ span.error-display {
                                       @if($app->fieldd->field_type == "multi-file")
                                           <span class="pip">
                                             <img class="img_side" src="{{asset('app_data_images/'.$app->value)}}">
+                                            <br/>
+                                            <span data-id="{{$app->id}}"  data-toggle='modal' data-target='#exampleModalCenter' class="remove deleteUserBtn">X</span>
                                           </span>
                                       @endif
                                     @endforeach
@@ -201,60 +203,53 @@ span.error-display {
               </div>
           </div>
       </div>
-  </div>
+    </div>
+    <div class="modal fade" id="exampleModalCenter">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to delete this image ?</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @push('scripts')
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   var ddd = 0;
   var app_id = "{{$id}}";
-  // console.log(app_id)
   if (window.File && window.FileList && window.FileReader) {
     $('body').on('change', '.files', function (e) {
-    // $(".files").on("change", function(e) {
+      // console.log(e.target.value)
       var uniq = (new Date()).getTime()+"_s"+ddd;
       var main = $(this)
-      // console.log(main)
-      // var image_array = [];
-      // var image_string = "";
       var files = e.target.files, filesLength = files.length;
-        // var dumm = JSON.stringify(files)
-        // console.log(dumm)
-        // ddd++;
-        // var input_html = "";
-        // var file_name = uniq+"multifile[]";
-        // var ids = "files_hid"+ddd;
-        // var sss = "#"+ids;
-        // input_html = '<input type="hidden" value="" class="files_hid" id="'+ids+'" name="'+file_name+'" />';
-        // input_html.val(input_html)
-        // main.parent().append(input_html)
-        // console.log()
       for (var i = 0; i < filesLength; i++) {
         var f = files[i]
-        // image_array.push(f.name)
         var fileReader = new FileReader();
         fileReader.onload = (function(e) {
           var file = e.target;
           $("<span class=\"pip\">" +
             "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-            "<br/><span class=\"remove\">Remove image</span>" +
+            "<br/><span class=\"remove\">X</span>" +
             "</span>").insertAfter(main);
-          $(".remove").click(function(){
-            $(this).parent(".pip").remove();
-          });
-          
-          // Old code here
-          /*$("<img></img>", {
-            class: "imageThumb",
-            src: e.target.result,
-            title: file.name + " | Click to remove"
-          }).insertAfter("#files").click(function(){$(this).remove();});*/
-          
+            $(".remove").click(function(){
+              $(this).parent(".pip").remove();
+            // console.log($(this).parent(".pip").remove())
+            });
         });
         fileReader.readAsDataURL(f);
       }
@@ -299,8 +294,7 @@ $('body').on('click', '#submit_app_data', function () {
       });
     }
 })
-// var uniqq = (new Date()).getTime()+"_"+1;
-// $(".UUID").val(uniqq);
+
 $('body').on('click', '.copy_btn', function () {
   var parent_ = $(this).parent().parent().parent().clone();
   var childrenss_ = parent_.children().children()
@@ -349,6 +343,38 @@ function ValidateForm() {
   })
   return isFormValid;  
 }
+
+$('body').on('click', '.deleteUserBtn', function (e) {
+    var delete_user_id = $(this).attr('data-id');
+    // console.log($("#exampleModalCenter").find('#RemoveUserSubmit'))
+    $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id',delete_user_id);
+});
+
+$('body').on('click', '#RemoveUserSubmit', function (e) {
+      $('#RemoveUserSubmit').prop('disabled',true);
+      var remove_user_id = $(this).attr('data-id');
+      // console.log(remove_user_id)
+      $.ajax({
+          type: 'GET',
+          url: "{{ url('/content_image_delete') }}/"+remove_user_id,
+          success: function (res) {
+              // console.log(res)
+              if(res.status == 200){
+                  $("#exampleModalCenter").modal('hide');
+                  $('#RemoveUserSubmit').prop('disabled',false);
+                  // $('#application_list').DataTable().draw();
+                  location.reload();
+                  toastr.success(res.action,'Success',{timeOut: 5000});
+              }else{
+                  $("#exampleModalCenter").modal('hide');
+                  $('#RemoveUserSubmit').prop('disabled',false);
+              }
+          },
+          error: function (data) {
+              toastr.error("Please try again",'Error',{timeOut: 5000});
+          }
+      });
+  });
 
 </script>
 @endpush('scripts')
