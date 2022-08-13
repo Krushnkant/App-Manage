@@ -619,7 +619,7 @@ mark,
 }
 
 code {
-    font-size: 87.5%;
+    font-size: 13px;
     color: #e91e63;
     word-break: break-word;
 }
@@ -20970,7 +20970,7 @@ input[type="file"] {
 
 .table_detail_part .application_text {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 20px;
     color: #000000;
     text-transform: capitalize;
@@ -20978,7 +20978,7 @@ input[type="file"] {
 
 .table_detail_part .date_part {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 20px;
     color: #000000;
 }
@@ -20996,7 +20996,7 @@ input[type="file"] {
 }
 
 .table_detail_part .total_request_text {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .table_detail_part .active_status {
@@ -21060,6 +21060,7 @@ input[type="file"] {
 .table_detail_part .application_table td {
     border-top: 0;
     padding: 19px 12px;
+    font-size: 13px;
 }
 
 .table_detail_part .dataTables_filter input {
@@ -21106,7 +21107,7 @@ input[type="file"] {
 
 .table_detail_part .application_table #child_row tbody td {
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 24px;
     color: #000000;
     /* text-transform: capitalize; */
@@ -21363,7 +21364,7 @@ body .table_detail_part .application_table .child_row_table tbody td:first-child
         padding: 8px 12px;
     }
     .table_detail_part .application_text {
-        font-size: 14px;
+        font-size: 13px;
     }
     .pagination {
         justify-content: start;
@@ -21464,7 +21465,7 @@ table.dataTable td.dataTables_empty {
 
 .evKiBP {
     margin-right: 10px;
-    font-size: 16px;
+    font-size: 13px;
     color: rgb(255, 180, 0);
     font-weight: 600;
 }
@@ -21473,7 +21474,7 @@ table.dataTable td.dataTables_empty {
     display: inline;
     overflow-wrap: break-word;
     color: rgb(40, 40, 40);
-    font-size: 16px !important;
+    font-size: 13px !important;
     font-weight: 600;
 }
 
@@ -21483,7 +21484,7 @@ table.dataTable td.dataTables_empty {
     border: 1px solid rgb(230, 230, 230);
     padding: 6px 10px;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: 13px;
     color: rgb(40, 40, 40);
     background-color: #fff;
     margin: 5px 0px 15px;
@@ -21497,7 +21498,7 @@ table.dataTable td.dataTables_empty {
 
 .child-inner-table th strong {
     color: #5c5c5c;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
 }
 
