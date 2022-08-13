@@ -21109,7 +21109,7 @@ input[type="file"] {
     font-size: 14px;
     line-height: 24px;
     color: #000000;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     min-width: 131px;
     padding: 12px 12px;
 }
