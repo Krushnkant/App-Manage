@@ -40,7 +40,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                <h4 class="card-title mb-4">Edit Application - Application Management</h4>
+                <h4 class="card-title mb-4">Edit Application - {{$data->name}}</h4>
                     <div class="form-validation">
                         {{ Form::open(array('route' => array('application.update', $data->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data', 'id' => 'application_add')) }}
                         <!-- <form class="form-valide" action="" method="post"> -->

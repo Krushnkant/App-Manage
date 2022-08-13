@@ -37,7 +37,7 @@
             <div class="col-lg-12">
                 <div class="card ">
                     <div class="card-body">
-                        <h4 class="card-title mb-3">Add Form Structures - Application Management</h4>
+                        <h4 class="card-title mb-3">Add Form Structures - {{$application->name}}</h4>
                         <p><b>Note: </b> All Fields Are Mandatory</p>
                         <div class="form-validation">
                             <form class="form-valide" action="" mathod="POST" id="form_structures_add" enctype="multipart/form-data">

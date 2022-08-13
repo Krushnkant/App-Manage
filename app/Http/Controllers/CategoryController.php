@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Field, Category, CategoryFields};
+use App\Models\{Field, Category, CategoryFields, ApplicationData};
 use App\Http\Helpers;
 use Yajra\DataTables\DataTables;
 
@@ -125,7 +125,8 @@ class CategoryController extends Controller
             $query->with('fields');
         }])->where('id', $id)->first();
         $fields = Field::where('estatus', 1)->get();
-        return view('user.category.edit', compact('data','fields','id'));
+        $app_data = ApplicationData::where('id', $data->app_id)->where('status', '1')->first();
+        return view('user.category.edit', compact('data','fields','id','app_data'));
         // dd($get_category);
     }
 
@@ -270,7 +271,8 @@ class CategoryController extends Controller
     public function AddCategory($id)
     {
         $fields = Field::where('estatus', 1)->get();
-        return view('user.category.add', compact('id', 'fields'));
+        $app_data = ApplicationData::where('id', $id)->where('status', '1')->first();
+        return view('user.category.add', compact('id', 'fields', 'app_data'));
     }
 
     public function CategoryList(Request $request)
