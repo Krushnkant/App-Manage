@@ -153,6 +153,7 @@ class ApplicationController extends Controller
     public function ApplicationList(Request $request)
     {
         $request1 = $request->all();
+        // dd($request1);
         
         $tab_type = $request->tab_type;
         if ($tab_type == "active_application_tab"){
@@ -161,19 +162,29 @@ class ApplicationController extends Controller
         elseif ($tab_type == "deactive_application_tab"){
             $status = 0;
         }
-        $data = ApplicationData::orderBy('id', 'DESC')->get();
+        // $data = ApplicationData::orderBy('id', 'DESC')->get();
+        $data = ApplicationData::where('status', '1');
         if (isset($status)){
             $s = (string) $status;
-            $data = ApplicationData::where('status',$s)->orderBy('id', 'DESC')->get();
+            $data = $data->where('status',$s);
         }
-        
+        if(!empty($request->get('search'))){
+            $search = $request->get('search');
+            $search_val = $search['value'];
+            // dump($search_val);
+            $data = $data->where('name', 'Like','%'. $search_val .'%')
+            ->orWhere('app_id', 'Like','%'. $search_val .'%')
+            ->orWhere('package_name', 'Like','%'. $search_val .'%');
+            // dd($data);
+        }
+
+        $data = $data->orderBy('id', 'DESC')->get();
+        // dd($data);
         foreach($data as $d){
             $d->start_date = $d->created_at->format('d M Y');
             $category_ids = Category::where('app_id', $d->id)->where('status', '1')->get()->pluck('id')->toArray();
             $app_data = AppData::where('app_id', $d->id)->first();
-            // $structure_ids = FormStructure::where('application_id', $d->id)->where('status', 1)->where('field_type', 'sub-form')->get()->pluck('id')->toArray();
             $cat_id = implode(',',$category_ids);
-            // $structure_id = implode(',',$structure_ids);
             $is_category = Category::where('app_id', $d->id)->where('status', '1')->first();
             if($app_data != null){
                 if($is_category != null){

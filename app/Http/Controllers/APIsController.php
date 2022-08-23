@@ -183,7 +183,7 @@ class APIsController extends Controller
                 $form_structure = AppData::select('*','UUID as sub_form_id')
                     ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
                     ->where("app_id", $app->id)
-                    ->where("status", 1);
+                    ->where("app_data.status", '1');
                 if($cat_id != null && $cat_id != 0){
                     $form_data = $form_structure->where('category_id', $cat_id);
                 }elseif($cat_id == 0 && $cat_id != null ){
@@ -192,11 +192,12 @@ class APIsController extends Controller
                     $form_data = $form_structure->where('category_id', null);
                 }
                 $form_structure = $form_data->groupBy('UUID')->get();
+                // dd($form_structure);
                 foreach($form_structure as $form){
                     $get_bunch = AppData::select('*')
                         ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
                         ->where("app_id", $app->id)
-                        ->where("status", 1)
+                        ->where("app_data.status", '1')
                         ->where('UUID', $form->UUID)
                         ->get();
                         $multi_img = [];
@@ -275,7 +276,7 @@ class APIsController extends Controller
                     $get_bunch = SubAppData::select('*')
                         ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
                         ->where("app_id", $app->id)
-                        ->where("status", 1)
+                        ->where("sub_app_data.status", '1')
                         ->where('UUID', $form->UUID)
                         ->get();
                     // dump($get_bunch);
