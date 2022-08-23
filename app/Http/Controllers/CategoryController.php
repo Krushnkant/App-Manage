@@ -289,4 +289,19 @@ class CategoryController extends Controller
         // dd();
         return datatables::of($data)->make(true);
     }
+
+    public function ChageCategoryStatus($id)
+    {
+        $category = Category::find($id);
+        if ($category->status== '1'){
+            $category->status = '0';
+            $category->save();
+            return response()->json(['status' => '200','action' =>'deactive']);
+        }
+        if ($category->status== '0'){
+            $category->status = '1';
+            $category->save();
+            return response()->json(['status' => '200','action' =>'active']);
+        }
+    }
 }

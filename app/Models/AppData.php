@@ -11,7 +11,7 @@ class AppData extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = "app_data";
-    protected $fillable = ['app_id','category_id','form_structure_id','value','UUID'];
+    protected $fillable = ['app_id','category_id','form_structure_id','value','UUID','status'];
     protected $dates = ['deleted_at'];
 
     public function fieldd(){

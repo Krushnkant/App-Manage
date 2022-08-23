@@ -42,6 +42,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('category-list',  [CategoryController::class, 'CategoryList']);
     Route::post('/category-update/{id}',  [CategoryController::class, 'update']);
     Route::get('/category/{id}/delete',[CategoryController::class, 'destroy']);
+    Route::get('chageacategorystatus/{id}',[CategoryController::class,'ChageCategoryStatus']);
 
     // content
     Route::resource('/content',  ContentController::class);
@@ -54,6 +55,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('content-get-list/{id}',[ContentController::class,'ContentGetList']); // content data table
     Route::get('/content/{id}/delete',[ContentController::class, 'destroy']);
     Route::get('/content_image_delete/{id}',[ContentController::class, 'DeleteContent']);
+    Route::get('chageaContentstatus/{id}',[ContentController::class,'ChageContentStatus']);
 
     // application content data
     Route::resource('/app-data',  AppDataController::class);

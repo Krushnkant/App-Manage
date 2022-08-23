@@ -18,7 +18,7 @@
                     <div class="card-body pb-0">
                         <h4 class="card-title mb-3">Content List - {{$application->name}}</h4>
                         <button class="btn mb-1 btn-primary"><a href="{{url('content-form/'.$id)}}" class="text-white">Add Content</a></button>
-                        <button class="btn mb-1 btn-primary"><a href="{{url('add-structure/'.$id)}}" class="text-white">Form Structure</a></button>
+                        <button class="btn mb-1 btn-primary"><a href="{{url('add-structure/'.$id)}}" class="text-white">Content Form</a></button>
                         <div class="tab-pane fade show active table-responsive table_detail_part" id="all_application_tab">
                         <div class="table-responsive content_list_table">
                                 <table id="content_list" class="table zero-configuration customNewtable application_table  shadow-none px-0" style="width:100%">
@@ -28,7 +28,7 @@
                                             <th>No</th>
                                             <th>Application Id</th>
                                             <th>Category</th>
-                                            <th>Date</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -109,12 +109,23 @@
                         return "<span class='application_text app_id_part total_request_text'>"+cat+"</span>";
                     }
                 },
-                {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,
-                    render: function (data, type, row) {
+                // {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,
+                //     render: function (data, type, row) {
+                //         // console.log(row)
+                //         // var date = my_date_format(row.start_date);
+                //         // console.log(date)
+                //         return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
+                //     }
+                // },
+                {
+                    "mData": "status",
+                    "mRender": function (data, type, row) {
                         // console.log(row)
-                        // var date = my_date_format(row.start_date);
-                        // console.log(date)
-                        return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
+                        if(row.status == "1"){
+                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_'+row.id+'" onclick="chageapplicationstatus('+row.id+')" value="1" >Active</span></div>';
+                        }else{
+                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_'+row.id+'" onclick="chageapplicationstatus('+row.id+')" value="2">Deactive</span></div>';
+                        }
                     }
                 },
                 {
@@ -160,10 +171,25 @@
         var uniqueArray = [];
         var newArray = [];
         $.each(d.app_data, function(i, item) {
+            var id = "myModal"+i;
+            var ids = "#myModal"+i;
+           
             var ddd = '';
             if (item.field_type == "file" || item.field_type == "multi-file"){ 
                 var imgg = urll+"/"+item.value
-                ddd += '<img class="img_side" src="'+imgg+'">';
+                var html = '<div id="'+id+'" class="modal fade" role="dialog">'+
+                                '<div class="modal-dialog">'+
+                                    '<div class="modal-content">'+
+                                        '<div class="modal-body">'+
+                                            '<img class="img-responsive" src="'+imgg+'" />'+
+                                        '</div>'+
+                                        '<div class="modal-footer">'+
+                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
+                ddd += html+'<img class="img_side" data-toggle="modal" data-target="'+ids+'" src="'+imgg+'">';
             }else{
                 ddd += '<spa>'+item.value+'</span>';
             }
@@ -188,13 +214,25 @@
                 var sss = uniqueArray[i];
                 html += "<tbody><tr>";
                     $.each(d.sub_app_data, function(i, item) {
-                        console.log(item)
                         if(item.UUID == sss){
                             var ddd = '';
                             if (/(jpg|gif|png|jpeg)$/.test(item.value)){ 
                                 var imgg = urll+"/"+item.value
-                                console.log(imgg)
-                                ddd += '<img class="img_side" src="'+imgg+'">';
+                                var id = "myModal"+item.id+"_"+i;
+                                var ids = "#myModal"+item.id+"_"+i;
+                                var html1 = '<div id="'+id+'" class="modal fade" role="dialog">'+
+                                            '<div class="modal-dialog">'+
+                                                '<div class="modal-content">'+
+                                                    '<div class="modal-body">'+
+                                                        '<img class="img-responsive" src="'+imgg+'" />'+
+                                                    '</div>'+
+                                                    '<div class="modal-footer">'+
+                                                        '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                                    '</div>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>';
+                                ddd += html1+'<img class="img_side" data-toggle="modal" data-target="'+ids+'" src="'+imgg+'">';
                             }else{
                                 ddd += '<span>'+item.value+'</span>';
                             }
@@ -236,5 +274,24 @@
             }
         });
     });
+    function chageapplicationstatus(cat_id) {
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/chageaContentstatus') }}" +'/' + cat_id,
+            success: function (res) {
+                if(res.status == 200 && res.action=='deactive'){
+                    toastr.success("Content Deactivated",'Success',{timeOut: 5000});
+                    $('#content_list').DataTable().draw();
+                }
+                if(res.status == 200 && res.action=='active'){
+                    toastr.success("Content activated",'Success',{timeOut: 5000});
+                    $('#content_list').DataTable().draw();
+                }
+            },
+            error: function (data) {
+                toastr.error("Please try again",'Error',{timeOut: 5000});
+            }
+        });
+    }
 </script>
 @endpush('scripts')

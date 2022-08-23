@@ -424,14 +424,14 @@ class ContentController extends Controller
                             ->leftJoin("form_structures", "form_structures.id", "=", "app_data.form_structure_id")
                             ->where("UUID", $gett->UUID)
                             ->where('app_id', $id)
-                            ->where("status", 1)
+                            // ->where("status", 1)
                             ->get();
                 $gett->app_data = $get_app_data;
                 $form_structure = SubAppData::select("*")
                         ->leftJoin("subform_structures", "subform_structures.id", "=", "sub_app_data.sub_form_structure_id")
                         ->where("app_uuid",  $gett->UUID)
                         ->where('app_id', $id)
-                        ->where("status", 1)
+                        // ->where("status", 1)
                         ->get();
                 $gett->sub_app_data = $form_structure;
                 $gett->start_date = $gett->created_at->format('d M Y');
@@ -453,6 +453,24 @@ class ContentController extends Controller
             }
         }else{
             return response()->json(['status' => '400']);
+        }
+    }
+
+    public function ChageContentStatus($id)
+    {
+        $content = AppData::find($id);
+        if($content->status == '1'){
+            $get_all_app_data = AppData::where('UUID', $content->UUID)
+                                ->where('status', '1')->update(['status' => '0']);
+            $get_all_sub_app_data = SubAppData::where('app_uuid', $content->UUID)
+                                ->where('status', '1')->update(['status' => '0']);
+            return response()->json(['status' => '200','action' =>'deactive']);
+        }else{
+            $get_all_app_data = AppData::where('UUID', $content->UUID)
+                                ->where('status', '0')->update(['status' => '1']);
+            $get_all_sub_app_data = SubAppData::where('app_uuid', $content->UUID)
+                                ->where('status', '0')->update(['status' => '1']);
+            return response()->json(['status' => '200','action' =>'active']);
         }
     }
 

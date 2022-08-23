@@ -89,7 +89,7 @@ class APIsController extends Controller
         try {
             $data = $request->all();
             $app = ApplicationData::where('app_id',$data['app_id'])->where('token', $data['token'])->first();
-            
+            $app = $app->makeHidden(['created_at','status']);
             if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $app->icon)) {
                 $path = asset('/app_icons');
                 $app->icon = $path."/".$app->icon;
@@ -126,6 +126,7 @@ class APIsController extends Controller
             $app = ApplicationData::where('app_id', $data['app_id'])->where('token', $data['token'])->first();
             if($app != null){
                 $category = Category::select('id','app_id','title','status','created_at')->where('app_id', $app->id)->where('status', '1')->get();
+                $category = $category->makeHidden(['created_at','status']);
                 foreach($category as $key => $cat){
                     $category_fields = CategoryFields::with('fields')->where('category_id', $cat->id)->where('status', '1')->get();
                     foreach($category_fields as $d){
@@ -259,6 +260,9 @@ class APIsController extends Controller
         try {
             $data = $request->all();
             $app = ApplicationData::where('app_id',$data['app_id'])->where('token', $data['token'])->first();
+            $form_structure = FormStructure::where('application_id', $app->id)->where('field_type', 'sub-form')->first();
+            $field_name_array = $form_structure->field_name;
+            // dd($form_structure->field_name);
             $attrs = [];
             if($app != null){
                 $cat_id = (isset($data['category_id'])) ? $data['category_id'] : null ;
@@ -290,11 +294,12 @@ class APIsController extends Controller
                 }
                 // dd();
                 foreach($form_structure as $form){
-                    $form = $form->makeHidden(['id','UUID','form_id','value','field_name','app_id', 'category_id','sub_form_structure_id', 'created_at','updated_at', 'deleted_at','application_id', 'field_type','created_by', 'updated_by']);
+                    $form = $form->makeHidden(['id','UUID','form_id','value','field_name','app_id', 'category_id','sub_form_structure_id', 'created_at','updated_at', 'deleted_at','application_id', 'field_type','created_by', 'updated_by','app_uuid','status']);
                 }
                 if($form_structure != null && count($form_structure) > 0){
                     return response()->json([
-                        'data' => $form_structure,
+                        $field_name_array => $form_structure,
+                        // 'data' => $form_structure,
                         'responce' => 'success',
                         'sucess' => 1,
                         'message' => 'content data get successfully'

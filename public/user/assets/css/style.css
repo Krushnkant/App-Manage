@@ -20994,6 +20994,10 @@ input[type="file"] {
     padding: 4px 10px;
     min-width: 103px;
 }
+.table_detail_part .action_btn-warning {
+    background: #cfcfcf;
+    color: #000;
+}
 
 .table_detail_part .total_request_text {
     font-size: 13px;
@@ -21087,13 +21091,13 @@ input[type="file"] {
 
 .application_tab {
     padding-left: 15px;
-    margin-bottom: 15px;
+    margin-bottom:   15px;
 }
 
-.table_detail_part thead th:after,
+/* .table_detail_part thead th:after,
 .table_detail_part thead th:before {
     content: none !important;
-}
+} */
 
 .table_detail_part .application_table thead th:nth-child(2),
 .table_detail_part .application_table tbody td:nth-child(2) {
@@ -21538,3 +21542,6 @@ span.error-display {
 .table_detail_part .application_table #child_row tbody td {
     text-transform: lowercase !important;
 } */
+tr.odd td {
+    background: #cfcfcf3b;
+}
