@@ -44,8 +44,8 @@ class ApplicationController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'app_id' => 'required',
-            'package_name' => 'required',
+            // 'app_id' => 'required',
+            // 'package_name' => 'required',
         ]);
         $data = $request->all();
         if(isset($data['icon'])){

@@ -59,9 +59,9 @@
                                                 <th>Application</th>
                                                 <th>App Id</th>
                                                 <th>Package Name</th>
-                                                <th>Total Request</th>
+                                                <th>Total Request <small>Category | Content</small></th>
                                                 <th>status</th>
-                                                <th>Date</th>
+                                                <!-- <th>Date</th> -->
                                                 <th>Action</th>
                                                 <th></th>
                                             </tr>
@@ -363,7 +363,7 @@
                 { "width": "7%", "targets": 6 },
                 { "width": "10%", "targets": 7 },
                 { "width": "20%", "targets": 8 },
-                { "width": "10%", "targets": 9 },
+                // { "width": "10%", "targets": 9 },
             ],
             "columns": [
                 {
@@ -381,22 +381,72 @@
                     "mData": "icon",
                     className: 'text-left',
                     "mRender": function (data, type, row) {
+                        var html = '';
+                        var id = "myModal"+row.id;
+                        var ids = "#myModal"+row.id;
                         if(row.is_url == 1){
-                            return "<div class='application_img_text'><img class='set_img' src="+row.icon_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
+                        html = '<div id="'+id+'" class="modal fade" role="dialog">'+
+                                        '<div class="modal-dialog">'+
+                                            '<div class="modal-content">'+
+                                                '<div class="modal-body">'+
+                                                    '<img class="img-responsive" src="'+row.icon_url+'" />'+
+                                                '</div>'+
+                                                '<div class="modal-footer">'+
+                                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>';
+                        }else{
+                        var img_url = "{{asset('/app_icons/')}}/"+row.icon;
+                        html = '<div id="'+id+'" class="modal fade" role="dialog">'+
+                                    '<div class="modal-dialog">'+
+                                        '<div class="modal-content">'+
+                                            '<div class="modal-body">'+
+                                                '<img class="img-responsive" src="'+img_url+'" />'+
+                                            '</div>'+
+                                            '<div class="modal-footer">'+
+                                                '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'; 
+                        }
+                        if(row.is_url == 1){
+                            return "<div class='application_img_text'>"+html+"<div class='images'><img class='set_img' data-toggle='modal' data-target='"+ids+"' src="+row.icon_url+" ></div><span class='application_text ml-2'>"+row.name+"</span></div>";
                         }else{
                             var img_url = "{{asset('/app_icons/')}}/"+row.icon;
-                            return "<div class='application_img_text'><img class='set_img' src="+img_url+" ><span class='application_text ml-2'>"+row.name+"</span></div>";
+                            return "<div class='application_img_text'>"+html+"<div class='images'><img class='set_img' data-toggle='modal' data-target='"+ids+"' src="+img_url+" ></div><span class='application_text ml-2'>"+row.name+"</span></div>";
                         }
                     }
                 },
-                
                 {
                     "mData": "app_id",
                     "mRender": function (data, type, row) {
                         return "<div><span class='application_text app_id_part'>"+row.app_id+"</span></div>";
                     }
                 },
-                {data: 'package_name', name: 'package_name', orderable: false, searchable: false, class: "text-center"},
+                {
+                    "mData": "package_name",
+                    "mRender": function (data, type, row) {
+                        var multi_link = [];
+                        var hasApple = row.package_name.indexOf(',') != -1;
+                        if(hasApple === true){
+                            var strarray = row.package_name.split(',');
+                            $(strarray).each(function( index, value ) {
+                                var concat_string = "https://play.google.com/store/apps/details?id="+value;
+                                var concat_string1 = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+value+"</a>";
+                                multi_link.push(concat_string1);
+                            });
+                            multi_link = multi_link.join(", ");
+                        }else{
+                            var concat_string = "https://play.google.com/store/apps/details?id="+row.package_name;
+                            multi_link = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+row.package_name+"</a>"; 
+                        }
+                        return "<div><span class='application_text app_id_part'>"+multi_link+"</span></div>";
+                    }
+                },
+                // {data: 'package_name', name: 'package_name', orderable: false, searchable: false, class: "text-center"},
                 {
                     "mData": "field",
                     "mRender": function (data, type, row) {
@@ -422,12 +472,12 @@
                         }
                     }
                 },
-                {
-                    "mData": "status",
-                    "mRender": function (data, type, row) {
-                        return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
-                    }
-                },
+                // {
+                //     "mData": "status",
+                //     "mRender": function (data, type, row) {
+                //         return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
+                //     }
+                // },
                 // {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
                 {
                     "mData": "action",
@@ -441,7 +491,7 @@
                         if(row.is_category == 0){
                             return "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
                         }else{
-                            return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
+                            return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2 action_btn-warning'>Category</a>" +
                                     "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
                         }
     

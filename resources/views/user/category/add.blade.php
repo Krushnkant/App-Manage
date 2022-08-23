@@ -122,8 +122,8 @@
                                                 <th></th>
                                                 <th>No</th>
                                                 <th>Title</th>
-                                                <!-- <th>status</th> -->
-                                                <th>Date</th>
+                                                <th>status</th>
+                                                <!-- <th>Date</th> -->
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -367,12 +367,25 @@
     function format(d) {
         var list;
         $.each(d.category, function(i, item) {
-            // console.log(item.fields.type)
             var ddd = '';
             // if (/(jpg|gif|png)$/.test(item.value)){ 
+                var id = "myModal"+item.id;
+                var ids = "#myModal"+item.id;
             if (item.fields.type == "file" || item.fields.type == "multi-file"){ 
                 var imgg = urll+"/"+item.value
-                ddd += '<img class="img_side" src="'+imgg+'">';
+                var html = '<div id="'+id+'" class="modal fade" role="dialog">'+
+                                        '<div class="modal-dialog">'+
+                                            '<div class="modal-content">'+
+                                                '<div class="modal-body">'+
+                                                    '<img class="img-responsive" src="'+imgg+'" />'+
+                                                '</div>'+
+                                                '<div class="modal-footer">'+
+                                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>';
+                ddd += html+'<img class="img_side" data-toggle="modal" data-target="'+ids+'" src="'+imgg+'">';
             }else{
                 ddd += '<spa>'+item.value+'</span>';
             }
@@ -429,15 +442,25 @@
                         return "<div><span class='application_text app_id_part total_request_text'>"+row.title+"</span></div>";
                     }
                 },
-                // {data: 'status', name: 'status', orderable: false, searchable: false, class: "text-center"},
-                // {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
-                {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,
-                    render: function (data, type, row) {
-                        // var date = my_date_format(row.start_date);
-                        // console.log(date)
-                        return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
+                {
+                    "mData": "status",
+                    "mRender": function (data, type, row) {
+                        if(row.status == "1"){
+                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_'+row.id+'" onclick="chageapplicationstatus('+row.id+')" value="1" >Active</span></div>';
+                        }else{
+                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_'+row.id+'" onclick="chageapplicationstatus('+row.id+')" value="2">Deactive</span></div>';
+                        }
                     }
                 },
+                // {data: 'status', name: 'status', orderable: false, searchable: false, class: "text-center"},
+                // {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
+                // {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,
+                //     render: function (data, type, row) {
+                //         // var date = my_date_format(row.start_date);
+                //         // console.log(date)
+                //         return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
+                //     }
+                // },
                 {
                     "mData": "action",
                     "mRender": function (data, type, row) {
@@ -499,5 +522,24 @@
             }
         });
     });
+    function chageapplicationstatus(cat_id) {
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/chageacategorystatus') }}" +'/' + cat_id,
+            success: function (res) {
+                if(res.status == 200 && res.action=='deactive'){
+                    toastr.success("Category Deactivated",'Success',{timeOut: 5000});
+                    $('#category_list').DataTable().draw();
+                }
+                if(res.status == 200 && res.action=='active'){
+                    toastr.success("Category activated",'Success',{timeOut: 5000});
+                    $('#category_list').DataTable().draw();
+                }
+            },
+            error: function (data) {
+                toastr.error("Please try again",'Error',{timeOut: 5000});
+            }
+        });
+    }
 </script>
 @endpush('scripts')
