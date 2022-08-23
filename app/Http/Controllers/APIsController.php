@@ -263,7 +263,6 @@ class APIsController extends Controller
             $app = ApplicationData::where('app_id',$data['app_id'])->where('token', $data['token'])->first();
             $form_structure = FormStructure::where('application_id', $app->id)->where('field_type', 'sub-form')->first();
             $field_name_array = $form_structure->field_name;
-            // dd($form_structure->field_name);
             $attrs = [];
             if($app != null){
                 $cat_id = (isset($data['category_id'])) ? $data['category_id'] : null ;
@@ -279,7 +278,6 @@ class APIsController extends Controller
                         ->where("sub_app_data.status", '1')
                         ->where('UUID', $form->UUID)
                         ->get();
-                    // dump($get_bunch);
                     foreach($get_bunch as $vvv){
                         $key = $vvv->field_name;
                         // dump($vvv->fieldd->field_type);
