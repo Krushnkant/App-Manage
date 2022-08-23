@@ -66,7 +66,7 @@
                                                     <th>Package Name</th>
                                                     <th>Total Request</th>
                                                     <th>Status</th>
-                                                    <th>Date</th>
+                                                    <!-- <th>Date</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -108,7 +108,7 @@
                 { "width": "", "targets": 2 },
                 { "width": "", "targets": 3 },
                 { "width": "", "targets": 4 },
-                { "width": "", "targets": 5 },
+                // { "width": "", "targets": 5 },
             ],
             "columns": [
                 {data: 'id', name: 'id', class: "text-center", orderable: false,
@@ -152,12 +152,12 @@
                         }
                     }
                 },
-                {
-                    "mData": "status",
-                    "mRender": function (data, type, row) {
-                        return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
-                    }
-                }
+                // {
+                //     "mData": "status",
+                //     "mRender": function (data, type, row) {
+                //         return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
+                //     }
+                // }
             ]
         });
     })
