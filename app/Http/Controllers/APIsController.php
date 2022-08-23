@@ -88,7 +88,7 @@ class APIsController extends Controller
     {
         try {
             $data = $request->all();
-            $app = ApplicationData::where('app_id',$data['app_id'])->where('token', $data['token'])->first();
+            $app = ApplicationData::where('token', $data['token'])->first();
             $app = $app->makeHidden(['created_at','status']);
             if (preg_match('/(\.jpg|\.jpeg|\.png|\.bmp)$/i', $app->icon)) {
                 $path = asset('/app_icons');
@@ -123,7 +123,7 @@ class APIsController extends Controller
         try {
             $data = $request->all();
 
-            $app = ApplicationData::where('app_id', $data['app_id'])->where('token', $data['token'])->first();
+            $app = ApplicationData::where('token', $data['token'])->first();
             if($app != null){
                 $category = Category::select('id','app_id','title','status','created_at')->where('app_id', $app->id)->where('status', '1')->get();
                 $category = $category->makeHidden(['created_at','status']);
@@ -176,7 +176,7 @@ class APIsController extends Controller
     {
         try {
             $data = $request->all();
-            $app = ApplicationData::where('app_id', $data['app_id'])->where('token', $data['token'])->first();
+            $app = ApplicationData::where('token', $data['token'])->first();
             
             if($app != null){
                 $cat_id = (isset($data['category_id'])) ? $data['category_id'] : null ;
@@ -260,7 +260,7 @@ class APIsController extends Controller
     {
         try {
             $data = $request->all();
-            $app = ApplicationData::where('app_id',$data['app_id'])->where('token', $data['token'])->first();
+            $app = ApplicationData::where('token', $data['token'])->first();
             $form_structure = FormStructure::where('application_id', $app->id)->where('field_type', 'sub-form')->first();
             $field_name_array = $form_structure->field_name;
             $attrs = [];
