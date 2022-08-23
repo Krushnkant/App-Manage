@@ -53,8 +53,9 @@ class ApplicationController extends Controller
             $public_path = asset('app_icons/');
             $result = Helpers::UploadImage($data['icon'], $path);
             $data['icon'] = $result;
-            $data['token'] = Str::random(20);
         }
+        $data['token'] = Str::random(20);
+        // dd($data);
         $app_data = ApplicationData::Create($data);
         if($app_data != null){
             return redirect('/application');
