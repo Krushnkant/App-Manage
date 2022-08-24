@@ -113,6 +113,9 @@
 @push('scripts')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
+    function copyToClipboard(element) {
+        navigator.clipboard.writeText(element);
+    }
     function format(d) {
         // console.log(d)
         var cat_list = "";
@@ -126,7 +129,7 @@
       
         if(d.is_category == 1){
             cat_list +="<tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
-                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+cat_path+"</span></td></tr>"+
+                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+cat_path+"</span><button onclick=copyToClipboard('"+cat_path+"')>Copy</button></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -156,7 +159,7 @@
                         "</table></tr>"+
                         
                         "<tr class='w-100'><td><div class='px-3'><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span><button onclick=copyToClipboard('"+content_api_path+"')>Copy</button></td></tr>"+
                         "<tr><p><strong><span>Note:</span></strong></p></tr>"+
                         "<tr><ul><li><span>if you want to get all category then pass (0) instade of category id</span></li></ul></div></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
@@ -195,7 +198,7 @@
                         "</table></tr>"+
                         
                         "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span><button onclick=copyToClipboard('"+sub_content_api_path+"')>Copy</button></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -239,7 +242,7 @@
                         "</table></tr>";
         }else{
             cat_list +="<tr><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+content_api_path+"</span></td></tr>"+
+                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+content_api_path+"</span><button onclick=copyToClipboard('"+content_api_path+"')>Copy</button></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -269,7 +272,7 @@
                         "</table></tr>"+
                         
                         "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span><button onclick=copyToClipboard('"+sub_content_api_path+"')>Copy</button></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -384,13 +387,29 @@
                         var html = '';
                         var id = "myModal"+row.id;
                         var ids = "#myModal"+row.id;
+                        var image_video1 = '';
+                        var img_url = row.icon_url;
+                        var filename1 = row.icon_url;
+
                         if(row.is_url == 1){
+                            if(row.icon_url.match("jpg") || row.icon_url.match("png") || row.icon_url.match("jpeg")){
+                                image_video1 += "<img class='set_img' class='set_img' data-toggle='modal' data-target='"+ids+"' src='"+filename1+"' />";
+                            }else{
+                                if(row.icon_url.match("mp4")){
+                                    image_video1 += "<iframe src='"+filename1+"' title='video'></iframe>";
+                                }else if(row.icon_url.match("youtube")){
+                                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                                    // var matches =  row.icon_url.match(/(?:http:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g);
+                                    const match = row.icon_url.match(regExp);
+                                    image_video1 += '<iframe src="https://www.youtube.com/embed/' 
+                                                        + match[2] + '" frameborder="0" allowfullscreen></iframe>';
+
+                                }
+                            }
                         html = '<div id="'+id+'" class="modal fade" role="dialog">'+
                                         '<div class="modal-dialog">'+
                                             '<div class="modal-content">'+
-                                                '<div class="modal-body">'+
-                                                    '<img class="img-responsive" src="'+row.icon_url+'" />'+
-                                                '</div>'+
+                                                '<div class="modal-body">'+image_video1+'</div>'+
                                                 '<div class="modal-footer">'+
                                                     '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
                                                 '</div>'+
@@ -398,13 +417,25 @@
                                         '</div>'+
                                     '</div>';
                         }else{
+                        // var match_ = row.icon.match(/^http[^\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gmi)
+                        var filename = row.icon;
+                        var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;  
+                        var valid_video_extensions = /(\.mp4|\.webm|\.m4v)$/i;  
+                        var image_video = ''; 
+                        var img_url = "{{asset('/app_icons/')}}/"+row.icon;
+                        var video_url = "{{asset('/app_icons/')}}/"+row.icon;
+                        if(valid_extensions.test(filename)){ 
+                            image_video += '<img class="img-responsive" src="'+img_url+'" />';
+                        }else{
+                            if(valid_video_extensions.test(filename)){
+                                image_video += '<iframe src="'+video_url+'" title="video"></iframe>';
+                            }
+                        }
                         var img_url = "{{asset('/app_icons/')}}/"+row.icon;
                         html = '<div id="'+id+'" class="modal fade" role="dialog">'+
                                     '<div class="modal-dialog">'+
                                         '<div class="modal-content">'+
-                                            '<div class="modal-body">'+
-                                                '<img class="img-responsive" src="'+img_url+'" />'+
-                                            '</div>'+
+                                            '<div class="modal-body">'+image_video+'</div>'+
                                             '<div class="modal-footer">'+
                                                 '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
                                             '</div>'+
@@ -413,10 +444,38 @@
                                 '</div>'; 
                         }
                         if(row.is_url == 1){
-                            return "<div class='application_img_text'>"+html+"<div class='images'><img class='set_img' data-toggle='modal' data-target='"+ids+"' src="+row.icon_url+" ></div><span class='application_text ml-2'>"+row.name+"</span></div>";
+                            var image_video1 = '';
+                            var img_url = row.icon_url;
+                            var filename1 = row.icon_url;
+                            if(row.icon_url != null){
+                                if(row.icon_url.match("jpg") || row.icon_url.match("png") || row.icon_url.match("jpeg")){
+                                    image_video1 += "<img class='set_img' class='set_img' data-toggle='modal' data-target='"+ids+"' src='"+filename1+"' />";
+                                }else{
+                                    if(row.icon_url.match("mp4") || row.icon_url.match("youtube")){
+                                        image_video1 += "<img class='set_img' class='set_img' data-toggle='modal' data-target='"+ids+"' src='{{asset('user/assets/icons/video_icon.jpg')}}' />";
+                                    }
+                                }
+                            }else{
+                                image_video1 += "<img class='set_img' src='{{asset('user/assets/icons/dummy_img.jpg')}}' />";
+                            }
+                            return "<div class='application_img_text'>"+html+"<div class='images'>"+image_video1+"</div><span class='application_text ml-2'>"+row.name+"</span></div>";
                         }else{
+                            var image_video1 = '';
                             var img_url = "{{asset('/app_icons/')}}/"+row.icon;
-                            return "<div class='application_img_text'>"+html+"<div class='images'><img class='set_img' data-toggle='modal' data-target='"+ids+"' src="+img_url+" ></div><span class='application_text ml-2'>"+row.name+"</span></div>";
+                            if(row.icon != null){
+                                if(valid_extensions.test(filename)){
+                                    var img_url = "{{asset('/app_icons/')}}/"+row.icon; 
+                                    image_video1 += "<img class='set_img' class='set_img' data-toggle='modal' data-target='"+ids+"' src='"+img_url+"' />";
+                                }else{
+                                    var video_url = "{{asset('/app_icons/')}}/"+row.icon;
+                                    if(valid_video_extensions.test(filename)){
+                                        image_video1 += "<img class='set_img' class='set_img' data-toggle='modal' data-target='"+ids+"' src='{{asset('user/assets/icons/video_icon.jpg')}}' />";
+                                    }
+                                }
+                            }else{
+                                image_video1 += "<img class='set_img' src='{{asset('user/assets/icons/dummy_img.jpg')}}' />";
+                            }
+                            return "<div class='application_img_text'>"+html+"<div class='images'>"+image_video1+"</div><span class='application_text ml-2'>"+row.name+"</span></div>";
                         }
                     }
                 },

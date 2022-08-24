@@ -5,11 +5,6 @@
                 <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
             </a>
         </li>
-        <!-- <li>
-            <a href="{{url('application')}}" aria-expanded="false">
-                <i class="icon-badge menu-icon"></i><span class="nav-text">Application</span>
-            </a>
-        </li> -->
         <li class="mega-menu mega-menu-sm active">
             <a href="javascript:void(0)" aria-expanded="false">
                 <i class="icon-badge menu-icon"></i><span class="nav-text">Application</span>
@@ -18,6 +13,11 @@
                 <li><a href="{{url('application')}}">Application List</a></li>
                 <li><a href="{{url('add-application')}}">Add Application</a></li>
             </ul>
+        </li>
+        <li>
+            <a href="{{url('settings')}}" aria-expanded="false">
+                <i class="icon-badge menu-icon"></i><span class="nav-text">Settings</span>
+            </a>
         </li>
     </ul>
 </div>

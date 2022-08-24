@@ -163,40 +163,42 @@
             name: {
                 required: true,
             },
-            icon: {
-                required: true,
-                validateFile: true
-            },
-            icon_url: {
-                required: true,
-                checkLink: true,
-            },
+            // icon: {
+            //     required: true,
+            //     validateFile: true
+            // },
+            // icon_url: {
+            //     required: true,
+            //     checkLink: true,
+            // },
             app_id: {
-                required: true,
+                // required: true,
                 remote: '{{ url("check-applicationId/") }}/'+app_id
             },
             package_name: {
-                required: true,
+                // required: true,
+                noSpace: true,
             },
         },
         messages: {
             name: {
                 required: "Please enter application name",
             },
-            icon: {
-                required: "Please choose application icon",
-                extension: "Only allow PNG, JPEG or JPEG image"
-            },
-            icon_url: {
-                required: "Please enter application icon url",
-                checkLink: "Please enter valid URL"
-            },
+            // icon: {
+            //     required: "Please choose application icon",
+            //     extension: "Only allow PNG, JPEG or JPEG image"
+            // },
+            // icon_url: {
+            //     required: "Please enter application icon url",
+            //     checkLink: "Please enter valid URL"
+            // },
             app_id: {
-                required: "Please enter application ID",
+                // required: "Please enter application ID",
                 remote: "Please enter different application ID",
             },
             package_name: {
-                required: "Please enter package name",
+                // required: "Please enter package name",
+                noSpace : "Please remove space from package name",
             },
         },
         submitHandler: function (form) {
@@ -216,5 +218,14 @@
         result = ($.inArray(value.split('.').pop().toLowerCase(), fileExtension) != -1)
         return result;
     }, "Please choose only JPG, JPEG & PNG image");
+    $.validator.addMethod("noSpace", function(value, element) {
+        var result = true;
+        if(value.length > 0){
+            result = value.indexOf(" ") < 0 && value != "";
+        }else{
+            result = true;
+        }
+        return result;
+    }, "Please remove space from package name");
 </script>
 @endpush('scripts')

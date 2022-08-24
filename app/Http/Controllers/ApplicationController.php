@@ -55,6 +55,7 @@ class ApplicationController extends Controller
             $data['icon'] = $result;
         }
         $data['token'] = Str::random(20);
+        $data['test_token'] = Str::random(30);
         // dd($data);
         $app_data = ApplicationData::Create($data);
         if($app_data != null){
