@@ -135,7 +135,27 @@
                         return "<div><span class='application_text app_id_part'>"+row.app_id+"</span></div>";
                     }
                 },
-                {data: 'package_name', name: 'package_name', orderable: false, searchable: false, class: "text-center"},
+                // {data: 'package_name', name: 'package_name', orderable: false, searchable: false, class: "text-center"},
+                {
+                    "mData": "package_name",
+                    "mRender": function (data, type, row) {
+                        var multi_link = [];
+                        var hasApple = row.package_name.indexOf(',') != -1;
+                        if(hasApple === true){
+                            var strarray = row.package_name.split(',');
+                            $(strarray).each(function( index, value ) {
+                                var concat_string = "https://play.google.com/store/apps/details?id="+value;
+                                var concat_string1 = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+value+"</a>";
+                                multi_link.push(concat_string1);
+                            });
+                            multi_link = multi_link.join(", ");
+                        }else{
+                            var concat_string = "https://play.google.com/store/apps/details?id="+row.package_name;
+                            multi_link = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+row.package_name+"</a>"; 
+                        }
+                        return "<div><span class='application_text app_id_part'>"+multi_link+"</span></div>";
+                    }
+                },
                 {
                     "mData": "field",
                     "mRender": function (data, type, row) {

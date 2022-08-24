@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\{UserController, ApplicationController, CategoryController,ContentController, AppDataController};
+use \App\Http\Controllers\{UserController, ApplicationController, CategoryController,ContentController, AppDataController, SettingsController};
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +64,9 @@ Route::group(['middleware'=>'auth'],function (){
 
     // application data table
     Route::post('application-has-category',[AppDataController::class,'ApplicationHasCategory']);
+
+    // settings
+    Route::resource('/settings',  SettingsController::class);
 
     // match same value
     Route::post('same_value_match',[AppDataController::class,'SameValueMatch']);
