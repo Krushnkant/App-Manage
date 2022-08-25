@@ -94,12 +94,13 @@ class ContentController extends Controller
      */
     public function edit($id, $uuid)
     {
+        $page = "Edit Content";
         $application = ApplicationData::find($id);
         $app_data = AppData::with('fieldd')->where('UUID', $uuid)->where('app_id', $id)->get();
         $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->where('app_uuid', $uuid)->get();
         $categories = Category::where('app_id', $id)->where('status', '1')->get();
         // dd($app_data);
-        return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories','application'));
+        return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories','application', 'page'));
     }
 
     /**
@@ -330,6 +331,7 @@ class ContentController extends Controller
 
     public function addstructure($id)
     {
+        $page = "Structure";
         $is_sub = 0;
         $application = ApplicationData::find($id);
         $fields = Field::where('estatus', 1)->get();
@@ -340,14 +342,15 @@ class ContentController extends Controller
         }
         $is_form = FormStructure::where('application_id', $id)->first();
         if($is_form != null){
-            return view('user.content.edit', compact('id', 'fields', 'already', 'is_sub', 'application'));
+            return view('user.content.edit', compact('id', 'fields', 'already', 'is_sub', 'application', 'page'));
         }else{
-            return view('user.content.add', compact('id', 'fields', 'application'));
+            return view('user.content.add', compact('id', 'fields', 'application', 'page'));
         }
     }
 
     public function ContentForm($application_id)
     {
+        $page = "Add Content";
         $is_category = 0;
         $is_sub_formm = 0;
         $application = ApplicationData::find($application_id);
@@ -362,11 +365,12 @@ class ContentController extends Controller
         if($is_sub_form != null){
             $is_sub_formm = 1;
         }
-        return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories', 'is_category', 'is_sub_formm','application'));
+        return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories', 'is_category', 'is_sub_formm','application', 'page'));
     }
 
     public function ContentList(Request $request, $id)
     {
+        $page = "Content List";
         $application = ApplicationData::find($id);
         // $get_application = ApplicationData::where('id', $id)->where('status', '1')->first();
         // $get_app_data = AppData::with('category','application')->select("*")
@@ -400,7 +404,7 @@ class ContentController extends Controller
         //     $gett->sub_app_data = $form_structure;
         // }
         // print_r($get_uuid);
-        return view('user.content.content_list', compact('id', 'application'));
+        return view('user.content.content_list', compact('id', 'application', 'page'));
     }
 
     public function ContentGetList(Request $request, $id)

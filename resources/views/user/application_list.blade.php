@@ -120,6 +120,7 @@
         // console.log(d)
         var cat_list = "";
         var token = d.token;
+        var test_token = d.test_token;
         var UUID = d.app_id;
         var category_id = d.cat_ids;
         var strcuture_id = d.strcuture_id;
@@ -129,7 +130,7 @@
       
         if(d.is_category == 1){
             cat_list +="<tr><td><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Category List</p></span></td></tr>"+
-                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+cat_path+"</span><button onclick=copyToClipboard('"+cat_path+"')>Copy</button></td></tr>"+
+                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+cat_path+" <button class='btn_copy' onclick=copyToClipboard('"+cat_path+"')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -146,20 +147,20 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>Token must be same as example</td>"+
-                                    "<td class='text-left'>"+token+"</td>"+
+                                    "<td class='text-left'>"+token+", "+test_token+"</td>"+
                                 "</tr>"+
-                                "<tr>"+
-                                    "<td><code>app_id</code></td>"+
-                                    "<td>YES</td>"+
-                                    "<td><em>string</em></td>"+
-                                    "<td class='text-left'>AppId must be same as example</td>"+
-                                    "<td class='text-left'>"+UUID+"</td>"+
-                                "</tr>"+
+                                // "<tr>"+
+                                //     "<td><code>app_id</code></td>"+
+                                //     "<td>YES</td>"+
+                                //     "<td><em>string</em></td>"+
+                                //     "<td class='text-left'>AppId must be same as example</td>"+
+                                //     "<td class='text-left'>"+UUID+"</td>"+
+                                // "</tr>"+
                             "</tbody>"+
                         "</table></tr>"+
                         
                         "<tr class='w-100'><td><div class='px-3'><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+"</span><button onclick=copyToClipboard('"+content_api_path+"')>Copy</button></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left'>"+content_api_path+" <button class='btn_copy' onclick=copyToClipboard('"+content_api_path+"')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>"+
                         "<tr><p><strong><span>Note:</span></strong></p></tr>"+
                         "<tr><ul><li><span>if you want to get all category then pass (0) instade of category id</span></li></ul></div></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
@@ -178,15 +179,15 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>Token must be same as example</td>"+
-                                    "<td class='text-left'>"+token+"</td>"+
+                                    "<td class='text-left'>"+token+", "+test_token+"</td>"+
                                 "</tr>"+
-                                "<tr>"+
-                                    "<td><code>app_id</code></td>"+
-                                    "<td>YES</td>"+
-                                    "<td><em>string</em></td>"+
-                                    "<td class='text-left'>AppId must be same as example</td>"+
-                                    "<td class='text-left'>"+UUID+"</td>"+
-                                "</tr>"+
+                                // "<tr>"+
+                                //     "<td><code>app_id</code></td>"+
+                                //     "<td>YES</td>"+
+                                //     "<td><em>string</em></td>"+
+                                //     "<td class='text-left'>AppId must be same as example</td>"+
+                                //     "<td class='text-left'>"+UUID+"</td>"+
+                                // "</tr>"+
                                 "<tr>"+
                                     "<td><code>category_id</code></td>"+
                                     "<td>YES</td>"+
@@ -198,7 +199,7 @@
                         "</table></tr>"+
                         
                         "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span><button onclick=copyToClipboard('"+sub_content_api_path+"')>Copy</button></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+" <button class='btn_copy' onclick=copyToClipboard('"+sub_content_api_path+"')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -215,15 +216,15 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>Token must be same as example</td>"+
-                                    "<td class='text-left'>"+token+"</td>"+
+                                    "<td class='text-left'>"+token+", "+test_token+"</td>"+
                                 "</tr>"+
-                                "<tr>"+
-                                    "<td><code>app_id</code></td>"+
-                                    "<td>YES</td>"+
-                                    "<td><em>string</em></td>"+
-                                    "<td class='text-left'>AppId must be same as example</td>"+
-                                    "<td class='text-left'>"+UUID+"</td>"+
-                                "</tr>"+
+                                // "<tr>"+
+                                //     "<td><code>app_id</code></td>"+
+                                //     "<td>YES</td>"+
+                                //     "<td><em>string</em></td>"+
+                                //     "<td class='text-left'>AppId must be same as example</td>"+
+                                //     "<td class='text-left'>"+UUID+"</td>"+
+                                // "</tr>"+
                                 // "<tr>"+
                                 //     "<td><code>category_id</code></td>"+
                                 //     "<td>YES</td>"+
@@ -242,7 +243,7 @@
                         "</table></tr>";
         }else{
             cat_list +="<tr><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>"+
-                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+content_api_path+"</span><button onclick=copyToClipboard('"+content_api_path+"')>Copy</button></td></tr>"+
+                        "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>"+content_api_path+" <button class='btn_copy' onclick=copyToClipboard('"+content_api_path+"')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -259,20 +260,20 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>Token must be same as example</td>"+
-                                    "<td class='text-left'>"+token+"</td>"+
+                                    "<td class='text-left'>"+token+", "+test_token+"</td>"+
                                 "</tr>"+
-                                "<tr>"+
-                                    "<td><code>app_id</code></td>"+
-                                    "<td>YES</td>"+
-                                    "<td><em>string</em></td>"+
-                                    "<td class='text-left'>AppId must be same as example</td>"+
-                                    "<td class='text-left'>"+UUID+"</td>"+
-                                "</tr>"+
+                                // "<tr>"+
+                                //     "<td><code>app_id</code></td>"+
+                                //     "<td>YES</td>"+
+                                //     "<td><em>string</em></td>"+
+                                //     "<td class='text-left'>AppId must be same as example</td>"+
+                                //     "<td class='text-left'>"+UUID+"</td>"+
+                                // "</tr>"+
                             "</tbody>"+
                         "</table></tr>"+
                         
                         "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>"+
-                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+"</span><button onclick=copyToClipboard('"+sub_content_api_path+"')>Copy</button></td></tr>"+
+                        "<tr><td><span class='kArPKh text-left mx-3'>"+sub_content_api_path+" <button class='btn_copy' onclick=copyToClipboard('"+sub_content_api_path+"')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>"+
                         "<table class='w-100 child-inner-table mb-4 mx-3'>"+
                             "<thead>"+
                                 "<tr>"+
@@ -289,15 +290,15 @@
                                     "<td>YES</td>"+
                                     "<td><em>string</em></td>"+
                                     "<td class='text-left'>Token must be same as example</td>"+
-                                    "<td class='text-left'>"+token+"</td>"+
+                                    "<td class='text-left'>"+token+", "+test_token+"</td>"+
                                 "</tr>"+
-                                "<tr>"+
-                                    "<td><code>app_id</code></td>"+
-                                    "<td>YES</td>"+
-                                    "<td><em>string</em></td>"+
-                                    "<td class='text-left'>AppId must be same as example</td>"+
-                                    "<td class='text-left'>"+UUID+"</td>"+
-                                "</tr>"+
+                                // "<tr>"+
+                                //     "<td><code>app_id</code></td>"+
+                                //     "<td>YES</td>"+
+                                //     "<td><em>string</em></td>"+
+                                //     "<td class='text-left'>AppId must be same as example</td>"+
+                                //     "<td class='text-left'>"+UUID+"</td>"+
+                                // "</tr>"+
                                 "<tr>"+
                                     "<td><code>sub_form_id</code></td>"+
                                     "<td>YES</td>"+

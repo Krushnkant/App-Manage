@@ -15,10 +15,11 @@ class SettingsController extends Controller
     public function index()
     {
         $get_settings = Settings::where('id', 1)->first();
+        $page = "Add Setting";
         if($get_settings != null){
-            return view('user.settings.add', compact('get_settings'));
+            return view('user.settings.add', compact('get_settings', 'page'));
         }else{
-            return view('user.settings.add');
+            return view('user.settings.add',compact('page'));
         }
     }
 

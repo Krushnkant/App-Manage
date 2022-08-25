@@ -121,12 +121,13 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $page = "Edit Category";
         $data = Category::with(['category' => function($query){
             $query->with('fields');
         }])->where('id', $id)->first();
         $fields = Field::where('estatus', 1)->get();
         $app_data = ApplicationData::where('id', $data->app_id)->where('status', '1')->first();
-        return view('user.category.edit', compact('data','fields','id','app_data'));
+        return view('user.category.edit', compact('data','fields','id','app_data','page'));
         // dd($get_category);
     }
 
@@ -270,9 +271,10 @@ class CategoryController extends Controller
 
     public function AddCategory($id)
     {
+        $page = "Add Category";
         $fields = Field::where('estatus', 1)->get();
         $app_data = ApplicationData::where('id', $id)->where('status', '1')->first();
-        return view('user.category.add', compact('id', 'fields', 'app_data'));
+        return view('user.category.add', compact('id', 'fields', 'app_data','page'));
     }
 
     public function CategoryList(Request $request)

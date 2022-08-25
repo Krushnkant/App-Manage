@@ -21121,6 +21121,7 @@ input[type="file"] {
 
 .table_detail_part .application_table #child_row tbody td:first-child {
     text-align: right !important;
+    position: relative;
 }
 
 body .table_detail_part .application_table .child_row_table tbody td:first-child {
@@ -21494,6 +21495,7 @@ table.dataTable td.dataTables_empty {
     margin: 5px 0px 15px;
     text-transform: lowercase;
     line-height: normal;
+    position: relative;
 }
 
 .table_detail_part .application_table #child_row tbody td {
@@ -21544,4 +21546,16 @@ span.error-display {
 } */
 tr.odd td {
     background: #cfcfcf3b;
+}
+button.btn_copy {
+    height: 15px;
+    width: 15px;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 4px;
+    right: 10px;
+}
+button.btn_copy img.copy_svg {
+    width: 100%;
 }
