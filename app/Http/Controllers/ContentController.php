@@ -197,23 +197,24 @@ class ContentController extends Controller
                 //     }
                 // }
             }
-        }else{
-            if($sub_structure_formid != null && !empty($sub_structure_formid)){
-                if($sub_field_type != null){
-                    foreach($sub_field_names as $subkey => $sub_field_name){
-                        $SubFormStructures = new SubformStructure();
-                        $SubFormStructures->application_id = $application_id;
-                        $SubFormStructures->form_id = $sub_form_id;
-                        $SubFormStructures->field_name = $sub_field_name;
-                        $SubFormStructures->field_type = $sub_field_type[$subkey];
-                        $SubFormStructures->created_by = \Auth::id();
-                        $SubFormStructures->save();
-
-                        array_push($sub_from_struucture_array, $SubFormStructures->id);
-                    }
-                }
-            }
         }
+        // else{
+        //     if($sub_structure_formid != null && !empty($sub_structure_formid)){
+        //         if($sub_field_type != null){
+        //             foreach($sub_field_names as $subkey => $sub_field_name){
+        //                 $SubFormStructures = new SubformStructure();
+        //                 $SubFormStructures->application_id = $application_id;
+        //                 $SubFormStructures->form_id = $sub_form_id;
+        //                 $SubFormStructures->field_name = $sub_field_name;
+        //                 $SubFormStructures->field_type = $sub_field_type[$subkey];
+        //                 $SubFormStructures->created_by = \Auth::id();
+        //                 $SubFormStructures->save();
+
+        //                 array_push($sub_from_struucture_array, $SubFormStructures->id);
+        //             }
+        //         }
+        //     }
+        // }
         if($sub_field_names != null){
             $main_structure_ = FormStructure::where('application_id', $application_id)->where('field_type', 'sub-form')->where('status', 1)->first();
             foreach($sub_field_names as $subkey => $sub_field_name){
@@ -254,23 +255,24 @@ class ContentController extends Controller
                     }
                 }
             }
-        }else{
-            if($sub_structure_formid != null && !empty($sub_structure_formid)){
-                if($sub_field_type != null){
-                    foreach($sub_field_names as $subkey => $sub_field_name){
-                        $SubFormStructures = new SubformStructure();
-                        $SubFormStructures->application_id = $application_id;
-                        $SubFormStructures->form_id = $sub_form_id;
-                        $SubFormStructures->field_name = $sub_field_name;
-                        $SubFormStructures->field_type = $sub_field_type[$subkey];
-                        $SubFormStructures->created_by = \Auth::id();
-                        $SubFormStructures->save();
-
-                        array_push($sub_from_struucture_array, $SubFormStructures->id);
-                    }
-                }
-            }
         }
+        // else{
+        //     if($sub_structure_formid != null && !empty($sub_structure_formid)){
+        //         if($sub_field_type != null){
+        //             foreach($sub_field_names as $subkey => $sub_field_name){
+        //                 $SubFormStructures = new SubformStructure();
+        //                 $SubFormStructures->application_id = $application_id;
+        //                 $SubFormStructures->form_id = $sub_form_id;
+        //                 $SubFormStructures->field_name = $sub_field_name;
+        //                 $SubFormStructures->field_type = $sub_field_type[$subkey];
+        //                 $SubFormStructures->created_by = \Auth::id();
+        //                 $SubFormStructures->save();
+
+        //                 array_push($sub_from_struucture_array, $SubFormStructures->id);
+        //             }
+        //         }
+        //     }
+        // }
         unset($data['field_name']);
         unset($data['field_type']);
         unset($data['sub_field_name']);
