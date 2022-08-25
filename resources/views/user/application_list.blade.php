@@ -399,7 +399,6 @@
                                     image_video1 += "<iframe src='"+filename1+"' title='video'></iframe>";
                                 }else if(row.icon_url.match("youtube")){
                                     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-                                    // var matches =  row.icon_url.match(/(?:http:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g);
                                     const match = row.icon_url.match(regExp);
                                     image_video1 += '<iframe src="https://www.youtube.com/embed/' 
                                                         + match[2] + '" frameborder="0" allowfullscreen></iframe>';
@@ -417,7 +416,6 @@
                                         '</div>'+
                                     '</div>';
                         }else{
-                        // var match_ = row.icon.match(/^http[^\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gmi)
                         var filename = row.icon;
                         var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;  
                         var valid_video_extensions = /(\.mp4|\.webm|\.m4v)$/i;  
@@ -482,27 +480,35 @@
                 {
                     "mData": "app_id",
                     "mRender": function (data, type, row) {
-                        return "<div><span class='application_text app_id_part'>"+row.app_id+"</span></div>";
+                        if(row.app_id != null){
+                            return "<div><span class='application_text app_id_part'>"+row.app_id+"</span></div>";
+                        }else{
+                            return "<div><span class='application_text app_id_part'>-</span></div>";
+                        }
                     }
                 },
                 {
                     "mData": "package_name",
                     "mRender": function (data, type, row) {
                         var multi_link = [];
-                        var hasApple = row.package_name.indexOf(',') != -1;
-                        if(hasApple === true){
-                            var strarray = row.package_name.split(',');
-                            $(strarray).each(function( index, value ) {
-                                var concat_string = "https://play.google.com/store/apps/details?id="+value;
-                                var concat_string1 = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+value+"</a>";
-                                multi_link.push(concat_string1);
-                            });
-                            multi_link = multi_link.join(", ");
+                        if(row.package_name != null){
+                            var hasApple = row.package_name.indexOf(',') != -1;
+                            if(hasApple === true){
+                                var strarray = row.package_name.split(',');
+                                $(strarray).each(function( index, value ) {
+                                    var concat_string = "https://play.google.com/store/apps/details?id="+value;
+                                    var concat_string1 = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+value+"</a>";
+                                    multi_link.push(concat_string1);
+                                });
+                                multi_link = multi_link.join(", ");
+                            }else{
+                                var concat_string = "https://play.google.com/store/apps/details?id="+row.package_name;
+                                multi_link = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+row.package_name+"</a>"; 
+                            }
+                            return "<div><span class='application_text app_id_part'>"+multi_link+"</span></div>";
                         }else{
-                            var concat_string = "https://play.google.com/store/apps/details?id="+row.package_name;
-                            multi_link = "<a class='link_playstore' href='"+concat_string+"' target='_blank'>"+row.package_name+"</a>"; 
+                            return "<div><span class='application_text app_id_part'>-</span></div>";
                         }
-                        return "<div><span class='application_text app_id_part'>"+multi_link+"</span></div>";
                     }
                 },
                 // {data: 'package_name', name: 'package_name', orderable: false, searchable: false, class: "text-center"},
