@@ -397,7 +397,7 @@
                                 image_video1 += "<img class='set_img' class='set_img' data-toggle='modal' data-target='"+ids+"' src='"+filename1+"' />";
                             }else{
                                 if(row.icon_url.match("mp4")){
-                                    image_video1 += "<iframe src='"+filename1+"' title='video'></iframe>";
+                                    image_video1 += "<iframe src='"+filename1+"' title='video' allowfullscreen></iframe>";
                                 }else if(row.icon_url.match("youtube")){
                                     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
                                     const match = row.icon_url.match(regExp);
@@ -427,7 +427,7 @@
                             image_video += '<img class="img-responsive" src="'+img_url+'" />';
                         }else{
                             if(valid_video_extensions.test(filename)){
-                                image_video += '<iframe src="'+video_url+'" title="video"></iframe>';
+                                image_video += '<iframe src="'+video_url+'" title="video" allowfullscreen></iframe>';
                             }
                         }
                         var img_url = "{{asset('/app_icons/')}}/"+row.icon;

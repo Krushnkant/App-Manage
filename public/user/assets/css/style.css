@@ -21559,3 +21559,6 @@ button.btn_copy {
 button.btn_copy img.copy_svg {
     width: 100%;
 }
+.modal-header .form-validation {
+    width: 100%;
+}

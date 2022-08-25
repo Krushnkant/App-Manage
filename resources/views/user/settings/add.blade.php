@@ -8,7 +8,7 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <!-- <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li> -->
-                <li class="breadcrumb-item active">Add Settings</li>
+                <li class="breadcrumb-item active">Settings</li>
             </ol>
         </div>
     </div>
@@ -17,7 +17,68 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Add Settings - Application Management</h4>
+                        <h4 class="card-title">Settings Details - Application Management</h4>
+                        <div class="edit_form">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModalCenter" title="Edit" class="application_text mr-4">
+                                <img src="{{asset('user/assets/icons/edit.png')}}" alt="">
+                            </a>
+                        </div>
+                        <div class="show_detail">
+                            @if(isset($get_settings))
+                                <div class="details">
+                                    <span><h4>Start Token Time : </h4><b>{{($get_settings->token_start_time != null) ? date("g:i A", strtotime($get_settings->token_start_time)) : ""}}</b></span><br>
+                                    <span><h4>End Token Time : </h4><b>{{($get_settings->token_end_time != null) ? date("g:i A", strtotime($get_settings->token_end_time)) : ""}}</b></span>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="modal fade" id="exampleModalCenter">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="form-validation">
+                                            <h4 class="card-title">Add Settings</h4>
+                                            <form class="form-valide" action="" mathod="POST" id="settings" enctype="multipart/form-data">
+                                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}" />
+                                                 @csrf
+                                                <div class="row">
+                                                    <div class="form-group col-md-6 mb-2 mb-xl-3">
+                                                        <label class="col-form-label" for="name">Start Token Time</label>
+                                                        <div class="">
+                                                            <input type="time" class="form-control token_start_time" id="datetimepicker" value="{{ ((isset($get_settings)) && $get_settings->token_start_time) ? $get_settings->token_start_time : ''}}" name="token_start_time" placeholder="11:00 AM">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6 mb-2 mb-xl-3">
+                                                        <label class="col-form-label" for="name">End Token Time</label>
+                                                        <div class="">
+                                                            <input type="time" class="form-control token_end_time" id="token_end_time" value="{{ ((isset($get_settings)) && $get_settings->token_end_time) ? $get_settings->token_end_time : ''}}" name="token_end_time" placeholder="11:00 AM">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <button type="button" class="btn btn-primary" id="Add">Submit</button>
+                                                    </div>
+                                                    <span id="loader">
+                                                        <div class="loader">
+                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                                                            </svg>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="modal-footer">
+                                        <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <h4 class="card-title">Add Settings - Application Management</h4>
                         <div class="form-validation">
                             <form class="form-valide" action="" mathod="POST" id="settings" enctype="multipart/form-data">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}" />
@@ -47,7 +108,7 @@
                                     </span>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -76,7 +137,7 @@
                     if(res['status']==200){
                         $('#loader').hide();
                         toastr.success("Token time Added",'Success',{timeOut: 5000});
-                        window.location.href = "{{ url('application')}}";
+                        window.location.href = "{{ url('settings')}}";
                         // $("#form_structures_add")[0].reset()
                     }else{
                         $('#loader').hide();
