@@ -25,7 +25,7 @@
         </li> -->
         <li>
             <a href="{{url('settings')}}" aria-expanded="false">
-                <i class="icon-badge menu-icon"></i><span class="nav-text">Settings</span>
+                <i class="icon-grid menu-icon"></i><span class="nav-text">Settings</span>
             </a>
         </li>
     </ul>

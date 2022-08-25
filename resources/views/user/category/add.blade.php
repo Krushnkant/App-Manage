@@ -372,20 +372,32 @@
                 var id = "myModal"+item.id;
                 var ids = "#myModal"+item.id;
             if (item.fields.type == "file" || item.fields.type == "multi-file"){ 
+                var filename = item.value
+                var valid_video_extensions = /(\.mp4|\.webm|\.m4v)$/i;  
+                var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i; 
+                var image_video = ''; 
+                var image_set_video = ''; 
                 var imgg = urll+"/"+item.value
+                if(valid_extensions.test(filename)){ 
+                    image_video += '<img class="img-responsive" src="'+imgg+'" />';
+                    image_set_video += '<img class="img_side" data-toggle="modal" data-target="'+ids+'" src="'+imgg+'">';
+                }else{
+                    if(valid_video_extensions.test(filename)){
+                        image_video += '<iframe src="'+imgg+'" title="video" allowfullscreen></iframe>';
+                        image_set_video += '<img class="img_side" data-toggle="modal" data-target="'+ids+'" src="{{asset("user/assets/icons/video_icon.jpg")}}">';
+                    }
+                }
                 var html = '<div id="'+id+'" class="modal fade" role="dialog">'+
                                         '<div class="modal-dialog">'+
                                             '<div class="modal-content">'+
-                                                '<div class="modal-body">'+
-                                                    '<img class="img-responsive" src="'+imgg+'" />'+
-                                                '</div>'+
+                                                '<div class="modal-body">'+image_video+'</div>'+
                                                 '<div class="modal-footer">'+
                                                     '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
                                                 '</div>'+
                                             '</div>'+
                                         '</div>'+
                                     '</div>';
-                ddd += html+'<img class="img_side" data-toggle="modal" data-target="'+ids+'" src="'+imgg+'">';
+                ddd += html+image_set_video;
             }else{
                 ddd += '<spa>'+item.value+'</span>';
             }

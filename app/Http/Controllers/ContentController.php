@@ -115,7 +115,7 @@ class ContentController extends Controller
         $data = $request->all();
         $application_id = $id;
 
-        // dump($data);
+        // dd($data);
         $field_names = (isset($data['field_name']) && $data['field_name']) ? $data['field_name'] : null;
         $field_type = (isset($data['field_type']) && $data['field_type']) ? $data['field_type'] : null;
         $sub_field_names = (isset($data['sub_field_name']) && $data['sub_field_name']) ? $data['sub_field_name'] : null;
@@ -132,8 +132,6 @@ class ContentController extends Controller
         $get_all_sub_content = SubAppData::where('app_id', $application_id)->groupBy('UUID')->get();
         $get_all_sub_content_if = SubAppData::where('app_id', $application_id)->first();
         
-        // dd($get_all_content);
-
         $from_struucture_array = [];
         $sub_from_struucture_array = [];
         if($field_names != ""){
@@ -158,52 +156,104 @@ class ContentController extends Controller
                 }
 
                 array_push($from_struucture_array, $FormStructures->id);
-                // dump($field_type[$key]);
-                if($field_type[$key] == "sub-form"){
+                // if($field_type[$key] == "sub-form"){
+                //     foreach($sub_field_names as $subkey => $sub_field_name){
+                //         $SubFormStructures = new SubformStructure();
+                //         $SubFormStructures->application_id = $request->application_id;
+                //         $SubFormStructures->form_id = $FormStructures->id;
+                //         $SubFormStructures->field_name = $sub_field_name;
+                //         $SubFormStructures->field_type = $request->sub_field_type[$subkey];
+                //         $SubFormStructures->created_by = \Auth::id();
+                //         $SubFormStructures->save();
+
+                //         if($get_all_sub_content_if != null && !empty($get_all_sub_content_if)){
+                //             foreach($get_all_sub_content as $sub_content){
+                //                 $sub_app_data = new SubAppData();
+                //                 $sub_app_data->app_id = $sub_content->application_id;
+                //                 $sub_app_data->category_id = $sub_content->category_id;
+                //                 $sub_app_data->app_uuid = $sub_content->app_uuid;
+                //                 $sub_app_data->UUID = $sub_content->UUID;
+                //                 $sub_app_data->sub_form_structure_id = $SubFormStructures->id;
+                //                 $sub_app_data->value = " ";
+                //                 $sub_app_data->save();
+                //             }
+                //         }else{
+                //             if($get_all_content_if != null && !empty($get_all_content_if)){
+                //                 $ddd = 0;
+                //                 foreach($get_all_content as $content){
+                //                     $current_timestamp = Carbon::now()->timestamp;
+                //                     $sub_app_data = new SubAppData();
+                //                     $sub_app_data->app_id = $content->app_id;
+                //                     $sub_app_data->category_id = $content->category_id;
+                //                     $sub_app_data->app_uuid = $content->UUID;
+                //                     $sub_app_data->UUID = $current_timestamp."_s".$ddd;
+                //                     $sub_app_data->sub_form_structure_id = $SubFormStructures->id;
+                //                     $sub_app_data->value = " ";
+                //                     $sub_app_data->save();
+                //                     $ddd ++;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+            }
+        }else{
+            if($sub_structure_formid != null && !empty($sub_structure_formid)){
+                if($sub_field_type != null){
                     foreach($sub_field_names as $subkey => $sub_field_name){
                         $SubFormStructures = new SubformStructure();
-                        $SubFormStructures->application_id = $request->application_id;
-                        $SubFormStructures->form_id = $FormStructures->id;
+                        $SubFormStructures->application_id = $application_id;
+                        $SubFormStructures->form_id = $sub_form_id;
                         $SubFormStructures->field_name = $sub_field_name;
-                        $SubFormStructures->field_type = $request->sub_field_type[$subkey];
+                        $SubFormStructures->field_type = $sub_field_type[$subkey];
                         $SubFormStructures->created_by = \Auth::id();
                         $SubFormStructures->save();
 
-                        // dump($SubFormStructures->id);
-
-                        if($get_all_sub_content_if != null && !empty($get_all_sub_content_if)){
-                            // dump($get_all_sub_content);
-                            foreach($get_all_sub_content as $sub_content){
-                                $sub_app_data = new SubAppData();
-                                $sub_app_data->app_id = $sub_content->application_id;
-                                $sub_app_data->category_id = $sub_content->category_id;
-                                $sub_app_data->app_uuid = $sub_content->app_uuid;
-                                $sub_app_data->UUID = $sub_content->UUID;
-                                $sub_app_data->sub_form_structure_id = $SubFormStructures->id;
-                                $sub_app_data->value = "";
-                                $sub_app_data->save();
-                            }
-                        }else{
-                            if($get_all_content_if != null && !empty($get_all_content_if)){
-                                $ddd = 0;
-                                foreach($get_all_content as $content){
-                                    $current_timestamp = Carbon::now()->timestamp;
-                                    $sub_app_data = new SubAppData();
-                                    $sub_app_data->app_id = $content->app_id;
-                                    $sub_app_data->category_id = $content->category_id;
-                                    $sub_app_data->app_uuid = $content->UUID;
-                                    $sub_app_data->UUID = $current_timestamp."_s".$ddd;
-                                    $sub_app_data->sub_form_structure_id = $SubFormStructures->id;
-                                    $sub_app_data->value = "";
-                                    $sub_app_data->save();
-                                    $ddd ++;
-                                }
-                            }
+                        array_push($sub_from_struucture_array, $SubFormStructures->id);
+                    }
+                }
+            }
+        }
+        if($sub_field_names != null){
+            $main_structure_ = FormStructure::where('application_id', $application_id)->where('field_type', 'sub-form')->where('status', 1)->first();
+            foreach($sub_field_names as $subkey => $sub_field_name){
+                $SubFormStructures = new SubformStructure();
+                $SubFormStructures->application_id = $application_id;
+                $SubFormStructures->form_id = $main_structure_->id;
+                $SubFormStructures->field_name = $sub_field_name;
+                $SubFormStructures->field_type = $request->sub_field_type[$subkey];
+                $SubFormStructures->created_by = \Auth::id();
+                $SubFormStructures->save();
+                array_push($sub_from_struucture_array, $SubFormStructures->id);
+                if($get_all_sub_content_if != null && !empty($get_all_sub_content_if)){
+                    foreach($get_all_sub_content as $sub_content){
+                        $sub_app_data = new SubAppData();
+                        $sub_app_data->app_id = $application_id;
+                        $sub_app_data->category_id = $sub_content->category_id;
+                        $sub_app_data->app_uuid = $sub_content->app_uuid;
+                        $sub_app_data->UUID = $sub_content->UUID;
+                        $sub_app_data->sub_form_structure_id = $SubFormStructures->id;
+                        $sub_app_data->value = " ";
+                        $sub_app_data->save();
+                    }
+                }else{
+                    if($get_all_content_if != null && !empty($get_all_content_if)){
+                        $ddd = 0;
+                        foreach($get_all_content as $content){
+                            $current_timestamp = Carbon::now()->timestamp;
+                            $sub_app_data = new SubAppData();
+                            $sub_app_data->app_id = $content->app_id;
+                            $sub_app_data->category_id = $content->category_id;
+                            $sub_app_data->app_uuid = $content->UUID;
+                            $sub_app_data->UUID = $current_timestamp."_s".$ddd;
+                            $sub_app_data->sub_form_structure_id = $SubFormStructures->id;
+                            $sub_app_data->value = " ";
+                            $sub_app_data->save();
+                            $ddd ++;
                         }
                     }
                 }
             }
-            // dd();
         }else{
             if($sub_structure_formid != null && !empty($sub_structure_formid)){
                 if($sub_field_type != null){
@@ -241,75 +291,95 @@ class ContentController extends Controller
                 array_push($sub_from_struucture_array, $rocord_id);
             }
         }
-        // dump($from_struucture_array);
-        // dump($sub_from_struucture_array);
-        $subform_remove_form_fields = FormStructure::where('application_id', $application_id)
-                        ->where('field_type', 'sub-form')
-                        ->whereNotIn('id', $from_struucture_array)
-                        ->first();
-        // dd($from_struucture_array);
-        $other_form_fields = FormStructure::where('application_id', $application_id)
-        ->whereNotIn('id', $from_struucture_array)
-        ->get()->pluck('id')->toArray();
-        $main_data_delete = AppData::whereIn('form_structure_id', $other_form_fields)->where('app_id', $application_id)->delete();
-        $form_fields = FormStructure::where('application_id', $application_id)
-                        ->whereNotIn('id', $from_struucture_array)
-                        ->delete();
-        // dd($other_form_fields);
-        
-        if($subform_remove_form_fields != null){
-            $sub_form_fields = SubformStructure::where('application_id', $application_id)
-                                            ->where('form_id', $subform_remove_form_fields->id)
-                                            ->delete();
-            $subform_remove_form_fields->delete();
-        }else{
-            if($sub_structure_formid != null && !empty($sub_structure_formid)){
-                $sub_form_fieldss = SubformStructure::where('application_id', $application_id)->first();
-                if($sub_form_fieldss != null){
-                    $other_form_fields1 = FormStructure::where('application_id', $application_id)
-                                        ->whereNotIn('id', $from_struucture_array)
-                                        ->get()->pluck('id')->toArray();
-                    $main_data_delete = AppData::whereIn('form_structure_id', $other_form_fields1)->where('app_id', $application_id)->delete();
-
-                    $form_fields = FormStructure::where('application_id', $application_id)
-                                                    ->whereNotIn('id', $from_struucture_array)
-                                                    ->delete();
-
-                    $other_form_fields2 = SubformStructure::where('application_id', $application_id)
-                            ->whereNotIn('id', $from_struucture_array)
-                            ->where('form_id', $sub_form_id)
-                            ->get()->pluck('id')->toArray();
-                    $main_data_delete1 = SubAppData::where('app_id', $application_id)
-                                        ->whereIn('sub_form_structure_id', $other_form_fields2)
-                                        ->delete();
-                    $sub_form_fields = SubformStructure::where('application_id', $application_id)
-                                                    ->where('form_id', $sub_form_id)
-                                                    ->whereNotIn('id', $sub_from_struucture_array)
-                                                    ->delete();
-                    foreach($data as $key => $dd){
-                        $splitd = explode("_",$key);
-                        $rocord_id = $splitd[0];
-                        $type = $splitd[1];
-                        $match = $splitd[2];
-                        
-                        $form_fieldsa = FormStructure::where('application_id', $application_id)->where('id', $rocord_id)->first();
-                        $sub_form_fieldsa = SubformStructure::where('application_id', $application_id)->where('id', $rocord_id)->first();
-            
-                        if($match == "name"){
-                            if($type == "main"){
-                                $form_fieldsa->field_name = $dd[0];
-                                $form_fieldsa->save();
-                                array_push($from_struucture_array, $rocord_id);
-                            }else if($type == "sub"){
-                                array_push($sub_from_struucture_array, $rocord_id);
-                                $sub_form_fieldsa->field_name = $dd[0];
-                                $sub_form_fieldsa->save();
-                            }
-                        }
-                    }
-                }
-            }
+        if($sub_from_struucture_array != null){
+            $subform_remove_form_fields = SubformStructure::where('application_id', $application_id)
+                ->whereNotIn('id', $sub_from_struucture_array)
+                ->get()->pluck('id')->toArray();
+            $delete_sub_form_data = SubAppData::whereIn('sub_form_structure_id', $subform_remove_form_fields)
+                ->where('app_id', $application_id)->delete();
+            // dump($delete_sub_form_data);
+            $delete_subform_remove_form_fields = SubformStructure::where('application_id', $application_id)
+                ->whereNotIn('id', $sub_from_struucture_array)->delete();
+                
         }
+
+        if($from_struucture_array != null){
+            $subform_remove_form_fields_1 = FormStructure::where('application_id', $application_id)
+                ->whereNotIn('id', $from_struucture_array)
+                ->get()->pluck('id')->toArray();
+            $delete_sub_form_data_1 = AppData::whereIn('form_structure_id', $subform_remove_form_fields_1)
+                ->where('app_id', $application_id)->delete();
+            // dump($delete_sub_form_data_1);
+            $delete_subform_remove_form_fields = FormStructure::where('application_id', $application_id)
+                ->whereNotIn('id', $from_struucture_array)->delete();
+                
+        }
+        // dd();
+        // $subform_remove_form_fields = SubformStructure::where('application_id', $application_id)
+        //                 ->where('field_type', 'sub-form')
+        //                 ->whereNotIn('id', $from_struucture_array)
+        //                 ->first();
+        // $other_form_fields = FormStructure::where('application_id', $application_id)
+        //                 ->whereNotIn('id', $from_struucture_array)
+        //                 ->get()->pluck('id')->toArray();
+        // $main_data_delete = AppData::whereIn('form_structure_id', $other_form_fields)->where('app_id', $application_id)->delete();
+        // $form_fields = FormStructure::where('application_id', $application_id)
+        //                 ->whereNotIn('id', $from_struucture_array)
+        //                 ->delete();
+        
+        // if($subform_remove_form_fields != null){
+        //     $sub_form_fields = SubformStructure::where('application_id', $application_id)
+        //                                     ->where('form_id', $subform_remove_form_fields->id)
+        //                                     ->delete();
+        //     $subform_remove_form_fields->delete();
+        // }else{
+        //     if($sub_structure_formid != null && !empty($sub_structure_formid)){
+        //         $sub_form_fieldss = SubformStructure::where('application_id', $application_id)->first();
+        //         if($sub_form_fieldss != null){
+        //             $other_form_fields1 = FormStructure::where('application_id', $application_id)
+        //                                 ->whereNotIn('id', $from_struucture_array)
+        //                                 ->get()->pluck('id')->toArray();
+        //             $main_data_delete = AppData::whereIn('form_structure_id', $other_form_fields1)->where('app_id', $application_id)->delete();
+
+        //             $form_fields = FormStructure::where('application_id', $application_id)
+        //                                             ->whereNotIn('id', $from_struucture_array)
+        //                                             ->delete();
+
+        //             $other_form_fields2 = SubformStructure::where('application_id', $application_id)
+        //                     ->whereNotIn('id', $from_struucture_array)
+        //                     ->where('form_id', $sub_form_id)
+        //                     ->get()->pluck('id')->toArray();
+        //             $main_data_delete1 = SubAppData::where('app_id', $application_id)
+        //                                 ->whereIn('sub_form_structure_id', $other_form_fields2)
+        //                                 ->delete();
+        //             $sub_form_fields = SubformStructure::where('application_id', $application_id)
+        //                                             ->where('form_id', $sub_form_id)
+        //                                             ->whereNotIn('id', $sub_from_struucture_array)
+        //                                             ->delete();
+        //             foreach($data as $key => $dd){
+        //                 $splitd = explode("_",$key);
+        //                 $rocord_id = $splitd[0];
+        //                 $type = $splitd[1];
+        //                 $match = $splitd[2];
+                        
+        //                 $form_fieldsa = FormStructure::where('application_id', $application_id)->where('id', $rocord_id)->first();
+        //                 $sub_form_fieldsa = SubformStructure::where('application_id', $application_id)->where('id', $rocord_id)->first();
+            
+        //                 if($match == "name"){
+        //                     if($type == "main"){
+        //                         $form_fieldsa->field_name = $dd[0];
+        //                         $form_fieldsa->save();
+        //                         array_push($from_struucture_array, $rocord_id);
+        //                     }else if($type == "sub"){
+        //                         array_push($sub_from_struucture_array, $rocord_id);
+        //                         $sub_form_fieldsa->field_name = $dd[0];
+        //                         $sub_form_fieldsa->save();
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         return response()->json(['status' => '200', 'action' => 'done']);
     }
