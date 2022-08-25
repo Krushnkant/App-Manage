@@ -45,14 +45,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3">
-                                        <label class="col-form-label" for="app_id">Application ID <span class="text-danger">*</span>
+                                        <label class="col-form-label" for="app_id">Application ID </span>
                                         </label>
                                         <div class="">
                                             <input type="text" class="form-control app_ajax" id="app_id" name="app_id" placeholder="Enter Application ID">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3" id="myForm">
-                                        <label class="col-form-label pt-0" for="icon">Application Icon <span class="text-danger">*</span>
+                                        <label class="col-form-label pt-0" for="icon">Application Icon </span>
                                         </label>
                                         <div class="radio_btn mb-1">
                                             <!-- <label class="col-form-label" for="icon">Are You Add Application Icon Url ?</label> -->
@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-2 mb-xl-3">
-                                        <label class="col-form-label" for="package_name">Package Name <span class="text-danger">*</span>
+                                        <label class="col-form-label" for="package_name">Package Name </span>
                                         </label>
                                         <div class="">
                                             <input type="text" class="form-control" id="package_name" name="package_name" placeholder="Enter Package Name">
