@@ -19,9 +19,8 @@ class ApplicationController extends Controller
      */
     public function index(Request $request)
     {
-        // return view('user.add_application');
-        
-        return view('user.application_list');
+        $page = "Application List";
+        return view('user.application_list', compact('page'));
     }
 
     /**
@@ -88,7 +87,8 @@ class ApplicationController extends Controller
     {
         // dd("edit");//application/1/edit
         $data = ApplicationData::find($id);
-        return view('user.edit_application', compact('data'));
+        $page = "Edit Application";
+        return view('user.edit_application', compact('data', 'page'));
     }
 
     /**
@@ -142,14 +142,15 @@ class ApplicationController extends Controller
 
     public function AddApplication()
     {
-        return view('user.add_application');
+        $page = "Add Application";
+        return view('user.add_application', compact('page'));
     }
 
     public function dashboard()
     {
         $ApplicationData = ApplicationData::select(\DB::raw('(SELECT count(*) FROM application_data ) as total_applications'),\DB::raw('(SELECT count(*) FROM application_data where status = "1" ) as total_active_applications'),\DB::raw('(SELECT count(*) FROM application_data where status = "0" ) as total_deactive_applications'))->first();
-     
-        return view("user.dashboard",compact('ApplicationData'));
+        $page = "Dashboard";
+        return view("user.dashboard",compact('ApplicationData', 'page'));
     }
 
     public function ApplicationList(Request $request)
