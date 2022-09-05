@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Total Application</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white">{{ $ApplicationData->total_applications }}</h2>
+                        <h2 class="text-white">{{ (isset($ApplicationData) && $ApplicationData->total_applications != null) ? $ApplicationData->total_applications : '' }}</h2>
                         <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Publish Application</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white">{{ $ApplicationData->total_active_applications }}</h2>
+                        <h2 class="text-white">{{ (isset($ApplicationData) && $ApplicationData->total_active_applications != null )  ? $ApplicationData->total_active_applications : '' }}</h2>
                         <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
@@ -37,7 +37,7 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Unpublish Application</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white">{{ $ApplicationData->total_deactive_applications }}</h2>
+                        <h2 class="text-white">{{ (isset($ApplicationData) && $ApplicationData->total_deactive_applications != null) ? $ApplicationData->total_deactive_applications : '' }}</h2>
                         <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-mobile" aria-hidden="true"></i></span>
