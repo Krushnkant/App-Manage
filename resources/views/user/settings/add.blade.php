@@ -217,7 +217,7 @@
                 processData: false,
                 contentType: false,
                 success: function (res) {
-                    console.log(res)
+                    // console.log(res)
                     if(res['status']==200){
                         $('#loader').hide();
                         toastr.success("Password Change Successfully",'Success',{timeOut: 5000});
