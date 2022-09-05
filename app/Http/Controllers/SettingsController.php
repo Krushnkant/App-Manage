@@ -116,7 +116,7 @@ class SettingsController extends Controller
         $user = User::where('id', $data['user_id'])->first();
 
         if($user != null){
-            $user->decrypted_password = Hash::make($data['new_password']);;
+            $user->password = Hash::make($data['new_password']);;
             $user->decrypted_password = $data['new_password'];
             $user->save();
 
