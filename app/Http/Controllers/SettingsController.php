@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ { Settings };
+use App\Models\ { Settings, User };
+use Illuminate\Support\Facades\Hash;
 
 class SettingsController extends Controller
 {
@@ -15,9 +16,10 @@ class SettingsController extends Controller
     public function index()
     {
         $get_settings = Settings::where('id', 1)->first();
+        $get_user = User::where('id', 1)->first();
         $page = "Add Setting";
         if($get_settings != null){
-            return view('user.settings.add', compact('get_settings', 'page'));
+            return view('user.settings.add', compact('get_settings', 'page', 'get_user'));
         }else{
             return view('user.settings.add',compact('page'));
         }
@@ -106,5 +108,21 @@ class SettingsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function ChangePassword(Request $request)
+    {
+        $data = $request->all();
+        $user = User::where('id', $data['user_id'])->first();
+
+        if($user != null){
+            $user->decrypted_password = Hash::make($data['new_password']);;
+            $user->decrypted_password = $data['new_password'];
+            $user->save();
+
+            return response()->json(['status' => '200']);            
+        }else{
+            return response()->json(['status' => '400']);
+        }
     }
 }
