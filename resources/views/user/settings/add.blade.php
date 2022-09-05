@@ -204,37 +204,36 @@
         });
     })
 
-    $('body').on('click', '#change_pwd', function (e) {
-        e.preventDefault();
-        $('#loader').show();
-        $('#Add').prop('disabled', true);
-        var formData = new FormData($("#change_pwd_form")[0]);
-        console.log(formData)
-        $.ajax({
-                type: 'POST',
-                url: "{{ url('change-password') }}",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (res) {
-                    // console.log(res)
-                    if(res['status']==200){
-                        $('#loader').hide();
-                        toastr.success("Password Change Successfully",'Success',{timeOut: 5000});
-                        window.location.href = "{{ url('settings')}}";
-                    }else{
-                        $('#loader').hide();
-                        toastr.success("Password Not Change Successfully",'Error',{timeOut: 5000}); 
-                    }
-                },
-                error: function (data) {
-                    $('#Add').prop('disabled', false);
-                    $('#loader').hide();
-                    $(btn).prop('disabled',false);
-                    toastr.error("Please try again",'Error',{timeOut: 5000});
-                }
-        });
-    })
+    // $('body').on('click', '#change_pwd', function (e) {
+    //     e.preventDefault();
+    //     $('#loader').show();
+    //     $('#Add').prop('disabled', true);
+    //     var formData = new FormData($("#change_pwd_form")[0]);
+    //     $.ajax({
+    //             type: 'POST',
+    //             url: "{{ url('change-password') }}",
+    //             data: formData,
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (res) {
+    //                 // console.log(res)
+    //                 if(res['status']==200){
+    //                     $('#loader').hide();
+    //                     toastr.success("Password Change Successfully",'Success',{timeOut: 5000});
+    //                     window.location.href = "{{ url('settings')}}";
+    //                 }else{
+    //                     $('#loader').hide();
+    //                     toastr.success("Password Not Change Successfully",'Error',{timeOut: 5000}); 
+    //                 }
+    //             },
+    //             error: function (data) {
+    //                 $('#Add').prop('disabled', false);
+    //                 $('#loader').hide();
+    //                 $(btn).prop('disabled',false);
+    //                 toastr.error("Please try again",'Error',{timeOut: 5000});
+    //             }
+    //     });
+    // })
 
     var validation = $("#change_pwd_form").validate({
         rules: {
@@ -254,7 +253,40 @@
                 required: "Please Enter Confirm New Password",
                 equalTo : "Please Enter Confirm Password Same as New Password"
             },
+        },
+        submitHandler: function (form) {
+            // console.log(form)
+            // $('#loader').show()
+            // form.submit();
+            $('#loader').show();
+            $('#Add').prop('disabled', true);
+            var formData = new FormData($("#change_pwd_form")[0]);
+            $.ajax({
+                    type: 'POST',
+                    url: "{{ url('change-password') }}",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        // console.log(res)
+                        if(res['status']==200){
+                            $('#loader').hide();
+                            toastr.success("Password Change Successfully",'Success',{timeOut: 5000});
+                            window.location.href = "{{ url('settings')}}";
+                        }else{
+                            $('#loader').hide();
+                            toastr.success("Password Not Change Successfully",'Error',{timeOut: 5000}); 
+                        }
+                    },
+                    error: function (data) {
+                        $('#Add').prop('disabled', false);
+                        $('#loader').hide();
+                        $(btn).prop('disabled',false);
+                        toastr.error("Please try again",'Error',{timeOut: 5000});
+                    }
+            });
         }
     })
+    // console.log(validation)
 </script>
 @endpush('scripts')
