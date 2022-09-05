@@ -109,37 +109,37 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors(),'status'=>'failed']);
         }else{
-            $credentials = $request->only('email', 'password');
-            if (Auth::attempt($credentials)) {
-                $auth = Auth::user();
-                $user_id = $auth->id;
-                
-                $ip = \Request::getClientIp(true);
-                // $ip = "43.240.9.99";
-                $currentUserInfo = Location::get($ip);
-                if($currentUserInfo != null){
-                    $country = $currentUserInfo->countryName;
-                    $state = $currentUserInfo->regionName;
-                    $city = $currentUserInfo->cityName;
-
-                    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-                    $browser_name = Helpers::getBrowserName($user_agent);
-
-                    $history = [];
-                    $history['user_id'] = $user_id;
-                    $history['ip_address'] = $ip;
-                    $history['country'] = $country;
-                    $history['state'] = $state;
-                    $history['city'] = $city;
-                    $history['browser'] = $browser_name;
-                    
-                    $login_user_history = UserLogin::Create($history);
+            $user = User::where('email', $data['email'])->first();
+            if($user != null){
+                $credentials = $request->only('email', 'password');
+                if (Auth::attempt($credentials)) {
+                    $user_id = $user->id;
+                    $ip = \Request::getClientIp(true); // use for live
+                    // $ip = "43.240.9.99"; // use for local
+                    $currentUserInfo = Location::get($ip);
+                    if($currentUserInfo != null){
+                        $country = $currentUserInfo->countryName;
+                        $state = $currentUserInfo->regionName;
+                        $city = $currentUserInfo->cityName;
+    
+                        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+                        $browser_name = Helpers::getBrowserName($user_agent);
+    
+                        $history = [];
+                        $history['user_id'] = $user_id;
+                        $history['ip_address'] = $ip;
+                        $history['country'] = $country;
+                        $history['state'] = $state;
+                        $history['city'] = $city;
+                        $history['browser'] = $browser_name;
+                        
+                        $login_user_history = UserLogin::Create($history);
+    
+                        return response()->json(['status' => '200', 'message' => 'Login Successfully']);
+                    }
                 }
-                return response()->json(['status' => '200', 'message' => 'Login Successfully']);
-                // return redirect()->intended('/dashboard');
             }else{
                 return response()->json(['status' => '400', 'message' => 'User Not Exits']);
-                // return redirect()->intended('/login');
             }
         }
     }

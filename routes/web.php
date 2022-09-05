@@ -66,7 +66,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('application-has-category',[AppDataController::class,'ApplicationHasCategory']);
 
     // settings
-    Route::resource('/settings',  SettingsController::class);
+    Route::resource('/settings', SettingsController::class);
+    Route::post('/change-password', [SettingsController::class,'ChangePassword']);
 
     // match same value
     Route::post('same_value_match',[AppDataController::class,'SameValueMatch']);

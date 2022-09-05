@@ -21562,3 +21562,10 @@ button.btn_copy img.copy_svg {
 .modal-header .form-validation {
     width: 100%;
 }
+.details_part{
+    min-width: 162px;
+    font-size: 14px;
+}
+.details_part_time{
+    font-size: 13px;
+}

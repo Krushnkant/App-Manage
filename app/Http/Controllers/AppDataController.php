@@ -544,4 +544,9 @@ class AppDataController extends Controller
             return response()->json(['success' => 0, 'responce' => false]); 
         }
     }
+
+    public function ChangePassword()
+    {
+        
+    }
 }
