@@ -255,4 +255,72 @@ class ApplicationController extends Controller
             return json_encode(true);
         }
     }
+
+    // new flow
+    public function NewApplication()
+    {
+        $page = "Application List";
+        return view('user.application.list', compact('page'));
+    }
+
+    public function NewApplicationList(Request $request)
+    {
+        $request1 = $request->all();
+        // dd($request1);
+
+        $tab_type = $request->tab_type;
+        if ($tab_type == "active_application_tab") {
+            $status = 1;
+        } elseif ($tab_type == "deactive_application_tab") {
+            $status = 0;
+        }
+        // $data = ApplicationData::orderBy('id', 'DESC')->get();
+        $data = ApplicationData::where('status', '1');
+        if (isset($status)) {
+            $s = (string) $status;
+            $data = $data->where('status', $s);
+        }
+        if (!empty($request->get('search'))) {
+            $search = $request->get('search');
+            $search_val = $search['value'];
+            // dump($search_val);
+            $data = $data->where('name', 'Like', '%' . $search_val . '%')
+                ->orWhere('app_id', 'Like', '%' . $search_val . '%')
+                ->orWhere('package_name', 'Like', '%' . $search_val . '%');
+            // dd($data);
+        }
+
+        $data = $data->orderBy('id', 'DESC')->get();
+        // dd($data);
+        foreach ($data as $d) {
+            $d->start_date = $d->created_at->format('d M Y');
+            $category_ids = Category::where('app_id', $d->id)->where('status', '1')->get()->pluck('id')->toArray();
+            $app_data = ApplicationData::where('app_id', $d->id)->first();
+            $cat_id = implode(',', $category_ids);
+            $is_category = Category::where('app_id', $d->id)->where('status', '1')->first();
+            if ($app_data != null) {
+                if ($is_category != null) {
+                    $d->is_category = 1;
+                    $d->cat_ids = $cat_id;
+                } else {
+                    $d->is_category = 0;
+                    $d->cat_ids = "";
+                }
+                $d->strcuture_id = $app_data->UUID;
+            } else {
+                if ($is_category != null) {
+                    $d->is_category = 1;
+                    $d->cat_ids = $cat_id;
+                } else {
+                    $d->is_category = 0;
+                    $d->cat_ids = "";
+                }
+                $d->is_category = 1;
+                $d->strcuture_id = null;
+            }
+        }
+        // print_r($data);
+        // dd();
+        return datatables::of($data)->make(true);
+    }
 }

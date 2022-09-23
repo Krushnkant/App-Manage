@@ -72,6 +72,14 @@ Route::group(['middleware'=>'auth'],function (){
     // match same value
     Route::post('same_value_match',[AppDataController::class,'SameValueMatch']);
 
+    Route::get('application-new',  [ApplicationController::class, 'NewApplication']);
+    Route::post('application-list-new',  [ApplicationController::class, 'NewApplicationList']);
+
+    Route::get('/category-add-new/{id}',  [CategoryController::class, 'AddCategoryNew']);
+    Route::post('category-insert-new',  [CategoryController::class, 'InsertCategoryNew']);
+    Route::get('category-edit-new/{id}',  [CategoryController::class, 'EditCategoryNew']);
+    Route::post('category-update-new/{id}',  [CategoryController::class, 'UpdateCategoryNew']);
+
 });
 
 
