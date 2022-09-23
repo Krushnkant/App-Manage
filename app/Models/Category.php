@@ -15,11 +15,16 @@ class Category extends Model
     protected $fillable = [
         'app_id',
         'title',
-        'status'
+        'status',
+        'created_by',
+        'updated_by'
     ];
     protected $dates = ['deleted_at'];
 
     public function category(){
         return $this->hasMany(CategoryFields::class,'category_id','id');
+    }
+    public function category_field(){
+        return $this->hasMany(CategoryField::class,'category_id','id');
     }
 }
