@@ -80,6 +80,16 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('category-edit-new/{id}',  [CategoryController::class, 'EditCategoryNew']);
     Route::post('category-update-new/{id}',  [CategoryController::class, 'UpdateCategoryNew']);
 
+    Route::get('/sub-content/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContent']);
+    Route::get('/add-content/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'AddContent']);
+    Route::get('/sub-form-structure/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubFormStructure']);
+
+    Route::post('sub-content-store/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentStore']);
+
+
+    Route::get('/sub-content-form/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentAdd']);
+    Route::post('sub-content-submit/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentInsert']);
+    Route::post('content-list-get/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentListGet']);
 });
 
 
