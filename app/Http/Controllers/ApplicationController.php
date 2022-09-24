@@ -323,4 +323,7 @@ class ApplicationController extends Controller
         // dd();
         return datatables::of($data)->make(true);
     }
+
+    
 }
+

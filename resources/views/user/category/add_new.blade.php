@@ -27,7 +27,7 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{url('application')}}">Application List</a></li>
+                <li class="breadcrumb-item"><a href="{{url('application-new')}}">Application List</a></li>
                 <li class="breadcrumb-item active">Add Category</li>
             </ol>
         </div>
@@ -443,6 +443,7 @@
         return (date);
     };
 
+    var id__ = "{{$id}}";
     $(document).ready(function() {
         var table = $('#category_list').DataTable({
             "destroy": true,
@@ -529,10 +530,12 @@
                         var url = "{{url('/')}}";
                        
                         var url1 = url+"/category-edit-new/"+row.id;
+                        var url2 = url+"/sub-content/"+id__+"/"+row.id+"/0";
+                        // console.log(url2)
                         var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                         var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
 
-                        return "<a href='#' title='sub-content' class='application_text mr-4 btn'>Sub Content</a>"+
+                        return "<a href='" +url2+ "' title='sub-content' class='application_text mr-4 btn'>Sub Content</a>"+
                             "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
                             "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
                             row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
