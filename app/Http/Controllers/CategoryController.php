@@ -678,8 +678,11 @@ class CategoryController extends Controller
         return response()->json(['status' => '200', 'action' => 'done']);
     }
 
-    public function SubContentAdd($cat_id, $app_id, $parent_id)
+    public function SubContentAdd($app_id, $cat_id, $parent_id)
     {
+        // dump($cat_id);
+        // dump($app_id);
+        // dd($parent_id);
         $page = "Add Content";
         $is_category = 0;
         $selected_cat = 0;
