@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Field, Category, CategoryFields, ApplicationData, CategoryField, FormStructureNew, FormStructureFieldNew, ContentField, ContentSubField};
+use App\Models\{Field, Category, CategoryFields, ApplicationData, CategoryField, FormStructureNew, FormStructureFieldNew, ContentField, ContentSubField, MainContent};
 use App\Http\Helpers;
 use Yajra\DataTables\DataTables;
 
@@ -733,13 +733,19 @@ class CategoryController extends Controller
         unset($data['category']);
         unset($data['title']);
         unset($data['_token']);
+        
+        $main_content = New MainContent();
+        $main_content->form_structure_id = $form_structure_id;
+        $main_content->save();
 
         foreach ($data as $key => $dd_) {
             if (strpos($key, "_form") !== false) {
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                 // dump($int_var);
+
                 $content = new ContentField();
                 $content->app_id = $app_id;
+                $content->main_content_id = $main_content->id;
                 $content->form_structure_id = $form_structure_id;
                 if (is_string($dd_)) {
                     // dump("string value");
@@ -853,7 +859,7 @@ class CategoryController extends Controller
 
         $data = $data->where('form_structure_id', $form_structure_get->id)
             ->orderBy('id', 'DESC')
-            ->groupBy('form_structure_id')
+            ->groupBy('main_content_id')
             ->get();
 
         // dd($data);
