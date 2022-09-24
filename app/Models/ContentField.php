@@ -11,6 +11,6 @@ class ContentField extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'content_field';
     protected $fillable= [
-        'app_id','form_structure_id','form_structure_field_id','field_value','file_type','status','created_by','updated_by'
+        'app_id','form_structure_id','form_structure_field_id','field_value','file_type','status','created_by','updated_by','main_content_id'
     ];
 }
