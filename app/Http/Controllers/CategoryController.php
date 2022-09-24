@@ -599,6 +599,9 @@ class CategoryController extends Controller
     public function SubContent($app_id, $cat_id, $parent_id)
     {
 
+        // dump($app_id);
+        // dump($cat_id);
+        // dd($parent_id);
         $page = "Category Sub Content";
         $content = null;
         $category = Category::find($cat_id);
@@ -622,8 +625,11 @@ class CategoryController extends Controller
         return view('user.sub_content.list', compact('page', 'cat_id', 'app_id', 'parent_id'));
     }
 
-    public function SubFormStructure($cat_id, $app_id, $parent_id)
+    public function SubFormStructure($app_id, $cat_id, $parent_id)
     {
+        // dump($cat_id);
+        // dump($app_id);
+        // dd($parent_id);
         $page = "Sub Form Structure";
         $fields = Field::get();
         $already_form = 0;
@@ -680,8 +686,8 @@ class CategoryController extends Controller
 
     public function SubContentAdd($app_id, $cat_id, $parent_id)
     {
-        // dump($cat_id);
         // dump($app_id);
+        // dump($cat_id);
         // dd($parent_id);
         $page = "Add Content";
         $is_category = 0;
@@ -695,7 +701,11 @@ class CategoryController extends Controller
             $selected_cat = $categories_->id;
         }
         $categories = Category::get();
-        $main_form = FormStructureNew::where('app_id', $app_id)->where('parent_id', $parent_id)->where('category_id', $cat_id)->first();
+        $main_form = FormStructureNew::where('app_id', $app_id)
+                                ->where('parent_id', $parent_id)
+                                ->where('category_id', $cat_id)
+                                ->first();
+        // dd($main_form);
         if ($main_form != null) {
             $form_structure_field = FormStructureFieldNew::where('app_id', $app_id)
                 ->where('form_structure_id', $main_form->id)
@@ -845,6 +855,8 @@ class CategoryController extends Controller
             ->orderBy('id', 'DESC')
             ->groupBy('form_structure_id')
             ->get();
+
+        // dd($data);
 
         foreach ($data as $d) {
             $d->start_date = $d->created_at->format('d M Y');

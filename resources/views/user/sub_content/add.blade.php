@@ -51,7 +51,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
         <li class="breadcrumb-item "><a href="{{url('application')}}">Application List</a></li>
-        <li class="breadcrumb-item "><a href="{{url('content-list/'.$app_id)}}">Content List</a></li>
+        <li class="breadcrumb-item "><a href="{{url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}">Back List</a></li>
         <li class="breadcrumb-item active">Add Content</li>
       </ol>
     </div>
@@ -94,46 +94,38 @@
               </div>
               @endif
               <div class="row">
-                <div class="form_title">
-                  <div class="row">
-                    <div class="form-group col-md-6">
-                      <label class="col-form-label" for="name">Form Title</label>
-                      <input type="text" id="title" placeholder="Field Name" class="form-control input-flat specReq" name="title" value="{{$main_form->form_title}}" />
-                    </div>
-                  </div>
+                <div class="form-group col-md-6">
+                  <label class="col-form-label" for="name">Form Title</label>
+                  <input type="text" id="title" placeholder="Field Name" class="form-control input-flat specReq" name="title" value="{{$main_form->form_title}}" />
                 </div>
               </div>
 
               <div class="row">
-                <div class="form_values">
-                  <div class="row">
-                    @foreach($form_structure_field as $field)
-                    @if($field->field_type == "multi-file")
-                    <?php 
-                      $name = $field->id."_form[]";
-                    ?>
-                    <div class="col-lg-6">
-                      <div class="form-group col-md-6">
-                        <label class="col-form-label" for="name">{{$field->field_name}}</label>
-                        <input type="file" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq" name="title" multiple />
-                      </div>
-                    </div>
-                    @else
-                    <?php 
-                      $name = $field->id."_form";
-                    ?>
-                    <div class="col-lg-6">
-                      <div class="form-group col-md-6">
-                        <label class="col-form-label" for="name">{{$field->field_name}}</label>
-                        <input type="{{$field->field_type}}" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq" name="title" />
-                      </div>
-                    </div>
-                    @endif
-                    @endforeach
+                @foreach($form_structure_field as $field)
+                @if($field->field_type == "multi-file")
+                <?php 
+                  $name = $field->id."_form[]";
+                ?>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="name">{{$field->field_name}}</label>
+                    <input type="file" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq" name="title" multiple />
                   </div>
                 </div>
+                @else
+                <?php 
+                  $name = $field->id."_form";
+                ?>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="name">{{$field->field_name}}</label>
+                    <input type="{{$field->field_type}}" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq" name="title" />
+                  </div>
+                </div>
+                @endif
+                @endforeach
               </div>
-
+              
               <div class="row">
                 <div class="form-group col-md-6 mt-3">
                   <div class="">
