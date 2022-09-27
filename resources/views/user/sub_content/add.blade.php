@@ -86,7 +86,7 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="col-form-label" for="name">{{$field->field_name}}</label>
-                    <input type="file" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq files" name="title" multiple   />
+                    <input type="file" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq files" name="title" multiple />
                   </div>
                 </div>
                 @elseif($field->field_type == "file")
@@ -96,7 +96,7 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="col-form-label" for="name">{{$field->field_name}}</label>
-                    <input type="{{$field->field_type}}" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq files" name="title"   />
+                    <input type="{{$field->field_type}}" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq files" name="title" />
                   </div>
                 </div>
                 @else
@@ -175,8 +175,15 @@
           var fileReader = new FileReader();
           fileReader.onload = (function(e) {
             var file = e.target;
-            $("<span class=\"pip\">" +
-              "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+            var type = e.target.result.split(';')[0].split('/')[0];
+            const type_ = type.split(':');
+            var define = '';
+            if (type_[1] == "image") {
+              define += "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>";
+            } else {
+              define += "<img class='imageThumb' src='{{asset('user/assets/icons/file_icon.png')}}' title='' />";
+            }
+            $("<span class=\"pip\">" + define +
               "<br/><span class=\"remove\">X</span>" +
               "</span>").insertAfter(main);
             $(".remove").click(function() {
