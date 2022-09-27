@@ -90,6 +90,9 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/sub-content-form/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentAdd']);
     Route::post('sub-content-submit/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentInsert']);
     Route::post('content-list-get/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentListGet']);
+
+    Route::get('sub-content-edit/{cat_id}/{app_id}/{parent_id}/{content_id}',  [CategoryController::class, 'SubContentEdit']);
+    Route::post('sub-content-update/{cat_id}/{app_id}/{parent_id}/{structure_id}',  [CategoryController::class, 'SubContentUpdate']);
 });
 
 

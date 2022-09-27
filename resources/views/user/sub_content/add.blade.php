@@ -50,7 +50,7 @@
     <div class="col p-md-0">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-        <li class="breadcrumb-item "><a href="{{url('application')}}">Application List</a></li>
+        <li class="breadcrumb-item "><a href="{{url('application-new')}}">Application List</a></li>
         <li class="breadcrumb-item "><a href="{{url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}">Back List</a></li>
         <li class="breadcrumb-item active">Add Content</li>
       </ol>
@@ -103,8 +103,8 @@
               <div class="row">
                 @foreach($form_structure_field as $field)
                 @if($field->field_type == "multi-file")
-                <?php 
-                  $name = $field->id."_form[]";
+                <?php
+                $name = $field->id . "_form[]";
                 ?>
                 <div class="col-lg-6">
                   <div class="form-group">
@@ -113,8 +113,8 @@
                   </div>
                 </div>
                 @else
-                <?php 
-                  $name = $field->id."_form";
+                <?php
+                $name = $field->id . "_form";
                 ?>
                 <div class="col-lg-6">
                   <div class="form-group">
@@ -125,7 +125,7 @@
                 @endif
                 @endforeach
               </div>
-              
+
               <div class="row">
                 <div class="form-group col-md-6 mt-3">
                   <div class="">
@@ -248,7 +248,7 @@
               timeOut: 5000
             })
             $("#content_add")[0].reset()
-            window.location.href = "{{ url('content-list/'.$app_id)}}";
+            window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
           } else {
             $('#submit_app_data').prop('disabled', false);
             $('.spinner-border').hide();
