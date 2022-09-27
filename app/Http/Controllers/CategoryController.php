@@ -774,6 +774,7 @@ class CategoryController extends Controller
         // dump($app_id);
         // dd($parent_id);
         $data = $request->all();
+        // dd($data);
         $auth = Auth()->user();
         $content_id = 0;
         $category_new = (isset($data['category']) && $data['category']) ? $data['category'] : null;
@@ -789,6 +790,7 @@ class CategoryController extends Controller
 
         $main_content = new MainContent();
         $main_content->form_structure_id = $form_structure_id;
+        $main_content->title = $title;
         $main_content->save();
 
         foreach ($data as $key => $dd_) {
@@ -838,8 +840,6 @@ class CategoryController extends Controller
                             $content_id = $content->id;
                         }
                     } else {
-                        // dump("image");
-                        // dump($dd_);
                         $path = public_path("app_data_images/");
                         $extension = $dd_->extension();
                         $type = null;
@@ -906,14 +906,15 @@ class CategoryController extends Controller
         // dd($data);
 
         foreach ($data as $d) {
+            $main_title = MainContent::where('id', $d->main_content_id)->first();
             $d->start_date = $d->created_at->format('d M Y');
             $category_ids = Category::where('id', $form_structure_get->category_id)->where('status', '1')->first();
             $application = ApplicationData::where('id', $form_structure_get->app_id)->where('status', '1')->first();
-            $d->form_title = $form_structure_get->form_title;
+            // $d->form_title = $form_structure_get->form_title;
             $d->category_name = $category_ids->title;
             $d->app_name = $application->name;
+            $d->form_title = $main_title->title;
         }
-
         return datatables::of($data)->make(true);
     }
 
@@ -932,8 +933,9 @@ class CategoryController extends Controller
             ->where('category_id', $cat_id)
             ->first();
         // dd($formStructure->id);
-
+        // dd($content_id);
         if ($formStructure != null) {
+            $main_content = MainContent::find($content_id);
             $sub_form_structure = FormStructureFieldNew::where('app_id', $app_id)
                 ->where('form_structure_id', $formStructure->id)
                 ->get();
@@ -966,23 +968,30 @@ class CategoryController extends Controller
             $sub_content_table = ContentSubField::where('app_id', $app_id)->where('content_field_id', $content_sub_id->id)->get();
         }
         // dd($add_new_fields);
-        return view('user.sub_content.edit', compact('application', 'formStructure', 'content', 'sub_content_table', 'app_id', 'cat_id', 'parent_id', 'page', 'add_new_fields'));
+        return view('user.sub_content.edit', compact('application','main_content', 'formStructure', 'content', 'sub_content_table', 'app_id', 'cat_id', 'parent_id', 'page', 'add_new_fields'));
     }
 
     public function SubContentUpdate(Request $request, $cat_id, $app_id, $parent_id, $structure)
     {
         $data = $request->all();
+        // dd($data);
         $auth = Auth()->user();
         $main_content_id = 0;
         $category_new = (isset($data['category_id']) && $data['category_id']) ? $data['category_id'] : null;
         $title = (isset($data['title']) && $data['title']) ? $data['title'] : null;
+        $content_id = (isset($data['content_id']) && $data['content_id']) ? $data['content_id'] : null;
         $form_structure_id = (isset($data['form_structure_id']) && $data['form_structure_id']) ? $data['form_structure_id'] : null;
+
+        $main_content = MainContent::find($content_id);
+        $main_content->title = $title;
+        $main_content->save();
 
         unset($data['application_id']);
         unset($data['form_structure_id']);
         unset($data['category_id']);
         unset($data['parent_id']);
         unset($data['title']);
+        unset($data['content_id']);
         unset($data['_token']);
 
         foreach ($data as $key => $dd_) {
@@ -1115,5 +1124,19 @@ class CategoryController extends Controller
             }
         }
         return response()->json(['status' => '200']);
+    }
+
+    public function DeleteContentNew($id, $type)
+    {
+        if($type == "multi"){
+            $sub_content = ContentSubField::where('id',$id)->delete();
+        }else{
+            $sub_content = ContentField::where('id',$id)->delete();
+        }
+        if($sub_content == 1){
+            return response()->json(['status' => '200']);
+        }else{
+            return response()->json(['status' => '400']);
+        }
     }
 }

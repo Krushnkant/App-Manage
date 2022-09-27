@@ -11,6 +11,6 @@ class MainContent extends Model
     protected $table = 'main_content';
 
     protected $fillable = [
-        'form_structure_id'
+        'form_structure_id','title'
     ];
 }

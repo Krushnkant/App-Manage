@@ -21569,3 +21569,16 @@ button.btn_copy img.copy_svg {
 .details_part_time{
     font-size: 13px;
 }
+/* .image_gallery img{
+    height: 250px;
+    object-fit: cover;
+    width: calc(25% - 15px) !important;
+    float: left;
+    margin: 0 15px 10px 0px;
+}
+.image_gallery img:first-child{
+    margin-left: 0;
+}
+.image_gallery img:last-child{
+    margin-right: 0;
+} */
