@@ -46,6 +46,7 @@
                                         @csrf
                                         <?php
                                             $current_id = [];
+                                            $cuur_id = "";
                                         ?>
                                         @foreach($data->category_field as $key => $d)
                                         <?php 

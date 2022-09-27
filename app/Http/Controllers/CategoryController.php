@@ -627,9 +627,7 @@ class CategoryController extends Controller
 
     public function SubFormStructure($app_id, $cat_id, $parent_id)
     {
-        // dump($cat_id);
-        // dump($app_id);
-        // dd($parent_id);
+
         $page = "Sub Form Structure";
         $fields = Field::get();
         $already_form = 0;
@@ -644,7 +642,7 @@ class CategoryController extends Controller
                 ->where('form_structure_id', $form_structure->id)->get();
         }
         // dd($form_structure);
-        return view('user.form_structure.add', compact('page', 'cat_id', 'app_id', 'parent_id', 'fields', 'already_form', 'form_structure_field'));
+        return view('user.form_structure.add', compact('page', 'cat_id', 'app_id', 'parent_id', 'form_structure', 'fields', 'already_form', 'form_structure_field'));
     }
 
     public function SubContentStore(Request $request, $app_id, $cat_id, $parent_id)
@@ -656,32 +654,87 @@ class CategoryController extends Controller
         $field_type = (isset($data['field_type']) && $data['field_type']) ? $data['field_type'] : null;
         $application_id = (isset($data['application_id']) && $data['application_id']) ? $data['application_id'] : null;
         $form_title = (isset($data['form_title']) && $data['form_title']) ? $data['form_title'] : null;
+        $already_form = (isset($data['already_form']) && $data['already_form']) ? $data['already_form'] : 0;
+        $deleted = (isset($data['deleted']) && $data['deleted']) ? $data['deleted'] : 0;
+        $form_structure_id = (isset($data['form_structure_id']) && $data['form_structure_id']) ? $data['form_structure_id'] : 0;
         // $sub_field_names = (isset($data['sub_field_name']) && $data['sub_field_name']) ? $data['sub_field_name'] : null;
 
-        if ($parent_id != 0) {
-        }
-        if ($field_names != "") {
-            $FormStructures = new FormStructureNew();
-            $FormStructures->app_id = $application_id;
-            $FormStructures->parent_id = $request->parent_id;
-            $FormStructures->category_id = $request->category_id;
-            $FormStructures->form_title = $form_title;
-            $FormStructures->created_by = $auth->id;
-            $FormStructures->save();
+        if ($already_form != 0) {
+            $form_structure = FormStructureNew::find($form_structure_id);
+            $form_structure->form_title = $form_title;
+            $form_structure->updated_by = $auth->id;
+            $form_structure->save();
 
-            foreach ($field_names as $key => $field_name) {
-                $FormStructuresField = new FormStructureFieldNew();
-                $FormStructuresField->app_id = $application_id;
-                $FormStructuresField->form_structure_id = $FormStructures->id;
-                $FormStructuresField->field_type = $field_type[$key];
-                $FormStructuresField->field_name = $field_name;
-                $FormStructuresField->created_by = $field_type[$key];
-                $FormStructuresField->save();
+            unset($data['application_id']);
+            unset($data['form_structure_id']);
+            unset($data['already_form']);
+            unset($data['form_title']);
+            unset($data['category_id']);
+            unset($data['parent_id']);
+            unset($data['_token']);
+
+            foreach ($data as $key => $dd_) {
+                if (strpos($key, "_sub_name") !== false) {
+                    $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+                    $old_foem_fields = FormStructureFieldNew::find($int_var);
+                    $type = $data[$int_var . '_sub_type'];
+                    if ($old_foem_fields != null) {
+                        $old_foem_fields->app_id = $application_id;
+                        $old_foem_fields->form_structure_id = $form_structure_id;
+                        $old_foem_fields->field_type = $type;
+                        $old_foem_fields->field_name = $dd_;
+                        $old_foem_fields->updated_by = $auth->id;
+                        $old_foem_fields->save();
+                    }
+                } else {
+                    if (strpos($key, "field_name") !== false) {
+                        foreach ($data['field_name'] as $key1 => $field_ex) {
+                            $old_foem_fields = new FormStructureFieldNew();
+                            $old_foem_fields->app_id = $application_id;
+                            $old_foem_fields->form_structure_id = $form_structure_id;
+                            $old_foem_fields->field_type = $data['field_type'][$key1];
+                            $old_foem_fields->field_name = $field_ex;
+                            $old_foem_fields->created_by = $auth->id;
+                            $old_foem_fields->save();
+                        }
+                    }
+                }
+            }
+
+            if ($deleted != 0) {
+                $deleted_ = explode(',', $deleted);
+                foreach ($deleted_ as $del) {
+                    $delete_content_data = ContentField::where('form_structure_field_id', $del)
+                                    ->where('status', '1')
+                                    ->delete();
+                    $del_foem_fields = FormStructureFieldNew::find($del);
+                    $del_foem_fields->delete();
+                }
+            }
+            return response()->json(['status' => '200', 'action' => 'done']);
+        } else {
+            if ($field_names != "") {
+                $FormStructures = new FormStructureNew();
+                $FormStructures->app_id = $application_id;
+                $FormStructures->parent_id = $request->parent_id;
+                $FormStructures->category_id = $request->category_id;
+                $FormStructures->form_title = $form_title;
+                $FormStructures->created_by = $auth->id;
+                $FormStructures->save();
+
+                foreach ($field_names as $key => $field_name) {
+                    $FormStructuresField = new FormStructureFieldNew();
+                    $FormStructuresField->app_id = $application_id;
+                    $FormStructuresField->form_structure_id = $FormStructures->id;
+                    $FormStructuresField->field_type = $field_type[$key];
+                    $FormStructuresField->field_name = $field_name;
+                    $FormStructuresField->created_by = $field_type[$key];
+                    $FormStructuresField->save();
+                }
+                return response()->json(['status' => '200', 'action' => 'done']);
             }
         }
-        // dump($id);
-        // dd($request->all());
-        return response()->json(['status' => '200', 'action' => 'done']);
+        // return response()->json(['status' => '200', 'action' => 'done']);
     }
 
     public function SubContentAdd($app_id, $cat_id, $parent_id)
@@ -702,9 +755,9 @@ class CategoryController extends Controller
         }
         $categories = Category::get();
         $main_form = FormStructureNew::where('app_id', $app_id)
-                                ->where('parent_id', $parent_id)
-                                ->where('category_id', $cat_id)
-                                ->first();
+            ->where('parent_id', $parent_id)
+            ->where('category_id', $cat_id)
+            ->first();
         // dd($main_form);
         if ($main_form != null) {
             $form_structure_field = FormStructureFieldNew::where('app_id', $app_id)
@@ -733,8 +786,8 @@ class CategoryController extends Controller
         unset($data['category']);
         unset($data['title']);
         unset($data['_token']);
-        
-        $main_content = New MainContent();
+
+        $main_content = new MainContent();
         $main_content->form_structure_id = $form_structure_id;
         $main_content->save();
 
@@ -817,18 +870,6 @@ class CategoryController extends Controller
 
     public function SubContentListGet(Request $request, $cat_id, $app_id, $parent_id)
     {
-        // dump($cat_id);
-        // dump($app_id);
-        // dump($parent_id);
-        // dd($form_structure_id);
-        // $form_structure_get = FormStructureNew::where('app_id', $app_id)
-        //             ->where('parent_id', $parent_id)
-        //             ->where('category_id', $cat_id)
-        //             ->first();
-        // $content_list = ContentField::where('app_id', $app_id)
-        //                 ->where('form_structure_id', $form_structure_get->id)
-        //                 ->get();
-
         // new
         $tab_type = $request->tab_type;
         if ($tab_type == "active_application_tab") {
@@ -874,5 +915,205 @@ class CategoryController extends Controller
         }
 
         return datatables::of($data)->make(true);
+    }
+
+    public function SubContentEdit(Request $request, $cat_id, $app_id, $parent_id, $content_id)
+    {
+        // dump($cat_id);
+        // dump($app_id);
+        // dump($parent_id);
+        // dump($content_id);
+        $page = "Edit content";
+        $sub_content_table = null;
+        $add_new_fields = null;
+        $application = ApplicationData::find($app_id);
+        $formStructure = FormStructureNew::where('app_id', $app_id)
+            ->where('parent_id', $parent_id)
+            ->where('category_id', $cat_id)
+            ->first();
+        // dd($formStructure->id);
+
+        if ($formStructure != null) {
+            $sub_form_structure = FormStructureFieldNew::where('app_id', $app_id)
+                ->where('form_structure_id', $formStructure->id)
+                ->get();
+            $sub_form_structure_id = FormStructureFieldNew::where('app_id', $app_id)
+                ->where('form_structure_id', $formStructure->id)
+                // ->where('form_structure_id', 2)
+                ->get()->pluck('id')->toArray();
+            // dump($sub_form_structure_id);
+
+            $check_content_table = ContentField::whereIn('form_structure_field_id', $sub_form_structure_id)
+                ->where('app_id', $app_id)
+                ->where('main_content_id', $content_id)
+                // ->where('form_structure_id', 2)
+                ->where('form_structure_id', $formStructure->id)
+                // ->get();
+                ->get()->pluck('form_structure_field_id')->toArray();
+            // dump($check_content_table);
+            $result = array_diff($sub_form_structure_id, $check_content_table);
+            // dump($result);
+            if (count($result) > 0) {
+                $add_new_fields = FormStructureFieldNew::whereIn('id', $result)->get();
+            }
+        }
+        $content = ContentField::where('main_content_id', $content_id)->where('app_id', $app_id)->get();
+        $content_sub_id = ContentField::where('main_content_id', $content_id)
+            ->where('app_id', $app_id)
+            ->where('field_value', null)
+            ->first();
+        if ($content_sub_id != null) {
+            $sub_content_table = ContentSubField::where('app_id', $app_id)->where('content_field_id', $content_sub_id->id)->get();
+        }
+        // dd($add_new_fields);
+        return view('user.sub_content.edit', compact('application', 'formStructure', 'content', 'sub_content_table', 'app_id', 'cat_id', 'parent_id', 'page', 'add_new_fields'));
+    }
+
+    public function SubContentUpdate(Request $request, $cat_id, $app_id, $parent_id, $structure)
+    {
+        $data = $request->all();
+        $auth = Auth()->user();
+        $main_content_id = 0;
+        $category_new = (isset($data['category_id']) && $data['category_id']) ? $data['category_id'] : null;
+        $title = (isset($data['title']) && $data['title']) ? $data['title'] : null;
+        $form_structure_id = (isset($data['form_structure_id']) && $data['form_structure_id']) ? $data['form_structure_id'] : null;
+
+        unset($data['application_id']);
+        unset($data['form_structure_id']);
+        unset($data['category_id']);
+        unset($data['parent_id']);
+        unset($data['title']);
+        unset($data['_token']);
+
+        foreach ($data as $key => $dd_) {
+            if (strpos($key, "_content") !== false) {
+                $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+                $content = ContentField::find($int_var);
+                $main_content_id = $content->main_content_id; 
+
+                $content->app_id = $app_id;
+                $content->main_content_id = $main_content_id;
+                $content->form_structure_id = $form_structure_id;
+                $check_val = $content->field_value;
+                if($check_val != ""){
+                    if (file_exists($dd_)) {
+                        $path = public_path("app_data_images/");
+                        $extension = $dd_->extension();
+                        $type = null;
+                        if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
+                            $type = 'image';
+                        } else {
+                            $type = 'video';
+                        }
+                        $result = Helpers::UploadImage($dd_, $path);
+                        $content->field_value = $result;
+                        $content->file_type = $type;
+                    }else{
+                        $content->field_value = $dd_;
+                    }
+                }else{
+                    foreach($dd_ as $img){
+                        // dump("jijiji");
+                        // dump($img);
+                        $path = public_path("app_data_images/");
+                        $extension = $img->extension();
+                        $type = null;
+                        if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
+                            $type = 'image';
+                        } else {
+                            $type = 'video';
+                        }
+                        $result = Helpers::UploadImage($img, $path);
+                        // dump($result);
+                        $content_sub = New ContentSubField();
+                        $content_sub->app_id = $app_id;
+                        $content_sub->content_field_id = $content->id;
+                        $content_sub->field_value = $result;
+                        $content_sub->file_type = $type;
+                        $content_sub->created_by = $auth->id;
+                        $content_sub->save();
+                        // dump($content_sub);
+                    }
+                }
+                // dd();
+                // if($content->field_value == 'null' && $content->field_value == null){
+                //     foreach($dd_ as $img){
+                //         dump("jijiji");
+                //         dump($img);
+                //         $path = public_path("app_data_images/");
+                //         $extension = $img->extension();
+                //         $type = null;
+                //         if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
+                //             $type = 'image';
+                //         } else {
+                //             $type = 'video';
+                //         }
+                //         $result = Helpers::UploadImage($img, $path);
+                //         // $content_sub = New ContentSubField();
+                //         // $content_sub->content_field_id = $content->id;
+                //         // $content_sub->field_value = $result;
+                //         // $content_sub->file_type = $type;
+                //         // $content_sub->created_by = $auth->id;
+                //         // $content_sub->save();
+                //     }
+                // }else{
+                //     dump("opopop");
+                //     if (file_exists($dd_)) {
+                //         $path = public_path("app_data_images/");
+                //         $extension = $dd_->extension();
+                //         $type = null;
+                //         if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
+                //             $type = 'image';
+                //         } else {
+                //             $type = 'video';
+                //         }
+                //         $result = Helpers::UploadImage($dd_, $path);
+                //         $content->field_value = $result;
+                //         $content->file_type = $type;
+                //     }else{
+                //         $content->field_value = $dd_;
+                //     }
+                // }
+                // $content->app_id = $app_id;
+                // $content->main_content_id = $main_content_id;
+                // $content->form_structure_id = $form_structure_id;
+                $content->updated_by = $auth->id;
+                $content->save();
+                // dd();
+            } else {
+                if (strpos($key, "_form") !== false) {
+                    // dump("new");
+                    // dump($key);
+                    $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+                    $content = new ContentField();
+                    $content->app_id = $app_id;
+                    $content->main_content_id = $main_content_id;
+                    $content->form_structure_id = $form_structure_id;
+                    $content->form_structure_field_id = $int_var;
+                    $content->created_by = $auth->id;
+
+                    if (file_exists($dd_)) {
+                        $path = public_path("app_data_images/");
+                        $extension = $dd_->extension();
+                        $type = null;
+                        if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
+                            $type = 'image';
+                        } else {
+                            $type = 'video';
+                        }
+                        $result = Helpers::UploadImage($dd_, $path);
+                        // dump($result);
+                        $content->field_value = $result;
+                        $content->file_type = $form_structure_id;
+                    }else{
+                        // dump("value only");
+                        // dump($dd_);
+                        $content->field_value = $dd_;
+                    }
+                    $content->save();
+                }
+            }
+        }
+        return response()->json(['status' => '200']);
     }
 }
