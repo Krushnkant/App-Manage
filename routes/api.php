@@ -25,3 +25,4 @@ Route::post('/update-request',  [APIsController::class, 'RequestUpdate']);
 Route::post('/category-list',  [APIsController::class, 'CategoryList']);
 Route::post('/content-list',  [APIsController::class, 'ContentList']);
 Route::post('/sub-content-list',  [APIsController::class, 'SubContentList']);
+Route::post('/get-content-list',  [APIsController::class, 'GetContentList']);
