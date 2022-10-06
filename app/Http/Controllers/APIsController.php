@@ -681,7 +681,6 @@ class APIsController extends Controller
                                         'message' => "can't fetch category list"
                                     ]);
                                 }
-                                // dd($cat);
                             } else {
                                 $form_ = FormStructureNew::where('app_id', $check_application->id)
                                     ->where('parent_id', $data['parent_id'])
