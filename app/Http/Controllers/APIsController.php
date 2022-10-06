@@ -585,11 +585,185 @@ class APIsController extends Controller
                             ->where('status', '1')
                             ->first();
                         if ($check_application != null) {
-                            // dump("user");
-                            $form_ = FormStructureNew::where('app_id', $check_application->id)
-                                ->where('parent_id', $data['parent_id'])
-                                ->where('category_id', $data['category_id'])->first();
-                            dd($form_);
+                            if ($check_application != null) {
+                                if ($data['category_id'] == 0 && $data['parent_id'] == 0) {
+                                    $category = Category::where('app_id', $data['application_id'])->where('status', '1')->get();
+                                    foreach ($category as $cat) {
+                                        $category_fields = CategoryField::where('app_id', $data['application_id'])
+                                            ->where('category_id', $cat->id)->where('field_type', 'multi-file')->get();
+    
+                                        $category_fields_ = CategoryField::where('app_id', $data['application_id'])
+                                            ->where('category_id', $cat->id)->where('field_type', 'multi-file')->first();
+                                        $multi_image = [];
+                                        foreach ($category_fields as $img) {
+                                            $path = asset('/app_data_images');
+                                            $value = $path . "/" . $img->field_value;
+                                            array_push($multi_image, $value);
+                                        }
+                                        $category_fields_ = CategoryField::where('app_id', $data['application_id'])
+                                            ->where('category_id', $cat->id)->get();
+                                        $i = 0;
+                                        foreach ($category_fields_ as $field_) {
+                                            if ($field_->field_type != "multi-file") {
+                                                $type = $field_->field_type;
+                                                $field_->type = $type;
+                                                $key = $field_->field_key;
+                                                $field_->$key = $field_->field_value;
+                                            }
+                                            if ($field_->field_type == "multi-file") {
+                                                if ($i == 0) {
+                                                    $type = $field_->field_type;
+                                                    $field_->type = $type;
+                                                    $key = $field_->field_key;
+                                                    $field_->$key = $multi_image;
+                                                }
+                                                $i++;
+                                            }
+                                            unset(
+                                                $field_['id'],
+                                                $field_['app_id'],
+                                                $field_['category_id'],
+                                                $field_['field_type'],
+                                                $field_['field_key'],
+                                                $field_['field_value'],
+                                                $field_['file_type'],
+                                                $field_['status'],
+                                                $field_['created_by'],
+                                                $field_['updated_by'],
+                                                $field_['deleted_at'],
+                                                $field_['created_at'],
+                                                $field_['updated_at'],
+                                            );
+                                        }
+                                        $cat->fields = $category_fields_;
+                                        unset(
+                                            // $cat['id'],
+                                            $cat['app_id'],
+                                            $cat['status'],
+                                            $cat['created_by'],
+                                            $cat['updated_by'],
+                                            $cat['created_at'],
+                                            $cat['updated_at'],
+                                            $cat['deleted_at'],
+                                        );
+                                    }
+                                    if ($category != null) {
+                                        return response()->json([
+                                            'data' => $category,
+                                            'responce' => 'sucess',
+                                            'sucess' => 1,
+                                            'message' => "category list get successful"
+                                        ]);
+                                    } else {
+                                        return response()->json([
+                                            'data' => [],
+                                            'responce' => 'error',
+                                            'sucess' => -1,
+                                            'message' => "can't fetch category list"
+                                        ]);
+                                    }
+                                } else {
+                                    $form_ = FormStructureNew::where('app_id', $check_application->id)
+                                        ->where('parent_id', $data['parent_id'])
+                                        ->where('category_id', $data['category_id'])->first();
+                                    if($form_ != null){
+                                        $content = MainContent::where('form_structure_id', $form_->id)->get();
+                                        $all_content = array();
+                                        foreach ($content as $main) {
+                                            $content_field = ContentField::where('form_structure_id', $form_->id)
+                                                ->where('main_content_id', $main->id)
+                                                ->get();
+                                            $content_field_first = ContentField::where('app_id', $check_application->id)
+                                                ->where('form_structure_id', $form_->id)
+                                                ->where('main_content_id', $main->id)
+                                                ->first();
+    
+                                            $multi_image = [];
+                                            foreach ($content_field as $key => $content) {
+                                                if ($key == 0) {
+                                                    if ($content_field_first != null) {
+                                                        $content->parent_id = $content_field_first->id;
+                                                    }
+                                                }
+                                                $form_structure = FormStructureFieldNew::where('app_id', $check_application->id)
+                                                    ->where('form_structure_id', $form_->id)
+                                                    ->where('id', $content->form_structure_field_id)
+                                                    ->where('status', '1')
+                                                    ->first();
+                                                $key = $form_structure->field_name;
+                                                $content->type = $form_structure->field_type;
+                                                if ($form_structure->field_type == "file") {
+                                                    $path = asset('/app_data_images');
+                                                    $value = $path . "/" . $content->field_value;
+                                                    $content->$key = $value;
+                                                } elseif ($form_structure->field_type == "multi-file") {
+                                                    $get_multi_file_content = ContentSubField::where('app_id', $check_application->id)
+                                                        ->where('content_field_id', $content->id)
+                                                        ->get();
+                                                    foreach ($get_multi_file_content as $multi_files) {
+                                                        $path = asset('/app_data_images');
+                                                        $value = $path . "/" . $multi_files->field_value;
+                                                        array_push($multi_image, $value);
+                                                    }
+                                                    $content->$key = $multi_image;
+                                                } else {
+                                                    $content->$key = $content->field_value;
+                                                }
+                                                unset(
+                                                    $content['id'],
+                                                    $content['file_type'],
+                                                    $content['type'],
+                                                    $content['app_id'],
+                                                    $content['main_content_id'],
+                                                    $content['form_structure_id'],
+                                                    $content['form_structure_field_id'],
+                                                    $content['field_value'],
+                                                    $content['form_structure_id'],
+                                                    $content['status'],
+                                                    $content['created_by'],
+                                                    $content['updated_by'],
+                                                    $content['deleted_at'],
+                                                    $content['created_at'],
+                                                    $content['updated_at'],
+                                                );
+                                            }
+                                            array_push($all_content, $content_field);
+                                        }
+                                        $main_content_ = [];
+                                        foreach ($all_content as $key => $sub) {
+                                            if (count($sub) > 0) {
+                                                $array = json_decode(json_encode($sub), true);
+    
+                                                $result = array();
+                                                foreach ($array as $array1) {
+                                                    $result = array_merge($result, $array1);
+                                                }
+                                                array_push($main_content_, $result);
+                                            }
+                                        }
+                                        return response()->json([
+                                            'data' => $main_content_,
+                                            'responce' => 'sucess',
+                                            'sucess' => 1,
+                                            'message' => "content list get successful"
+                                        ]);
+                                    }else{
+                                        return response()->json([
+                                            'data' => [],
+                                            'responce' => 'sucess',
+                                            'sucess' => 1,
+                                            'message' => "no data here"
+                                        ]); 
+                                    }
+                                }
+                            } else {
+                                return response()->json([
+                                    'data' => [],
+                                    'responce' => 'error',
+                                    'sucess' => -1,
+                                    'message' => 'application not found'
+                                ]);
+                            }
                         } else {
                             return response()->json([
                                 'data' => [],
@@ -685,90 +859,96 @@ class APIsController extends Controller
                                 $form_ = FormStructureNew::where('app_id', $check_application->id)
                                     ->where('parent_id', $data['parent_id'])
                                     ->where('category_id', $data['category_id'])->first();
-                                $content = MainContent::where('form_structure_id', $form_->id)->get();
-                                // $multi_image = [];
-                                $all_content = array();
-                                foreach ($content as $main) {
-                                    $content_field = ContentField::where('form_structure_id', $form_->id)
-                                        ->where('main_content_id', $main->id)
-                                        ->get();
-                                    $content_field_first = ContentField::where('app_id', $check_application->id)
-                                        ->where('form_structure_id', $form_->id)
-                                        ->where('main_content_id', $main->id)
-                                        ->first();
-
-                                    $multi_image = [];
-                                    foreach ($content_field as $key => $content) {
-                                        if ($key == 0) {
-                                            if ($content_field_first != null) {
-                                                $content->parent_id = $content_field_first->id;
-                                            }
-                                        }
-                                        $form_structure = FormStructureFieldNew::where('app_id', $check_application->id)
+                                if($form_ != null){
+                                    $content = MainContent::where('form_structure_id', $form_->id)->get();
+                                    $all_content = array();
+                                    foreach ($content as $main) {
+                                        $content_field = ContentField::where('form_structure_id', $form_->id)
+                                            ->where('main_content_id', $main->id)
+                                            ->get();
+                                        $content_field_first = ContentField::where('app_id', $check_application->id)
                                             ->where('form_structure_id', $form_->id)
-                                            ->where('id', $content->form_structure_field_id)
-                                            ->where('status', '1')
+                                            ->where('main_content_id', $main->id)
                                             ->first();
-                                        $key = $form_structure->field_name;
-                                        $content->type = $form_structure->field_type;
-                                        if ($form_structure->field_type == "file") {
-                                            $path = asset('/app_data_images');
-                                            $value = $path . "/" . $content->field_value;
-                                            $content->$key = $value;
-                                        } elseif ($form_structure->field_type == "multi-file") {
-                                            $get_multi_file_content = ContentSubField::where('app_id', $check_application->id)
-                                                ->where('content_field_id', $content->id)
-                                                ->get();
-                                            foreach ($get_multi_file_content as $multi_files) {
-                                                $path = asset('/app_data_images');
-                                                $value = $path . "/" . $multi_files->field_value;
-                                                array_push($multi_image, $value);
-                                            }
-                                            $content->$key = $multi_image;
-                                        } else {
-                                            $content->$key = $content->field_value;
-                                        }
-                                        unset(
-                                            $content['id'],
-                                            $content['file_type'],
-                                            $content['type'],
-                                            $content['app_id'],
-                                            $content['main_content_id'],
-                                            $content['form_structure_id'],
-                                            $content['form_structure_field_id'],
-                                            $content['field_value'],
-                                            $content['form_structure_id'],
-                                            $content['status'],
-                                            $content['created_by'],
-                                            $content['updated_by'],
-                                            $content['deleted_at'],
-                                            $content['created_at'],
-                                            $content['updated_at'],
-                                        );
-                                    }
-                                    array_push($all_content, $content_field);
-                                }
-                                // dd();
-                                $main_content_ = [];
-                                foreach ($all_content as $key => $sub) {
-                                    if (count($sub) > 0) {
-                                        $array = json_decode(json_encode($sub), true);
 
-                                        $result = array();
-                                        foreach ($array as $array1) {
-                                            $result = array_merge($result, $array1);
+                                        $multi_image = [];
+                                        foreach ($content_field as $key => $content) {
+                                            if ($key == 0) {
+                                                if ($content_field_first != null) {
+                                                    $content->parent_id = $content_field_first->id;
+                                                }
+                                            }
+                                            $form_structure = FormStructureFieldNew::where('app_id', $check_application->id)
+                                                ->where('form_structure_id', $form_->id)
+                                                ->where('id', $content->form_structure_field_id)
+                                                ->where('status', '1')
+                                                ->first();
+                                            $key = $form_structure->field_name;
+                                            $content->type = $form_structure->field_type;
+                                            if ($form_structure->field_type == "file") {
+                                                $path = asset('/app_data_images');
+                                                $value = $path . "/" . $content->field_value;
+                                                $content->$key = $value;
+                                            } elseif ($form_structure->field_type == "multi-file") {
+                                                $get_multi_file_content = ContentSubField::where('app_id', $check_application->id)
+                                                    ->where('content_field_id', $content->id)
+                                                    ->get();
+                                                foreach ($get_multi_file_content as $multi_files) {
+                                                    $path = asset('/app_data_images');
+                                                    $value = $path . "/" . $multi_files->field_value;
+                                                    array_push($multi_image, $value);
+                                                }
+                                                $content->$key = $multi_image;
+                                            } else {
+                                                $content->$key = $content->field_value;
+                                            }
+                                            unset(
+                                                $content['id'],
+                                                $content['file_type'],
+                                                $content['type'],
+                                                $content['app_id'],
+                                                $content['main_content_id'],
+                                                $content['form_structure_id'],
+                                                $content['form_structure_field_id'],
+                                                $content['field_value'],
+                                                $content['form_structure_id'],
+                                                $content['status'],
+                                                $content['created_by'],
+                                                $content['updated_by'],
+                                                $content['deleted_at'],
+                                                $content['created_at'],
+                                                $content['updated_at'],
+                                            );
                                         }
-                                        array_push($main_content_, $result);
+                                        array_push($all_content, $content_field);
                                     }
+                                    $main_content_ = [];
+                                    foreach ($all_content as $key => $sub) {
+                                        if (count($sub) > 0) {
+                                            $array = json_decode(json_encode($sub), true);
+
+                                            $result = array();
+                                            foreach ($array as $array1) {
+                                                $result = array_merge($result, $array1);
+                                            }
+                                            array_push($main_content_, $result);
+                                        }
+                                    }
+                                    return response()->json([
+                                        'data' => $main_content_,
+                                        'responce' => 'sucess',
+                                        'sucess' => 1,
+                                        'message' => "content list get successful"
+                                    ]);
+                                }else{
+                                    return response()->json([
+                                        'data' => [],
+                                        'responce' => 'sucess',
+                                        'sucess' => 1,
+                                        'message' => "no data here"
+                                    ]); 
                                 }
-                                return response()->json([
-                                    'data' => $main_content_,
-                                    'responce' => 'sucess',
-                                    'sucess' => 1,
-                                    'message' => "content list get successful"
-                                ]);
                             }
-                            // dd();
                         } else {
                             return response()->json([
                                 'data' => [],
