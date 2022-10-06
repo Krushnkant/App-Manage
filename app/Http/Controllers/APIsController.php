@@ -584,6 +584,7 @@ class APIsController extends Controller
                             ->where('test_token', $data['test_token'])
                             ->where('status', '1')
                             ->first();
+                        $all_category = [];
                         if ($check_application != null) {
                             if ($check_application != null) {
                                 if ($data['category_id'] == 0 && $data['parent_id'] == 0) {
@@ -591,8 +592,8 @@ class APIsController extends Controller
                                     foreach ($category as $cat) {
                                         $category_fields = CategoryField::where('app_id', $data['application_id'])
                                             ->where('category_id', $cat->id)->where('field_type', 'multi-file')->get();
-    
-                                        $category_fields_ = CategoryField::where('app_id', $data['application_id'])
+
+                                        $category_fields__ = CategoryField::where('app_id', $data['application_id'])
                                             ->where('category_id', $cat->id)->where('field_type', 'multi-file')->first();
                                         $multi_image = [];
                                         foreach ($category_fields as $img) {
@@ -603,7 +604,12 @@ class APIsController extends Controller
                                         $category_fields_ = CategoryField::where('app_id', $data['application_id'])
                                             ->where('category_id', $cat->id)->get();
                                         $i = 0;
-                                        foreach ($category_fields_ as $field_) {
+                                        foreach ($category_fields_ as $key => $field_) {
+                                            if ($key == 0) {
+                                                if ($category_fields__ != null) {
+                                                    $field_->category = $category_fields__->id;
+                                                }
+                                            }
                                             if ($field_->field_type != "multi-file") {
                                                 $type = $field_->field_type;
                                                 $field_->type = $type;
@@ -636,6 +642,7 @@ class APIsController extends Controller
                                             );
                                         }
                                         $cat->fields = $category_fields_;
+                                        array_push($all_category, $category_fields_);
                                         unset(
                                             // $cat['id'],
                                             $cat['app_id'],
@@ -647,9 +654,20 @@ class APIsController extends Controller
                                             $cat['deleted_at'],
                                         );
                                     }
-                                    if ($category != null) {
+                                    $main_category_ = [];
+                                    foreach ($all_category as $key => $sub) {
+                                        if (count($sub) > 0) {
+                                            $array = json_decode(json_encode($sub), true);
+                                            $result = array();
+                                            foreach ($array as $array1) {
+                                                $result = array_merge($result, $array1);
+                                            }
+                                            array_push($main_category_, $result);
+                                        }
+                                    }
+                                    if ($main_category_ != null) {
                                         return response()->json([
-                                            'data' => $category,
+                                            'data' => $main_category_,
                                             'responce' => 'sucess',
                                             'sucess' => 1,
                                             'message' => "category list get successful"
@@ -666,7 +684,7 @@ class APIsController extends Controller
                                     $form_ = FormStructureNew::where('app_id', $check_application->id)
                                         ->where('parent_id', $data['parent_id'])
                                         ->where('category_id', $data['category_id'])->first();
-                                    if($form_ != null){
+                                    if ($form_ != null) {
                                         $content = MainContent::where('form_structure_id', $form_->id)->get();
                                         $all_content = array();
                                         foreach ($content as $main) {
@@ -677,7 +695,7 @@ class APIsController extends Controller
                                                 ->where('form_structure_id', $form_->id)
                                                 ->where('main_content_id', $main->id)
                                                 ->first();
-    
+
                                             $multi_image = [];
                                             foreach ($content_field as $key => $content) {
                                                 if ($key == 0) {
@@ -733,7 +751,7 @@ class APIsController extends Controller
                                         foreach ($all_content as $key => $sub) {
                                             if (count($sub) > 0) {
                                                 $array = json_decode(json_encode($sub), true);
-    
+
                                                 $result = array();
                                                 foreach ($array as $array1) {
                                                     $result = array_merge($result, $array1);
@@ -747,13 +765,13 @@ class APIsController extends Controller
                                             'sucess' => 1,
                                             'message' => "content list get successful"
                                         ]);
-                                    }else{
+                                    } else {
                                         return response()->json([
                                             'data' => [],
                                             'responce' => 'sucess',
                                             'sucess' => 1,
                                             'message' => "no data here"
-                                        ]); 
+                                        ]);
                                     }
                                 }
                             } else {
@@ -778,6 +796,7 @@ class APIsController extends Controller
                             ->where('token', $data['token'])
                             ->where('status', '1')
                             ->first();
+                        $all_category = [];
                         if ($check_application != null) {
                             if ($data['category_id'] == 0 && $data['parent_id'] == 0) {
                                 $category = Category::where('app_id', $data['application_id'])->where('status', '1')->get();
@@ -785,7 +804,7 @@ class APIsController extends Controller
                                     $category_fields = CategoryField::where('app_id', $data['application_id'])
                                         ->where('category_id', $cat->id)->where('field_type', 'multi-file')->get();
 
-                                    $category_fields_ = CategoryField::where('app_id', $data['application_id'])
+                                    $category_fields__ = CategoryField::where('app_id', $data['application_id'])
                                         ->where('category_id', $cat->id)->where('field_type', 'multi-file')->first();
                                     $multi_image = [];
                                     foreach ($category_fields as $img) {
@@ -796,7 +815,12 @@ class APIsController extends Controller
                                     $category_fields_ = CategoryField::where('app_id', $data['application_id'])
                                         ->where('category_id', $cat->id)->get();
                                     $i = 0;
-                                    foreach ($category_fields_ as $field_) {
+                                    foreach ($category_fields_ as $key => $field_) {
+                                        if ($key == 0) {
+                                            if ($category_fields__ != null) {
+                                                $field_->category = $category_fields__->id;
+                                            }
+                                        }
                                         if ($field_->field_type != "multi-file") {
                                             $type = $field_->field_type;
                                             $field_->type = $type;
@@ -815,6 +839,7 @@ class APIsController extends Controller
                                         unset(
                                             $field_['id'],
                                             $field_['app_id'],
+                                            $field_['type'],
                                             $field_['category_id'],
                                             $field_['field_type'],
                                             $field_['field_key'],
@@ -829,6 +854,7 @@ class APIsController extends Controller
                                         );
                                     }
                                     $cat->fields = $category_fields_;
+                                    array_push($all_category, $category_fields_);
                                     unset(
                                         // $cat['id'],
                                         $cat['app_id'],
@@ -840,9 +866,20 @@ class APIsController extends Controller
                                         $cat['deleted_at'],
                                     );
                                 }
-                                if ($category != null) {
+                                $main_category_ = [];
+                                foreach ($all_category as $key => $sub) {
+                                    if (count($sub) > 0) {
+                                        $array = json_decode(json_encode($sub), true);
+                                        $result = array();
+                                        foreach ($array as $array1) {
+                                            $result = array_merge($result, $array1);
+                                        }
+                                        array_push($main_category_, $result);
+                                    }
+                                }
+                                if ($main_category_ != null) {
                                     return response()->json([
-                                        'data' => $category,
+                                        'data' => $main_category_,
                                         'responce' => 'sucess',
                                         'sucess' => 1,
                                         'message' => "category list get successful"
@@ -859,7 +896,7 @@ class APIsController extends Controller
                                 $form_ = FormStructureNew::where('app_id', $check_application->id)
                                     ->where('parent_id', $data['parent_id'])
                                     ->where('category_id', $data['category_id'])->first();
-                                if($form_ != null){
+                                if ($form_ != null) {
                                     $content = MainContent::where('form_structure_id', $form_->id)->get();
                                     $all_content = array();
                                     foreach ($content as $main) {
@@ -940,13 +977,13 @@ class APIsController extends Controller
                                         'sucess' => 1,
                                         'message' => "content list get successful"
                                     ]);
-                                }else{
+                                } else {
                                     return response()->json([
                                         'data' => [],
                                         'responce' => 'sucess',
                                         'sucess' => 1,
                                         'message' => "no data here"
-                                    ]); 
+                                    ]);
                                 }
                             }
                         } else {
