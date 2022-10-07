@@ -1139,4 +1139,15 @@ class CategoryController extends Controller
             return response()->json(['status' => '400']);
         }
     }
+
+    public function ImageDelete($id)
+    {
+        $category_field = CategoryField::where('id', $id)->first();
+        if($category_field != null){
+            $category_field = $category_field->delete();
+            return response()->json(['status' => '200']);
+        }else{
+            return response()->json(['status' => '400']);
+        }
+    }
 }

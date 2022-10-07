@@ -79,6 +79,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('category-insert-new',  [CategoryController::class, 'InsertCategoryNew']);
     Route::get('category-edit-new/{id}',  [CategoryController::class, 'EditCategoryNew']);
     Route::post('category-update-new/{id}',  [CategoryController::class, 'UpdateCategoryNew']);
+    Route::get('category-image-delete/{id}',  [CategoryController::class, 'ImageDelete']);
 
     Route::get('/sub-content/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContent']);
     Route::get('/add-content/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'AddContent']);

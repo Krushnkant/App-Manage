@@ -3,6 +3,7 @@
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
     .dropzone {
         background: #e3e6ff;
@@ -18,6 +19,7 @@
         color: #f00;
         display: block;
     }
+
     .spinner-border {
         display: none;
     }
@@ -45,13 +47,13 @@
                                     <form class="form-valide" action="" mathod="PUT" id="category_add" enctype="multipart/form-data">
                                         @csrf
                                         <?php
-                                            $current_id = [];
-                                            $cuur_id = "";
+                                        $current_id = [];
+                                        $cuur_id = "";
                                         ?>
                                         @foreach($data->category_field as $key => $d)
-                                        <?php 
-                                            array_push($current_id, $d->id);
-                                            $cuur_id = implode(",", $current_id);
+                                        <?php
+                                        array_push($current_id, $d->id);
+                                        $cuur_id = implode(",", $current_id);
                                         ?>
                                         @endforeach
                                         <input type="hidden" name="category_id" value="{{$data->id}}" />
@@ -98,15 +100,15 @@
                                             <div id="category_form" class="form-group col-12">
                                                 @foreach($data->category_field as $key => $d)
                                                 <?php
-                                                    $field_key = $d->id ."_oldkey";
-                                                    $field_key_id = $d->id ."_oldkey";
-                                                    $field_name_id = $d->id ."_oldvalue";
-                                                    $current_id = [];
-                                                    array_push($current_id, $d->id);
-                                                    $cuur_id = implode(",", $current_id);
-                                                    // $field_key = $d->id . "_" . $d->field_type . "_key";
-                                                    // $field_key_id = $d->id . "_" . $d->field_type . "_key";
-                                                    // $field_name_id = $d->id . "_" . $d->field_type . "_value";
+                                                $field_key = $d->id . "_oldkey";
+                                                $field_key_id = $d->id . "_oldkey";
+                                                $field_name_id = $d->id . "_oldvalue";
+                                                $current_id = [];
+                                                array_push($current_id, $d->id);
+                                                $cuur_id = implode(",", $current_id);
+                                                // $field_key = $d->id . "_" . $d->field_type . "_key";
+                                                // $field_key_id = $d->id . "_" . $d->field_type . "_key";
+                                                // $field_name_id = $d->id . "_" . $d->field_type . "_value";
                                                 ?>
                                                 <div class="row position-relative align-items-center">
                                                     <div class="col-md-5 mb-3 mb-md-0">
@@ -118,33 +120,55 @@
                                                         <input type="text" value="{{$d->field_value}}" class="form-control input-flat" id="{{$field_name_id}}" name="{{$field_name_id}}" />
                                                     </div>
                                                     @elseif($d->field_type == 'file')
-                                                    <?php 
-                                                    $field_name_ = $d->id ."_oldvalue[]"; 
-                                                    $field_name = $d->id . "_" . $d->field_type . "_file[]"; 
+                                                    <?php
+                                                    $field_name_ = $d->id . "_oldvalue[]";
+                                                    $field_name = $d->id . "_" . $d->field_type . "_file[]";
                                                     ?>
                                                     <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
-                                                        <input type="file" value="{{$d->field_value}}" class="form-control input-flat" id="{{$field_name_id}}" name="{{$field_name_id}}" />
-                                                        <img src="{{asset('category_image/'.$d->field_value)}}" class="w-50"/>
+                                                        <input type="file" value="{{$d->field_value}}" class="form-control input-flat files" id="{{$field_name_id}}" name="{{$field_name_id}}" />
+                                                        <!-- <img src="{{asset('category_image/'.$d->field_value)}}" class="img_side" /> -->
                                                     </div>
                                                     @elseif($d->field_type == 'multi-file')
-                                                    <?php 
-                                                        $field_name_ = $d->id ."_oldvalue[]"; 
-                                                        $field_name = $d->id . "_" . $d->field_type . "_file[]"; 
-                                                        $get_multi_img = App\Models\CategoryField::where('app_id', $d->app_id)
-                                                                        ->where('category_id', $d->category_id)
-                                                                        ->where('field_key', $d->field_key)
-                                                                        ->where('field_type', 'multi-file')->get();
+                                                    <?php
+                                                    $field_name_ = $d->id . "_oldvalue[]";
+                                                    $field_name = $d->id . "_" . $d->field_type . "_file[]";
+                                                    $get_multi_img = App\Models\CategoryField::where('app_id', $d->app_id)
+                                                        ->where('category_id', $d->category_id)
+                                                        ->where('field_key', $d->field_key)
+                                                        ->where('field_type', 'multi-file')->get();
                                                     ?>
                                                     <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
-                                                        <input type="file" value="{{$d->field_value}}" class="form-control input-flat" id="{{$field_name_id}}" name="{{$field_name_}}" multiple/>
-                                                        @foreach($get_multi_img as $img)
-                                                            <img src="{{asset('category_image/'.$img->field_value)}}" class="w-50"/>
-                                                        @endforeach
+                                                        <input type="file" value="{{$d->field_value}}" class="form-control input-flat files" id="{{$field_name_id}}" name="{{$field_name_}}" multiple />
                                                     </div>
                                                     @endif
                                                     <div class="col-2 col-sm-1 col-md-1 mb-3 mb-md-0 text-center delete_btn_part">
                                                         <button type="button" data-id="{{$d->id}}" class="minus_btn btn mb-1 btn-dark p-0"><img src="{{asset('user/assets/icons/delete-red.png')}}"></button>
                                                     </div>
+                                                </div>
+                                                <div class="row mt-2 mb-3">
+                                                    @if($d->field_type == "file")
+                                                    <div class="offset-md-5 col-md-1 img_class text-start text-lg-center">
+                                                        <img class="img_side" src="{{asset('category_image/'.$d->field_value)}}">
+                                                    </div>
+                                                    @elseif($d->field_type == 'multi-file')
+                                                    <?php
+                                                    $field_name_ = $d->id . "_oldvalue[]";
+                                                    $field_name = $d->id . "_" . $d->field_type . "_file[]";
+                                                    $get_multi_img = App\Models\CategoryField::where('app_id', $d->app_id)
+                                                        ->where('category_id', $d->category_id)
+                                                        ->where('field_key', $d->field_key)
+                                                        ->where('field_type', 'multi-file')->get();
+                                                    ?>
+                                                    <div class="offset-md-5 col-md-1 img_class text-start text-lg-center">
+                                                        @foreach($get_multi_img as $img)
+                                                        <span class="pip">
+                                                            <img class="img_side" src="{{asset('category_image/'.$img->field_value)}}">
+                                                            <br />
+                                                            <span data-id="{{$img->id}}" data-toggle='modal' data-target='#exampleModalCenter' class="remove deleteUserBtn">X</span>
+                                                        </span>
+                                                        @endforeach
+                                                    </div>
+                                                    @endif
                                                 </div>
                                                 @endforeach
                                             </div>
@@ -179,6 +203,22 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModalCenter">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to delete this image ?</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 @endsection
 @push('scripts')
@@ -186,6 +226,37 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
 <script type="text/javascript">
+    $(document).ready(function() {
+        var ddd = 0;
+        var app_id = "{{$id}}";
+        if (window.File && window.FileList && window.FileReader) {
+            $('body').on('change', '.files', function(e) {
+                // console.log(e.target.value)
+                var uniq = (new Date()).getTime() + "_s" + ddd;
+                var main = $(this)
+                var files = e.target.files,
+                    filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function(e) {
+                        var file = e.target;
+                        $("<span class=\"pip\">" +
+                            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                            "<br/><span class=\"remove\">X</span>" +
+                            "</span>").insertAfter(main);
+                        $(".remove").click(function() {
+                            $(this).parent(".pip").remove();
+                            // console.log($(this).parent(".pip").remove())
+                        });
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
+    });
     $("#cat_form").hide();
     var app_id = 0;
     const cat_id = "{{$data->id}}";
@@ -374,5 +445,39 @@
         return isFormValid;
         // return false;  
     }
+
+    $('body').on('click', '.deleteUserBtn', function(e) {
+        var delete_user_id = $(this).attr('data-id');
+        $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id', delete_user_id);
+    });
+    $('body').on('click', '#RemoveUserSubmit', function(e) {
+        $('#RemoveUserSubmit').prop('disabled', true);
+        var remove_user_id = $(this).attr('data-id');
+        // console.log(remove_user_id)
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/category-image-delete') }}/" + remove_user_id,
+            success: function(res) {
+                // console.log(res)
+                if (res.status == 200) {
+                    $("#exampleModalCenter").modal('hide');
+                    $('#RemoveUserSubmit').prop('disabled', false);
+                    // $('#application_list').DataTable().draw();
+                    location.reload();
+                    toastr.success(res.action, 'Success', {
+                        timeOut: 5000
+                    });
+                } else {
+                    $("#exampleModalCenter").modal('hide');
+                    $('#RemoveUserSubmit').prop('disabled', false);
+                }
+            },
+            error: function(data) {
+                toastr.error("Please try again", 'Error', {
+                    timeOut: 5000
+                });
+            }
+        });
+    });
 </script>
 @endpush('scripts')
