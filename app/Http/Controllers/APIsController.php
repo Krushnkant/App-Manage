@@ -605,11 +605,12 @@ class APIsController extends Controller
                                             ->where('category_id', $cat->id)->get();
                                         $i = 0;
                                         foreach ($category_fields_ as $key => $field_) {
-                                            if ($key == 0) {
-                                                if ($category_fields__ != null) {
-                                                    $field_->category = $category_fields__->id;
-                                                }
-                                            }
+                                            // if ($key == 0) {
+                                            //     if ($category_fields__ != null) {
+                                            //         $field_->category = $category_fields__->id;
+                                            //     }
+                                            // }
+                                            $field_->title = $cat->title;
                                             if ($field_->field_type != "multi-file") {
                                                 $type = $field_->field_type;
                                                 $field_->type = $type;
@@ -628,7 +629,7 @@ class APIsController extends Controller
                                             unset(
                                                 $field_['id'],
                                                 $field_['app_id'],
-                                                $field_['category_id'],
+                                                // $field_['category_id'],
                                                 $field_['field_type'],
                                                 $field_['field_key'],
                                                 $field_['field_value'],
@@ -791,7 +792,6 @@ class APIsController extends Controller
                             ]);
                         }
                     } else {
-
                         $check_application = ApplicationData::where('id', $data['application_id'])
                             ->where('token', $data['token'])
                             ->where('status', '1')
@@ -801,6 +801,7 @@ class APIsController extends Controller
                             if ($data['category_id'] == 0 && $data['parent_id'] == 0) {
                                 $category = Category::where('app_id', $data['application_id'])->where('status', '1')->get();
                                 foreach ($category as $cat) {
+                                    // dump($cat);
                                     $category_fields = CategoryField::where('app_id', $data['application_id'])
                                         ->where('category_id', $cat->id)->where('field_type', 'multi-file')->get();
 
@@ -816,11 +817,7 @@ class APIsController extends Controller
                                         ->where('category_id', $cat->id)->get();
                                     $i = 0;
                                     foreach ($category_fields_ as $key => $field_) {
-                                        if ($key == 0) {
-                                            if ($category_fields__ != null) {
-                                                $field_->category = $category_fields__->id;
-                                            }
-                                        }
+                                        $field_->title = $cat->title;
                                         if ($field_->field_type != "multi-file") {
                                             $type = $field_->field_type;
                                             $field_->type = $type;
@@ -840,7 +837,7 @@ class APIsController extends Controller
                                             $field_['id'],
                                             $field_['app_id'],
                                             $field_['type'],
-                                            $field_['category_id'],
+                                            // $field_['category_id'],
                                             $field_['field_type'],
                                             $field_['field_key'],
                                             $field_['field_value'],
@@ -866,6 +863,7 @@ class APIsController extends Controller
                                         $cat['deleted_at'],
                                     );
                                 }
+                                // dd($all_category);
                                 $main_category_ = [];
                                 foreach ($all_category as $key => $sub) {
                                     if (count($sub) > 0) {
