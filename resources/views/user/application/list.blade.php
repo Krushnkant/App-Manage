@@ -174,13 +174,6 @@
                 "<td class='text-left'>category id must be same as example</td>" +
                 "<td class='text-left'>0</td>" +
                 "</tr>" +
-                "<tr>" +
-                "<td><code>user_id</code></td>" +
-                "<td>YES</td>" +
-                "<td><em>string</em></td>" +
-                "<td class='text-left'>user  id must be same as example</td>" +
-                "<td class='text-left'>1</td>" +
-                "</tr>" +
                 "</tbody>" +
                 "</table></tr>";
         } else {
