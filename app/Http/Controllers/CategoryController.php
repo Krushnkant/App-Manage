@@ -625,9 +625,12 @@ class CategoryController extends Controller
         return view('user.sub_content.list', compact('page', 'cat_id', 'app_id', 'parent_id'));
     }
 
-    public function SubFormStructure($app_id, $cat_id, $parent_id)
+    public function SubFormStructure($cat_id, $app_id, $parent_id)
     {
-
+        // dump($cat_id);
+        // dump($app_id);
+        // dump($parent_id);
+        // dump($prev_id);
         $page = "Sub Form Structure";
         $fields = Field::get();
         $already_form = 0;
@@ -705,8 +708,8 @@ class CategoryController extends Controller
                 $deleted_ = explode(',', $deleted);
                 foreach ($deleted_ as $del) {
                     $delete_content_data = ContentField::where('form_structure_field_id', $del)
-                                    ->where('status', '1')
-                                    ->delete();
+                        ->where('status', '1')
+                        ->delete();
                     $del_foem_fields = FormStructureFieldNew::find($del);
                     $del_foem_fields->delete();
                 }
@@ -737,11 +740,12 @@ class CategoryController extends Controller
         // return response()->json(['status' => '200', 'action' => 'done']);
     }
 
-    public function SubContentAdd($app_id, $cat_id, $parent_id)
+    public function SubContentAdd($cat_id, $app_id, $parent_id)
     {
         // dump($app_id);
         // dump($cat_id);
-        // dd($parent_id);
+        // dump($parent_id);
+        // dump($prev_id);
         $page = "Add Content";
         $is_category = 0;
         $selected_cat = 0;
@@ -764,6 +768,7 @@ class CategoryController extends Controller
                 ->where('form_structure_id', $main_form->id)
                 ->get();
         }
+        // dd($form_structure_field);
         // return view('user.content.add_content', compact('application_id', 'main_form', 'sub_form', 'categories', 'is_category', 'is_sub_formm','application', 'page'));
         return view('user.sub_content.add', compact('application', 'app_id', 'cat_id', 'parent_id', 'main_form', 'form_structure_field', 'categories', 'page', 'is_category', 'selected_cat'));
     }
@@ -968,7 +973,7 @@ class CategoryController extends Controller
             $sub_content_table = ContentSubField::where('app_id', $app_id)->where('content_field_id', $content_sub_id->id)->get();
         }
         // dd($add_new_fields);
-        return view('user.sub_content.edit', compact('application','main_content', 'formStructure', 'content', 'sub_content_table', 'app_id', 'cat_id', 'parent_id', 'page', 'add_new_fields'));
+        return view('user.sub_content.edit', compact('application', 'main_content', 'formStructure', 'content', 'sub_content_table', 'app_id', 'cat_id', 'parent_id', 'page', 'add_new_fields'));
     }
 
     public function SubContentUpdate(Request $request, $cat_id, $app_id, $parent_id, $structure)
@@ -998,13 +1003,13 @@ class CategoryController extends Controller
             if (strpos($key, "_content") !== false) {
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                 $content = ContentField::find($int_var);
-                $main_content_id = $content->main_content_id; 
+                $main_content_id = $content->main_content_id;
 
                 $content->app_id = $app_id;
                 $content->main_content_id = $main_content_id;
                 $content->form_structure_id = $form_structure_id;
                 $check_val = $content->field_value;
-                if($check_val != ""){
+                if ($check_val != "") {
                     if (file_exists($dd_)) {
                         $path = public_path("app_data_images/");
                         $extension = $dd_->extension();
@@ -1017,11 +1022,11 @@ class CategoryController extends Controller
                         $result = Helpers::UploadImage($dd_, $path);
                         $content->field_value = $result;
                         $content->file_type = $type;
-                    }else{
+                    } else {
                         $content->field_value = $dd_;
                     }
-                }else{
-                    foreach($dd_ as $img){
+                } else {
+                    foreach ($dd_ as $img) {
                         // dump("jijiji");
                         // dump($img);
                         $path = public_path("app_data_images/");
@@ -1034,7 +1039,7 @@ class CategoryController extends Controller
                         }
                         $result = Helpers::UploadImage($img, $path);
                         // dump($result);
-                        $content_sub = New ContentSubField();
+                        $content_sub = new ContentSubField();
                         $content_sub->app_id = $app_id;
                         $content_sub->content_field_id = $content->id;
                         $content_sub->field_value = $result;
@@ -1114,7 +1119,7 @@ class CategoryController extends Controller
                         // dump($result);
                         $content->field_value = $result;
                         $content->file_type = $form_structure_id;
-                    }else{
+                    } else {
                         // dump("value only");
                         // dump($dd_);
                         $content->field_value = $dd_;
@@ -1128,14 +1133,14 @@ class CategoryController extends Controller
 
     public function DeleteContentNew($id, $type)
     {
-        if($type == "multi"){
-            $sub_content = ContentSubField::where('id',$id)->delete();
-        }else{
-            $sub_content = ContentField::where('id',$id)->delete();
+        if ($type == "multi") {
+            $sub_content = ContentSubField::where('id', $id)->delete();
+        } else {
+            $sub_content = ContentField::where('id', $id)->delete();
         }
-        if($sub_content == 1){
+        if ($sub_content == 1) {
             return response()->json(['status' => '200']);
-        }else{
+        } else {
             return response()->json(['status' => '400']);
         }
     }
@@ -1143,11 +1148,107 @@ class CategoryController extends Controller
     public function ImageDelete($id)
     {
         $category_field = CategoryField::where('id', $id)->first();
-        if($category_field != null){
+        if ($category_field != null) {
             $category_field = $category_field->delete();
             return response()->json(['status' => '200']);
-        }else{
+        } else {
             return response()->json(['status' => '400']);
         }
+    }
+
+    public function SubContentListGetNew(Request $request, $cat_id, $app_id, $parent_id)
+    {
+        // dump($cat_id);
+        // dump($app_id);
+        // dump($parent_id);
+        // dd();
+        $tab_type = $request->tab_type;
+        if ($tab_type == "active_application_tab") {
+            $status = 1;
+        } elseif ($tab_type == "deactive_application_tab") {
+            $status = 0;
+        }
+        $form_structure_get = FormStructureNew::where('app_id', $app_id)
+            ->where('parent_id', $parent_id)
+            ->where('category_id', $cat_id)
+            ->first();
+        // dd($form_structure_get);
+        if ($form_structure_get != null) {
+            $data = ContentField::where('status', '1')->where('app_id', $app_id);
+            // $data = ContentField::where('status', '1')->where('app_id', $app_id)->where('form_structure_id', $form_structure_get->id)->get();
+            // dd($data);
+            if (isset($status)) {
+                $s = (string) $status;
+                $data = $data->where('status', $s);
+            }
+            if (!empty($request->get('search'))) {
+                $search = $request->get('search');
+                // $search_val = $search['value'];
+                // $data = $data->where('name', 'Like', '%' . $search_val . '%')
+                //     ->orWhere('app_id', 'Like', '%' . $search_val . '%')
+                //     ->orWhere('package_name', 'Like', '%' . $search_val . '%');
+            }
+
+            $data = $data->where('form_structure_id', $form_structure_get->id)
+                ->orderBy('id', 'DESC')
+                ->groupBy('main_content_id')
+                ->get();
+
+            // dd($data);
+
+            foreach ($data as $d) {
+                $main_title = MainContent::where('id', $d->main_content_id)->first();
+                $d->start_date = $d->created_at->format('d M Y');
+                $category_ids = Category::where('id', $form_structure_get->category_id)->where('status', '1')->first();
+                // dump($category_ids->title);
+                $application = ApplicationData::where('id', $form_structure_get->app_id)->where('status', '1')->first();
+                // dump($application);
+                // $d->form_title = $form_structure_get->form_title; //*** */
+                $d->category_name = $category_ids->title;
+                if ($application != null) {
+                    $d->app_name = $application->name;
+                } else {
+                    $d->app_name = null;
+                }
+                $d->form_title = $main_title->title;
+            }
+            // dd();
+            return response()->json(['status' => '200', 'data' => $data]);
+        } else {
+            return response()->json(['status' => '400']);
+        }
+    }
+
+    public function ShowOnlyContent($cat_id, $app_id, $parent_id, $content_id)
+    {
+        $form_structure_get = FormStructureNew::where('app_id', $app_id)
+            ->where('parent_id', $parent_id)
+            ->where('category_id', $cat_id)
+            ->first();
+        $main_content = ContentField::where('id', $content_id)->first();
+        $data_ = ContentField::with('field_content')->where('status', '1')->where('app_id', $app_id)
+            ->where('form_structure_id', $form_structure_get->id)
+            ->where('main_content_id', $main_content->main_content_id)
+            ->orderBy('id', 'DESC')
+            // ->groupBy('main_content_id')
+            ->get();
+
+        foreach ($data_ as $d) {
+            $sub_content = ContentSubField::where('app_id', $app_id)
+                ->where('content_field_id', $d->id)
+                ->get();
+
+            $d->multi_files = $sub_content;
+            // $main_title = MainContent::where('id', $d->main_content_id)->first();
+            // $d->start_date = $d->created_at->format('d M Y');
+            // $category_ids = Category::where('id', $form_structure_get->category_id)->where('status', '1')->first();
+            // $application = ApplicationData::where('id', $form_structure_get->app_id)->where('status', '1')->first();
+            // // $d->form_title = $form_structure_get->form_title;
+            // $d->category_name = $category_ids->title;
+            // $d->app_name = $application->name;
+            // $d->form_title = $main_title->title;
+        }
+
+        return response()->json(['status' => '200', 'data' => $data_]);
     }
 }

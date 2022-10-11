@@ -17,4 +17,7 @@ class ContentField extends Model
     public function main_content(){
         return $this->hasOne(MainContent::class,'id','form_structure_id');
     }
+    public function field_content(){
+        return $this->hasOne(FormStructureFieldNew::class,'id','form_structure_field_id');
+    }
 }

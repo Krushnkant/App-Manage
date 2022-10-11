@@ -605,7 +605,8 @@
                         "mData": "action",
                         "mRender": function(data, type, row) {
 
-                            var url2 = url + "/sub-content/" + app_id + "/" + cat_id + "/" + row.id;
+                            // var url2 = url + "/sub-content/" + app_id + "/" + cat_id + "/" + row.id;
+                            var url2 = url + "/application-new-design/" + app_id + "/" + cat_id + "/" + row.id;
                             // console.log(url2)
                             // var url2 = '{{ url("category-add-new", "id") }}';
                             // url2 = url2.replace('id', row.id);

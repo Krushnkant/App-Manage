@@ -683,6 +683,7 @@ class APIsController extends Controller
                             $content = MainContent::where('form_structure_id', $form_->id)->get();
                             $all_content = array();
                             foreach ($content as $main) {
+                                // dump($main);
                                 $content_field = ContentField::where('form_structure_id', $form_->id)
                                     ->where('main_content_id', $main->id)
                                     ->get();
@@ -698,6 +699,7 @@ class APIsController extends Controller
                                             $content->parent_id = $content_field_first->id;
                                         }
                                     }
+                                    $content->title = $main->title;
                                     $form_structure = FormStructureFieldNew::where('app_id', $check_application->id)
                                         ->where('form_structure_id', $form_->id)
                                         ->where('id', $content->form_structure_field_id)
@@ -742,6 +744,7 @@ class APIsController extends Controller
                                 }
                                 array_push($all_content, $content_field);
                             }
+                            // dd();
                             $main_content_ = [];
                             foreach ($all_content as $key => $sub) {
                                 if (count($sub) > 0) {
