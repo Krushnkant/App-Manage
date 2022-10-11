@@ -65,7 +65,7 @@
             <form class="form-valide" action="" mathod="POST" id="content_add" enctype="multipart/form-data">
               {{ csrf_field() }}
               <input type="hidden" value="{{ $app_id }}" name="application_id">
-              <input type="hidden" value="{{ $main_form->id }}" name="form_structure_id">
+              <input type="hidden" value="{{ ($main_form != null) ? $main_form->id : 0 }}" name="form_structure_id">
               <input type="hidden" value="{{ $cat_id }}" name="category_id">
               <input type="hidden" value="{{ $parent_id }}" name="parent_id">
               <!-- <input type="hidden" value="{{ $app_id }}" name="application_id"> -->
@@ -149,6 +149,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     var ddd = 0;
+    console.log("{{ url('application-new-design/'.$cat_id.'/'.$app_id.'/'.$parent_id)}}")
     if (window.File && window.FileList && window.FileReader) {
       $('body').on('change', '.files', function(e) {
         // $(".files").on("change", function(e) {
@@ -156,8 +157,11 @@
         var main = $(this)
         var image_array = [];
         var image_string = "";
-        var files = e.target.files,
+        var files = e.target.files;
+        var filesLength = 0;
+        if(files != null){
           filesLength = files.length;
+        }
         // var dumm = JSON.stringify(files)
         // console.log(dumm)
         ddd++;
@@ -242,7 +246,8 @@
               timeOut: 5000
             })
             $("#content_add")[0].reset()
-            window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
+            // window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
+            window.location.href = "{{ url('application-new-design/'.$cat_id.'/'.$app_id.'/'.$parent_id)}}";
           } else {
             $('#submit_app_data').prop('disabled', false);
             $('.spinner-border').hide();

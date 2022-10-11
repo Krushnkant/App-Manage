@@ -51,7 +51,8 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
                 <li class="breadcrumb-item "><a href="{{url('application-new')}}">Application List</a></li>
-                <li class="breadcrumb-item "><a href="{{url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}">Back List</a></li>
+                <!-- <li class="breadcrumb-item "><a href="{{url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}">Back List</a></li> -->
+                <li class="breadcrumb-item "><a href="{{url('application-new-design/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}">Back List</a></li>
                 <li class="breadcrumb-item active">Add Content</li>
             </ol>
         </div>
@@ -333,7 +334,8 @@
                             timeOut: 5000
                         })
                         $("#content_add")[0].reset()
-                        window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
+                        // window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
+                        window.location.href = "{{ url('application-new-design/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
                     } else {
                         $('#submit_app_data').prop('disabled', false);
                         $('.spinner-border').hide();

@@ -159,7 +159,7 @@
                                                         ->where('field_key', $d->field_key)
                                                         ->where('field_type', 'multi-file')->get();
                                                     ?>
-                                                    <div class="offset-md-5 col-md-1 img_class text-start text-lg-center">
+                                                    <div class="offset-md-5 col-md-1 img_class text-start text-lg-center d-flex">
                                                         @foreach($get_multi_img as $img)
                                                         <span class="pip">
                                                             <img class="img_side" src="{{asset('category_image/'.$img->field_value)}}">

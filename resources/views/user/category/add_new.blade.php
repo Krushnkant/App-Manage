@@ -530,7 +530,9 @@
                         var url = "{{url('/')}}";
                        
                         var url1 = url+"/category-edit-new/"+row.id;
-                        var url2 = url+"/sub-content/"+id__+"/"+row.id+"/0";
+                        // var url2 = url+"/sub-content/"+id__+"/"+row.id+"/0";
+                        // var url2 = url+"/application-new-design/"+id__+"/"+row.id+"/0/0";
+                        var url2 = url+"/application-new-design/"+row.id+"/"+id__+"/0";
                         // console.log(url2)
                         var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                         var img_url2 = "{{asset('user/assets/icons/delete.png')}}";

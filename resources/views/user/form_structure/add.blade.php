@@ -407,7 +407,8 @@
                                 timeOut: 5000
                             });
                             $("#form_structures_add")[0].reset()
-                            window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
+                            // window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
+                            window.location.href = "{{ url('application-new-design/'.$cat_id.'/'.$app_id.'/'.$parent_id)}}";
                         }
                     },
                     error: function(data) {
