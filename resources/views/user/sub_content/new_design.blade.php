@@ -192,7 +192,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="text-left mb-4 add_application_btn_part">
-                    <p>{{$is_content}}</p>
                    
                     <a href="{{url('sub-content-form/'.$cat_id.'/'.$app_id.'/'.$parent_id)}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn {{$is_content != 1 ? 'disabled' : ''}}">
                         Add content
