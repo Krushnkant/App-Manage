@@ -32,6 +32,11 @@
             </ul>
         </li>
         <li>
+        <li>
+            <a  href="{{url('new-user')}}" aria-expanded="false">
+                <i class="icon-speedometer menu-icon"></i><span class="nav-text">User</span>
+            </a>
+        </li>
             <a href="{{url('settings')}}" aria-expanded="false">
                 <i class="icon-grid menu-icon"></i><span class="nav-text">Settings</span>
             </a>

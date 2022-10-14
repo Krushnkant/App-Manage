@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Session;
 use App\Http\Helpers;
+use DataTables;
 
 class UserController extends Controller
 {
@@ -18,11 +19,29 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-       
-       return view('user.dashboard');
+        $page = "Category Add Content";
+        if ($request->ajax()) {
+            $data = User::latest()->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+   
+                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+   
+                           $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+       // $posts =  User::latest()->paginate(5);
+        return view('user.index', compact('page'));
+      
     }
+   
     public function loginForm()
     {
         return view('user.auth.login');
@@ -43,6 +62,13 @@ class UserController extends Controller
         //
     }
 
+     public function fetchstudent()
+    {
+        $students = User::all();
+        return response()->json([
+            'students'=>$students,
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -51,8 +77,43 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $validator = validator::make($request->all(),[
+        //     'firstname'=> 'required|max:191',
+        //     'lastname'=> 'required|max:191',
+        //     'username'=> 'required|max:191',
+        //     'email'=> 'required|max:191',
+        //     'password'=> 'required|max:191',
+
+        // ]);
+
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'status'=>400,
+        //         'errors'=> $validator->messages(),
+        //                 ]);
+        // }
+        // else
+        // {
+        //     $student = new User;
+        //     $student->firstname = $request->input('firstname');
+        //     $student->lastname = $request->input('lastname'); 
+        //     $student->username = $request->input('username');
+        //     $student->email = $request->input('email');
+        //     $student->password = $request->input('password');
+        //     $student->save();
+        //     return response()->json([
+        //         'status'=>200,
+        //         'message'=>'user added successfully'
+        //                 ]);
+        // }
+
+        User::updateOrCreate(['id' => $request->product_id],
+        ['firstname' => $request->fname,'lastname' => $request->lname,'username' => $request->uname, 'email' => $request->email,'password' => $request->password]);        
+
+        return response()->json(['success'=>'User saved successfully.']);
+	
     }
+
 
     /**
      * Display the specified resource.
@@ -71,9 +132,27 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id){
+        //$id = $request->id;
+		// $student = User::find($id);
+        // if($student)
+        // {
+        //     return response()->json([
+        //         'status'=>200,
+        //         'student'=>$student
+        //                 ]);
+        // }
+        // else
+        // {
+        //     return response()->json([
+        //         'status'=>404,
+        //         'message'=>'user not found '
+        //                 ]);
+        // }
+
+        $product = User::find($id);
+        return response()->json($product);
+
     }
 
     /**
@@ -85,7 +164,50 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $validator = validator::make($request->all(),[
+        //     'firstname'=> 'required|max:191',
+        //     'lastname'=> 'required|max:191',
+        //     'username'=> 'required|max:191',
+        //     'email'=> 'required|max:191',
+        //     'password'=> 'required|max:191',
+
+        // ]);
+
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'status'=>400,
+        //         'errors'=> $validator->messages(),
+        //                 ]);
+        // }
+        // else
+        // {
+        //     $student = User::find($id);
+
+        //     if($student)
+        //     {
+        //         $student->firstname = $request->input('firstname');
+        //         $student->lastname = $request->input('lastname'); 
+        //         $student->username = $request->input('username');
+        //         $student->email = $request->input('email');
+        //         $student->password = $request->input('password');
+        //         $student->update();
+        //         return response()->json([
+        //             'status'=>200,
+        //             'message'=>'user updated successfully'
+        //                     ]);
+        //     }
+        //     else
+        //     {
+        //         return response()->json([
+        //             'status'=>404,
+        //             'message'=>'user not found '
+        //                     ]);
+        //     }
+           
+            
+        // }
+
+
     }
 
     /**
@@ -96,8 +218,19 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $student = User::find($id);
+        
+        // $student->delete();
+        // return response()->json([
+        //     'status'=>200,
+        //     'message'=>'student deleted successfully'
+        //             ]);
+        User::find($id)->delete();
+     
+        return response()->json(['success'=>'User deleted successfully.']);
+		
     }
+    
 
     public function login(Request $request)
     {

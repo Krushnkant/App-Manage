@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\{User, UserLogin };
 use App\Models\ {AppData, SubformStructure, FormStructure, SubAppData, ApplicationData, Category};
 use App\Http\Helpers;
 use Illuminate\Support\Str;
+use DataTables;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class AppDataController extends Controller
 {
@@ -14,11 +18,38 @@ class AppDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $page = "Application List";
+        //$data['users'] = User::orderBy('id','desc')->paginate(8);
+        
+        
+        // if ($request->ajax()) {
+        //     $data = User::latest()->get();
+            
+        // }
+        return view('user.application_user_list', compact('page'));
     }
-
+    public function ApplicationList(Request $request)
+    {  $page = "Application List";
+        $request1 = $request->all();
+        $data = User::all();
+        if(!empty($request->get('search'))){
+            $search = $request->get('search');
+            $search_val = $search['value'];
+            // dump($search_val);
+            $data = $data->where('firstname', 'Like','%'. $search_val .'%');
+            // ->orWhere('lastname', 'Like','%'. $search_val .'%')
+            // ->orWhere('username', 'Like','%'. $search_val .'%')
+            // ->orWhere('email', 'Like','%'. $search_val .'%')
+            // ->orWhere('password', 'Like','%'. $search_val .'%');
+            // dd($data);
+        }
+        $data = User::orderBy('id', 'DESC')->get();
+      
+        return datatables::of($data)->make(true);
+        // return view('user.application_user_list', compact('page'));             
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -166,13 +197,31 @@ class AppDataController extends Controller
      * @param  \App\Models\AppData  $appData
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, $uuid)
+    public function edit($id)
     {
         // $application = ApplicationData::find($id);
         // $app_data = AppData::with('fieldd')->where('UUID', $uuid)->where('app_id', $id)->get();
         // $sub_app_data = SubAppData::with('fieldd')->where('app_id', $id)->get();
         // $categories = Category::where('app_id', $id)->where('status', '1')->get();
         // return view('user.content.edit_content', compact('id','app_data', 'sub_app_data', 'categories'));
+        $data = User::find($id);
+        //dd($data);
+        $page = "Edit Application";
+        if($data)
+        {
+            return response()->json([
+                'status'=>200,
+                'user'=> $data,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Student Found.'
+            ]);
+        }
+        return view('user.application_user_list', compact('data', 'page'));
     }
 
     /**
@@ -514,9 +563,19 @@ class AppDataController extends Controller
      * @param  \App\Models\AppData  $appData
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AppData $appData)
+    public function destroy($id)
     {
-        //
+        $get_data = User::find($id);
+        if($get_data != null){
+            $data = $get_data->delete();
+            if($data == true){
+                return response()->json(['status' => '200']);
+            }else{
+                return response()->json(['status' => '400']);
+            }
+        }else{
+            return response()->json(['status' => '400']);
+        }
     }
 
     public function ApplicationHasCategory(Request $request)
@@ -549,4 +608,64 @@ class AppDataController extends Controller
     {
         
     }
+
+    public function NewUser(Request $request)
+    {
+        // $validator = Validator::make($request->all(), [
+        //     'name'=> 'required|max:191',
+        //     'course'=>'required|max:191',
+        //     'email'=>'required|email|max:191',
+        //     'phone'=>'required|max:10|min:10',
+        // ]);
+
+        // if($validator->fails())
+        // {
+        //     return response()->json([
+        //         'status'=>400,
+        //         'errors'=>$validator->messages()
+        //     ]);
+        // }
+        // else
+        // {
+            $student = new User;
+            $student->firstname = $request->input('firstname');
+            $student->lastname = $request->input('lastname');
+            $student->username = $request->input('username');
+            $student->email = $request->input('email');
+            $student->password = Hash::make($request->input('password'));
+            $student->decrip_password = $request->input('password');
+            $student->save();
+            return response()->json([
+                'status'=>200,
+                'message'=>'User Added Successfully.'
+            ]);
+        // }
+    }
+
+    public function updateuser(Request $request, $id)
+    {
+        $get_data = User::find($id);
+
+        $data = $request->all();
+        
+        $data['firstname'] = (isset($data['firstname']) && $data['firstname']) ? $data['firstname'] : $get_data->firstname;
+        $data['lastname'] = (isset($data['lastname']) && $data['lastname']) ? $data['lastname'] : $get_data->lastname;     
+        $data['username'] = (isset($data['username']) && $data['username']) ? $data['username'] : $get_data->username;
+        $data['email'] = (isset($data['email']) && $data['email']) ? $data['email'] : $get_data->email;
+        $data['password'] = (isset($data['password']) && $data['password']) ? $data['password'] : $get_data->password;
+        $data['decrip_password'] = (isset($data['decrip_password']) && $data['decrip_password']) ? $data['decrip_password'] : $get_data->decrip_password;
+        //dd($data);
+        $get_data->firstname = $data['firstname'];
+        $get_data->lastname = $data['lastname'];
+        $get_data->username = $data['username'];
+        $get_data->email = $data['email'];
+        $get_data->password = Hash::make($data['password']);
+        $get_data->decrip_password = $data['decrip_password'];
+        $get_data->save();
+        //dd($get_data);
+        return response()->json(['status' => '200']);
+      
+        
+    }
+                                           
 }
