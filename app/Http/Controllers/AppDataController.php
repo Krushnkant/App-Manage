@@ -626,7 +626,9 @@ class AppDataController extends Controller
         //     ]);
         // }
         // else
-        // {
+       
+        //dd( $student0);
+    
             $student = new User;
             $student->firstname = $request->input('firstname');
             $student->lastname = $request->input('lastname');
@@ -635,11 +637,21 @@ class AppDataController extends Controller
             $student->password = Hash::make($request->input('password'));
             $student->decrip_password = $request->input('password');
             $student->save();
+            if($student != null)
+            {
             return response()->json([
                 'status'=>200,
                 'message'=>'User Added Successfully.'
             ]);
         // }
+            }
+            else
+            {
+                return response()->json([
+                    'status'=>400,
+                    'message'=>'User not added'
+                ]);
+            }
     }
 
     public function updateuser(Request $request, $id)
