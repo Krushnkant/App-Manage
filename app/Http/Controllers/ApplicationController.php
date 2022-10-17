@@ -267,7 +267,7 @@ class ApplicationController extends Controller
     {
         $page = "New Design Application";
         $is_content = 0;
-        $form_structure = FormStructureNew::where('app_id', $app_id)->where('parent_id', $parent_id)->first();
+        $form_structure = FormStructureNew::where('app_id', $app_id)->where('category_id', $cat_id)->where('parent_id', $parent_id)->first();
         if($form_structure != null){
             $is_content = 1;
         }

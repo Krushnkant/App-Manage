@@ -281,15 +281,36 @@ class CategoryController extends Controller
     {
         $table = $request->all();
         // $data = CategoryFields::with('category','application')->where('app_id', $table['app_id'])->get();
-        $data = Category::with(['category' => function ($query) {
-            $query->with('fields');
-        }])->where('app_id', $table['app_id'])->get();
-        foreach ($data as $d) {
+        // $data = Category::with(['category' => function ($query) {
+        //     $query->with('fields');
+        // }])->where('app_id', $table['app_id'])->get();
+        // foreach ($data as $d) {
+        //     $d->start_date = $d->created_at->format('d M Y');
+        // }
+        // dump($table['app_id']);
+        $category = Category::where('app_id', $table['app_id'])->get();
+        // $data = Category::with('category_field')->where('app_id', $table['app_id'])->get();
+        // // dump($data);
+        $multi_file = [];
+        foreach ($category as $d) {
+            $category_content = CategoryField::where('app_id', $table['app_id'])->where('category_id', $d->id)->get();
+            foreach($category_content as $key => $value){
+                // dump($value);
+                if($value->field_type == "multi-file"){
+                    array_push($multi_file, $value->field_value);
+                }
+            }
+
             $d->start_date = $d->created_at->format('d M Y');
-            // dump($d->created_at);
+            $d->content = $category_content;
+            $d->multi = $multi_file;
         }
         // dd();
-        return datatables::of($data)->make(true);
+        // $data = [
+        //     'category' => $category,
+        //     'category_content' => $category_content,
+        // ];
+        return datatables::of($category)->make(true);
     }
 
     public function ChageCategoryStatus($id)
@@ -1158,10 +1179,6 @@ class CategoryController extends Controller
 
     public function SubContentListGetNew(Request $request, $cat_id, $app_id, $parent_id)
     {
-        // dump($cat_id);
-        // dump($app_id);
-        // dump($parent_id);
-        // dd();
         $tab_type = $request->tab_type;
         if ($tab_type == "active_application_tab") {
             $status = 1;

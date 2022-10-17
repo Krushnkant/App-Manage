@@ -390,43 +390,87 @@
     }
 
     function format(d) {
+        // console.log("opopop")
+        // console.log(d)
         var list;
-        $.each(d.category, function(i, item) {
+        var ii = 0;
+        $.each(d.content, function(i, item) {
             var ddd = '';
+            // console.log(item)
             // if (/(jpg|gif|png)$/.test(item.value)){ 
             var id = "myModal" + item.id;
             var ids = "#myModal" + item.id;
-            // if (item.fields.type == "file" || item.fields.type == "multi-file") {
-            //     var filename = item.value
-            //     var valid_video_extensions = /(\.mp4|\.webm|\.m4v)$/i;
-            //     var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-            //     var image_video = '';
-            //     var image_set_video = '';
-            //     var imgg = urll + "/" + item.value
-            //     if (valid_extensions.test(filename)) {
-            //         image_video += '<img class="img-responsive" src="' + imgg + '" />';
-            //         image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="' + imgg + '">';
-            //     } else {
-            //         if (valid_video_extensions.test(filename)) {
-            //             image_video += '<iframe src="' + imgg + '" title="video" allowfullscreen></iframe>';
-            //             image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}">';
-            //         }
-            //     }
-            //     var html = '<div id="' + id + '" class="modal fade" role="dialog">' +
-            //         '<div class="modal-dialog">' +
-            //         '<div class="modal-content">' +
-            //         '<div class="modal-body">' + image_video + '</div>' +
-            //         '<div class="modal-footer">' +
-            //         '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-            //         '</div>' +
-            //         '</div>' +
-            //         '</div>' +
-            //         '</div>';
-            //     ddd += html + image_set_video;
-            // } else {
-            //     ddd += '<spa>' + item.value + '</span>';
-            // }
-            list += '<tr><td>' + item.key + '</td><td>' + ddd + '</td></tr>';
+            if (item.field_type == "file") {
+                var filename = item.field_value
+                var valid_video_extensions = /(\.mp4|\.webm|\.m4v)$/i;
+                var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                var image_video = '';
+                var image_set_video = '';
+                var imgg = urll + "/" + item.field_value
+                if (valid_extensions.test(filename)) {
+                    image_video += '<img class="img-responsive" src="' + imgg + '" />';
+                    image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="' + imgg + '">';
+                } else {
+                    if (valid_video_extensions.test(filename)) {
+                        image_video += '<iframe src="' + imgg + '" title="video" allowfullscreen></iframe>';
+                        image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}">';
+                    }
+                }
+                var html = '<div id="' + id + '" class="modal fade" role="dialog">' +
+                    '<div class="modal-dialog">' +
+                    '<div class="modal-content">' +
+                    '<div class="modal-body">' + image_video + '</div>' +
+                    '<div class="modal-footer">' +
+                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+                // ddd += html + image_set_video;
+                ddd += '<tr><td>' + item.field_key + '</td><td><spa>' + html + image_set_video + '</span></td></tr>';
+            }else if(item.field_type == "multi-file"){
+                var aaa = '';
+                if(ii == 0){
+                    if(d.multi.length > 0){
+                        $.each( d.multi, function( key, value ) {
+                            var aaa = '';
+                            var filename = value
+                            var valid_video_extensions = /(\.mp4|\.webm|\.m4v)$/i;
+                            var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                            var image_video = '';
+                            var image_set_video = '';
+                            var imgg = urll + "/" + value
+                            if (valid_extensions.test(filename)) {
+                                image_video += '<img class="img-responsive" src="' + imgg + '" />';
+                                image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="' + imgg + '">';
+                            } else {
+                                if (valid_video_extensions.test(filename)) {
+                                    image_video += '<iframe src="' + imgg + '" title="video" allowfullscreen></iframe>';
+                                    image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}">';
+                                }
+                            }
+                            var html = '<div id="' + id + '" class="modal fade" role="dialog">' +
+                                '<div class="modal-dialog">' +
+                                '<div class="modal-content">' +
+                                '<div class="modal-body">' + image_video + '</div>' +
+                                '<div class="modal-footer">' +
+                                '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                            ddd += html + image_set_video;
+                        })
+                    }
+                    aaa += '<tr><td>' + item.field_key + '</td><td><spa>'+ddd+'</span></td></tr>';
+                }
+                ddd = aaa;
+                ii++;
+            } else {
+                // ddd += '<spa>' + item.field_value + '</span>';
+                ddd += '<tr><td>' + item.field_key + '</td><td><spa>' + item.field_value + '</span></td></tr>';
+            }
+            list += ddd;
         });
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="child_row">' +
             '<ul class="d-none">' + list + '</ul></table>';

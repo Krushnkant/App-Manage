@@ -78,7 +78,7 @@
     span.name_text,
     .main_sidebar h2,
     .image_part h2 {
-        font-family: 'Poppins SemiBold';
+        font-family: "Roboto", sans-serif;
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
@@ -102,7 +102,7 @@
     table#file_table thead tr th {
         padding: 10px;
         color: #fff;
-        font-family: 'Poppins Medium';
+        font-family: "Roboto", sans-serif;
         font-style: normal;
         font-weight: 500;
         font-size: 16px;
@@ -205,7 +205,6 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="main_sidebar">
-                    <h2>sidebar</h2>
                     <form class="search_bar">
                         <img src="{{asset('user/assets/icons/search.png')}}" class="search_icon" />
                         <input name="search" class="search" placeholder="search..." />
@@ -292,6 +291,12 @@
     // localStorage.setItem('parent_id', parent_id);  
     $(document).ready(function() {
         application_page_tabs('', true);
+        $( ".list_content" ).each(function( key, value ) {
+            // console.log(key)
+            // console.log(value)
+            var data_id = $(this).attr('data-id');
+            // console.log(data_id)
+        })
     })
 
     function application_page_tabs() {
@@ -312,8 +317,10 @@
                     var Inactive = 'Inactive';
                     $.map(result.data, function(item, key) {
                         var url2 = url + "/application-new-design/" + cat_id + "/" + app_id + "/" + item.id;
+                        var edit_url = "{{url('/')}}"+"/sub-content-edit/"+"{{$cat_id}}"+"/{{$app_id}}/{{$parent_id}}/"+item.main_content_id;
+                        // console.log(edit_url)
                         key = key + 1;
-                        html += '<div class="row">' +
+                        html += '<div class="row name_text parent_div" data-id="' + item.id + '">' +
                             '<div class="col-lg-1">' +
                             ' <div class="no">' +
                             '<span>' + key + '</span>' +
@@ -329,7 +336,7 @@
                             '</a>' +
                             '</div>' +
                             '<div class="plus">' +
-                            '<a href="#">' +
+                            '<a href="'+edit_url+'">' +
                             '<img src = "{{asset("user/assets/icons/copy-img.png")}}" / > ' +
                             ' </a>' +
                             '</div>' +
@@ -361,6 +368,12 @@
     }
 
     $(".list_content").on("click", ".name_text", function(e) {
+        $(".parent_div").each(function( index, value ) {
+            $(this).css("background-color", "white");
+        });
+        if ($(this).hasClass("parent_div")) {
+            $(this).css("background-color", "#e9e9e9");
+        } 
         e.preventDefault();
         var data_id = $(this).attr('data-id');
         $.ajax({
@@ -393,7 +406,6 @@
                             var id = "myModal" + value.id;
                             var popup_file = '';
                             // file_ += '<tr>';
-
                             if (valid_extensions.test(filename)) {
                                 popup_file += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}" class="image_small" />';
                                 html += '<div id="' + id + '" class="modal fade" role="dialog">' +
@@ -409,7 +421,7 @@
                                     '</div>';
                                 file_ += '<tr>' +
                                     '<td>' + value.field_content.field_name + '</td>' +
-                                    '<td><img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}" class="image_small" />' + html + '</td>' +
+                                    '<td><img class="img_side" data-toggle="modal" data-target="' + ids + '" src="'+img_url+'" class="image_small" />' + html + '</td>' +
                                     '</tr>';
                             } else {
                                 popup_file += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="' + img_url + '" class="image_small" />';
@@ -426,7 +438,7 @@
                                     '</div>';
                                 file_ += '<tr>' +
                                     '<td>' + value.field_content.field_name + '</td>' +
-                                    '<td><img class="img_side" data-toggle="modal" data-target="' + ids + '" src="' + img_url + '" class="image_small" />' + html + '</td>' +
+                                    '<td><img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}" class="image_small" />' + html + '</td>' +
                                     '</tr>';
                             }
                         } else {
