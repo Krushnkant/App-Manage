@@ -100,10 +100,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('sub-content-update/{cat_id}/{app_id}/{parent_id}/{structure_id}',  [CategoryController::class, 'SubContentUpdate']);
 
     Route::get('/content_image_delete_new/{id}/{type}',[CategoryController::class, 'DeleteContentNew']);
-
-
-
-
+  
     Route::get('/new-user',[AppDataController::class,'index']);
     Route::post('user-list',  [AppDataController::class, 'ApplicationList']);
     Route::post('userdd',[AppDataController::class,'NewUser']);

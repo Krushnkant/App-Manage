@@ -78,7 +78,7 @@
     span.name_text,
     .main_sidebar h2,
     .image_part h2 {
-        font-family: 'Poppins SemiBold';
+        font-family: "Roboto", sans-serif;
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
@@ -102,7 +102,7 @@
     table#file_table thead tr th {
         padding: 10px;
         color: #fff;
-        font-family: 'Poppins Medium';
+        font-family: "Roboto", sans-serif;
         font-style: normal;
         font-weight: 500;
         font-size: 16px;
@@ -168,18 +168,18 @@
                 <?php
                 if (count($structure_old) > 0) {
                     foreach ($structure_old as $key => $dat) {
-                        if($dat->parent_id < $parent_id){
+                        if ($dat->parent_id < $parent_id) {
                             $get_cat = App\Models\Category::where('id', $cat_id)->first();
                             $title = $get_cat->title;
                             if ($key == 0) {
-                            ?>
+                ?>
                                 <li class="breadcrumb-item active"><a href="{{url('category-add-new/'.$cat_id)}}">{{$title}}</a></li>
                             <?php
                             }
                             $prev_id = $dat->parent_id;
                             ?>
                             <li class="breadcrumb-item active"><a href="{{url('application-new-design/'.$cat_id.'/'.$app_id.'/'.$prev_id)}}">{{$dat->form_title}}</a></li>
-                            <?php
+                <?php
                         }
                     }
                 }
@@ -192,7 +192,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="text-left mb-4 add_application_btn_part">
-                   
+
                     <a href="{{url('sub-content-form/'.$cat_id.'/'.$app_id.'/'.$parent_id)}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn {{$is_content != 1 ? 'disabled' : ''}}">
                         Add content
                     </a>
@@ -205,10 +205,9 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="main_sidebar">
-                    <h2>sidebar</h2>
                     <form class="search_bar">
                         <img src="{{asset('user/assets/icons/search.png')}}" class="search_icon" />
-                        <input name="search" class="search" placeholder="search..." />
+                        <input name="search" id="search" class="search" placeholder="search..." />
                     </form>
                     <hr>
                     <div class="list_content">
@@ -288,10 +287,9 @@
     var cat_id = "{{$cat_id}}";
     var app_id = "{{$app_id}}";
     var parent_id = "{{$parent_id}}";
-    console.log(cat_id, app_id, parent_id)
-    // localStorage.setItem('parent_id', parent_id);  
     $(document).ready(function() {
         application_page_tabs('', true);
+        // $("div.list_content").first().css("background-color","#e9e9e9");
     })
 
     function application_page_tabs() {
@@ -310,10 +308,16 @@
                     var html = '';
                     var Active = 'Active';
                     var Inactive = 'Inactive';
+                    var background_color = '#fff';
                     $.map(result.data, function(item, key) {
+                        if (key == 0) {
+                            OnClickShowData(item.id)
+                            // background_color = "#e9e9e9";
+                        }
                         var url2 = url + "/application-new-design/" + cat_id + "/" + app_id + "/" + item.id;
+                        var edit_url = "{{url('/')}}" + "/sub-content-edit/" + "{{$cat_id}}" + "/{{$app_id}}/{{$parent_id}}/" + item.main_content_id;
                         key = key + 1;
-                        html += '<div class="row">' +
+                        html += '<div class="row name_text parent_div" data-id="' + item.id + '">' +
                             '<div class="col-lg-1">' +
                             ' <div class="no">' +
                             '<span>' + key + '</span>' +
@@ -329,7 +333,7 @@
                             '</a>' +
                             '</div>' +
                             '<div class="plus">' +
-                            '<a href="#">' +
+                            '<a href="' + edit_url + '">' +
                             '<img src = "{{asset("user/assets/icons/copy-img.png")}}" / > ' +
                             ' </a>' +
                             '</div>' +
@@ -360,9 +364,7 @@
         });
     }
 
-    $(".list_content").on("click", ".name_text", function(e) {
-        e.preventDefault();
-        var data_id = $(this).attr('data-id');
+    function OnClickShowData(data_id) {
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -387,31 +389,13 @@
                             })
                         } else if (value.field_content.field_type === "file") {
                             var img_url = "{{asset('app_data_images')}}/" + value.field_value;
-                            var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                            var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif|\.webp)$/i;
                             var filename = value.field_value
                             var ids = "#myModal" + value.id;
                             var id = "myModal" + value.id;
                             var popup_file = '';
                             // file_ += '<tr>';
-
                             if (valid_extensions.test(filename)) {
-                                popup_file += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}" class="image_small" />';
-                                html += '<div id="' + id + '" class="modal fade" role="dialog">' +
-                                    '<div class="modal-dialog">' +
-                                    '<div class="modal-content">' +
-                                    '<div class="modal-body">' + popup_file + '</div>' +
-                                    '<div class="modal-footer">' +
-                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>';
-                                file_ += '<tr>' +
-                                    '<td>' + value.field_content.field_name + '</td>' +
-                                    '<td><img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}" class="image_small" />' + html + '</td>' +
-                                    '</tr>';
-                            } else {
                                 popup_file += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="' + img_url + '" class="image_small" />';
                                 html += '<div id="' + id + '" class="modal fade" role="dialog">' +
                                     '<div class="modal-dialog">' +
@@ -428,6 +412,23 @@
                                     '<td>' + value.field_content.field_name + '</td>' +
                                     '<td><img class="img_side" data-toggle="modal" data-target="' + ids + '" src="' + img_url + '" class="image_small" />' + html + '</td>' +
                                     '</tr>';
+                            } else {
+                                popup_file += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}" class="image_small" />';
+                                html += '<div id="' + id + '" class="modal fade" role="dialog">' +
+                                    '<div class="modal-dialog">' +
+                                    '<div class="modal-content">' +
+                                    '<div class="modal-body">' + popup_file + '</div>' +
+                                    '<div class="modal-footer">' +
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                file_ += '<tr>' +
+                                    '<td>' + value.field_content.field_name + '</td>' +
+                                    '<td><img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}" class="image_small" />' + html + '</td>' +
+                                    '</tr>';
                             }
                         } else {
                             text_ += '<tr>' +
@@ -442,6 +443,92 @@
                 }
             }
         });
+    }
+    $(".list_content").on("click", ".name_text", function(e) {
+        e.preventDefault();
+        $(".parent_div").each(function(index, value) {
+            $(this).css("background-color", "white");
+        });
+        if ($(this).hasClass("parent_div")) {
+            $(this).css("background-color", "#e9e9e9");
+        }
+        var data_id = $(this).attr('data-id');
+        OnClickShowData(data_id)
+    });
+
+    $("#search").keyup(function() {
+        var x = $(this).val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: url + "/searching/" + cat_id + "/" + app_id + "/" + parent_id,
+            data: {
+                'token': '{{ csrf_token() }}',
+                'content': x
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function(result) {
+                if (result.status == "200") {
+                    var html = '';
+                    var Active = 'Active';
+                    var Inactive = 'Inactive';
+                    var background_color = '#fff';
+                    $("div.list_content").empty();
+                    $.map(result.data, function(item, key) {
+                        if (key == 0) {
+                            OnClickShowData(item.id)
+                        }
+                        var url2 = url + "/application-new-design/" + cat_id + "/" + app_id + "/" + item.id;
+                        var edit_url = "{{url('/')}}" + "/sub-content-edit/" + "{{$cat_id}}" + "/{{$app_id}}/{{$parent_id}}/" + item.main_content_id;
+                        key = key + 1;
+                        html += '<div class="row name_text parent_div" data-id="' + item.id + '">' +
+                            '<div class="col-lg-1">' +
+                            ' <div class="no">' +
+                            '<span>' + key + '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="col-lg-8">' +
+                            ' <div class="name">' +
+                            '<a href="javascript:void(0)" class="name_text" data-id="' + item.id + '"><span class="name_text" data-id="' + item.id + '">' + item.form_title + '</span></a>' +
+                            '<div class="icons">' +
+                            '<div class="plus">' +
+                            '<a href="' + url2 + '">' +
+                            '<img src="{{asset("user/assets/icons/Vector.png")}}" />' +
+                            '</a>' +
+                            '</div>' +
+                            '<div class="plus">' +
+                            '<a href="' + edit_url + '">' +
+                            '<img src = "{{asset("user/assets/icons/copy-img.png")}}" / > ' +
+                            ' </a>' +
+                            '</div>' +
+                            '<div class="plus">' +
+                            '<a href="javascript:void(0)" rel="' + item.id + '" data-toggle="modal" data-target="#exampleModalCenter" class="deleteUserBtn">' +
+                            '<img src="{{asset("user/assets/icons/delete-img.png")}}" />' +
+                            '</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="col-lg-3 p-0">' +
+                            '<div class="active_deactive">' +
+                            '<div class="action">' +
+                            '<img src="{{asset("user/assets/icons/right.png")}}" />' +
+                            '<span>' + (item.status == '1' ? Active : Inactive) + '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<hr>';
+                    });
+                    $(".list_content").append(html);
+                } else {
+                    console.log("false")
+                }
+                // console.log(result)
+            }
+        })
     });
 </script>
 @endpush('scripts')
