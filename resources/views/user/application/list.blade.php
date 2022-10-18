@@ -516,8 +516,9 @@
                         "mRender": function(data, type, row) {
 
                             var url2 = '{{ url("category-add-new", "id") }}';
+                            var url3 = '{{ url("user-add-new", "id") }}';
                             url2 = url2.replace('id', row.id);
-                            var url3 = '{{ url("content-list") }}' + '/' + row.id;
+                            var url3 = '{{ url("user-add-new") }}' + '/' + row.id;
                             // return "<a href='"+url2+"' title=\"Edit\" class='action_btn mr-2'>Category</a>" +
                             //         "<a href='"+url3+"' title=\"Edit\" class='action_btn'>Content</a>";
                             // if (row.is_category == 0) {
@@ -525,7 +526,8 @@
                             // } else {
                             //     "<a href='" + url3 + "' title=\"Edit\" class='action_btn'>Content</a>";
                             // }
-                            return "<a href='" + url2 + "' title=\"Edit\" class='action_btn mr-2 action_btn-warning'>Category</a>";
+                            return "<a href='" + url2 + "' title=\"Edit\" class='action_btn mr-2 action_btn-warning'>Category</a>" + 
+                            "<a href='" + url3 + "' title=\"Edit\" class='action_btn mr-2 action_btn-warning'>User</a>";
 
                         }
                     },
