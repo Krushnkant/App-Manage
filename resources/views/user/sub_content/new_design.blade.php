@@ -143,6 +143,14 @@
         padding: 10px;
     }
 
+    hr {
+        margin: 5px 0;
+    }
+
+    .row.name_text.parent_div {
+        padding: 15px 0px;
+    }
+
     /* .list_content .border_botton {
         border-bottom: 1px solid #cfcfcf;
     } */
@@ -457,6 +465,9 @@
     });
 
     $("#search").keyup(function() {
+        // $("#text_table tbody").empty();
+        // $("#file_table tbody").empty();
+        // $(".display_image").empty();
         var x = $(this).val();
         $.ajax({
             headers: {
@@ -477,9 +488,6 @@
                     var background_color = '#fff';
                     $("div.list_content").empty();
                     $.map(result.data, function(item, key) {
-                        if (key == 0) {
-                            OnClickShowData(item.id)
-                        }
                         var url2 = url + "/application-new-design/" + cat_id + "/" + app_id + "/" + item.id;
                         var edit_url = "{{url('/')}}" + "/sub-content-edit/" + "{{$cat_id}}" + "/{{$app_id}}/{{$parent_id}}/" + item.main_content_id;
                         key = key + 1;
