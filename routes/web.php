@@ -108,6 +108,8 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::post('update-student/{id}',[AppDataController::class,'updateuser']);
     Route::delete('delete-student/{id}', [AppDataController::class, 'destroy']);
+
+    Route::post('/searching/{cat_id}/{app_id}/{parent_id}',[CategoryController::class, 'SearchingApi']); //pooja
 });
 
 
