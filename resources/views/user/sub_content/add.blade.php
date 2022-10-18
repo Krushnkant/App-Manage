@@ -216,14 +216,12 @@
   $('body').on('click', '#submit_app_data', function() {
     var plus = 1;
     var all = $('.sub_form .row.sub_form_row .col-md-6').find('.cp_btn').find('.UUID');
-    // var alll = $('.sub_form .row .col-md-6').find('.cp_btn').find('.UUIDd');
     $(all).map(function(key, value) {
       var uniq = (new Date()).getTime() + "_s" + key;
       return $(this).val(uniq);
     })
 
     var formData = new FormData($("#content_add")[0]);
-    // console.log(ValidateForm())
     var validation = ValidateForm()
     if (validation != false) {
       var url = "{{url('/')}}";
