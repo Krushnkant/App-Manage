@@ -1268,4 +1268,50 @@ class CategoryController extends Controller
 
         return response()->json(['status' => '200', 'data' => $data_]);
     }
+
+    public function SearchingApi(Request $request, $cat_id, $app_id, $parent_id)
+    {
+        $search = $request->all();
+        
+        $form_structure_get = FormStructureNew::where('app_id', $app_id)
+            ->where('parent_id', $parent_id)
+            ->where('category_id', $cat_id)
+            ->first();
+        if ($form_structure_get != null) {
+            $data = ContentField::where('status', '1')->where('app_id', $app_id);
+            if (isset($status)) {
+                $s = (string) $status;
+                $data = $data->where('status', $s);
+            }
+            $data_ids = $data->where('form_structure_id', $form_structure_get->id)->pluck('main_content_id')->toArray();
+            $main_title_id = MainContent::whereIn('id', $data_ids)
+                            ->where('title', 'LIKE', $search['content'].'%')
+                            ->pluck('id')->toArray();
+            $data = $data->where('form_structure_id', $form_structure_get->id)
+                ->whereIn('main_content_id', $main_title_id)
+                ->orderBy('id', 'DESC')
+                ->groupBy('main_content_id')
+                ->get();
+
+            foreach ($data as $d) {
+                $main_title = MainContent::whereIn('id', $main_title_id)
+                            ->where('id', $d->main_content_id)
+                            ->first();
+                $d->start_date = $d->created_at->format('d M Y');
+                $category_ids = Category::where('id', $form_structure_get->category_id)->where('status', '1')->first();
+                $application = ApplicationData::where('id', $form_structure_get->app_id)->where('status', '1')->first();
+                // $d->form_title = $form_structure_get->form_title; //*** */
+                $d->category_name = $category_ids->title;
+                if ($application != null) {
+                    $d->app_name = $application->name;
+                } else {
+                    $d->app_name = null;
+                }
+                $d->form_title = $main_title->title;
+            }
+            return response()->json(['status' => '200', 'data' => $data]);
+        } else {
+            return response()->json(['status' => '400']);
+        }
+    }
 }
