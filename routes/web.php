@@ -109,7 +109,7 @@ Route::group(['middleware'=>'auth'],function (){
   
 
     Route::get('/new-user',[AppDataController::class,'index']);  //karan
-    Route::post('user-list',  [AppDataController::class, 'ApplicationList']);  //karan
+    Route::post('userslist',  [AppDataController::class, 'ApplicationList']);  //karan
     Route::post('userdd',[AppDataController::class,'NewUser']);  //karan
     Route::get('edit-student/{id}',[AppDataController::class,'edit']);  //karan
 

@@ -361,7 +361,7 @@
 <script type="text/javascript">
     $("#cat_form").hide();
     var app_id = "1";
-    var urll = "http://127.0.0.1:8000/category_image";
+    var urll = "{{ url('/category_image') }}";
     $(".field_btn").click(function() {
         var app_id = $(this).attr('data-id');
         $("#cat_form").show();
@@ -636,7 +636,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "http://127.0.0.1:8000/category-list",
+                "url": "{{ url('/category-list') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {
@@ -762,7 +762,7 @@
 
         $.ajax({
             type: 'GET',
-            url: "http://127.0.0.1:8000/category" + '/' + remove_user_id + '/delete',
+            url: "{{ url('/category') }}" + '/' + remove_user_id + '/delete',
             success: function(res) {
                 if (res.status == 200) {
                     $("#exampleModalCenter").modal('hide');

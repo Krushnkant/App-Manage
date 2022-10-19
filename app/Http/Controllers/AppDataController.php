@@ -33,7 +33,9 @@ class AppDataController extends Controller
     public function ApplicationList(Request $request)
     {  $page = "Application List";
         $request1 = $request->all();
+        
         $data = User::all();
+        //dd( $data);
         if(!empty($request->get('search'))){
             $search = $request->get('search');
             $search_val = $search['value'];

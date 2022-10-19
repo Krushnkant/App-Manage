@@ -272,13 +272,12 @@ class CategoryController extends Controller
     }
     public function userdestroy($id)
     {
-        $main_category = User::where('id', $id)->first();
-        //dd($main_category);
-        if ($main_category != null) {
-            $cat_fields = AppUser::where('app_id', $main_category->id)->delete();
+       
+        $main_user = AppUser::where('id', $id)->first();
+       // dd($main_user);
+        if ($main_user != null) {
+            $data = AppUser::where('id', $main_user->id)->delete();
 
-            $data = $main_category->delete();
-    
             if ($data == true) {
                 return response()->json(['status' => '200']);
             } else {
@@ -336,16 +335,16 @@ class CategoryController extends Controller
     public function UserList(Request $request)
     {
         $table = $request->all();
-   
-        // $data = CategoryFields::with('category','application')->where('app_id', $table['app_id'])->get();
+     // dd($table);
+//         // $data = CategoryFields::with('category','application')->where('app_id', $table['app_id'])->get();
         $data = AppUser::with('user')->where('app_id', $table['app_id'])->get();
-        //dd($data);
+       //dd($data);
         foreach ($data as $d) {
             $d->start_date = $d->created_at->format('d M Y');
             $d->firstname = $d->user->firstname;
             // dump($d->created_at);
         }
-        //  dd($data);
+         // dd($data);
         return datatables::of($data)->make(true);
     }
 
@@ -366,19 +365,36 @@ class CategoryController extends Controller
     }
     public function ChageuserStatus($id)
     {
-        //dump($id);
-        $category = AppUser::with('user')->find($id);
-        
-        if ($category->estatus == '1') {
-            $category->estatus = '0';
-            $category->save();
-            return response()->json(['status' => '200', 'action' => 'deactive']);
+        $user = User::find($id);
+        // dd($user);
+        $result = "active";
+        if ($user->estatus == '1') {
+            $result = "deactive";
+            $user->estatus = '2';
+        }else{
+            $result = "active";
+            $user->estatus = '1';
         }
-        if ($category->estatus == '0') {
-            $category->estatus = '1';
-            $category->save();
-            return response()->json(['status' => '200', 'action' => 'active']);
+        $user->save();
+        // dd($user);
+        if($user != null){
+            // dd($result);
+            // response()->json(['status' => '200', 'action' => $result]);
+           return response()->json(['status' => '200', 'action' => $result]);
+        }else{
+            return response()->json(['status' => '400']);
         }
+        // if ($user->estatus == '1') {
+        //     $user->estatus = '2';
+        //     $user->save();
+        //     //dd($user);
+        //   response()->json(['status' => '200', 'action' => 'deactive']);
+        // }
+        // if ($user->estatus == '2') {
+        //     $user->estatus = '1';
+        //     $user->save();
+        //     return response()->json(['status' => '200', 'action' => 'active']);
+        // }
     }
     public function AddCategoryNew($id)
     {
@@ -393,7 +409,7 @@ class CategoryController extends Controller
         $page = "Add User";
         $users = User::where('estatus', 1 )->where('role',4)->get();
         $app_data = ApplicationData::where('id', $id)->where('status', '1')->first();
-        $app_user = AppUser::where('app_id', $id)->get();
+        $app_user = AppUser::where('app_id', $id)->pluck('user_id')->toArray();
         //dd($app_user);
         return view('user.category.adduser', compact('id', 'users','app_data', 'app_user','page'));
     }
@@ -508,13 +524,24 @@ class CategoryController extends Controller
         // //    $field_value3 = (isset($data['3field_value']) && $data['3field_value']) ? $data['3field_value'] : null;
 
         // dump($data);
-        $category = new AppUser();
-        $category->app_id = (int)$app_id;
-        $category->user_id = (int)$user_id;
+        
+        foreach ($request->user_id as $key => $item) {
+
+            //if($item != "" && $item != null){          
+                $insuser = new AppUser();
+                $insuser->app_id = (int)$app_id;
+                $insuser->user_id = (int)$user_id;
+            $insuser->user_id = $item;
+;
+            $insuser->save();
+            // }
+
+        }
+       
         // $category->firstname = $fname;
         // $category->lastname = $lname;
         // $category->created_at = $auth->id;
-        $category->save();
+   
         return response()->json(['status' => '200']);
         // dd( $category);  
 

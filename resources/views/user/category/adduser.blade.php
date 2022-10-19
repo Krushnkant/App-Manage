@@ -2,7 +2,8 @@
 
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <style>
     
     .dropzone {
@@ -21,7 +22,7 @@
     }
     .spinner-border {
         display: none;
-    }
+    }  
 
 </style>
 <div>
@@ -79,14 +80,14 @@
                                                         </defs>
                                                     </svg>
 
-                                                    <select class="form-control select-box" id="" name="user_id">
-                                                        <option value="">Please select</option>
-
+                                                    <select class="form-control select-box" id="choices-multiple-remove-button" placeholder="Select" name="user_id[]" multiple>
+                                                        <!-- <option value="">Please select</option> -->
+                                                                    
                                                         @foreach($users as $user)
-                                                       
+                                                        @if(!(in_array($user->id,$app_user)))
                                                         <!-- dump($user); -->
                                                         <option value="{{$user->id}}">{{$user->firstname}}</option>
-                                                      
+                                                        @endif
                                                         @endforeach
 
                                                    </select>
@@ -300,6 +301,7 @@
                         }
                     })
                     $("input#name").val('');
+                    location.reload();
                 } else {
                     $('#submit_category').prop('disabled', false);
                     $('.spinner-border').hide();
@@ -516,10 +518,11 @@
                 {
                     "mData": "status",
                     "mRender": function(data, type, row) {
-                        if (row.status == "1") {
-                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.id + ')" value="1" >Active</span></div>';
+                        console.log(row)
+                        if (row.user.estatus == "1") {
+                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.user_id + ')" value="1" >Active</span></div>';
                         } else {
-                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.id + ')" value="2">Deactive</span></div>';
+                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.user_id + ')" value="2">Deactive</span></div>';
                         }
                     }
                 },
@@ -573,12 +576,12 @@
 
     $('body').on('click', '.deleteUserBtn', function(e) {
         var delete_user_id = $(this).attr('data-id');
-
+        // alert(delete_user_id);
         $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id', delete_user_id);
     });
     $('body').on('click', '#RemoveUserSubmit', function(e) {
         $('#RemoveUserSubmit').prop('disabled', true);
-        console.log($(this).attr('data-id'))
+        // console.log($(this).attr('data-id'))
         var remove_user_id = $(this).attr('data-id');
 
         $.ajax({
@@ -589,6 +592,10 @@
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled', false);
                     $('#category_list').DataTable().draw();
+                    toastr.success("Application User  Deleted", 'Success', {
+                        timeOut: 5000
+                    });
+                    location.reload();
                 } else {
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled', false);
@@ -602,19 +609,23 @@
         });
     });
 
-    function chageuserstatus(cat_id) {
+    function chageuserstatus(user_id) {
+
         $.ajax({
             type: 'GET',
-            url: "{{ url('/changeuserstatus') }}" + '/' + cat_id,
+            url: "{{ url('/changeuserstatus') }}" + '/' + user_id,
             success: function(res) {
+                  
+           // console.log(res);
                 if (res.status == 200 && res.action == 'deactive') {
-                    toastr.success("Category Deactivated", 'Success', {
+                    
+                    toastr.success("User Deactivated", 'Success', {
                         timeOut: 5000
                     });
                     $('#category_list').DataTable().draw();
                 }
                 if (res.status == 200 && res.action == 'active') {
-                    toastr.success("Category activated", 'Success', {
+                    toastr.success("User activated", 'Success', {
                         timeOut: 5000
                     });
                     $('#category_list').DataTable().draw();
@@ -638,5 +649,6 @@
     
     
 });
+
 </script>
 @endpush('scripts')

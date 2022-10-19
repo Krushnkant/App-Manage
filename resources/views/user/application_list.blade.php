@@ -670,6 +670,7 @@
     });
 
     function chageapplicationstatus(app_id) {
+
         $.ajax({
             type: 'GET',
             url: "{{ url('/chageapplicationstatus') }}" + '/' + app_id,
