@@ -100,16 +100,32 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('sub-content-update/{cat_id}/{app_id}/{parent_id}/{structure_id}',  [CategoryController::class, 'SubContentUpdate']);
 
     Route::get('/content_image_delete_new/{id}/{type}',[CategoryController::class, 'DeleteContentNew']);
-  
-    Route::get('/new-user',[AppDataController::class,'index']);
-    Route::post('user-list',  [AppDataController::class, 'ApplicationList']);
-    Route::post('userdd',[AppDataController::class,'NewUser']);
-    Route::get('edit-student/{id}',[AppDataController::class,'edit']);
 
-    Route::post('update-student/{id}',[AppDataController::class,'updateuser']);
-    Route::delete('delete-student/{id}', [AppDataController::class, 'destroy']);
+  
+
+
+
+
+  
+
+    Route::get('/new-user',[AppDataController::class,'index']);  //karan
+    Route::post('userslist',  [AppDataController::class, 'ApplicationList']);  //karan
+    Route::post('userdd',[AppDataController::class,'NewUser']);  //karan
+    Route::get('edit-student/{id}',[AppDataController::class,'edit']);  //karan
+
+    Route::post('update-student/{id}',[AppDataController::class,'updateuser']);  //karan
+    Route::delete('delete-student/{id}', [AppDataController::class, 'destroy']);  //karan
+
 
     Route::post('/searching/{cat_id}/{app_id}/{parent_id}',[CategoryController::class, 'SearchingApi']); //pooja
+
+
+    Route::get('/user-add-new/{id}',  [CategoryController::class, 'AdduserNew']);  //karan
+    Route::post('user-insert-new',  [CategoryController::class, 'InsertUserNew']);  //karan
+    Route::post('user-list',  [CategoryController::class, 'userList']);  //karan
+    Route::get('changeuserstatus/{id}',[CategoryController::class,'chageuserstatus']);  //karan
+    Route::get('/deleteuser/{id}/delete', [CategoryController::class, 'userdestroy']);  //karan
+
 });
 
 

@@ -226,7 +226,7 @@
             },
             "ajax": {
 
-                "url": "{{ '/user-list' }}",
+                "url": "{{ '/userslist' }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {

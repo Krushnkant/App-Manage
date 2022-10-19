@@ -1,168 +1,11 @@
+@extends('user.layouts.layout')
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="csrf-token" content="VG0NE1vgydV1wOFu95Wc0uAvWaqtAn4xJmJCFclM">
-    <title>Add Category | Application Management</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="http://127.0.0.1:8000/user\assets\images\favicon.png">
-    <!-- Pignose Calender -->
-    <link href="http://127.0.0.1:8000/user/assets/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
- 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
-    
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bahianita&family=Playfair+Display:ital,wght@1,400;1,500&family=Raleway&display=swap" rel="stylesheet">
-    <!-- Custom Stylesheet -->
-    <link href="http://127.0.0.1:8000/user/assets/css/style.css" rel="stylesheet">
-    <link href="http://127.0.0.1:8000/user/assets/css/jquery.filer-dragdropbox-theme.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
-     
-
-<script type="text/javascript">(function() {    var rootScript = 'https://cdn.jsdelivr.net/npm/@flasher/flasher@1.1.1/dist/flasher.min.js';    var FLASHER_FLASH_BAG_PLACE_HOLDER = {};    var options = mergeOptions([], FLASHER_FLASH_BAG_PLACE_HOLDER);    function mergeOptions(first, second) {        return {            context: merge(first.context || {}, second.context || {}),            envelopes: merge(first.envelopes || [], second.envelopes || []),            options: merge(first.options || {}, second.options || {}),            scripts: merge(first.scripts || [], second.scripts || []),            styles: merge(first.styles || [], second.styles || []),        };    }    function merge(first, second) {        if (Array.isArray(first) && Array.isArray(second)) {            return first.concat(second).filter(function(item, index, array) {                return array.indexOf(item) === index;            });        }        return Object.assign({}, first, second);    }    function renderOptions(options) {        if(!window.hasOwnProperty('flasher')) {            console.error('Flasher is not loaded');            return;        }        window.flasher.render(options);    }    function render(options) {        if ('loading' !== document.readyState) {            renderOptions(options);            return;        }        document.addEventListener('DOMContentLoaded', function() {            renderOptions(options);        });    }    document.addEventListener('flasher:render', function (event) {        render(event.detail);    });    if (window.hasOwnProperty('flasher') || !rootScript || document.querySelector('script[src="' + rootScript + '"]')) {        render(options);    } else {        var tag = document.createElement('script');        tag.setAttribute('src', rootScript);        tag.setAttribute('type', 'text/javascript');        tag.onload = function () {            render(options);        };        document.head.appendChild(tag);    }})();</script>
-
-
-<body>
-
-    <!--*******************
-        Preloader start
-    ********************-->
-    <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    </div>
-    <!--*******************
-        Preloader end
-    ********************-->
-
-    
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
-    <div id="main-wrapper">
-        <!--**********************************
-            Nav header start
-        ***********************************-->
-        <div class="nav-header">
-            <div class="brand-logo">
-    <a href="url('/dashboard')">
-        <b class="logo-abbr"><img src="http://127.0.0.1:8000/user/assets/images/logo.png" alt=""> </b>
-        <span class="logo-compact"><img src="http://127.0.0.1:8000/user/assets/images/logo-compact.png" alt=""></span>
-        <span class="brand-title text-white">
-            App Management
-        </span>
-    </a>
-</div>        </div>
-        <!--**********************************
-            Nav header end
-        ***********************************-->
-
-        <!--**********************************
-            Header start
-        ***********************************-->
-        <div class="header">    
-            <div class="header-content clearfix">
-    <div class="nav-control">
-        <div class="hamburger">
-            <span class="toggle-icon"><i class="icon-menu"></i></span>
-        </div>
-    </div>
-    <div class="header-right">
-        <ul class="clearfix">
-            
-            <li class="icons dropdown">
-                <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                    <span class="activity active"></span>
-                    <img src="http://127.0.0.1:8000/user\assets\images/user/1.png" height="40" width="40" alt="">
-                </div>
-                <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
-                    <div class="dropdown-content-body">
-                        <ul>
-                            <!-- <li>
-                                <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
-                            </li> -->
-                            <li><a href="http://127.0.0.1:8000/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-        </div>
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
-
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
-        <div class="nk-sidebar">           
-            <div class="nk-nav-scroll">
-    <ul class="metismenu" id="menu">
-        <li>
-            <a  href="http://127.0.0.1:8000/dashboard" aria-expanded="false">
-                <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
-            </a>
-        </li>
-        <li class="mega-menu mega-menu-sm">
-            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Application</span>
-            </a>
-            <ul aria-expanded="false">
-                <li><a href="http://127.0.0.1:8000/application">Application List</a></li>
-                <li><a href="http://127.0.0.1:8000/add-application">Add Application</a></li>
-            </ul>
-        </li>
-        <!-- <li class="mega-menu mega-menu-sm active">
-            <a href="javascript:void(0)" aria-expanded="false">
-                <i class="icon-badge menu-icon"></i><span class="nav-text">Application</span>
-            </a>
-            <ul aria-expanded="false" class="collapse in" style="">
-                <li><a href="http://127.0.0.1:8000/application">Application List</a></li>
-                <li><a href="http://127.0.0.1:8000/add-application">Add Application</a></li>
-            </ul>
-        </li> -->
-        <li class="mega-menu mega-menu-sm">
-            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Application New</span>
-            </a>
-            <ul aria-expanded="false">
-                <li><a href="http://127.0.0.1:8000/application-new">Application List</a></li>
-            </ul>
-        </li>
-        <li>
-        <li>
-            <a  href="http://127.0.0.1:8000/new-user" aria-expanded="false">
-                <i class="icon-speedometer menu-icon"></i><span class="nav-text">User</span>
-            </a>
-        </li>
-            <a href="http://127.0.0.1:8000/settings" aria-expanded="false">
-                <i class="icon-grid menu-icon"></i><span class="nav-text">Settings</span>
-            </a>
-        </li>
-    </ul>
-</div>        </div>
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
-
-        <!--**********************************
-            Content body start
-        ***********************************-->
-        <div class="content-body">
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
+@section('content')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <style>
+    
     .dropzone {
         background: #e3e6ff;
         border-radius: 13px;
@@ -179,15 +22,15 @@
     }
     .spinner-border {
         display: none;
-    }
+    }  
 
 </style>
 <div>
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="http://127.0.0.1:8000/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="http://127.0.0.1:8000/application-new">Application List</a></li>
+                <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{url('application-new')}}">Application List</a></li>
                 <li class="breadcrumb-item active">Add Category</li>
             </ol>
         </div>
@@ -199,27 +42,27 @@
                     <div class="col-xl-4">
                         <div class="card shadow-none">
                             <div class="card-body">
-                                <h4 class="card-title">Add Category Form - manish</h4>
+                                <h4 class="card-title">Add User Form - {{$app_data->name}}</h4>
                                 <div class="form-validation">
-                                    <!-- <form method="POST" action="http://127.0.0.1:8000/category" accept-charset="UTF-8" enctype="multipart/form-data"><input name="_token" type="hidden" value="VG0NE1vgydV1wOFu95Wc0uAvWaqtAn4xJmJCFclM"> -->
+                                    <!-- {{ Form::open(array('url' => 'category', 'method' => 'post', 'enctype' => 'multipart/form-data')) }} -->
                                     <form class="form-valide custom-form-design" action="" mathod="POST" id="category_add" enctype="multipart/form-data">
-                                        <input type="hidden" name="_token" value="VG0NE1vgydV1wOFu95Wc0uAvWaqtAn4xJmJCFclM">
-                                        <input type="hidden" name="app_id" value="1" />
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="app_id" value="{{$id}}" />
                                         <p class="error-display" style="display: none;"></p>
                                         <div class="row m-0 no-gutters">
                                             <div class="form-group col-12 title_part">
-                                                <label class="col-form-label" for="name">Title <span class="text-danger">*</span>
+                                                <!-- <label class="col-form-label" for="name">Title <span class="text-danger">*</span>
                                                 </label>
                                                 <div class="row m-0 no-gutters">
                                                     <div class="col-lg-12 p-0">
                                                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category Title" required>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="row no-gutters">
                                             <div class="col-md-12">
-                                                <label class="col-form-label px-0" for="name">custom field <span class="text-danger">*</span>
+                                                <label class="col-form-label px-0" for="name">custom user<span class="text-danger">*</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -236,16 +79,22 @@
                                                             <image id="image0_303_257" width="512" height="512" xlink:href="data:image/png;base64,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" />
                                                         </defs>
                                                     </svg>
-                                                    <select class="form-control select-box" id="val-skill" name="val-skill">
-                                                        <option value="">Please select</option>
-                                                                                                                <option data-id="1" value="textbox">Textbox</option>
-                                                                                                                <option data-id="2" value="file">Image</option>
-                                                                                                                <option data-id="3" value="multi-file">Multi Image</option>
-                                                                                                            </select>
+
+                                                    <select class="form-control select-box" id="choices-multiple-remove-button" placeholder="Select" name="user_id[]" multiple>
+                                                        <!-- <option value="">Please select</option> -->
+                                                                    
+                                                        @foreach($users as $user)
+                                                        @if(!(in_array($user->id,$app_user)))
+                                                        <!-- dump($user); -->
+                                                        <option value="{{$user->id}}">{{$user->firstname}}</option>
+                                                        @endif
+                                                        @endforeach
+
+                                                   </select>
                                                 </div>
                                             </div>
                                             <div class="col-3 col-sm-2 text-center text-md-start p-0 mb-2 mb-md-0">
-                                                <div class="custome_fields"><button type="button" data-id="1" class="plus_btn btn mb-1 btn-info field_btn">Add</button></div>
+                                                <!-- <div class="custome_fields"><button type="button" data-id="{{$id}}" class="plus_btn btn mb-1 btn-info field_btn">Add</button></div> -->
                                             </div>
                                         </div>
                                         <div class="row m-0">
@@ -271,7 +120,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <!-- </form> -->
+                                    <!-- {{ Form::close() }} -->
                                 </div>
                             </div>
                         </div>
@@ -279,14 +128,14 @@
                     <div class="col-xl-8 table_detail_part px-0 px-xl-3">
                         <div class="card">
                             <div class="card-body px-3">
-                                <h4 class="card-title px-3">Category List - manish</h4>
+                                <h4 class="card-title px-3">User List - {{$app_data->name}}</h4>
                                 <div class="table-responsive">
                                     <table id="category_list" class="table zero-configuration customNewtable application_table table-child-part shadow-none" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th></th>
                                                 <th>No</th>
-                                                <th>Title</th>
+                                                <th>User</th>
                                                 <th>status</th>
                                                 <!-- <th>Date</th> -->
                                                 <th>Action</th>
@@ -328,40 +177,14 @@
         </div>
     </div>
 </div>
-            <!-- #/ container -->
-
-            <div class="footer">
-                <div class="copyright">
-    <p>Copyright &copy; Web Wedant Technology by <a href="https://webvedantinfotech.com/"></a> 2022</p>
-</div>            </div>
-        </div>
-       
-        <!--**********************************
-            Content body end
-        ***********************************-->
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-    
-        <!--**********************************
-            Footer end
-        ***********************************-->
-    </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
-
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
+@endsection
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
     $("#cat_form").hide();
-    var app_id = "1";
-    var urll = "{{ url('/category_image') }}";
+    var app_id = "{{$id}}";
+    var urll = "{{asset('/category_image/')}}";
     $(".field_btn").click(function() {
         var app_id = $(this).attr('data-id');
         $("#cat_form").show();
@@ -406,7 +229,7 @@
                 //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
                 // '</div>'+
                 '<div class="col-2 col-sm-2 text-center text-sm-start px-0 px-sm-3">' +
-                '<button type="button" class="minus_btn mb-1"><img src="http://127.0.0.1:8000/user/assets/icons/delete-red.png"></button>' +
+                '<button type="button" class="minus_btn mb-1"><img src="{{asset("user/assets/icons/delete-red.png")}}"></button>' +
                 '</div>' +
                 '</div>';
         }
@@ -441,7 +264,7 @@
         //     }
         // })
         var i = 0;
-        var url = "http://127.0.0.1:8000";
+        var url = "{{url('/')}}";
         // $( "#category_add input" ).each(function() {
         //     if($(this).attr('data') === 'multiple'){
         //         var old_name = $(this).attr('name')
@@ -452,45 +275,46 @@
         //     }
         // });
         var formData = new FormData($("#category_add")[0]);
-        var validation = ValidateForm()
-        if (validation != false) {
-            $('.spinner-border').show();
-            $('#submit_category').addClass('disabled');
-            $.ajax({
-                type: 'POST',
-                url: url+"/category-insert-new",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    if (data.status == 200) {
-                        $('.spinner-border').hide();
-                        toastr.success("Category Added", 'Success', {
-                            timeOut: 5000
-                        });
-                        $('#category_list').DataTable().draw();
-                        $('#submit_category').prop('disabled', false);
-                        var total_specific = $(".disabled_a");
-                        $(total_specific).each(function() {
-                            if ($(this).val().length > 0) {
-                                $(this).val('');
-                            }
-                        })
-                        $("input#name").val('');
-                    } else {
-                        $('#submit_category').prop('disabled', false);
-                        $('.spinner-border').hide();
-                        toastr.error("Please try again", 'Error', {
-                            timeOut: 5000
-                        })
-                    }
+        // var validation = ValidateForm()
+        // if (validation != false) {
+        // }
+        $('.spinner-border').show();
+        $('#submit_category').addClass('disabled');
+        $.ajax({
+            type: 'POST',
+            url: url+"/user-insert-new",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                if (data.status == 200) {
+                    $('.spinner-border').hide();
+                    toastr.success("Category Added", 'Success', {
+                        timeOut: 5000
+                    });
+                    $('#category_list').DataTable().draw();
+                    $('#submit_category').prop('disabled', false);
+                    var total_specific = $(".disabled_a");
+                    $(total_specific).each(function() {
+                        if ($(this).val().length > 0) {
+                            $(this).val('');
+                        }
+                    })
+                    $("input#name").val('');
+                    location.reload();
+                } else {
+                    $('#submit_category').prop('disabled', false);
+                    $('.spinner-border').hide();
+                    toastr.error("Please try again", 'Error', {
+                        timeOut: 5000
+                    })
                 }
-            });
-        }
+            }
+        });
         // if(total_length == 0){
         // }
     })
-
+    
     function ValidateForm() {
         var isFormValid = true;
         var specific_arr = [];
@@ -595,7 +419,7 @@
             //     } else {
             //         if (valid_video_extensions.test(filename)) {
             //             image_video += '<iframe src="' + imgg + '" title="video" allowfullscreen></iframe>';
-            //             image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="http://127.0.0.1:8000/user/assets/icons/video_icon.jpg">';
+            //             image_set_video += '<img class="img_side" data-toggle="modal" data-target="' + ids + '" src="{{asset("user/assets/icons/video_icon.jpg")}}">';
             //         }
             //     }
             //     var html = '<div id="' + id + '" class="modal fade" role="dialog">' +
@@ -629,18 +453,19 @@
         return (date);
     };
 
-    var id__ = "1";
+    var id__ = "{{$id}}";
     $(document).ready(function() {
+        
         var table = $('#category_list').DataTable({
             "destroy": true,
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "{{ url('/category-list') }}",
+                "url": "{{ url('/user-list') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {
-                    _token: 'VG0NE1vgydV1wOFu95Wc0uAvWaqtAn4xJmJCFclM',
+                    _token: '{{ csrf_token() }}',
                     app_id: app_id
                 },
             },
@@ -660,10 +485,8 @@
                     "width": "15%",
                     "targets": 3
                 },
-                {
-                    "width": "20%",
-                    "targets": 4
-                },
+              
+              
             ],
             "columns": [{
                     className: 'dt-control',
@@ -682,22 +505,24 @@
                     }
                 },
                 {
-                    data: 'title',
-                    name: 'title',
+                    data: 'firstname',
+                    name: 'firstname',
                     class: "text-left",
                     orderable: false,
                     render: function(data, type, row) {
                         // return row.title;
-                        return "<div><span class='application_text app_id_part total_request_text'>" + row.title + "</span></div>";
+                        return "<div><span class='application_text app_id_part total_request_text'>" + row.firstname + "</span></div>";
                     }
                 },
+             
                 {
                     "mData": "status",
                     "mRender": function(data, type, row) {
-                        if (row.status == "1") {
-                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="1" >Active</span></div>';
+                        console.log(row)
+                        if (row.user.estatus == "1") {
+                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.user_id + ')" value="1" >Active</span></div>';
                         } else {
-                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="2">Deactive</span></div>';
+                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.user_id + ')" value="2">Deactive</span></div>';
                         }
                     }
                 },
@@ -713,19 +538,17 @@
                 {
                     "mData": "action",
                     "mRender": function(data, type, row) {
-                        var url = "http://127.0.0.1:8000";
+                        var url = "{{url('/')}}";
                        
                         var url1 = url+"/category-edit-new/"+row.id;
                         // var url2 = url+"/sub-content/"+id__+"/"+row.id+"/0";
                         // var url2 = url+"/application-new-design/"+id__+"/"+row.id+"/0/0";
                         var url2 = url+"/application-new-design/"+row.id+"/"+id__+"/0";
                         // console.log(url2)
-                        var img_url1 = "http://127.0.0.1:8000/user/assets/icons/edit.png";
-                        var img_url2 = "http://127.0.0.1:8000/user/assets/icons/delete.png";
+                        var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
+                        var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
 
-                        return "<a href='" +url2+ "' title='sub-content' class='application_text mr-4 btn'>Sub Content</a>"+
-                            "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
-                            "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
+                        return "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
                             row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
                     }
                 }
@@ -753,21 +576,26 @@
 
     $('body').on('click', '.deleteUserBtn', function(e) {
         var delete_user_id = $(this).attr('data-id');
+        // alert(delete_user_id);
         $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id', delete_user_id);
     });
     $('body').on('click', '#RemoveUserSubmit', function(e) {
         $('#RemoveUserSubmit').prop('disabled', true);
-        console.log($(this).attr('data-id'))
+        // console.log($(this).attr('data-id'))
         var remove_user_id = $(this).attr('data-id');
 
         $.ajax({
             type: 'GET',
-            url: "{{ url('/category') }}" + '/' + remove_user_id + '/delete',
+            url: "{{ url('/deleteuser') }}" + '/' + remove_user_id + '/delete',
             success: function(res) {
                 if (res.status == 200) {
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled', false);
                     $('#category_list').DataTable().draw();
+                    toastr.success("Application User  Deleted", 'Success', {
+                        timeOut: 5000
+                    });
+                    location.reload();
                 } else {
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled', false);
@@ -781,19 +609,23 @@
         });
     });
 
-    function chageapplicationstatus(cat_id) {
+    function chageuserstatus(user_id) {
+
         $.ajax({
             type: 'GET',
-            url: "http://127.0.0.1:8000/chageacategorystatus" + '/' + cat_id,
+            url: "{{ url('/changeuserstatus') }}" + '/' + user_id,
             success: function(res) {
+                  
+           // console.log(res);
                 if (res.status == 200 && res.action == 'deactive') {
-                    toastr.success("Category Deactivated", 'Success', {
+                    
+                    toastr.success("User Deactivated", 'Success', {
                         timeOut: 5000
                     });
                     $('#category_list').DataTable().draw();
                 }
                 if (res.status == 200 && res.action == 'active') {
-                    toastr.success("Category activated", 'Success', {
+                    toastr.success("User activated", 'Success', {
                         timeOut: 5000
                     });
                     $('#category_list').DataTable().draw();
@@ -801,75 +633,22 @@
             },
             error: function(data) {
                 toastr.error("Please try again", 'Error', {
-                    timeOut: 5000
-                });
-            }
-        });
+             timeOut: 5000
+          });
+       }
+     });
     }
+    $(document).ready(function(){
+    
+    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+       removeItemButton: true,
+       maxItemCount:5,
+       searchResultLimit:5,
+       renderChoiceLimit:5
+     }); 
+    
+    
+});
+
 </script>
-
-    <!-- pooja -->
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  -->
-
-    <script src="http://127.0.0.1:8000/user/assets/plugins/common/common.min.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/js/custom.min.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/js/settings.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/js/gleek.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/js/styleSwitcher.js"></script>
-
-  
-    <!-- Circle progress -->
-    <script src="http://127.0.0.1:8000/user/assets/plugins/circle-progress/circle-progress.min.js"></script>
-    <!-- Datamap -->
-    <script src="http://127.0.0.1:8000/user/assets/plugins/d3v3/index.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/plugins/topojson/topojson.min.js"></script>
-    <!-- <script src="http://127.0.0.1:8000/user/assets/plugins/datamaps/datamaps.world.min.js"></script> -->
-    <!-- Morrisjs -->
-    <script src="http://127.0.0.1:8000/user/assets/plugins/raphael/raphael.min.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/plugins/morris/morris.min.js"></script>
-    <!-- Pignose Calender -->
-    <script src="http://127.0.0.1:8000/user/assets/plugins/moment/moment.min.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
-    <!-- ChartistJS -->
-    <script src="http://127.0.0.1:8000/user/assets/plugins/chartist/js/chartist.min.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-    <!-- <script src="http://127.0.0.1:8000/user/assets/js/dashboard/dashboard-1.js"></script> -->
-    <!-- <script src="http://127.0.0.1:8000/user/assets/js/CatImgJs.js"></script> -->
-
-    <!-- <script src="http://127.0.0.1:8000/user/assets/plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="http://127.0.0.1:8000/user/assets/plugins/tables/js/datatable-init/datatable-basic.min.js"></script> -->
-
-    <!-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script> -->
-    <!-- <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap.min.js"></script> -->
-
-    <script src="http://127.0.0.1:8000/user\assets\plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="http://127.0.0.1:8000/user\assets\plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="http://127.0.0.1:8000/user\assets\plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
-    <!-- <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script> -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
-
-</body>
-
-</html>
+@endpush('scripts')

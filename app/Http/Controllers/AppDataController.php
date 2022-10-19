@@ -33,7 +33,9 @@ class AppDataController extends Controller
     public function ApplicationList(Request $request)
     {  $page = "Application List";
         $request1 = $request->all();
+        
         $data = User::all();
+        //dd( $data);
         if(!empty($request->get('search'))){
             $search = $request->get('search');
             $search_val = $search['value'];
@@ -633,6 +635,7 @@ class AppDataController extends Controller
             $student->firstname = $request->input('firstname');
             $student->lastname = $request->input('lastname');
             $student->username = $request->input('username');
+            $student->role = '4';
             $student->email = $request->input('email');
             $student->password = Hash::make($request->input('password'));
             $student->decrip_password = $request->input('password');
@@ -672,6 +675,7 @@ class AppDataController extends Controller
         $get_data->username = $data['username'];
         $get_data->email = $data['email'];
         $get_data->password = Hash::make($data['password']);
+        
         $get_data->decrip_password = $data['decrip_password'];
         $get_data->save();
         //dd($get_data);
