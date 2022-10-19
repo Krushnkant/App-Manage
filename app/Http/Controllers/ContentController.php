@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Field,FormStructure,SubformStructure, Category, ApplicationData, AppData, SubAppData};
+use App\Models\{Field,FormStructure,SubformStructure, Category, ApplicationData, AppData, SubAppData,MainContent};
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -546,6 +546,20 @@ class ContentController extends Controller
                                 ->where('status', '0')->update(['status' => '1']);
             $get_all_sub_app_data = SubAppData::where('app_uuid', $content->UUID)
                                 ->where('status', '0')->update(['status' => '1']);
+            return response()->json(['status' => '200','action' =>'active']);
+        }
+    }
+
+    public function ChageContentStatusNew($id)
+    {
+        $content = MainContent::find($id);
+        if($content->status == '1'){
+            $content_data = MainContent::where('id', $id)->where('status', '1')->update(['status' => '0']);
+           
+            return response()->json(['status' => '200','action' =>'deactive']);
+        }else{
+            $content_data = MainContent::where('id', $id)->where('status', '0')->update(['status' => '1']);
+          
             return response()->json(['status' => '200','action' =>'active']);
         }
     }

@@ -56,6 +56,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/content/{id}/delete',[ContentController::class, 'destroy']);
     Route::get('/content_image_delete/{id}',[ContentController::class, 'DeleteContent']);
     Route::get('chageaContentstatus/{id}',[ContentController::class,'ChageContentStatus']);
+    Route::get('chageaContentstatusNew/{id}',[ContentController::class,'ChageContentStatusNew']);
 
     // application content data
     Route::resource('/app-data',  AppDataController::class);

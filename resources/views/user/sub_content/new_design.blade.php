@@ -52,9 +52,9 @@
     .action {
         box-sizing: border-box;
         position: absolute;
-        border: 1px solid #C8C8C8;
-        border-radius: 5px;
-        padding: 0px 20px;
+        /* border: 1px solid #C8C8C8; */
+        /* border-radius: 5px; */
+        padding: 0px 60px;
     }
 
     img.search_icon {
@@ -80,10 +80,10 @@
     .image_part h2 {
         font-family: "Roboto", sans-serif;
         font-style: normal;
-        font-weight: 600;
+        /* font-weight: 600; */
         font-size: 16px;
         line-height: 24px;
-        color: #005A8C;
+        color: #04090c;
         text-transform: capitalize;
         padding: 10px;
     }
@@ -150,6 +150,56 @@
     .row.name_text.parent_div {
         padding: 15px 0px;
     }
+
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 71px;
+  height: 40px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #dedede;
+  border-radius: 40px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 32px;
+  width: 32px;
+  background: #fff;
+  border-radius: 50%;
+  left: 4px;
+  bottom: 4px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background: #be0071;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(30px);
+  -moz-transform: translateX(30px);
+  transform: translateX(30px);
+}
+
+input:focus + .slider {
+}
 
     /* .list_content .border_botton {
         border-bottom: 1px solid #cfcfcf;
@@ -312,36 +362,36 @@
             type: 'POST',
             dataType: 'json',
             success: function(result) {
+                
                 if (result.status == "200") {
                     var html = '';
                     var Active = 'Active';
                     var Inactive = 'Inactive';
-                    var background_color = '#fff';
+                    
                     $.map(result.data, function(item, key) {
+                        var background_color = '#fff';
                         if (key == 0) {
                             OnClickShowData(item.id)
-                            // background_color = "#e9e9e9";
+                             background_color = "#e9e9e9";
                         }
                         var url2 = url + "/application-new-design/" + cat_id + "/" + app_id + "/" + item.id;
                         var edit_url = "{{url('/')}}" + "/sub-content-edit/" + "{{$cat_id}}" + "/{{$app_id}}/{{$parent_id}}/" + item.main_content_id;
                         key = key + 1;
-                        html += '<div class="row name_text parent_div" data-id="' + item.id + '">' +
+                        html += '<div class="row name_text parent_div" style="background-color: '+ background_color +'" data-id="' + item.id + '">' +
                             '<div class="col-lg-1">' +
                             ' <div class="no">' +
-                            '<span>' + key + '</span>' +
+                            '<span>' + key + '</span>' + // '<span>' + (item.status == '1' ? Active : Inactive) + '</span>' +
                             '</div>' +
                             '</div>' +
                             '<div class="col-lg-8">' +
                             ' <div class="name">' +
-                            '<a href="javascript:void(0)" class="name_text" data-id="' + item.id + '"><span class="name_text" data-id="' + item.id + '">' + item.form_title + '</span></a>' +
+                            '<span class="name_text" data-id="' + item.id + '">' + item.form_title + '</span>' +
                             '<div class="icons">' +
-                            '<div class="plus">' +
-                            '<a href="' + url2 + '">' +
-                            '<img src="{{asset("user/assets/icons/Vector.png")}}" />' +
-                            '</a>' +
+                            '<div class="plus ">' +
+                            '<label class="switch"><input type="checkbox" ' + (item.main_content_status == '1' ? "checked" : "") + ' class="toggle-class" data-id="'+ item.main_content_id +'"><span class="slider"></span></label>' +
                             '</div>' +
                             '<div class="plus">' +
-                            '<a href="' + edit_url + '">' +
+                            '<a href="' + edit_url + '" data-url="'+ edit_url +'" class="editUserBtn">' +
                             '<img src = "{{asset("user/assets/icons/copy-img.png")}}" / > ' +
                             ' </a>' +
                             '</div>' +
@@ -356,8 +406,8 @@
                             '<div class="col-lg-3 p-0">' +
                             '<div class="active_deactive">' +
                             '<div class="action">' +
-                            '<img src="{{asset("user/assets/icons/right.png")}}" />' +
-                            '<span>' + (item.status == '1' ? Active : Inactive) + '</span>' +
+                            // '<img src="{{asset("user/assets/icons/right.png")}}" />' +
+                            '<a href="'+ url2 +'" data-url="'+ url2 +'" class="addUserBtn" ><i class="fa fa-arrow-right" style="font-size:16px"></i></a>' +
                             '</div>' +
                             '</div>' +
                             '</div>' +
@@ -453,7 +503,7 @@
         });
     }
     $(".list_content").on("click", ".name_text", function(e) {
-        e.preventDefault();
+        // e.preventDefault();
         $(".parent_div").each(function(index, value) {
             $(this).css("background-color", "white");
         });
@@ -461,7 +511,7 @@
             $(this).css("background-color", "#e9e9e9");
         }
         var data_id = $(this).attr('data-id');
-        OnClickShowData(data_id)
+        OnClickShowData(data_id);
     });
 
     $("#search").keyup(function() {
@@ -481,6 +531,7 @@
             type: 'POST',
             dataType: 'json',
             success: function(result) {
+                
                 if (result.status == "200") {
                     var html = '';
                     var Active = 'Active';
@@ -499,15 +550,13 @@
                             '</div>' +
                             '<div class="col-lg-8">' +
                             ' <div class="name">' +
-                            '<a href="javascript:void(0)" class="name_text" data-id="' + item.id + '"><span class="name_text" data-id="' + item.id + '">' + item.form_title + '</span></a>' +
+                            '<span class="name_text" data-id="' + item.id + '">' + item.form_title + '</span>' +
                             '<div class="icons">' +
                             '<div class="plus">' +
-                            '<a href="' + url2 + '">' +
-                            '<img src="{{asset("user/assets/icons/Vector.png")}}" />' +
-                            '</a>' +
+                            '<label class="switch"><input type="checkbox" ' + (item.main_content_status == '1' ? "checked" : "") + ' class="toggle-class" data-id="'+ item.main_content_id +'"><span class="slider"></span></label>' +
                             '</div>' +
                             '<div class="plus">' +
-                            '<a href="' + edit_url + '">' +
+                            '<a href="' + edit_url + '" data-url="'+ edit_url +'" class="editUserBtn">' +
                             '<img src = "{{asset("user/assets/icons/copy-img.png")}}" / > ' +
                             ' </a>' +
                             '</div>' +
@@ -522,8 +571,9 @@
                             '<div class="col-lg-3 p-0">' +
                             '<div class="active_deactive">' +
                             '<div class="action">' +
-                            '<img src="{{asset("user/assets/icons/right.png")}}" />' +
-                            '<span>' + (item.status == '1' ? Active : Inactive) + '</span>' +
+                            // '<img src="{{asset("user/assets/icons/right.png")}}" />' +
+                           // '<span>' + (item.status == '1' ? Active : Inactive) + '</span>' +
+                            '<a href="'+ url2 +'" data-url="'+ url2 +'" class="addUserBtn" ><i class="fa fa-arrow-right" style="font-size:16px"></i></a>' +
                             '</div>' +
                             '</div>' +
                             '</div>' +
@@ -538,5 +588,31 @@
             }
         })
     });
+
+    
+ $(document).ready(function(){
+    $('body').on('change', '.toggle-class', function() {
+        let status = $(this).prop('checked') === true ? 1 : 0;
+        let userId = $(this).data('id');
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/chageaContentstatusNew') }}" +'/' + userId,
+            success: function (res) {
+                console.log(res);
+                if(res.status == 200 && res.action=='deactive'){
+                    toastr.success("Content Deactivated",'Success',{timeOut: 5000});
+                    $('#content_list').DataTable().draw();
+                }
+                if(res.status == 200 && res.action=='active'){
+                    toastr.success("Content activated",'Success',{timeOut: 5000});
+                    $('#content_list').DataTable().draw();
+                }
+            },
+            error: function (data) {
+                toastr.error("Please try again",'Error',{timeOut: 5000});
+            }
+        });
+    });
+});
 </script>
 @endpush('scripts')

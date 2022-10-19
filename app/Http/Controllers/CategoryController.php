@@ -1328,7 +1328,7 @@ class CategoryController extends Controller
                 ->groupBy('main_content_id')
                 ->get();
 
-            // dd($data);
+
 
             foreach ($data as $d) {
                 $main_title = MainContent::where('id', $d->main_content_id)->first();
@@ -1345,6 +1345,7 @@ class CategoryController extends Controller
                     $d->app_name = null;
                 }
                 $d->form_title = $main_title->title;
+                $d->main_content_status = $main_title->status;
             }
             // dd();
             return response()->json(['status' => '200', 'data' => $data]);
@@ -1402,7 +1403,7 @@ class CategoryController extends Controller
             }
             $data_ids = $data->where('form_structure_id', $form_structure_get->id)->pluck('main_content_id')->toArray();
             $main_title_id = MainContent::whereIn('id', $data_ids)
-                            ->where('title', 'LIKE', $search['content'].'%')
+                            ->where('title', 'LIKE', '%'.$search['content'].'%')
                             ->pluck('id')->toArray();
             $data = $data->where('form_structure_id', $form_structure_get->id)
                 ->whereIn('main_content_id', $main_title_id)
@@ -1425,6 +1426,7 @@ class CategoryController extends Controller
                     $d->app_name = null;
                 }
                 $d->form_title = $main_title->title;
+                $d->main_content_status = $main_title->status;
             }
             return response()->json(['status' => '200', 'data' => $data]);
         } else {
