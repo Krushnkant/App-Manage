@@ -544,13 +544,19 @@
                             var role = "{{ Auth()->user()->role }}";
 
                             if(role != 4){
-                               var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><i class='fa fa-user'></i></a>";
-                            }
-                            
-                            return "'" + user + "'" +
-                                "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                               var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><i class='fa fa-user'></i></a>" +
+                               "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
                                 "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
                                 row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                            }else{
+                                var user = "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                                "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
+                                row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                            }
+                            
+                            return user;
+                                  
+                                
                         }
                     }
                 ],
