@@ -103,8 +103,8 @@
                                 </select>
                                  </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-info add_student" id="registerbutton">Save changes</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary add_student" id="registerbutton">Save changes</button>
                                 </div>
                             </form>
                         </div>
@@ -157,8 +157,8 @@
          </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info update_student">Update</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary update_student">Update</button>
       </div>
     </div>
   </div>
@@ -185,7 +185,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">delete User</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -199,8 +199,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary delete_student_btn">Yes delete</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary delete_student_btn"> delete</button>
       </div>
     </div>
   </div>
@@ -335,8 +335,8 @@
                           var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                                var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
                            
-                          return "<button type='button' value=" + row.id + " class='edit_student border-0'><img src='" + img_url1 + "' alt='' style='margin-right:30px'></button>" +
-                                    "<button type='button'  value=" + row.id + " class='delete_student border-0'><img src='" + img_url2 + "' alt=''></button>";
+                          return "<a href='' value=" + row.id + " class='edit_student border-0'><img src='" + img_url1 + "' alt=''style=margin:20px ></a>" +
+                                    "<a href=''  value=" + row.id + " class='delete_student border-0'><img src='" + img_url2 + "' alt=''></a>";
                             
 
                         }
