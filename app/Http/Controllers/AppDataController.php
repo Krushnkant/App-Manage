@@ -34,22 +34,25 @@ class AppDataController extends Controller
     {  $page = "Application List";
         $request1 = $request->all();
         
-        $data = User::all();
-        //dd( $data);
-        if(!empty($request->get('search'))){
+       $data = User::whereIn('role', [3,4])->get();
+     // dd($request->get('search'));
+       if(!empty($request->get('search'))){
             $search = $request->get('search');
             $search_val = $search['value'];
             // dump($search_val);
+            if($search_val!="")
+            {
             $data = $data->where('firstname', 'Like','%'. $search_val .'%');
-            // ->orWhere('lastname', 'Like','%'. $search_val .'%')
+            
+            }// ->orWhere('lastname', 'Like','%'. $search_val .'%')
             // ->orWhere('username', 'Like','%'. $search_val .'%')
             // ->orWhere('email', 'Like','%'. $search_val .'%')
             // ->orWhere('password', 'Like','%'. $search_val .'%');
             // dd($data);
         }
-        $data = User::orderBy('id', 'DESC')->get();
-      
-        return datatables::of($data)->make(true);
+        // $data = User::orderBy('id', 'DESC')->get();
+        
+        return datatables::of($data)->make(true);   
         // return view('user.application_user_list', compact('page'));             
     }
     /**
@@ -613,6 +616,7 @@ class AppDataController extends Controller
 
     public function NewUser(Request $request)
     {
+        
         // $validator = Validator::make($request->all(), [
         //     'name'=> 'required|max:191',
         //     'course'=>'required|max:191',
@@ -635,11 +639,12 @@ class AppDataController extends Controller
             $student->firstname = $request->input('firstname');
             $student->lastname = $request->input('lastname');
             $student->username = $request->input('username');
-            $student->role = '4';
+            $student->role = $request->input('role');
             $student->email = $request->input('email');
             $student->password = Hash::make($request->input('password'));
             $student->decrip_password = $request->input('password');
             $student->save();
+        
             if($student != null)
             {
             return response()->json([
@@ -669,6 +674,7 @@ class AppDataController extends Controller
         $data['email'] = (isset($data['email']) && $data['email']) ? $data['email'] : $get_data->email;
         $data['password'] = (isset($data['password']) && $data['password']) ? $data['password'] : $get_data->password;
         $data['decrip_password'] = (isset($data['decrip_password']) && $data['decrip_password']) ? $data['decrip_password'] : $get_data->decrip_password;
+        $data['role'] = (isset($data['role']) && $data['role']) ? $data['role'] : $get_data->role;
         //dd($data);
         $get_data->firstname = $data['firstname'];
         $get_data->lastname = $data['lastname'];
@@ -677,6 +683,7 @@ class AppDataController extends Controller
         $get_data->password = Hash::make($data['password']);
         
         $get_data->decrip_password = $data['decrip_password'];
+        $get_data->role = $data['role'];
         $get_data->save();
         //dd($get_data);
         return response()->json(['status' => '200']);

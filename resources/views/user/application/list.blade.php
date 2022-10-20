@@ -526,8 +526,7 @@
                             // } else {
                             //     "<a href='" + url3 + "' title=\"Edit\" class='action_btn'>Content</a>";
                             // }
-                            return "<a href='" + url2 + "' title=\"Edit\" class='action_btn mr-2 action_btn-warning'>Category</a>" + 
-                            "<a href='" + url3 + "' title=\"Edit\" class='action_btn mr-2 action_btn-warning'>User</a>";
+                            return "<a href='" + url2 + "' title=\"Edit\" class='action_btn mr-2 action_btn-warning'>Category</a>";
 
                         }
                     },
@@ -540,8 +539,9 @@
                             var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                             var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
                             var img_url3 = "{{asset('user/assets/icons/copy.png')}}";
+                            var url3 = '{{ url("user-add-new") }}' + '/' + row.id;
 
-                            return "<a href='" + url1 + "' title=\"copy\" class='application_text mr-4'><img src='" + img_url3 + "' alt=''></a>" +
+                            return "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><i class='fa fa-user'></i></a>" +
                                 "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
                                 "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
                                 row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
