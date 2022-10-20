@@ -335,8 +335,8 @@
                           var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                                var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
                            
-                          return "<a href='' value=" + row.id + " class='edit_student border-0'><img src='" + img_url1 + "' alt=''style=margin:20px ></a>" +
-                                    "<a href=''  value=" + row.id + " class='delete_student border-0'><img src='" + img_url2 + "' alt=''></a>";
+                          return "<button style='cursor: pointer;' type='button' value=" + row.id + " class='edit_student border-0 mr-3'><img src='" + img_url1 + "' alt=''  ></button>" +
+                                    "<button type='button' style='cursor: pointer;' value=" + row.id + " class='delete_student border-0'><img src='" + img_url2 + "' alt=''></button>";
                             
 
                         }
