@@ -407,7 +407,7 @@ class CategoryController extends Controller
     public function AddUserNew($id)
     {
         $page = "Add User";
-        $users = User::where('estatus', 1 )->where('role',4)->get();
+        $users = User::where('estatus', 1 )->whereIN('role',['3','4'])->get();
         $app_data = ApplicationData::where('id', $id)->where('status', '1')->first();
         $app_user = AppUser::where('app_id', $id)->pluck('user_id')->toArray();
         //dd($app_user);

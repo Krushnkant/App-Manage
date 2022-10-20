@@ -318,12 +318,12 @@
                     }
                 },
                 {
-                    data: 'decrip_password',
+                    data: 'decrypted_password',
                     name: 'password',
                     class: "text-center",
                     orderable: false,
                     render: function(data, type, row, meta) {
-                        return row.decrip_password;
+                        return row.decrypted_password;
                     }
                     
                 },
@@ -425,6 +425,8 @@
                     $('#success_message').addClass('alert alert-success')
                     $('#success_message').text(response.message)
                     $('#AddStudentModal').modal('hide');
+                    toastr.success("User Created", 'Success', {
+                      timeOut: 5000})
                     $('#AddStudentModal').find('input').val("");
                     application_page_tabs('', true);
                 
@@ -459,7 +461,7 @@
               $('#edit_lname').val(response.user.lastname)
               $('#edit_uname').val(response.user.username)
               $('#edit_email').val(response.user.email)
-              $('#edit_password').val(response.user.decrip_password)   
+              $('#edit_password').val(response.user.decrypted_password)   
               $('#edit_role').val(response.user.role)   
               $('#edit_stud_id').val(stud_id)
             }
@@ -476,7 +478,7 @@
           'lastname': $('#edit_lname').val(),
           'username': $('#edit_uname').val(),
           'email': $('#edit_email').val(),
-          'decrip_password': $('#edit_password').val(),
+          'decrypted_password': $('#edit_password').val(),
           'role': $('#edit_role').val(),
 
         }
@@ -511,7 +513,8 @@
               $('#success_message').html("")
              $('#success_message').addClass('alert alert-success')
               $('#success_message').text(response.message)
-
+              toastr.success("User Updated", 'Success', {
+                      timeOut: 5000})
               $('#editstudentmodal').modal('hide');
               $('.update_student').text("update");
               application_page_tabs('', true);

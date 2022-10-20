@@ -588,7 +588,7 @@ class AppDataController extends Controller
     {
         $data = $request->all();
         $category = Category::where('app_id', $data['app_id'])->where('status', '1')->first();
-        
+                                                                    
         if($category != null){
             return response()->json(['is_category' => 1]);
         }else{
@@ -643,7 +643,7 @@ class AppDataController extends Controller
             $student->role = $request->input('role');
             $student->email = $request->input('email');
             $student->password = Hash::make($request->input('password'));
-            $student->decrip_password = $request->input('password');
+            $student->decrypted_password = $request->input('password');
             $student->save();
         
             if($student != null)
@@ -674,7 +674,7 @@ class AppDataController extends Controller
         $data['username'] = (isset($data['username']) && $data['username']) ? $data['username'] : $get_data->username;
         $data['email'] = (isset($data['email']) && $data['email']) ? $data['email'] : $get_data->email;
         $data['password'] = (isset($data['password']) && $data['password']) ? $data['password'] : $get_data->password;
-        $data['decrip_password'] = (isset($data['decrip_password']) && $data['decrip_password']) ? $data['decrip_password'] : $get_data->decrip_password;
+        $data['decrypted_password'] = (isset($data['decrypted_password']) && $data['decrypted_password']) ? $data['decrypted_password'] : $get_data->decrip_password;
         $data['role'] = (isset($data['role']) && $data['role']) ? $data['role'] : $get_data->role;
         //dd($data);
         $get_data->firstname = $data['firstname'];
@@ -683,7 +683,7 @@ class AppDataController extends Controller
         $get_data->email = $data['email'];
         $get_data->password = Hash::make($data['password']);
         
-        $get_data->decrip_password = $data['decrip_password'];
+        $get_data->decrypted_password = $data['decrypted_password'];
         $get_data->role = $data['role'];
         $get_data->save();
         //dd($get_data);
