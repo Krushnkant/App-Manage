@@ -375,7 +375,7 @@
 
         $.ajax({
           type: "DELETE",
-          url: "{{ url('/delete-student/') }}" + stud_id,
+          url: "{{ url('/delete-student/') }}" +'/' + stud_id,
           success: function(response) {
              console.log(response);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
            // $('#success_message').addclass('alert alert-success');
@@ -444,11 +444,11 @@
 
         var stud_id = $(this).val();
         //alert(stud_id);
-        //console.log(stud_id); 
+        // console.log("{{ url('edit-student/') }}" +'/' + stud_id);
         $('#editstudentmodal').modal('show');
         $.ajax({
           type: "GET",
-          url: "{{ url('edit-student/') }}" + stud_id,
+          url: "{{ url('edit-student/') }}" +'/' + stud_id,
           success: function(response) {
             console.log(response);
 
@@ -490,7 +490,7 @@
         });
         $.ajax({
           type: "POST",
-          url: "{{ url('update-student/') }}" + stud_id,
+          url: "{{ url('update-student/') }}" +'/' + stud_id,
           data: data,
           dataType: "json",
           success: function(response) {
