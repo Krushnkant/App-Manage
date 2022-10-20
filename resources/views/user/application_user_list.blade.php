@@ -240,7 +240,7 @@
             },
             "ajax": {
 
-                "url": "{{ '/userslist' }}",
+                "url": "{{ url('/userslist') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {
@@ -375,7 +375,7 @@
 
         $.ajax({
           type: "DELETE",
-          url: "/delete-student/" + stud_id,
+          url: "{{ url('/delete-student/') }}" + stud_id,
           success: function(response) {
              console.log(response);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
            // $('#success_message').addclass('alert alert-success');
@@ -407,7 +407,7 @@
         });
         $.ajax({
             type: "POST",
-            url:  "{{'/userdd'}}",
+            url:  "{{ url('/userdd') }}",
             data: data,
             dataType: "json",
             success: function(response) {
@@ -448,7 +448,7 @@
         $('#editstudentmodal').modal('show');
         $.ajax({
           type: "GET",
-          url: "edit-student/" + stud_id,
+          url: "{{ url('edit-student/') }}" + stud_id,
           success: function(response) {
             console.log(response);
 
@@ -490,7 +490,7 @@
         });
         $.ajax({
           type: "POST",
-          url: "update-student/" + stud_id,
+          url: "{{ url('update-student/') }}" + stud_id,
           data: data,
           dataType: "json",
           success: function(response) {
