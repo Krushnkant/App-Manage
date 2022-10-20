@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Helpers;
-use App\Models\ {ApplicationData, Category, FormStructure, AppData, FormStructureNew};
+use App\Models\ {ApplicationData, Category, FormStructure, AppData, FormStructureNew,AppUser};
 // use DataTables;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -286,18 +286,29 @@ class ApplicationController extends Controller
             $status = 0;
         }
         // $data = ApplicationData::orderBy('id', 'DESC')->get();
-        $data = ApplicationData::where('status', '1');
+        $user_id = Auth()->user()->id;
+        $role = Auth()->user()->role;
+      
+        if($role == '3' || $role == '4'){
+            $appuser =  AppUser::where('user_id', $user_id)->get()->pluck('app_id');
+            $data = ApplicationData::where('status', '1')->whereIN('id',$appuser);
+        }else{
+            $data = ApplicationData::where('status', '1');
+        }
         if (isset($status)) {
             $s = (string) $status;
             $data = $data->where('status', $s);
         }
         if (!empty($request->get('search'))) {
+            
             $search = $request->get('search');
             $search_val = $search['value'];
             // dump($search_val);
+            if($search_val != ""){
             $data = $data->where('name', 'Like', '%' . $search_val . '%')
                 ->orWhere('app_id', 'Like', '%' . $search_val . '%')
                 ->orWhere('package_name', 'Like', '%' . $search_val . '%');
+            }    
             // dd($data);
         }
 

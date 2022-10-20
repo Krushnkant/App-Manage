@@ -20,7 +20,7 @@ class AppDataController extends Controller
      */
     public function index(Request $request)
     {
-        $page = "Application List";
+        $page = "User List";
         //$data['users'] = User::orderBy('id','desc')->paginate(8);
         
         
@@ -31,7 +31,7 @@ class AppDataController extends Controller
         return view('user.application_user_list', compact('page'));
     }
     public function ApplicationList(Request $request)
-    {  $page = "Application List";
+    {  $page = "User List";
         $request1 = $request->all();
         
        $data = User::whereIn('role', [3,4])->get();
@@ -42,6 +42,7 @@ class AppDataController extends Controller
             // dump($search_val);
             if($search_val!="")
             {
+               
             $data = $data->where('firstname', 'Like','%'. $search_val .'%');
             
             }// ->orWhere('lastname', 'Like','%'. $search_val .'%')

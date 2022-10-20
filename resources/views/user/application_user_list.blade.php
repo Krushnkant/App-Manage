@@ -14,7 +14,7 @@
             <div class="col-12">
                 <div class="card application_part">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">Application List - Application Management</h4>
+                        <h4 class="card-title mb-4">Application Users List - Application Management</h4>
                         <div class="text-left mb-4 add_application_btn_part">
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#AddStudentModal" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
                                 <span class="mr-2 d-inline-block">
