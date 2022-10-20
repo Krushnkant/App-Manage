@@ -38,8 +38,7 @@
                                                 <tr>
                                                     <!-- <th></th> -->
                                                     <th>No</th>
-                                                    <th>firstname</th>
-                                                    <th>lastname</th>
+                                                    <th>fullname</th>
                                                     <th>username</th>
                                                     <th>email</th>
                                                     <th>password</th>
@@ -94,9 +93,18 @@
                                     <label for="">password</label>
                                     <input type="password" name="password" id="password" class="password form-control">
                                 </div>
+                                <div class="formgroup mb-3">
+                                <label for="">role</label>
+                                <select class="form-control select-box role" id="role" placeholder="Select" name="role" >
+                                        <option value="3">Manager</option> 
+                                        <option value="4">Developer</option>       
+                                                      
+
+                                </select>
+                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary add_student" id="registerbutton">Save changes</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-info add_student" id="registerbutton">Save changes</button>
                                 </div>
                             </form>
                         </div>
@@ -140,11 +148,17 @@
           <label for="">password</label>
           <input type="password" id="edit_password" class="password form-control">
         </div>
-
+        <div class="formgroup mb-3">
+              <label for="">role</label>
+              <select class="form-control select-box " id="edit_role" placeholder="Select" name="role" >
+              <option value="3">Manager</option> 
+             <option value="4">Developer</option>       
+              </select>
+         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary update_student">Update</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info update_student">Update</button>
       </div>
     </div>
   </div>
@@ -258,11 +272,8 @@
                     "width": "10%",
                     "targets": 5
                 },
-                {
-                    "width": "10%",
-                    "targets": 6
-                },
-
+                
+           
             ],
             "columns": [{
                     data: 'id',
@@ -279,18 +290,15 @@
                     class: "text-center",
                     orderable: false,
                     render: function(data, type, row, meta) {
-                        return row.firstname;
+                      if(row.role == 3){
+                        var role = 'Manager';
+                      }else{
+                        var role = 'Developer';
+                      }
+                        return row.firstname + ' ' + row.lastname + ' <br>' + role;
                     }
                 },
-                {
-                    data: 'lastname',
-                    name: 'lastname',
-                    class: "text-center",
-                    orderable: false,
-                    render: function(data, type, row, meta) {
-                        return row.lastname;
-                    }
-                },
+                
                 {
                     data: 'username',
                     name: 'username',
@@ -319,6 +327,7 @@
                     }
                     
                 },
+     
                 {
                         "mData": "action",
                         "mRender": function(data, type, row) {
@@ -381,12 +390,14 @@
      $(document).on('click', '.add_student', function(e) {
         e.preventDefault();
         //console.log("hello");
+        
         var data = {
             'firstname': $('.firstname').val(),
             'lastname': $('.lastname').val(),
             'username': $('.username').val(),
             'email': $('.email').val(),
             'password': $('.password').val(),
+            'role': $('.role').val(),
         }
         //console.log(data);
         $.ajaxSetup({
@@ -448,7 +459,8 @@
               $('#edit_lname').val(response.user.lastname)
               $('#edit_uname').val(response.user.username)
               $('#edit_email').val(response.user.email)
-              $('#edit_password').val(response.user.decrip_password)    
+              $('#edit_password').val(response.user.decrip_password)   
+              $('#edit_role').val(response.user.role)   
               $('#edit_stud_id').val(stud_id)
             }
           }
@@ -465,6 +477,7 @@
           'username': $('#edit_uname').val(),
           'email': $('#edit_email').val(),
           'decrip_password': $('#edit_password').val(),
+          'role': $('#edit_role').val(),
 
         }
                 console.log(data);
