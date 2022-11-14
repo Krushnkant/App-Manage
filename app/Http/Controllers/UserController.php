@@ -234,7 +234,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        dd($request->all());
+        
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
@@ -246,6 +246,7 @@ class UserController extends Controller
             $user = User::where('email', $data['email'])->first();
             if($user != null){
                 $credentials = $request->only('email', 'password');
+                dd($credentials);
                 if (Auth::attempt($credentials)) {
                     $user_id = $user->id;
                     dd($user_id); 
