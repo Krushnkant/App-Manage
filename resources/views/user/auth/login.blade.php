@@ -42,7 +42,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
 $( "#LoginSubmit").click(function() {
-    alert();
     $(this).prop('disabled',true);
     var formData = new FormData($("#LoginForm")[0]);
     $('.comman_loader').show()
@@ -53,7 +52,7 @@ $( "#LoginSubmit").click(function() {
         processData: false,
         contentType: false,
         success: function (res) {
-           console.log(res);
+          
             if(res.status == 'failed'){
                 $('#LoginSubmit').prop('disabled',false);
                 if (res.errors.email) {
