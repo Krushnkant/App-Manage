@@ -258,6 +258,7 @@ class UserController extends Controller
                         $country = $currentUserInfo->countryName;
                         $state = $currentUserInfo->regionName;
                         $city = $currentUserInfo->cityName;
+                        
     
                         $user_agent = $_SERVER['HTTP_USER_AGENT'];
                         $browser_name = Helpers::getBrowserName($user_agent);
