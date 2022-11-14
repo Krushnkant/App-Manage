@@ -234,7 +234,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
@@ -246,11 +245,9 @@ class UserController extends Controller
             $user = User::where('email', $data['email'])->first();
             if($user != null){
                 $credentials = $request->only('email', 'password');
-              
                 if (Auth::attempt($credentials)) {
                     $user_id = $user->id;
-                 
-                    dd($user_id); 
+                    dd($user_id);
                     // $ip = \Request::getClientIp(true); // use for live
                     $ip = "43.240.9.99"; // use for local
                     $currentUserInfo = Location::get($ip);
@@ -258,7 +255,6 @@ class UserController extends Controller
                         $country = $currentUserInfo->countryName;
                         $state = $currentUserInfo->regionName;
                         $city = $currentUserInfo->cityName;
-                        
     
                         $user_agent = $_SERVER['HTTP_USER_AGENT'];
                         $browser_name = Helpers::getBrowserName($user_agent);
@@ -273,9 +269,8 @@ class UserController extends Controller
                         
                         $login_user_history = UserLogin::Create($history);
     
-                        
+                        return response()->json(['status' => '200', 'message' => 'Login Successfully']);
                     }
-                    return response()->json(['status' => '200', 'message' => 'Login Successfully']);
                 }
             }else{
                 return response()->json(['status' => '400', 'message' => 'User Not Exits']);
