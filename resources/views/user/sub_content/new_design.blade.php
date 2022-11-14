@@ -214,7 +214,7 @@ input:focus + .slider {
                 @if($parent_id == 0)
                 <?php
                 $get_cat = App\Models\Category::where('id', $cat_id)->first();
-                $title = $get_cat->title;
+                $title = isset($get_cat->title)?$get_cat->title:"";
                 ?>
                 <li class="breadcrumb-item active"><a href="{{url('category-add-new/'.$app_id)}}">{{$title}}</a></li>
                 @else
