@@ -245,6 +245,8 @@ class UserController extends Controller
             $user = User::where('email', $data['email'])->first();
             if($user != null){
                 $credentials = $request->only('email', 'password');
+                $data=Auth::attempt($credentials);
+                dd($data);
                 if (Auth::attempt($credentials)) {
                     $user_id = $user->id;
                     // $ip = \Request::getClientIp(true); // use for live
@@ -257,7 +259,7 @@ class UserController extends Controller
     
                         $user_agent = $_SERVER['HTTP_USER_AGENT'];
                         $browser_name = Helpers::getBrowserName($user_agent);
-                        
+
     
                         $history = [];
                         $history['user_id'] = $user_id;
