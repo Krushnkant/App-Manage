@@ -324,7 +324,7 @@
                 }
             }
         })
-        $("#category_add input, select").each(function() {
+        $("#category_add input").each(function() {
             var regexp = /^\S*$/;
             if ($(this).attr("id") != undefined) {
                 var FieldId = "span_" + $(this).attr("id");

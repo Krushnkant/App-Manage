@@ -154,8 +154,8 @@
     .switch {
   position: relative;
   display: inline-block;
-  width: 71px;
-  height: 40px;
+  width: 51px;
+  height: 20px;
 }
 
 .switch input {
@@ -178,12 +178,12 @@
 .slider:before {
   position: absolute;
   content: "";
-  height: 32px;
-  width: 32px;
+  height: 18px;
+  width: 18px;
   background: #fff;
   border-radius: 50%;
-  left: 4px;
-  bottom: 4px;
+  left: 2px;
+    bottom: 1px;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -388,7 +388,7 @@ input:focus + .slider {
                             '<span class="name_text" data-id="' + item.id + '">' + item.form_title + '</span>' +
                             '<div class="icons">' +
                             '<div class="plus ">' +
-                            '<label class="switch"><input type="checkbox" ' + (item.main_content_status == '1' ? "checked" : "") + ' class="toggle-class" data-id="'+ item.main_content_id +'"><span class="slider"></span></label>' +
+                            '<div class="switch"><input type="checkbox" ' + (item.main_content_status == '1' ? "checked" : "") + ' class="toggle-class" data-id="'+ item.main_content_id +'"><span class="slider"></span></div>' +
                             '</div>' +
                             '<div class="plus">' +
                             '<a href="' + edit_url + '" data-url="'+ edit_url +'" class="editUserBtn">' +
