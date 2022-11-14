@@ -247,7 +247,6 @@ class UserController extends Controller
                 $credentials = $request->only('email', 'password');
                 if (Auth::attempt($credentials)) {
                     $user_id = $user->id;
-                    dd($user_id);
                     // $ip = \Request::getClientIp(true); // use for live
                     $ip = "43.240.9.99"; // use for local
                     $currentUserInfo = Location::get($ip);
