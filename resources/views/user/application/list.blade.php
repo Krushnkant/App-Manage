@@ -120,7 +120,7 @@
     }
 
     function format(d) {
-        console.log(d)
+        
         var cat_list = "";
         var token = d.token;
         var test_token = d.test_token;
@@ -134,7 +134,7 @@
 
         if (d.is_category == 1) {
             cat_list += "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>" +
-                "<tr><td><span class='kArPKh text-left mx-3'>" + sub_content_api_path + " <button class='btn_copy' onclick=copyToClipboard('" + sub_content_api_path + "')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>" +
+                "<tr><td style='display:block;'><span class='kArPKh text-left mx-3'>" + sub_content_api_path + " <button class='btn_copy' onclick=copyToClipboard('" + sub_content_api_path + "')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>" +
                 "<table class='w-100 child-inner-table mb-4 mx-3'>" +
                 "<thead>" +
                 "<tr>" +

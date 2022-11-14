@@ -268,8 +268,9 @@ class UserController extends Controller
                         
                         $login_user_history = UserLogin::Create($history);
     
-                        return response()->json(['status' => '200', 'message' => 'Login Successfully']);
+                        
                     }
+                    return response()->json(['status' => '200', 'message' => 'Login Successfully']);
                 }
             }else{
                 return response()->json(['status' => '400', 'message' => 'User Not Exits']);
