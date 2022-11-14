@@ -257,6 +257,7 @@ class UserController extends Controller
     
                         $user_agent = $_SERVER['HTTP_USER_AGENT'];
                         $browser_name = Helpers::getBrowserName($user_agent);
+                        
     
                         $history = [];
                         $history['user_id'] = $user_id;
