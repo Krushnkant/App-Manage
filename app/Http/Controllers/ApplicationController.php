@@ -58,7 +58,7 @@ class ApplicationController extends Controller
         // dd($data);
         $app_data = ApplicationData::Create($data);
         if($app_data != null){
-            return redirect('/application');
+            return redirect('/application-new');
         }else{
             toastr()->error('Please enter different application id');
             return redirect('/add-application'); 
@@ -291,14 +291,15 @@ class ApplicationController extends Controller
       
         if($role == '3' || $role == '4'){
             $appuser =  AppUser::where('user_id', $user_id)->get()->pluck('app_id');
-            $data = ApplicationData::where('status', '1')->whereIN('id',$appuser);
+            $data = ApplicationData::whereIN('id',$appuser);
         }else{
-            $data = ApplicationData::where('status', '1');
+            $data = ApplicationData::whereIN('status', ['1','0']);
+            if (isset($status)) {
+                $s = (string) $status;
+                $data = ApplicationData::where('status', $s);
+            }
         }
-        if (isset($status)) {
-            $s = (string) $status;
-            $data = $data->where('status', $s);
-        }
+        
         if (!empty($request->get('search'))) {
             
             $search = $request->get('search');

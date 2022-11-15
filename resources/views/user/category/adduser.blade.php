@@ -133,25 +133,15 @@
                                     <table id="category_list" class="table zero-configuration customNewtable application_table table-child-part shadow-none" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th></th>
+                                               
                                                 <th>No</th>
                                                 <th>User</th>
-                                                <th>status</th>
-                                                <!-- <th>Date</th> -->
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
-                                        <!-- <tfoot>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Title</th>
-                                                <th>status</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot> -->
+                                        
                                     </table>
                                 </div>
                             </div>
@@ -169,7 +159,7 @@
                         </button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary delete" id="RemoveUserSubmit">Delete</button>
                     </div>
                 </div>
@@ -478,22 +468,13 @@
                     "targets": 1
                 },
                 {
-                    "width": "25%",
-                    "targets": 2
-                },
-                {
                     "width": "15%",
-                    "targets": 3
+                    "targets": 2
                 },
               
               
             ],
-            "columns": [{
-                    className: 'dt-control',
-                    orderable: false,
-                    data: null,
-                    defaultContent: "<div class='plus-minus-class'>&nbsp;</div>",
-                },
+            "columns": [
                 {
                     data: 'id',
                     name: 'id',
@@ -514,27 +495,6 @@
                         return "<div><span class='application_text app_id_part total_request_text'>" + row.firstname + "</span></div>";
                     }
                 },
-             
-                {
-                    "mData": "status",
-                    "mRender": function(data, type, row) {
-                        console.log(row)
-                        if (row.user.estatus == "1") {
-                            return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.user_id + ')" value="1" >Active</span></div>';
-                        } else {
-                            return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageuserstatus(' + row.user_id + ')" value="2">Deactive</span></div>';
-                        }
-                    }
-                },
-                // {data: 'status', name: 'status', orderable: false, searchable: false, class: "text-center"},
-                // {data: 'created_at', name: 'created_at', orderable: false, searchable: false, class: "text-center"},
-                // {data: 'created_at', name: 'created_at', class: "text-center", orderable: false,
-                //     render: function (data, type, row) {
-                //         // var date = my_date_format(row.start_date);
-                //         // console.log(date)
-                //         return "<div><span class='application_text app_id_part date_part'>"+row.start_date+"</span></div>";
-                //     }
-                // },
                 {
                     "mData": "action",
                     "mRender": function(data, type, row) {

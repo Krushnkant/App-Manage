@@ -29,7 +29,7 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{url('application')}}">Application List</a></li>
+                <li class="breadcrumb-item"><a href="{{url('application-new')}}">Application List</a></li>
                 <li class="breadcrumb-item active">Edit Category</li>
             </ol>
         </div>

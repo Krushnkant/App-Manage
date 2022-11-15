@@ -1025,7 +1025,7 @@ class CategoryController extends Controller
             ->where('category_id', $cat_id)
             ->first();
         // dd($form_structure_get);
-
+        
         $data = ContentField::where('status', '1')->where('app_id', $app_id);
         // $data = ContentField::where('status', '1')->where('app_id', $app_id)->where('form_structure_id', $form_structure_get->id)->get();
         // dd($data);
@@ -1040,7 +1040,7 @@ class CategoryController extends Controller
             //     ->orWhere('app_id', 'Like', '%' . $search_val . '%')
             //     ->orWhere('package_name', 'Like', '%' . $search_val . '%');
         }
-
+        if(isset($form_structure_get->id)){
         $data = $data->where('form_structure_id', $form_structure_get->id)
             ->orderBy('id', 'DESC')
             ->groupBy('main_content_id')
@@ -1057,6 +1057,9 @@ class CategoryController extends Controller
             $d->category_name = $category_ids->title;
             $d->app_name = $application->name;
             $d->form_title = $main_title->title;
+        }
+        }else{
+            $data = array();
         }
         return datatables::of($data)->make(true);
     }

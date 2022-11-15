@@ -270,7 +270,7 @@
         });
 
         function application_page_tabs(tab_type = '', is_clearState = false) {
-
+            
             if (is_clearState) {
                 $('#application_list').DataTable().state.clear();
             }
