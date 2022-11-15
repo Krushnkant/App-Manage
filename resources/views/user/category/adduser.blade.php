@@ -4,6 +4,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
 <style>
     
     .dropzone {
@@ -80,13 +81,14 @@
                                                         </defs>
                                                     </svg>
 
-                                                    <select class="form-control select-box" id="choices-multiple-remove-button" placeholder="Select" name="user_id[]" multiple>
+                                                    <select class="form-control specOpt" id="user_ids" placeholder="Select" name="user_id[]" multiple>
                                                         <!-- <option value="">Please select</option> -->
                                                                     
                                                         @foreach($users as $user)
                                                         @if(!(in_array($user->id,$app_user)))
                                                         <!-- dump($user); -->
                                                         <option value="{{$user->id}}">{{$user->firstname}}</option>
+                                                        
                                                         @endif
                                                         @endforeach
 
@@ -171,6 +173,7 @@
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
 <script type="text/javascript">
     $("#cat_form").hide();
     var app_id = "{{$id}}";
@@ -269,7 +272,7 @@
         // if (validation != false) {
         // }
         $('.spinner-border').show();
-        $('#submit_category').addClass('disabled');
+        $('#submit_category').prop('disabled',true);
         $.ajax({
             type: 'POST',
             url: url+"/user-insert-new",
@@ -279,6 +282,9 @@
             success: function(data) {
                 if (data.status == 200) {
                     $('.spinner-border').hide();
+                    $("#user_ids").find(':selected').remove();
+                   $('#category_add')[0].reset();
+                    
                     toastr.success("Category Added", 'Success', {
                         timeOut: 5000
                     });
@@ -290,8 +296,17 @@
                             $(this).val('');
                         }
                     })
-                    $("input#name").val('');
-                    location.reload();
+                    
+                    $('.specOpt').select2({
+                        width: '100%',
+                        multiple: true,
+                        placeholder: "Select...",
+                        allowClear: true,
+                        autoclose: false,
+                        closeOnSelect: false,
+                    });
+                 
+                    //location.reload();
                 } else {
                     $('#submit_category').prop('disabled', false);
                     $('.spinner-border').hide();
@@ -548,6 +563,7 @@
             type: 'GET',
             url: "{{ url('/deleteuser') }}" + '/' + remove_user_id + '/delete',
             success: function(res) {
+                console.log(res);
                 if (res.status == 200) {
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled', false);
@@ -555,7 +571,10 @@
                     toastr.success("Application User  Deleted", 'Success', {
                         timeOut: 5000
                     });
-                    location.reload();
+                    
+                    var newState = new Option(res.user.user.firstname, res.user.user.id, false, false);
+                    $("#user_ids").append(newState).trigger('change');
+                   // location.reload();
                 } else {
                     $("#exampleModalCenter").modal('hide');
                     $('#RemoveUserSubmit').prop('disabled', false);
@@ -599,13 +618,22 @@
      });
     }
     $(document).ready(function(){
+
+        $('.specOpt').select2({
+            width: '100%',
+            multiple: true,
+            placeholder: "Select...",
+            allowClear: true,
+            autoclose: false,
+            closeOnSelect: false,
+        });
     
-    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
-       removeItemButton: true,
-       maxItemCount:5,
-       searchResultLimit:5,
-       renderChoiceLimit:5
-     }); 
+    // var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+    //    removeItemButton: true,
+    //    maxItemCount:5,
+    //    searchResultLimit:5,
+    //    renderChoiceLimit:5
+    //  }); 
     
     
 });

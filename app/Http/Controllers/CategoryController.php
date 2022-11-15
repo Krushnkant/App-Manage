@@ -273,13 +273,13 @@ class CategoryController extends Controller
     public function userdestroy($id)
     {
        
-        $main_user = AppUser::where('id', $id)->first();
+        $main_user = AppUser::with('user')->where('id', $id)->first();
        // dd($main_user);
         if ($main_user != null) {
             $data = AppUser::where('id', $main_user->id)->delete();
-
+            
             if ($data == true) {
-                return response()->json(['status' => '200']);
+                return response()->json(['status' => '200','user'=>$main_user]);
             } else {
                 return response()->json(['status' => '400']);
             }
@@ -407,7 +407,7 @@ class CategoryController extends Controller
     public function AddUserNew($id)
     {
         $page = "Add User";
-        $users = User::where('estatus', 1 )->whereIN('role',['3','4'])->get();
+        $users = User::where('estatus',1)->whereIN('role',['3','4'])->get();
         $app_data = ApplicationData::where('id', $id)->where('status', '1')->first();
         $app_user = AppUser::where('app_id', $id)->pluck('user_id')->toArray();
         //dd($app_user);
