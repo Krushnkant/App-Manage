@@ -42,6 +42,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('category-list',  [CategoryController::class, 'CategoryList']);
     Route::post('/category-update/{id}',  [CategoryController::class, 'update']);
     Route::get('/category/{id}/delete',[CategoryController::class, 'destroy']);
+    Route::get('/category/{id}/{catid}/copy',[CategoryController::class,'copy']);
     Route::get('chageacategorystatus/{id}',[CategoryController::class,'ChageCategoryStatus']);
 
     // content

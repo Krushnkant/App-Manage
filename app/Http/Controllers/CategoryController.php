@@ -270,6 +270,47 @@ class CategoryController extends Controller
             return response()->json(['status' => '400']);
         }
     }
+
+    public function copy($id,$catid)
+    {
+       
+        $main_category = Category::where('id', $catid)->first();
+        if ($main_category != null) {
+            $FormStructure = FormStructureNew::where('category_id', $main_category->id)->first();
+            if($FormStructure){
+                $structure = new FormStructureNew();
+                $structure->app_id = (int)$FormStructure->app_id;
+                $structure->parent_id = $FormStructure->parent_id;
+                $structure->category_id = $id;
+                $structure->form_title = $FormStructure->form_title;
+                $structure->status = $FormStructure->status;
+                $structure->created_by = $FormStructure->created_by;
+                $structure->save();
+            }
+            if($structure == true){
+                $FormStructureFields = FormStructureFieldNew::where('form_structure_id', $FormStructure->id)->get();
+                foreach($FormStructureFields as $FormStructureField){
+                    $structurefield = new FormStructureFieldNew();
+                    $structurefield->app_id = (int)$FormStructureField->app_id;
+                    $structurefield->form_structure_id = $structure->id;
+                    $structurefield->field_type = $FormStructureField->field_type;
+                    $structurefield->field_name = $FormStructureField->field_name;
+                    $structurefield->status = $FormStructureField->status;
+                    $structurefield->created_by = $FormStructureField->created_by;
+                    $structurefield->save();
+                }
+
+
+                return response()->json(['status' => '200']);
+            } else {
+                return response()->json(['status' => '400']);
+            }
+        } else {
+            return response()->json(['status' => '400']);
+        }
+    }
+
+
     public function userdestroy($id)
     {
        
@@ -313,6 +354,7 @@ class CategoryController extends Controller
         $multi_file = [];
         foreach ($category as $d) {
             $category_content = CategoryField::where('app_id', $table['app_id'])->where('category_id', $d->id)->get();
+            $structures_content = FormStructureNew::where('app_id', $table['app_id'])->where('category_id', $d->id)->get();
             foreach($category_content as $key => $value){
                 // dump($value);
                 if($value->field_type == "multi-file"){
@@ -322,6 +364,7 @@ class CategoryController extends Controller
 
             $d->start_date = $d->created_at->format('d M Y');
             $d->content = $category_content;
+            $d->structures_content = $structures_content;
             $d->multi = $multi_file;
         }
         // dd();
@@ -400,8 +443,9 @@ class CategoryController extends Controller
     {
         $page = "Add Category";
         $fields = Field::where('estatus', 1)->get();
+        $categories = Category::where('status','1')->where('app_id',$id)->get();
         $app_data = ApplicationData::where('id', $id)->where('status', '1')->first();
-        return view('user.category.add_new', compact('id', 'fields', 'app_data', 'page'));
+        return view('user.category.add_new', compact('id', 'fields', 'app_data', 'page','categories'));
     }
 
     public function AddUserNew($id)
@@ -568,8 +612,11 @@ class CategoryController extends Controller
         $category_id = (isset($data['category_id']) && $data['category_id']) ? $data['category_id'] : null;
         $main_category = Category::where('id', $category_id)->first();
         $name = (isset($data['name']) && $data['name']) ? $data['name'] : $main_category->title;
+        
         $all_id_array = [];
-        $all_id_array = explode(",", $all_id);
+        if($all_id != ""){
+           $all_id_array = explode(",", $all_id);
+        }
         unset($data['name']);
         unset($data['val-skill']);
         unset($data['_token']);
