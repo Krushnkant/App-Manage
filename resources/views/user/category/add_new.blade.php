@@ -484,7 +484,7 @@
                             var aaa = '';
                             var filename = value
                             var valid_video_extensions = /(\.mp4|\.webm|\.m4v)$/i;
-                            var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                            var valid_extensions = /(\.jpg|\.jpeg|\.png|\.gif|\.webp)$/i;
                             var image_video = '';
                             var image_set_video = '';
                             var imgg = urll + "/" + value

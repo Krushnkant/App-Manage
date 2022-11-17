@@ -24,6 +24,7 @@
                 <div class="card application_part">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Application List - Application Management</h4>
+                        @if(Auth::user()->role != 4)
                         <div class="text-left mb-4 add_application_btn_part">
                             <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
                                 <span class="mr-2 d-inline-block">
@@ -36,6 +37,7 @@
                                 Add Application
                             </a>
                         </div>
+                        @endif
                         <ul class="nav application_tab mt-4" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link application_page_tabs active" data-tab="all_application_tab" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="falsse">All</a>
@@ -270,7 +272,7 @@
         });
 
         function application_page_tabs(tab_type = '', is_clearState = false) {
-            
+            var role = "{{ Auth::user()->role }}";
             if (is_clearState) {
                 $('#application_list').DataTable().state.clear();
             }
@@ -447,9 +449,14 @@
                     {
                         "mData": "app_id",
                         "mRender": function(data, type, row) {
-                            if (row.app_id != null) {
-                                return "<div><span class='application_text app_id_part'>" + row.app_id + "</span></div>";
-                            } else {
+                            
+                            if(role != 4){
+                                if (row.app_id != null) {
+                                    return "<div><span class='application_text app_id_part'>" + row.app_id + "</span></div>";
+                                } else {
+                                    return "<div><span class='application_text app_id_part'>-</span></div>";
+                                }
+                            }else{
                                 return "<div><span class='application_text app_id_part'>-</span></div>";
                             }
                         }
@@ -458,22 +465,26 @@
                         "mData": "package_name",
                         "mRender": function(data, type, row) {
                             var multi_link = [];
-                            if (row.package_name != null) {
-                                var hasApple = row.package_name.indexOf(',') != -1;
-                                if (hasApple === true) {
-                                    var strarray = row.package_name.split(',');
-                                    $(strarray).each(function(index, value) {
-                                        var concat_string = "https://play.google.com/store/apps/details?id=" + value;
-                                        var concat_string1 = "<a class='link_playstore' href='" + concat_string + "' target='_blank'>" + value + "</a>";
-                                        multi_link.push(concat_string1);
-                                    });
-                                    multi_link = multi_link.join(", ");
+                            if(role != 4){
+                                if (row.package_name != null) {
+                                    var hasApple = row.package_name.indexOf(',') != -1;
+                                    if (hasApple === true) {
+                                        var strarray = row.package_name.split(',');
+                                        $(strarray).each(function(index, value) {
+                                            var concat_string = "https://play.google.com/store/apps/details?id=" + value;
+                                            var concat_string1 = "<a class='link_playstore' href='" + concat_string + "' target='_blank'>" + value + "</a>";
+                                            multi_link.push(concat_string1);
+                                        });
+                                        multi_link = multi_link.join(", ");
+                                    } else {
+                                        var concat_string = "https://play.google.com/store/apps/details?id=" + row.package_name;
+                                        multi_link = "<a class='link_playstore' href='" + concat_string + "' target='_blank'>" + row.package_name + "</a>";
+                                    }
+                                    return "<div><span class='application_text app_id_part'>" + multi_link + "</span></div>";
                                 } else {
-                                    var concat_string = "https://play.google.com/store/apps/details?id=" + row.package_name;
-                                    multi_link = "<a class='link_playstore' href='" + concat_string + "' target='_blank'>" + row.package_name + "</a>";
+                                    return "<div><span class='application_text app_id_part'>-</span></div>";
                                 }
-                                return "<div><span class='application_text app_id_part'>" + multi_link + "</span></div>";
-                            } else {
+                            }else{
                                 return "<div><span class='application_text app_id_part'>-</span></div>";
                             }
                         }
@@ -497,10 +508,19 @@
                     {
                         "mData": "status",
                         "mRender": function(data, type, row) {
-                            if (row.status == "1") {
-                                return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="1" >Active</span></div>';
-                            } else {
-                                return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="2">Deactive</span></div>';
+                            if(role != 4){
+                                if (row.status == "1") {
+                                    return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="1" >Active</span></div>';
+                                } else {
+                                    return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="2">Deactive</span></div>';
+                                }
+                            }else{
+                                if (row.status == "1") {
+                                    return '<div><span class="application_text app_id_part active_status">Active</span></div>';
+                                } else {
+                                    return '<div><span class="application_text app_id_part deactive_status active_status" >Deactive</span></div>';
+                                }
+
                             }
                         }
                     },
@@ -533,25 +553,27 @@
                     {
                         "mData": "-",
                         "mRender": function(data, type, row) {
-
-                            var url1 = '{{ Route("application.edit", "id") }}';
-                            url1 = url1.replace('id', row.id);
-                            var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
-                            var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
-                            var img_url3 = "{{asset('user/assets/icons/copy.png')}}";
-                            var url3 = '{{ url("user-add-new") }}' + '/' + row.id;
-
-                            var role = "{{ Auth()->user()->role }}";
-
+                            var user = "";
                             if(role != 4){
-                               var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><i class='fa fa-user'></i></a>" +
-                               "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
-                                "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
-                                row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
-                            }else{
-                                var user = "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
-                                "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
-                                row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                                var url1 = '{{ Route("application.edit", "id") }}';
+                                url1 = url1.replace('id', row.id);
+                                var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
+                                var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
+                                var img_url3 = "{{asset('user/assets/icons/copy.png')}}";
+                                var url3 = '{{ url("user-add-new") }}' + '/' + row.id;
+
+                                //var role = "{{ Auth()->user()->role }}";
+
+                                if(role != 4){
+                                var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><i class='fa fa-user'></i></a>" +
+                                "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                                    "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
+                                    row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                                }else{
+                                    var user = "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                                    "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
+                                    row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                                }
                             }
                             
                             return user;

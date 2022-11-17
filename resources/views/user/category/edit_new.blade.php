@@ -240,6 +240,7 @@
                     var f = files[i]
                     var fileReader = new FileReader();
                     fileReader.onload = (function(e) {
+                        alert();
                         var file = e.target;
                         $("<span class=\"pip\">" +
                             "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
@@ -271,6 +272,8 @@
         // var ddd = tthis.clone()
         // $("#category_form").append(ddd);
         var html = "";
+        var set_multiple = "";
+        var set_multi = "";
         var selected = $('#val-skill option:selected');
         var option = selected.attr('data-id')
         var valuee = selected.attr('value')
@@ -286,6 +289,10 @@
             type = "file";
         } else if (valuee == "multi-file") {
             type = "file";
+            set_multiple = "multiple";
+            set_multi = "multiple";
+            field_name = option + "field_value[]"
+            $("select option[value*='multi-file']").prop('disabled',true);
         } else {
             type = ""
         }
@@ -296,7 +303,7 @@
                 '<input type="text" placeholder="" id="' + field_key_id + '" data="specific" class="form-control input-flat" name="' + field_key + '" />' +
                 '</div>' +
                 '<div class="col-10 col-sm-10 col-md-5">' +
-                '<input type="' + type + '" id="' + field_name_id + '" class="form-control input-flat" name="' + field_name + '" />' +
+                '<input type="' + type + '" id="' + field_name_id + '" class="form-control input-flat"  data="'+set_multi+'" name="' + field_name + '" ' + set_multiple + '/>' +
                 '</div>' +
                 // '<div class="col-md-2">'+
                 //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+

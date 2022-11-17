@@ -34,16 +34,18 @@
 
             </ul>
         </li>
-       
+        @if(Auth::user()->role != 4)
         <li>
             <a  href="{{url('new-user')}}" aria-expanded="false">
                 <i class="fa fa-users" aria-hidden="true"></i><span class="nav-text">User</span>
             </a>
         </li>
+        
         <li>
             <a href="{{url('settings')}}" aria-expanded="false">
                 <i class="fa fa-cog" aria-hidden="true"></i><span class="nav-text">Settings</span>
             </a>
         </li>
+        @endif 
     </ul>
 </div>

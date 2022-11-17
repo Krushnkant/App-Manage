@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ { Settings, User };
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class SettingsController extends Controller
 {
@@ -113,6 +114,19 @@ class SettingsController extends Controller
     public function ChangePassword(Request $request)
     {
         $data = $request->all();
+        $messages = [
+            'new_password.required' =>'Please provide a New Password',
+            'confirm_new_password.required' =>'Please provide a Confirm New Password',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|required_with:confirm_new_password|same:confirm_new_password',
+            'confirm_new_password' => 'required',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors(),'status'=>'failed']);
+        }
         $user = User::where('id', $data['user_id'])->first();
 
         if($user != null){

@@ -20,6 +20,10 @@
                                 <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
                             </li> -->
                             <li><a href="{{ url('logout') }}"><i class="icon-key"></i> <span>Logout</span></a></li>
+                            <li>
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#HeaderChangePasswordModal"><i class="icon-user"></i> <span>Change Password</span></a>
+                            </li>
+                            
                         </ul>
                     </div>
                 </div>

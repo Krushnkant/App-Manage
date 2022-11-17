@@ -312,9 +312,7 @@ class CategoryController extends Controller
 
     public function SubContentCopy($id,$catid)
     {
-        dd($catid);
         $FormStructure = FormStructureNew::where('id', $catid)->first();
-        dd($FormStructure);
         if($FormStructure != null){
             $structure = new FormStructureNew();
             $structure->app_id = (int)$FormStructure->app_id;
@@ -419,7 +417,7 @@ class CategoryController extends Controller
        //dd($data);
         foreach ($data as $d) {
             $d->start_date = $d->created_at->format('d M Y');
-            $d->firstname = $d->user->firstname;
+            $d->firstname = isset($d->user)?$d->user->firstname:"";
             // dump($d->created_at);
         }
          // dd($data);
@@ -749,6 +747,7 @@ class CategoryController extends Controller
             if (strpos($key, "field_key") !== false) {
                 $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                 $get_value = $int_var . "field_value";
+                
                 $get_key = $int_var . "field_key";
                 // dump($data[$get_value]);
                 // dump($data[$get_key]);
@@ -777,6 +776,7 @@ class CategoryController extends Controller
                         } else {
                             $type = 'video';
                         }
+                      
                         $result = Helpers::UploadImage($value_, $path);
                         $CategoryFields1 = new CategoryField();
                         $CategoryFields1->app_id = (int)$app_id;

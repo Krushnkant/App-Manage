@@ -114,7 +114,54 @@
 
     <!-- pooja -->
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  -->
-
+    <script>
+        $('body').on('click', '#save_newAttrBtn', function () {
+            
+            $('#loader').show();
+            $('#Add').prop('disabled', true);
+            var formData = new FormData($("#change_pwd_form")[0]);
+            $.ajax({
+                    type: 'POST',
+                    url: "{{ url('change-password') }}",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                         console.log(res)
+                        if(res.status == 'failed'){
+                            $('#loader').hide();
+                            $('#Add').prop('disabled',false);
+                            if (res.errors.new_password) {
+                                $('#new_password-error').show().text(res.errors.new_password);
+                            } else {
+                                $('#new_password-error').hide();
+                            }
+                            if (res.errors.confirm_new_password) {
+                                $('#confirm_new_password-error').show().text(res.errors.confirm_new_password);
+                            } else {
+                                $('#confirm_new_password-error').hide();
+                            }
+                        }
+                        if(res['status']==200){
+                            $('#loader').hide();
+                            toastr.success("Password Change Successfully",'Success',{timeOut: 5000});
+                            //location.reload();
+                        }
+                        if(res['status']==400){
+                            $('#loader').hide();
+                            toastr.success("Password Not Change Successfully",'Error',{timeOut: 5000}); 
+                        }
+                    },
+                    error: function (data) {
+                        $('#Add').prop('disabled', false);
+                        $('#loader').hide();
+                        $(btn).prop('disabled',false);
+                        toastr.error("Please try again",'Error',{timeOut: 5000});
+                    }
+            });
+        
+    })
+    </script>
     <script src="{{asset('user/assets/plugins/common/common.min.js')}}"></script>
     <script src="{{asset('user/assets/js/custom.min.js')}}"></script>
     <script src="{{asset("user/assets/js/settings.js")}}"></script>

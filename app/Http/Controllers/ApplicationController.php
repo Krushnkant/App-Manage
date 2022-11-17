@@ -296,6 +296,10 @@ class ApplicationController extends Controller
         if($role == '3' || $role == '4'){
             $appuser =  AppUser::where('user_id', $user_id)->get()->pluck('app_id');
             $data = ApplicationData::whereIN('id',$appuser);
+            if (isset($status)) {
+                $s = (string) $status;
+                $data = $data->where('status', $s);
+            }
         }else{
             $data = ApplicationData::whereIN('status', ['1','0']);
             if (isset($status)) {

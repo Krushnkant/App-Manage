@@ -655,9 +655,10 @@ input:focus + .slider {
     });
     $('body').on('click', '#CopySubmit', function(e) {
         $('#CopySubmit').prop('disabled', true);
-        console.log($(this).attr('data-id'));
+       
         var remove_user_id = $(this).attr('data-id');
-        var select_category_id = $("#select_category").attr('data-id');
+        
+        var select_category_id = $("#select_category").find(':selected').attr('data-id');
        
         $.ajax({
             type: 'GET',
@@ -667,6 +668,7 @@ input:focus + .slider {
                     $("#copyModalCenter").modal('hide');
                     $('#CopySubmit').prop('disabled', false);
                     $('#category_list').DataTable().draw();
+                    location.reload();
                 } else {
                     $("#copyModalCenter").modal('hide');
                     $('#CopySubmit').prop('disabled', false);
