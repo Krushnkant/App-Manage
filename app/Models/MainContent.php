@@ -13,4 +13,8 @@ class MainContent extends Model
     protected $fillable = [
         'form_structure_id','title'
     ];
+
+    public function content_field(){
+        return $this->hasOne(ContentField::class,'main_content_id','id');
+    }
 }

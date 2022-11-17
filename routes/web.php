@@ -98,6 +98,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('content-list-get-new/{cat_id}/{app_id}/{parent_id}',  [CategoryController::class, 'SubContentListGetNew']);
     Route::get('show-only-content-new/{cat_id}/{app_id}/{parent_id}/{content_id}',  [CategoryController::class, 'ShowOnlyContent']);
 
+    Route::get('/sub_form/{id}/{catid}/copy',[CategoryController::class, 'SubContentCopy']);
+
     Route::get('sub-content-edit/{cat_id}/{app_id}/{parent_id}/{content_id}',  [CategoryController::class, 'SubContentEdit']);
     Route::post('sub-content-update/{cat_id}/{app_id}/{parent_id}/{structure_id}',  [CategoryController::class, 'SubContentUpdate']);
 

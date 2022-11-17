@@ -310,6 +310,41 @@ class CategoryController extends Controller
         }
     }
 
+    public function SubContentCopy($id,$catid)
+    {
+        dd($catid);
+        $FormStructure = FormStructureNew::where('id', $catid)->first();
+        dd($FormStructure);
+        if($FormStructure != null){
+            $structure = new FormStructureNew();
+            $structure->app_id = (int)$FormStructure->app_id;
+            $structure->parent_id = $id;
+            $structure->category_id = $FormStructure->category_id;
+            $structure->form_title = $FormStructure->form_title;
+            $structure->status = $FormStructure->status;
+            $structure->created_by = $FormStructure->created_by;
+            $structure->save();
+        }else{
+            return response()->json(['status' => '400']);
+        }
+        if($structure == true){
+            $FormStructureFields = FormStructureFieldNew::where('form_structure_id',$catid)->get();
+            foreach($FormStructureFields as $FormStructureField){
+                $structurefield = new FormStructureFieldNew();
+                $structurefield->app_id = (int)$FormStructureField->app_id;
+                $structurefield->form_structure_id = $structure->id;
+                $structurefield->field_type = $FormStructureField->field_type;
+                $structurefield->field_name = $FormStructureField->field_name;
+                $structurefield->status = $FormStructureField->status;
+                $structurefield->created_by = $FormStructureField->created_by;
+                $structurefield->save();
+            }
+            return response()->json(['status' => '200']);
+        } else {
+            return response()->json(['status' => '400']);
+        }
+    }
+
 
     public function userdestroy($id)
     {
@@ -1356,9 +1391,9 @@ class CategoryController extends Controller
             ->where('parent_id', $parent_id)
             ->where('category_id', $cat_id)
             ->first();
-        // dd($form_structure_get);
+         
         if ($form_structure_get != null) {
-            $data = ContentField::where('status', '1')->where('app_id', $app_id);
+            $data = ContentField::with('field_content_s')->where('status', '1')->where('app_id', $app_id);
             // $data = ContentField::where('status', '1')->where('app_id', $app_id)->where('form_structure_id', $form_structure_get->id)->get();
             // dd($data);
             if (isset($status)) {
@@ -1377,9 +1412,7 @@ class CategoryController extends Controller
                 ->orderBy('id', 'DESC')
                 ->groupBy('main_content_id')
                 ->get();
-
-
-
+            
             foreach ($data as $d) {
                 $main_title = MainContent::where('id', $d->main_content_id)->first();
                 $d->start_date = $d->created_at->format('d M Y');

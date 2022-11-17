@@ -594,7 +594,7 @@ class APIsController extends Controller
                                 ->where('category_id', $cat->id)->where('field_type', 'multi-file')->first();
                             $multi_image = [];
                             foreach ($category_fields as $img) {
-                                $path = asset('/app_data_images');
+                                $path = asset('/category_image');
                                 $value = $path . "/" . $img->field_value;
                                 array_push($multi_image, $value);
                             }

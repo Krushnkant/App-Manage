@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Helpers;
-use App\Models\ {ApplicationData, Category, FormStructure, AppData, FormStructureNew,AppUser};
+use App\Models\ {ApplicationData, Category, FormStructure, AppData, FormStructureNew,AppUser,MainContent};
 // use DataTables;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -268,10 +268,14 @@ class ApplicationController extends Controller
         $page = "New Design Application";
         $is_content = 0;
         $form_structure = FormStructureNew::where('app_id', $app_id)->where('category_id', $cat_id)->where('parent_id', $parent_id)->first();
+        $maincontents = array();
         if($form_structure != null){
             $is_content = 1;
+            $maincontents = MainContent::with('content_field')->where('status', '1')->where('form_structure_id', $form_structure->id)->get();
         }
-        return view('user.sub_content.new_design', compact('page', 'cat_id', 'app_id', 'parent_id', 'is_content'));
+       
+        
+        return view('user.sub_content.new_design', compact('page', 'cat_id', 'app_id', 'parent_id', 'is_content','maincontents'));
     }
 
     public function NewApplicationList(Request $request)
