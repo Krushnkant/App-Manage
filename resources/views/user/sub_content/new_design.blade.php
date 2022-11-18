@@ -430,7 +430,7 @@ input:focus + .slider {
                         if(item.field_content_s == null){
                             var copy  = "<a href='javascript:void(0)' data-id='" + item.id + "' data-toggle='modal' data-target='#copyModalCenter' title=\"Copy\" class='copyBtn'><img src='" + img_url0 + "' alt=''></a>";
                          }else{
-                            var copy  = "<a href='javascript:void(0)' title=\"Copy\" class=''><img src='" + img_url0 + "' alt=''></a>";
+                            var copy  = "<a href='javascript:void(0)' title=\"Copy\" class='show_toster_already'><img src='" + img_url0 + "' alt=''></a>";
                          }
 
                         html += '<div class="row name_text parent_div" style="background-color: '+ background_color +'" data-id="' + item.id + '">' +
@@ -608,7 +608,7 @@ input:focus + .slider {
                         if(item.field_content_s == null){
                             var copy  = "<a href='javascript:void(0)' data-id='" + item.id + "' data-toggle='modal' data-target='#copyModalCenter' title=\"Copy\" class='copyBtn'><img src='" + img_url0 + "' alt=''></a>";
                          }else{
-                            var copy  = "<a href='javascript:void(0)' title=\"Copy\" class=''><img src='" + img_url0 + "' alt=''></a>";
+                            var copy  = "<a href='javascript:void(0)' title=\"Copy\" class='show_toster_already'><img src='" + img_url0 + "' alt=''></a>";
                          }
 
                         html += '<div class="row name_text parent_div" data-id="' + item.id + '">' +
@@ -665,6 +665,11 @@ input:focus + .slider {
     $('body').on('click', '.copyBtn', function(e) {
         var copy_category_id = $(this).attr('data-id');
         $("#copyModalCenter").find('#CopySubmit').attr('data-id', copy_category_id);
+    });
+    $('body').on('click', '.show_toster_already', function(e) {
+        toastr.error("already add structure", 'Error', {
+                    timeOut: 5000
+        });
     });
     $('body').on('click', '#CopySubmit', function(e) {
         $('#CopySubmit').prop('disabled', true);

@@ -641,7 +641,7 @@
                         if(row.structures_content.length == 0){
                           var copy  = "<a href='javascript:void(0)' data-id='" + row.id + "' data-toggle='modal' data-target='#copyModalCenter' title=\"Copy\" class='copyBtn application_text mr-3'><img src='" + img_url0 + "' alt=''></a>";
                         }else{
-                            var copy  = "<a href='javascript:void(0)' title=\"Copy\" class='application_text mr-3'><img src='" + img_url0 + "' alt=''></a>";
+                            var copy  = "<a href='javascript:void(0)' title=\"Copy\" class='show_toster_already application_text mr-3'><img src='" + img_url0 + "' alt=''></a>";
                         }
                         return "<a href='" +url2+ "' title='sub-content' class='application_text mr-3 btn'>Sub Content</a>"+
                              copy +
@@ -675,6 +675,11 @@
     $('body').on('click', '.deleteUserBtn', function(e) {
         var delete_user_id = $(this).attr('data-id');
         $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id', delete_user_id);
+    });
+    $('body').on('click', '.show_toster_already', function(e) {
+        toastr.error("already add structure", 'Error', {
+                    timeOut: 5000
+        });
     });
     $('body').on('click', '#RemoveUserSubmit', function(e) {
         $('#RemoveUserSubmit').prop('disabled', true);
