@@ -336,6 +336,12 @@
                         $("#content_add")[0].reset()
                         // window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
                         window.location.href = "{{ url('application-new-design/'.$cat_id.'/'.$app_id.'/'.$parent_id)}}";
+                    }else if(data.status == 300){
+                        $('#submit_app_data').prop('disabled', false);
+                        $('.spinner-border').hide();
+                        toastr.error(data.message, 'Error', {
+                            timeOut: 5000
+                        })
                     } else {
                         $('#submit_app_data').prop('disabled', false);
                         $('.spinner-border').hide();

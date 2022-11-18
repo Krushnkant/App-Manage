@@ -494,6 +494,11 @@ class CategoryController extends Controller
     public function InsertCategoryNew(Request $request)
     {
         $data = $request->all();
+        
+        if (Category::where('app_id',$data['app_id'])->where('title', '=',$data['name'])->exists()) {
+            return response()->json(['status' => '300','message' => 'title already exist']);
+        }
+        
         $auth = Auth()->user();
         $app_id = (isset($data['app_id']) && $data['app_id']) ? $data['app_id'] : null;
         $name = (isset($data['name']) && $data['name']) ? $data['name'] : null;
@@ -502,6 +507,11 @@ class CategoryController extends Controller
         $field_key2 = (isset($data['2field_key']) && $data['2field_key']) ? $data['2field_key'] : null;
         $field_value2 = (isset($data['2field_value']) && $data['2field_value']) ? $data['2field_value'] : null;
         $field_key3 = (isset($data['3field_key']) && $data['3field_key']) ? $data['3field_key'] : null;
+
+        if($field_key1 == null || $field_key1 == ""){
+            return response()->json(['status' => '300','message' => 'Please add Custom Field']);
+        }
+        
         //    $field_value3 = (isset($data['3field_value']) && $data['3field_value']) ? $data['3field_value'] : null;
 
         // dump($data);
@@ -637,6 +647,7 @@ class CategoryController extends Controller
     public function UpdateCategoryNew(Request $request, $id)
     {
         $data = $request->all();
+        
         $auth = Auth()->user();
         // dd($data);
         $app_id = (isset($data['app_id']) && $data['app_id']) ? $data['app_id'] : null;
@@ -645,7 +656,9 @@ class CategoryController extends Controller
         $category_id = (isset($data['category_id']) && $data['category_id']) ? $data['category_id'] : null;
         $main_category = Category::where('id', $category_id)->first();
         $name = (isset($data['name']) && $data['name']) ? $data['name'] : $main_category->title;
-        
+        if (Category::where('app_id',$app_id)->where('title', '=',$name)->where('id', '<>',$category_id)->exists()) {
+            return response()->json(['status' => '300','message' => 'title already exist']);
+        }
         $all_id_array = [];
         if($all_id != ""){
            $all_id_array = explode(",", $all_id);
@@ -998,7 +1011,11 @@ class CategoryController extends Controller
         // dump($cat_id);
         // dump($app_id);
         // dd($parent_id);
+        
         $data = $request->all();
+        if (MainContent::where('form_structure_id',$data['form_structure_id'])->where('title', '=',$data['title'])->exists()) {
+            return response()->json(['status' => '300','message' => 'title already exist']);
+        }
         // dd($data);
         $auth = Auth()->user();
         $content_id = 0;
@@ -1209,7 +1226,9 @@ class CategoryController extends Controller
         $title = (isset($data['title']) && $data['title']) ? $data['title'] : null;
         $content_id = (isset($data['content_id']) && $data['content_id']) ? $data['content_id'] : null;
         $form_structure_id = (isset($data['form_structure_id']) && $data['form_structure_id']) ? $data['form_structure_id'] : null;
-
+        if (MainContent::where('form_structure_id',$form_structure_id)->where('title', '=',$title)->where('id', '<>',$content_id)->exists()) {
+            return response()->json(['status' => '300','message' => 'title already exist']);
+        }
         $main_content = MainContent::find($content_id);
         $main_content->title = $title;
         $main_content->save();
@@ -1479,7 +1498,7 @@ class CategoryController extends Controller
             ->where('category_id', $cat_id)
             ->first();
         if ($form_structure_get != null) {
-            $data = ContentField::where('status', '1')->where('app_id', $app_id);
+            $data = ContentField::with('field_content_s')->where('status', '1')->where('app_id', $app_id);
             if (isset($status)) {
                 $s = (string) $status;
                 $data = $data->where('status', $s);

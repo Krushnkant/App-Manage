@@ -317,7 +317,8 @@
         var validation = ValidateForm()
         if (validation != false) {
             $('.spinner-border').show();
-            $('#submit_category').addClass('disabled');
+            //$('#submit_category').addClass('disabled');
+            $('#submit_category').prop('disabled', true);
             $.ajax({
                 type: 'POST',
                 url: url+"/category-insert-new",
@@ -339,6 +340,12 @@
                             }
                         })
                         $("input#name").val('');
+                    }else if(data.status == 300){
+                        $('#submit_category').prop('disabled', false);
+                        $('.spinner-border').hide();
+                        toastr.error(data.message, 'Error', {
+                            timeOut: 5000
+                        })
                     } else {
                         $('#submit_category').prop('disabled', false);
                         $('.spinner-border').hide();

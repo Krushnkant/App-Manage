@@ -599,9 +599,18 @@ input:focus + .slider {
                     var background_color = '#fff';
                     $("div.list_content").empty();
                     $.map(result.data, function(item, key) {
+                        console.log(item);
                         var url2 = url + "/application-new-design/" + cat_id + "/" + app_id + "/" + item.id;
                         var edit_url = "{{url('/')}}" + "/sub-content-edit/" + "{{$cat_id}}" + "/{{$app_id}}/{{$parent_id}}/" + item.main_content_id;
                         key = key + 1;
+
+                        var img_url0 = "{{asset('user/assets/icons/copy.png')}}";
+                        if(item.field_content_s == null){
+                            var copy  = "<a href='javascript:void(0)' data-id='" + item.id + "' data-toggle='modal' data-target='#copyModalCenter' title=\"Copy\" class='copyBtn'><img src='" + img_url0 + "' alt=''></a>";
+                         }else{
+                            var copy  = "<a href='javascript:void(0)' title=\"Copy\" class=''><img src='" + img_url0 + "' alt=''></a>";
+                         }
+
                         html += '<div class="row name_text parent_div" data-id="' + item.id + '">' +
                             '<div class="col-lg-1">' +
                             ' <div class="no">' +
@@ -614,6 +623,10 @@ input:focus + .slider {
                             '<div class="icons">' +
                             '<div class="plus">' +
                             '<label class="switch mt-1" style="margin-bottom: -5px;" ><input type="checkbox" ' + (item.main_content_status == '1' ? "checked" : "") + ' class="toggle-class" data-id="'+ item.main_content_id +'"><span class="slider"></span></label>' +
+                            '</div>' +
+                            '<div class="plus">' +
+                                copy
+                             +
                             '</div>' +
                             '<div class="plus">' +
                             '<a href="' + edit_url + '" data-url="'+ edit_url +'" class="editUserBtn">' +

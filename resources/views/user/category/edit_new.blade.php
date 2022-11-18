@@ -350,6 +350,12 @@
                         });
                         window.location.href = "{{ url('category-add-new/'.$data->app_id)}}";
                         // $("#category_add")[0].reset()
+                    }else if(data.status == 300){
+                        $('#submit_category').prop('disabled', false);
+                        $('.spinner-border').hide();
+                        toastr.error(data.message, 'Error', {
+                            timeOut: 5000
+                        })
                     } else {
                         $('#submit_category').prop('disabled', false);
                         $('.spinner-border').hide();
