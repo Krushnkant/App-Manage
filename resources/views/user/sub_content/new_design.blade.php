@@ -190,7 +190,7 @@
 }
 
 input:checked + .slider {
-  background: #be0071;
+  background: rgb(19, 80, 39);
 }
 
 input:checked + .slider:before {
