@@ -119,6 +119,11 @@
 <script type="text/javascript">
     function copyToClipboard(element) {
         navigator.clipboard.writeText(element);
+       
+        document.execCommand("copy");
+        toastr.success("Copied!", 'Success', {
+            timeOut: 2000
+        });
     }
 
     function format(d) {
@@ -136,7 +141,7 @@
 
         if (d.is_category == 1) {
             cat_list += "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>" +
-                "<tr><td style='display:block;'><span class='kArPKh text-left mx-3'>" + sub_content_api_path + " <button class='btn_copy' onclick=copyToClipboard('" + sub_content_api_path + "')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>" +
+                "<tr><td style='display:block;'><span class='kArPKh text-left mx-3'>" + sub_content_api_path + " <button class='btn_copy' onclick=copyToClipboard('" + sub_content_api_path + "')><img class='copy_svg' src='{{asset('user/assets/icons/copy.png')}}' /></button></span></td></tr>" +
                 "<table class='w-100 child-inner-table mb-4 mx-3'>" +
                 "<thead>" +
                 "<tr>" +
@@ -175,6 +180,13 @@
                 "<td><em>string</em></td>" +
                 "<td class='text-left'>category id must be same as example</td>" +
                 "<td class='text-left'>0</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td><code>is_view_all</code></td>" +
+                "<td>YES</td>" +
+                "<td><em>integer</em></td>" +
+                "<td class='text-left'>1 = application all data show, 0 = category wise show data</td>" +
+                "<td class='text-left'>0 or 1</td>" +
                 "</tr>" +
                 "</tbody>" +
                 "</table></tr>";
@@ -560,12 +572,13 @@
                                 var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                                 var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
                                 var img_url3 = "{{asset('user/assets/icons/copy.png')}}";
+                                var img_url4 = "{{asset('user/assets/icons/user.png')}}";
                                 var url3 = '{{ url("user-add-new") }}' + '/' + row.id;
 
                                 //var role = "{{ Auth()->user()->role }}";
 
                                 if(role != 4){
-                                var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><i class='fa fa-user'></i></a>" +
+                                var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><img src='" + img_url4 + "' alt=''></a>" +
                                 "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
                                     "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
                                     row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";

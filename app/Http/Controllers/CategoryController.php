@@ -509,7 +509,11 @@ class CategoryController extends Controller
         $field_key3 = (isset($data['3field_key']) && $data['3field_key']) ? $data['3field_key'] : null;
 
         if($field_key1 == null || $field_key1 == ""){
-            return response()->json(['status' => '300','message' => 'Please add Custom Field']);
+            if($field_key2 == null || $field_key2 == ""){
+                if($field_key3 == null || $field_key3 == ""){
+                    return response()->json(['status' => '300','message' => 'Please add Custom Field']);
+                }
+            }
         }
         
         //    $field_value3 = (isset($data['3field_value']) && $data['3field_value']) ? $data['3field_value'] : null;

@@ -584,7 +584,7 @@ class APIsController extends Controller
                     ->first();
                 $all_category = [];
                 if ($check_application != null) {
-                    if(!isset($data['is_application']) || $data['is_application'] == 0){
+                    if(!isset($data['is_view_all']) || $data['is_view_all'] == 0){
                         if ($data['category_id'] == 0 && $data['parent_id'] == 0) {
                             $category = Category::where('app_id', $data['application_id'])->where('status', '1')->get();
                             foreach ($category as $cat) {
@@ -798,7 +798,7 @@ class APIsController extends Controller
                                 $i = 0;
                                 foreach ($category_fields_ as $key => $field_) {
                                     $field_->title = $cat->title;
-                                    $field_->sub_content = $getcontent;
+                                    
                                     if ($field_->field_type != "multi-file") {
                                         $type = $field_->field_type;
                                         $field_->type = $type;
@@ -814,6 +814,7 @@ class APIsController extends Controller
                                         }
                                         $i++;
                                     }
+                                    $field_->sub_content = $getcontent;
                                     unset(
                                         $field_['id'],
                                         $field_['app_id'],
