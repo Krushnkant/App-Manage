@@ -152,11 +152,11 @@
     }
 
     .switch {
-  position: relative;
-  display: inline-block;
-  width: 51px;
-  height: 20px;
-}
+        position: relative;
+        display: inline-block;
+        width: 35px;
+        height: 18px;
+    }
 
 .switch input {
   display: none;
@@ -172,7 +172,7 @@
   background: #dedede;
   border-radius: 40px;
   -webkit-transition: 0.4s;
-  transition: 0.4s;
+  transition: 0.3s;
 }
 
 .slider:before {
@@ -182,8 +182,9 @@
   width: 18px;
   background: #fff;
   border-radius: 50%;
-  left: 2px;
-    bottom: 1px;
+  left: 0px;
+  right: 10px;
+    /* bottom: 1px; */
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -194,8 +195,8 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   -webkit-transform: translateX(30px);
-  -moz-transform: translateX(30px);
-  transform: translateX(30px);
+    -moz-transform: translateX(30px);
+    transform: translateX(17px);
 }
 
 input:focus + .slider {
@@ -452,12 +453,12 @@ input:focus + .slider {
                             '</div>' +
                             '<div class="plus">' +
                             '<a href="' + edit_url + '" data-url="'+ edit_url +'" class="editUserBtn">' +
-                            '<img src = "{{asset("user/assets/icons/copy-img.png")}}" / > ' +
+                            '<img src = "{{asset("user/assets/icons/edit.png")}}" / > ' +
                             ' </a>' +
                             '</div>' +
                             '<div class="plus">' +
                             '<a href="javascript:void(0)" rel="' + item.id + '" data-toggle="modal" data-target="#exampleModalCenter" class="deleteUserBtn">' +
-                            '<img src="{{asset("user/assets/icons/delete-img.png")}}" />' +
+                            '<img src="{{asset("user/assets/icons/delete.png")}}" />' +
                             '</a>' +
                             '</div>' +
                             '</div>' +
@@ -630,12 +631,12 @@ input:focus + .slider {
                             '</div>' +
                             '<div class="plus">' +
                             '<a href="' + edit_url + '" data-url="'+ edit_url +'" class="editUserBtn">' +
-                            '<img src = "{{asset("user/assets/icons/copy-img.png")}}" / > ' +
+                            '<img src = "{{asset("user/assets/icons/edit.png")}}" / > ' +
                             ' </a>' +
                             '</div>' +
                             '<div class="plus">' +
                             '<a href="javascript:void(0)" rel="' + item.id + '" data-toggle="modal" data-target="#exampleModalCenter" class="deleteUserBtn">' +
-                            '<img src="{{asset("user/assets/icons/delete-img.png")}}" />' +
+                            '<img src="{{asset("user/assets/icons/delete.png")}}" />' +
                             '</a>' +
                             '</div>' +
                             '</div>' +
