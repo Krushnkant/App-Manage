@@ -724,6 +724,40 @@ input:focus + .slider {
             }
         });
     });
+
+
+    
 });
+
+// $('body').on('click', '#RemoveUserSubmit', function(e) {
+//     $('#RemoveUserSubmit').prop('disabled', true);
+//     var remove_user_id = $(this).attr('data-id');
+//     var remove_title = $(this).attr('data-title');
+    
+//     $.ajax({
+//         type: 'GET',
+//         url: "{{ url('/sub_content_delete_new') }}/" + remove_user_id + "/" + remove_title,
+//         success: function(res) {
+//             // console.log(res)
+//             if (res.status == 200) {
+//                 $("#exampleModalCenter").modal('hide');
+//                 $('#RemoveUserSubmit').prop('disabled', false);
+//                 // $('#application_list').DataTable().draw();
+//                 location.reload();
+//                 toastr.success(res.action, 'Success', {
+//                     timeOut: 5000
+//                 });
+//             } else {
+//                 $("#exampleModalCenter").modal('hide');
+//                 $('#RemoveUserSubmit').prop('disabled', false);
+//             }
+//         },
+//         error: function(data) {
+//             toastr.error("Please try again", 'Error', {
+//                 timeOut: 5000
+//             });
+//         }
+//     });
+// });
 </script>
 @endpush('scripts')

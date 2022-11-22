@@ -1344,6 +1344,8 @@ class CategoryController extends Controller
                 if (strpos($key, "_form") !== false) {
                     // dump("new");
                     // dump($key);
+                  
+                   // dd($dd_);
                     $int_var = (int)filter_var($key, FILTER_SANITIZE_NUMBER_INT);
                     $content = new ContentField();
                     $content->app_id = $app_id;
@@ -1351,26 +1353,58 @@ class CategoryController extends Controller
                     $content->form_structure_id = $form_structure_id;
                     $content->form_structure_field_id = $int_var;
                     $content->created_by = $auth->id;
-
-                    if (file_exists($dd_)) {
-                        $path = public_path("app_data_images/");
-                        $extension = $dd_->extension();
-                        $type = null;
-                        if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
-                            $type = 'image';
-                        } else {
-                            $type = 'video';
-                        }
-                        $result = Helpers::UploadImage($dd_, $path);
-                        // dump($result);
-                        $content->field_value = $result;
-                        $content->file_type = $form_structure_id;
-                    } else {
-                        // dump("value only");
-                        // dump($dd_);
-                        $content->field_value = $dd_;
-                    }
                     $content->save();
+                    if(is_array($dd_)){
+                        
+
+                        foreach ($dd_ as $img) {
+                            // dump("jijiji");
+                            // dump($img);
+                            $path = public_path("app_data_images/");
+                            $extension = $img->extension();
+                            $type = null;
+                            if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
+                                $type = 'image';
+                            } else {
+                                $type = 'video';
+                            }
+                            $result = Helpers::UploadImage($img, $path);
+                            // dump($result);
+                            $content_sub = new ContentSubField();
+                            $content_sub->app_id = $app_id;
+                            $content_sub->content_field_id = $content->id;
+                            $content_sub->field_value = $result;
+                            $content_sub->file_type = $type;
+                            $content_sub->created_by = $auth->id;
+                            $content_sub->save();
+                        }
+
+                    }else{
+
+                       
+                        $content = ContentField::find($content->id);
+                        if (file_exists($dd_)) {
+                            $path = public_path("app_data_images/");
+                            $extension = $dd_->extension();
+                            $type = null;
+                            if (str_contains($extension, 'png') || str_contains($extension, 'jpg') || str_contains($extension, 'jpeg') || str_contains($extension, 'webp')) {
+                                $type = 'image';
+                            } else {
+                                $type = 'video';
+                            }
+                            $result = Helpers::UploadImage($dd_, $path);
+                            // dump($result);
+                            $content->field_value = $result;
+                            $content->file_type = $form_structure_id;
+                        } else {
+                            // dump("value only");
+                            // dump($dd_);
+                            $content->field_value = $dd_;
+                        }
+                        $content->save();
+                        
+
+                    }
                 }
             }
         }
