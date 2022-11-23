@@ -457,7 +457,7 @@ input:focus + .slider {
                             ' </a>' +
                             '</div>' +
                             '<div class="plus">' +
-                            '<a href="javascript:void(0)" rel="' + item.id + '" data-toggle="modal" data-target="#exampleModalCenter" class="deleteUserBtn">' +
+                            '<a href="javascript:void(0)" rel="' + item.id + '" data-id="' + item.main_content_id + '" data-toggle="modal" data-target="#exampleModalCenter" class="deleteUserBtn">' +
                             '<img src="{{asset("user/assets/icons/delete.png")}}" />' +
                             '</a>' +
                             '</div>' +
@@ -600,7 +600,7 @@ input:focus + .slider {
                     var background_color = '#fff';
                     $("div.list_content").empty();
                     $.map(result.data, function(item, key) {
-                        console.log(item);
+                       
                         var url2 = url + "/application-new-design/" + cat_id + "/" + app_id + "/" + item.id;
                         var edit_url = "{{url('/')}}" + "/sub-content-edit/" + "{{$cat_id}}" + "/{{$app_id}}/{{$parent_id}}/" + item.main_content_id;
                         key = key + 1;
@@ -635,7 +635,7 @@ input:focus + .slider {
                             ' </a>' +
                             '</div>' +
                             '<div class="plus">' +
-                            '<a href="javascript:void(0)" rel="' + item.id + '" data-toggle="modal" data-target="#exampleModalCenter" class="deleteUserBtn">' +
+                            '<a href="javascript:void(0)" rel="' + item.id + '" data-id="' + item.main_content_id + '" data-toggle="modal" data-target="#exampleModalCenter" class="deleteUserBtn">' +
                             '<img src="{{asset("user/assets/icons/delete.png")}}" />' +
                             '</a>' +
                             '</div>' +
@@ -729,35 +729,38 @@ input:focus + .slider {
     
 });
 
-// $('body').on('click', '#RemoveUserSubmit', function(e) {
-//     $('#RemoveUserSubmit').prop('disabled', true);
-//     var remove_user_id = $(this).attr('data-id');
-//     var remove_title = $(this).attr('data-title');
-    
-//     $.ajax({
-//         type: 'GET',
-//         url: "{{ url('/sub_content_delete_new') }}/" + remove_user_id + "/" + remove_title,
-//         success: function(res) {
-//             // console.log(res)
-//             if (res.status == 200) {
-//                 $("#exampleModalCenter").modal('hide');
-//                 $('#RemoveUserSubmit').prop('disabled', false);
-//                 // $('#application_list').DataTable().draw();
-//                 location.reload();
-//                 toastr.success(res.action, 'Success', {
-//                     timeOut: 5000
-//                 });
-//             } else {
-//                 $("#exampleModalCenter").modal('hide');
-//                 $('#RemoveUserSubmit').prop('disabled', false);
-//             }
-//         },
-//         error: function(data) {
-//             toastr.error("Please try again", 'Error', {
-//                 timeOut: 5000
-//             });
-//         }
-//     });
-// });
+$('body').on('click', '.deleteUserBtn', function(e) {
+        var delete_user_id = $(this).attr('data-id');
+        $("#exampleModalCenter").find('#RemoveUserSubmit').attr('data-id', delete_user_id);
+});
+
+$('body').on('click', '#RemoveUserSubmit', function(e) {
+    $('#RemoveUserSubmit').prop('disabled', true);
+    var remove_user_id = $(this).attr('data-id');
+    $.ajax({
+        type: 'GET',
+        url: "{{ url('/sub_content_delete_new') }}/" + remove_user_id ,
+        success: function(res) {
+            // console.log(res)
+            if (res.status == 200) {
+                $("#exampleModalCenter").modal('hide');
+                $('#RemoveUserSubmit').prop('disabled', false);
+                // $('#application_list').DataTable().draw();
+                location.reload();
+                toastr.success(res.action, 'Success', {
+                    timeOut: 5000
+                });
+            } else {
+                $("#exampleModalCenter").modal('hide');
+                $('#RemoveUserSubmit').prop('disabled', false);
+            }
+        },
+        error: function(data) {
+            toastr.error("Please try again", 'Error', {
+                timeOut: 5000
+            });
+        }
+    });
+});
 </script>
 @endpush('scripts')

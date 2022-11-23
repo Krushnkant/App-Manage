@@ -1419,6 +1419,22 @@ class CategoryController extends Controller
         }
     }
 
+    public function DeleteSubContentNew($id)
+    {
+        
+        $main_content = MainContent::where('id', $id)->delete();
+       
+        $field_content = ContentField::where('main_content_id', $id)->delete();
+
+        //$sub_content = ContentField::where('id', $id)->delete();
+        
+        if ($main_content == 1) {
+            return response()->json(['status' => '200']);
+        } else {
+            return response()->json(['status' => '400']);
+        }
+    }
+
     public function ImageDelete($id)
     {
         $category_field = CategoryField::where('id', $id)->first();
@@ -1479,6 +1495,7 @@ class CategoryController extends Controller
                     $d->app_name = null;
                 }
                 $d->form_title = $main_title->title;
+                $d->main_content_id = $main_title->id;
                 $d->main_content_status = $main_title->status;
             }
             // dd();
@@ -1560,6 +1577,7 @@ class CategoryController extends Controller
                     $d->app_name = null;
                 }
                 $d->form_title = $main_title->title;
+                $d->main_content_id = $main_title->id;
                 $d->main_content_status = $main_title->status;
             }
             return response()->json(['status' => '200', 'data' => $data]);

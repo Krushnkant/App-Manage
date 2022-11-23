@@ -274,7 +274,7 @@ class ApplicationController extends Controller
             $maincontents = MainContent::with('content_field')->where('status', '1')->where('form_structure_id', $form_structure->id)->get();
         }
        
-        
+
         return view('user.sub_content.new_design', compact('page', 'cat_id', 'app_id', 'parent_id', 'is_content','maincontents'));
     }
 
