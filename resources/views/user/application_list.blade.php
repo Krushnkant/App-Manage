@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Application List - Application Management</h4>
                         <div class="text-left mb-4 add_application_btn_part">
-                            <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
+                            <a href="{{url('add-application/0')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
                                 <span class="mr-2 d-inline-block">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                         <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -58,6 +58,7 @@
                                                     <th>No</th>
                                                     <th>Application</th>
                                                     <th>App Id</th>
+                                                    <th>Is New</th>
                                                     <th>Package Name</th>
                                                     <th>Total Request <small>Category | Content</small></th>
                                                     <th>status</th>
@@ -67,21 +68,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            
+
                                             </tbody>
-                                            <!-- <tfoot>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Application</th>
-                                                <th>App Id</th>
-                                                <th>Package Name</th>
-                                                <th>Total Request</th>
-                                                <th>Icon</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
-                                                <th></th>
-                                            </tr>
-                                        </tfoot> -->          
                                         </table>
                                     </div>
                                 </div>
@@ -337,7 +325,7 @@
         });
 
         function application_page_tabs(tab_type = '', is_clearState = false) {
-
+            console.log("type", tab_type)
             if (is_clearState) {
                 $('#application_list').DataTable().state.clear();
             }
@@ -374,7 +362,7 @@
                         "targets": 2
                     },
                     {
-                        "width": "10%",
+                        "width": "15%",
                         "targets": 3
                     },
                     {
@@ -394,8 +382,12 @@
                         "targets": 7
                     },
                     {
-                        "width": "20%",
+                        "width": "15%",
                         "targets": 8
+                    },
+                    {
+                        "width": "15%",
+                        "targets": 9
                     },
                     // { "width": "10%", "targets": 9 },
                 ],
@@ -414,7 +406,7 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                  
+
 
                     {
                         "mData": "icon",
@@ -524,6 +516,16 @@
                         }
                     },
                     {
+                        "mData": "is_new",
+                        "mRender": function(data, type, row) {
+                            if (row.is_new == 1) {
+                                return "<div><span class='application_text app_id_part'>New</span></div>";
+                            } else {
+                                return "<div><span class='application_text app_id_part'>Old</span></div>";
+                            }
+                        }
+                    },
+                    {
                         "mData": "package_name",
                         "mRender": function(data, type, row) {
                             var multi_link = [];
@@ -607,8 +609,11 @@
                             var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
                             var img_url2 = "{{asset('user/assets/icons/delete.png')}}";
                             var img_url3 = "{{asset('user/assets/icons/copy.png')}}";
+                            var img_url4 = "{{asset('user/assets/icons/user.png')}}";
+                            var url3 = '{{ url("user-add-old") }}' + '/' + row.id;
 
-                            return "<a href='" + url1 + "' title=\"copy\" class='application_text mr-4'><img src='" + img_url3 + "' alt=''></a>" +
+                            return "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><img src='" + img_url4 + "' alt=''></a>" +
+                                // "<a href='" + url1 + "' title=\"copy\" class='application_text mr-4'><img src='" + img_url3 + "' alt=''></a>" +
                                 "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
                                 "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
                                 row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
@@ -689,7 +694,8 @@
                     $('#application_list').DataTable().draw();
                 }
             },
-            error: function(data) {e
+            error: function(data) {
+                e
                 toastr.error("Pleas try again", 'Error', {
                     timeOut: 5000
                 });

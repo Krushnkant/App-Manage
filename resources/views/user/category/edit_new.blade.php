@@ -23,6 +23,10 @@
     .spinner-border {
         display: none;
     }
+
+    .revers_div {
+        flex-direction: row-reverse;
+    }
 </style>
 <div>
     <div class="row page-titles mx-0">
@@ -137,8 +141,10 @@
                                                         ->where('field_key', $d->field_key)
                                                         ->where('field_type', 'multi-file')->get();
                                                     ?>
-                                                    <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0">
+                                                    <div class="col-10 col-sm-11 col-md-5 mb-3 mb-md-0 oooo">
                                                         <input type="file" value="{{$d->field_value}}" class="form-control input-flat files" id="{{$field_name_id}}" name="{{$field_name_}}" multiple />
+                                                        <div class="revers_div">
+                                                        </div>
                                                     </div>
                                                     @endif
                                                     <div class="col-2 col-sm-1 col-md-1 mb-3 mb-md-0 text-center delete_btn_part">
@@ -226,26 +232,49 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
 <script type="text/javascript">
+    var signatures = {
+        JVBERi0: "application/pdf",
+        R0lGODdh: "image/gif",
+        R0lGODlh: "image/gif",
+        iVBORw0KGgo: "image/png",
+        "/9j/": "image/jpg"
+    };
+
+    function detectMimeType(b64) {
+        for (var s in signatures) {
+            if (b64.indexOf(s) === 0) {
+                return signatures[s];
+            }
+        }
+    }
     $(document).ready(function() {
         var ddd = 0;
         var app_id = "{{$id}}";
         if (window.File && window.FileList && window.FileReader) {
             $('body').on('change', '.files', function(e) {
-                // console.log(e.target.value)
                 var uniq = (new Date()).getTime() + "_s" + ddd;
-                var main = $(this)
+                var main = $(this).next()
                 var files = e.target.files,
                     filesLength = files.length;
                 for (var i = 0; i < filesLength; i++) {
                     var f = files[i]
                     var fileReader = new FileReader();
                     fileReader.onload = (function(e) {
-                        alert();
                         var file = e.target;
+                        var ss = $(".revers_div").children().length
+                        ss = ss + 1;
+                        let mimeType = file.result.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0];
+                        var placeholder = "";
+                        if (mimeType.match("png") || mimeType.match("jpg") || mimeType.match("jpeg")) {
+                            placeholder = e.target.result;
+                        } else {
+                            placeholder = "https://riggswealth.com/wp-content/uploads/2016/06/Riggs-Video-Placeholder-300x150.jpg";
+                        }
                         $("<span class=\"pip\">" +
-                            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                            "<span class='number_display'>" + ss + "</span>" +
+                            "<img class=\"imageThumb\" src=\"" + placeholder + "\" title=\"" + file.name + "\"/>" +
                             "<br/><span class=\"remove\">X</span>" +
-                            "</span>").insertAfter(main);
+                            "</span>").appendTo(main);
                         $(".remove").click(function() {
                             $(this).parent(".pip").remove();
                             // console.log($(this).parent(".pip").remove())
@@ -292,7 +321,7 @@
             set_multiple = "multiple";
             set_multi = "multiple";
             field_name = option + "field_value[]"
-            $("select option[value*='multi-file']").prop('disabled',true);
+            $("select option[value*='multi-file']").prop('disabled', true);
         } else {
             type = ""
         }
@@ -303,7 +332,7 @@
                 '<input type="text" placeholder="" id="' + field_key_id + '" data="specific" class="form-control input-flat" name="' + field_key + '" />' +
                 '</div>' +
                 '<div class="col-10 col-sm-10 col-md-5">' +
-                '<input type="' + type + '" id="' + field_name_id + '" class="form-control input-flat"  data="'+set_multi+'" name="' + field_name + '" ' + set_multiple + '/>' +
+                '<input type="' + type + '" id="' + field_name_id + '" class="form-control input-flat"  data="' + set_multi + '" name="' + field_name + '" ' + set_multiple + '/>' +
                 '</div>' +
                 // '<div class="col-md-2">'+
                 //     '<button type="button" class="plus_btn btn mb-1 btn-primary">+</button>'+
@@ -350,7 +379,7 @@
                         });
                         window.location.href = "{{ url('category-add-new/'.$data->app_id)}}";
                         // $("#category_add")[0].reset()
-                    }else if(data.status == 300){
+                    } else if (data.status == 300) {
                         $('#submit_category').prop('disabled', false);
                         $('.spinner-border').hide();
                         toastr.error(data.message, 'Error', {
