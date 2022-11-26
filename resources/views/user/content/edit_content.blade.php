@@ -249,8 +249,15 @@
           var fileReader = new FileReader();
           fileReader.onload = (function(e) {
             var file = e.target;
+            let mimeType = file.result.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0];
+            var placeholder = "";
+            if (mimeType.match("png") || mimeType.match("jpg") || mimeType.match("jpeg")) {
+              placeholder = e.target.result;
+            } else {
+              placeholder = "https://riggswealth.com/wp-content/uploads/2016/06/Riggs-Video-Placeholder-300x150.jpg";
+            }
             $("<span class=\"pip\">" +
-              "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+              "<img class=\"imageThumb\" src=\"" + placeholder + "\" title=\"" + file.name + "\"/>" +
               "<br/><span class=\"remove\">X</span>" +
               "</span>").insertAfter(main);
             $(".remove").click(function() {

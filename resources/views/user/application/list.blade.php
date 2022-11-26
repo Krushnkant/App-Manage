@@ -26,7 +26,7 @@
                         <h4 class="card-title mb-4">Application List - Application Management</h4>
                         @if(Auth::user()->role != 4)
                         <div class="text-left mb-4 add_application_btn_part">
-                            <a href="{{url('add-application')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
+                            <a href="{{url('add-application/1')}}" class="btn gradient-4 btn-lg border-0 btn-rounded add_application_btn">
                                 <span class="mr-2 d-inline-block">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                         <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#151415" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -61,6 +61,7 @@
                                                     <th>No</th>
                                                     <th>Application</th>
                                                     <th>App Id</th>
+                                                    <th>Is New</th>
                                                     <th>Package Name</th>
                                                     <th>Total Request <small>Category | Content</small></th>
                                                     <th>status</th>
@@ -119,7 +120,7 @@
 <script type="text/javascript">
     function copyToClipboard(element) {
         navigator.clipboard.writeText(element);
-       
+
         document.execCommand("copy");
         toastr.success("Copied!", 'Success', {
             timeOut: 2000
@@ -127,7 +128,7 @@
     }
 
     function format(d) {
-        
+
         var cat_list = "";
         var token = d.token;
         var test_token = d.test_token;
@@ -172,7 +173,7 @@
                 "<td>YES</td>" +
                 "<td><em>string</em></td>" +
                 "<td class='text-left'>application id must be same as example</td>" +
-                "<td class='text-left'>"+d.id+"</td>" +
+                "<td class='text-left'>" + d.id + "</td>" +
                 "</tr>" +
                 "<tr>" +
                 "<td><code>category_id</code></td>" +
@@ -284,6 +285,7 @@
         });
 
         function application_page_tabs(tab_type = '', is_clearState = false) {
+            console.log("type", tab_type)
             var role = "{{ Auth::user()->role }}";
             if (is_clearState) {
                 $('#application_list').DataTable().state.clear();
@@ -321,7 +323,7 @@
                         "targets": 2
                     },
                     {
-                        "width": "10%",
+                        "width": "15%",
                         "targets": 3
                     },
                     {
@@ -341,8 +343,12 @@
                         "targets": 7
                     },
                     {
-                        "width": "20%",
+                        "width": "15%",
                         "targets": 8
+                    },
+                    {
+                        "width": "15%",
+                        "targets": 9
                     },
                     // { "width": "10%", "targets": 9 },
                 ],
@@ -461,15 +467,25 @@
                     {
                         "mData": "app_id",
                         "mRender": function(data, type, row) {
-                            
-                            if(role != 4){
+
+                            if (role != 4) {
                                 if (row.app_id != null) {
                                     return "<div><span class='application_text app_id_part'>" + row.app_id + "</span></div>";
                                 } else {
                                     return "<div><span class='application_text app_id_part'>-</span></div>";
                                 }
-                            }else{
+                            } else {
                                 return "<div><span class='application_text app_id_part'>-</span></div>";
+                            }
+                        }
+                    },
+                    {
+                        "mData": "is_new",
+                        "mRender": function(data, type, row) {
+                            if (row.is_new == 1) {
+                                return "<div><span class='application_text app_id_part'>New</span></div>";
+                            } else {
+                                return "<div><span class='application_text app_id_part'>Old</span></div>";
                             }
                         }
                     },
@@ -477,7 +493,7 @@
                         "mData": "package_name",
                         "mRender": function(data, type, row) {
                             var multi_link = [];
-                            if(role != 4){
+                            if (role != 4) {
                                 if (row.package_name != null) {
                                     var hasApple = row.package_name.indexOf(',') != -1;
                                     if (hasApple === true) {
@@ -496,7 +512,7 @@
                                 } else {
                                     return "<div><span class='application_text app_id_part'>-</span></div>";
                                 }
-                            }else{
+                            } else {
                                 return "<div><span class='application_text app_id_part'>-</span></div>";
                             }
                         }
@@ -520,13 +536,13 @@
                     {
                         "mData": "status",
                         "mRender": function(data, type, row) {
-                            if(role != 4){
+                            if (role != 4) {
                                 if (row.status == "1") {
                                     return '<div><span class="application_text app_id_part active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="1" >Active</span></div>';
                                 } else {
                                     return '<div><span class="application_text app_id_part deactive_status active_status" id="applicationstatuscheck_' + row.id + '" onclick="chageapplicationstatus(' + row.id + ')" value="2">Deactive</span></div>';
                                 }
-                            }else{
+                            } else {
                                 if (row.status == "1") {
                                     return '<div><span class="application_text app_id_part active_status">Active</span></div>';
                                 } else {
@@ -566,7 +582,7 @@
                         "mData": "-",
                         "mRender": function(data, type, row) {
                             var user = "";
-                            if(role != 4){
+                            if (role != 4) {
                                 var url1 = '{{ Route("application.edit", "id") }}';
                                 url1 = url1.replace('id', row.id);
                                 var img_url1 = "{{asset('user/assets/icons/edit.png')}}";
@@ -577,21 +593,21 @@
 
                                 //var role = "{{ Auth()->user()->role }}";
 
-                                if(role != 4){
-                                var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><img src='" + img_url4 + "' alt=''></a>" +
-                                "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
-                                    "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
-                                    row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
-                                }else{
+                                if (role != 4) {
+                                    var user = "<a href='" + url3 + "' title=\"user\" class='application_text mr-4'><img src='" + img_url4 + "' alt=''></a>" +
+                                        "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
+                                        "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
+                                        row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                                } else {
                                     var user = "<a href='" + url1 + "' title=\"Edit\" class='application_text mr-4'><img src='" + img_url1 + "' alt=''></a>" +
-                                    "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
-                                    row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
+                                        "<a rel='" + row.id + "' title=\"Delete\" href='javascript:void(0)' data-id='" +
+                                        row.id + "' data-toggle='modal' data-target='#exampleModalCenter' class='deleteUserBtn'><img src='" + img_url2 + "' alt=''></a>";
                                 }
                             }
-                            
+
                             return user;
-                                  
-                                
+
+
                         }
                     }
                 ],

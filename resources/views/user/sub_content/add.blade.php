@@ -88,6 +88,7 @@
                     <label class="col-form-label" for="name">{{$field->field_name}}</label>
                     <input type="file" name="{{$name}}" id="{{$field->field_name}}" placeholder="enter your {{$field->field_name}}" class="form-control input-flat specReq files" name="title" multiple />
                   </div>
+                  <div class="revers_div"></div>
                 </div>
                 @elseif($field->field_type == "file")
                 <?php
@@ -154,12 +155,13 @@
       $('body').on('change', '.files', function(e) {
         // $(".files").on("change", function(e) {
         var uniq = (new Date()).getTime() + "_s" + ddd;
-        var main = $(this)
+        var main = $(this).parent().next()
+        // console.log("aaaa", main)
         var image_array = [];
         var image_string = "";
         var files = e.target.files;
         var filesLength = 0;
-        if(files != null){
+        if (files != null) {
           filesLength = files.length;
         }
         // var dumm = JSON.stringify(files)
@@ -172,7 +174,7 @@
         input_html = '<input type="hidden" value="" class="files_hid" id="' + ids + '" name="' + file_name + '" />';
         // input_html.val(input_html)
         // main.parent().append(input_html)
-        // console.log()
+        console.log("filesLength", filesLength)
         for (var i = 0; i < filesLength; i++) {
           var f = files[i]
           image_array.push(f.name)
@@ -180,16 +182,23 @@
           fileReader.onload = (function(e) {
             var file = e.target;
             var type = e.target.result.split(';')[0].split('/')[0];
+            let placeholder = "https://riggswealth.com/wp-content/uploads/2016/06/Riggs-Video-Placeholder-300x150.jpg";
             const type_ = type.split(':');
             var define = '';
+            var ss = $(".revers_div").children().length
+            ss = ss + 1;
             if (type_[1] == "image") {
               define += "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>";
+            } else if (type_[1] == "video") {
+              define += "<img class=\"imageThumb\" src=\"" + placeholder + "\" title=\"" + file.name + "\"/>";
             } else {
               define += "<img class='imageThumb' src='{{asset('user/assets/icons/file_icon.png')}}' title='' />";
             }
-            $("<span class=\"pip\">" + define +
+            $("<span class=\"pip\">" +
+              "<span class='number_display'>" + ss + "</span>" +
+              define +
               "<br/><span class=\"remove\">X</span>" +
-              "</span>").insertAfter(main);
+              "</span>").appendTo(main);
             $(".remove").click(function() {
               // $('body').on('click', '.remove', function () {
               $(this).parent(".pip").remove();
@@ -246,12 +255,12 @@
             $("#content_add")[0].reset()
             // window.location.href = "{{ url('sub-content/'.$app_id.'/'.$cat_id.'/'.$parent_id)}}";
             window.location.href = "{{ url('application-new-design/'.$cat_id.'/'.$app_id.'/'.$parent_id)}}";
-          }else if(data.status == 300){
-              $('#submit_app_data').prop('disabled', false);
-              $('.spinner-border').hide();
-              toastr.error(data.message, 'Error', {
-                  timeOut: 5000
-              })
+          } else if (data.status == 300) {
+            $('#submit_app_data').prop('disabled', false);
+            $('.spinner-border').hide();
+            toastr.error(data.message, 'Error', {
+              timeOut: 5000
+            })
           } else {
             $('#submit_app_data').prop('disabled', false);
             $('.spinner-border').hide();

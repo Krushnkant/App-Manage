@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{User, UserLogin ,ApplicationData};
+use App\Models\{User, UserLogin, ApplicationData, AppUser};
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Session;
@@ -25,23 +25,22 @@ class UserController extends Controller
         if ($request->ajax()) {
             $data = User::latest()->get();
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-   
-                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
-   
-                           $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
-    
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
-       // $posts =  User::latest()->paginate(5);
+        // $posts =  User::latest()->paginate(5);
         return view('user.index', compact('page'));
-      
     }
-   
+
     public function loginForm()
     {
         return view('user.auth.login');
@@ -62,11 +61,11 @@ class UserController extends Controller
         //
     }
 
-     public function fetchstudent()
+    public function fetchstudent()
     {
         $students = User::all();
         return response()->json([
-            'students'=>$students,
+            'students' => $students,
         ]);
     }
     /**
@@ -107,11 +106,12 @@ class UserController extends Controller
         //                 ]);
         // }
 
-        User::updateOrCreate(['id' => $request->product_id],
-        ['firstname' => $request->fname,'lastname' => $request->lname,'username' => $request->uname, 'email' => $request->email,'password' => $request->password]);        
+        User::updateOrCreate(
+            ['id' => $request->product_id],
+            ['firstname' => $request->fname, 'lastname' => $request->lname, 'username' => $request->uname, 'email' => $request->email, 'password' => $request->password]
+        );
 
-        return response()->json(['success'=>'User saved successfully.']);
-	
+        return response()->json(['success' => 'User saved successfully.']);
     }
 
 
@@ -132,9 +132,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id){
+    public function edit($id)
+    {
         //$id = $request->id;
-		// $student = User::find($id);
+        // $student = User::find($id);
         // if($student)
         // {
         //     return response()->json([
@@ -152,7 +153,6 @@ class UserController extends Controller
 
         $product = User::find($id);
         return response()->json($product);
-
     }
 
     /**
@@ -203,8 +203,8 @@ class UserController extends Controller
         //             'message'=>'user not found '
         //                     ]);
         //     }
-           
-            
+
+
         // }
 
 
@@ -219,18 +219,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         // $student = User::find($id);
-        
+
         // $student->delete();
         // return response()->json([
         //     'status'=>200,
         //     'message'=>'student deleted successfully'
         //             ]);
         User::find($id)->delete();
-     
-        return response()->json(['success'=>'User deleted successfully.']);
-		
+
+        return response()->json(['success' => 'User deleted successfully.']);
     }
-    
+
 
     public function login(Request $request)
     {
@@ -240,25 +239,25 @@ class UserController extends Controller
         ]);
         $data = $request->all();
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors(),'status'=>'failed']);
-        }else{
+            return response()->json(['errors' => $validator->errors(), 'status' => 'failed']);
+        } else {
             $user = User::where('email', $data['email'])->first();
-            if($user != null){
+            if ($user != null) {
                 $credentials = $request->only('email', 'password');
                 if (Auth::attempt($credentials)) {
                     $user_id = $user->id;
                     // $ip = \Request::getClientIp(true); // use for live
                     $ip = "43.240.9.99"; // use for local
                     $currentUserInfo = Location::get($ip);
-                    if($currentUserInfo != null){
+                    if ($currentUserInfo != null) {
                         $country = $currentUserInfo->countryName;
                         $state = $currentUserInfo->regionName;
                         $city = $currentUserInfo->cityName;
-    
+
                         $user_agent = $_SERVER['HTTP_USER_AGENT'];
                         $browser_name = Helpers::getBrowserName($user_agent);
 
-    
+
                         $history = [];
                         $history['user_id'] = $user_id;
                         $history['ip_address'] = $ip;
@@ -266,13 +265,13 @@ class UserController extends Controller
                         $history['state'] = $state;
                         $history['city'] = $city;
                         $history['browser'] = $browser_name;
-                        
+
                         $login_user_history = UserLogin::Create($history);
-    
+
                         return response()->json(['status' => '200', 'message' => 'Login Successfully']);
                     }
                 }
-            }else{
+            } else {
                 return response()->json(['status' => '400', 'message' => 'User Not Exits']);
             }
         }
@@ -288,17 +287,28 @@ class UserController extends Controller
         $data = $request->all();
         $data['decrypted_password'] = $data['password'];
         $data['password'] = Hash::make($data['password']);
-        
+
         $users = User::Create($data);
-        if($users != null){
+        if ($users != null) {
             return redirect()->intended('/dashboard');
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         Session::flush();
         Auth::logout();
 
         return Redirect('/');
+    }
+
+    public function AdduserOld($id)
+    {
+        $page = "Add User";
+        $users = User::where('estatus', 1)->whereIN('role', ['3', '4'])->get();
+        $app_data = ApplicationData::where('id', $id)->where('status', '1')->first();
+        $app_user = AppUser::where('app_id', $id)->pluck('user_id')->toArray();
+        //dd($app_user);
+        return view('user.userData.adduser', compact('id', 'users', 'app_data', 'app_user', 'page'));
     }
 }
