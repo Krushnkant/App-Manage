@@ -14,7 +14,7 @@ class AddDecryptedPasswordToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('decrypted_password')->nullable();
+            // $table->string('decrypted_password')->nullable();
             $table->enum('role', [1, 2, 3])->nullable()->comment('1->Admin,2->Sub Admin,3->End User');
             $table->string('mobile_no')->nullable();
             $table->string('profile_pic')->nullable();
