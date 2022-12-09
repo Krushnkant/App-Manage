@@ -600,7 +600,7 @@ class APIsController extends Controller
                                     $value = $path . "/" . $img->field_value;
                                     array_push($multi_image, $value);
                                 }
-                                dump($multi_image);
+                                // dump($multi_image);
                                 $category_fields_ = CategoryField::where('app_id', $data['application_id'])
                                     ->where('category_id', $cat->id)->get();
                                 $i = 0;
