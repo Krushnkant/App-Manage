@@ -588,9 +588,6 @@ class APIsController extends Controller
                         if ($data['category_id'] == 0 && $data['parent_id'] == 0) {
                             $category = Category::where('app_id', $data['application_id'])->where('status', '1')->get();
                             foreach ($category as $cat) {
-
-
-
                                 // dump($cat);
                                 $category_fields = CategoryField::where('app_id', $data['application_id'])
                                     ->where('category_id', $cat->id)->where('field_type', 'multi-file')->get();
@@ -603,6 +600,7 @@ class APIsController extends Controller
                                     $value = $path . "/" . $img->field_value;
                                     array_push($multi_image, $value);
                                 }
+                                dump($multi_image);
                                 $category_fields_ = CategoryField::where('app_id', $data['application_id'])
                                     ->where('category_id', $cat->id)->get();
                                 $i = 0;
@@ -720,11 +718,14 @@ class APIsController extends Controller
                                             $get_multi_file_content = ContentSubField::where('app_id', $check_application->id)
                                                 ->where('content_field_id', $content->id)
                                                 ->get();
+                                            $multi_array_data = [];
                                             foreach ($get_multi_file_content as $multi_files) {
                                                 $path = asset('/app_data_images');
                                                 $value = $path . "/" . $multi_files->field_value;
-                                                array_push($multi_image, $value);
+                                                // array_push($multi_image, $value);
+                                                array_push($multi_array_data, $value);
                                             }
+                                            $multi_image = $multi_array_data;
                                             $content->$key = $multi_image;
                                         } else {
                                             $content->$key = $content->field_value;
