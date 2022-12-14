@@ -17,8 +17,8 @@ class CreateApplicationData extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon');
-            $table->string('app_id');
-            $table->string('package_name');
+            $table->string('app_id')->nullable();
+            $table->string('package_name')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->enum('status',[0,1])->default(1);
