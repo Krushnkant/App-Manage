@@ -270,6 +270,8 @@ class UserController extends Controller
 
                         return response()->json(['status' => '200', 'message' => 'Login Successfully']);
                     }
+                }else{
+                    return response()->json(['status' => '400', 'message' => 'User Not Exits']); 
                 }
             } else {
                 return response()->json(['status' => '400', 'message' => 'User Not Exits']);

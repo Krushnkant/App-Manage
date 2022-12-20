@@ -52,7 +52,7 @@ $( "#LoginSubmit").click(function() {
         processData: false,
         contentType: false,
         success: function (res) {
-          
+           console.log(res);
             if(res.status == 'failed'){
                 $('#LoginSubmit').prop('disabled',false);
                 if (res.errors.email) {
@@ -76,6 +76,7 @@ $( "#LoginSubmit").click(function() {
             if(res.status == 400){
                 toastr.error(res['message'], 'Error',{timeOut: 5000});
                 $("#LoginSubmit").prop('disabled',false);
+                $('.comman_loader').hide()
             }
             
         },

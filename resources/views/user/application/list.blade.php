@@ -141,6 +141,7 @@
         var sub_content_api_path = "{{url('api/get-content-list')}}";
 
         if (d.is_category == 1) {
+            var role = "{{ Auth::user()->role }}";
             cat_list += "<tr class='w-100'><td><div class='text-left px-3'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Sub Form Content Data List</p></div></span></td></tr>" +
                 "<tr><td style='display:block;'><span class='kArPKh text-left mx-3'>" + sub_content_api_path + " <button class='btn_copy' onclick=copyToClipboard('" + sub_content_api_path + "')><img class='copy_svg' src='{{asset('user/assets/icons/copy.png')}}' /></button></span></td></tr>" +
                 "<table class='w-100 child-inner-table mb-4 mx-3'>" +
@@ -158,9 +159,13 @@
                 "<td><code>token</code></td>" +
                 "<td>YES</td>" +
                 "<td><em>string</em></td>" +
-                "<td class='text-left'>Token must be same as example</td>" +
-                "<td class='text-left'>" + token + ", " + test_token + "</td>" +
-                "</tr>" +
+                "<td class='text-left'>Token must be same as example</td>";
+                if (role != 4) {
+                cat_list += "<td class='text-left'>" + token + ", " + test_token + "</td>";
+                }else{
+                    cat_list += "<td class='text-left'>" + token + "</td>";    
+                }
+                cat_list += "</tr>" +
                 "<tr>" +
                 "<td><code>parent_id</code></td>" +
                 "<td>YES</td>" +
@@ -192,6 +197,7 @@
                 "</tbody>" +
                 "</table></tr>";
         } else {
+           
             cat_list += "<tr><td><div class='text-left'><span class='evKiBP'>POST</span><span class='mr-2'>|</span><span><p class='dPNnCb'>Get Content List</p></div></span></td></tr>" +
                 "<tr class='mt-0'><td style='display:block;'><span class='kArPKh text-left'>" + content_api_path + " <button class='btn_copy' onclick=copyToClipboard('" + content_api_path + "')><img class='copy_svg' src='{{asset('user/assets/icons/copy.svg')}}' /></button></span></td></tr>" +
                 "<table class='w-100 child-inner-table mb-4 mx-3'>" +
@@ -239,9 +245,13 @@
                 "<td><code>token</code></td>" +
                 "<td>YES</td>" +
                 "<td><em>string</em></td>" +
-                "<td class='text-left'>Token must be same as example</td>" +
-                "<td class='text-left'>" + token + ", " + test_token + "</td>" +
-                "</tr>" +
+                "<td class='text-left'>Token must be same as example</td>";
+                if (role != 4) {
+                cat_list += "<td class='text-left'>" + token + ", " + test_token + "</td>";
+                }else{
+                    cat_list += "<td class='text-left'>" + token + "</td>";    
+                }
+                cat_list += "</tr>" +
                 // "<tr>"+
                 //     "<td><code>app_id</code></td>"+
                 //     "<td>YES</td>"+

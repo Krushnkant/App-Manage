@@ -779,10 +779,19 @@ class APIsController extends Controller
                             }
                         }
                     } else {
+                    
+                       if ($data['category_id'] == 0 && $data['parent_id'] == 0) {
+                        if($data['category_id'] == 0){
                         $category = Category::where('app_id', $data['application_id'])->where('status', '1')->get();
+                        }else{
+                            $category = Category::where('app_id', $data['application_id'])->where('id', $data['category_id'])->where('status', '1')->get(); 
+                        }
                         foreach ($category as $cat) {
                             // dump($cat);
-                            $getcontent = $this->getcontent($cat->id, $data['application_id'], 0);
+
+                            
+                           
+                            $getcontent = $this->getcontent($cat->id, $data['application_id'], $data['parent_id']);
                             // dd();
                             $category_fields = CategoryField::where('app_id', $data['application_id'])
                                 ->where('category_id', $cat->id)->where('field_type', 'multi-file')->get();
@@ -873,6 +882,24 @@ class APIsController extends Controller
                                 'message' => "can't fetch category list"
                             ]);
                         }
+                      }else{
+                        $getcontent = $this->getcontent($data['category_id'], $data['application_id'], $data['parent_id']);
+                        if ($getcontent != null) {
+                        return response()->json([
+                            'data' => $getcontent,
+                            'responce' => 'sucess',
+                            'sucess' => 1,
+                            'message' => "category list get successful"
+                        ]);
+                        }else{
+                            return response()->json([
+                                'data' => [],
+                                'responce' => 'sucess',
+                                'sucess' => 1,
+                                'message' => "no data here"
+                            ]);
+                        }
+                      }
                     }
                 } else {
                     return response()->json([
